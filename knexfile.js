@@ -1,0 +1,27 @@
+// Update with your config settings.
+
+module.exports = {
+
+  development: {
+    client: 'sqlite3',
+    connection: {
+      filename: './database/usersdb.sqlite3'
+    },
+    migrations: {
+      tableName: 'migrations'
+    },
+    useNullAsDefault: true,
+  },
+  production: {
+    client: 'mysql',
+    connection: {
+      host: 'localhost',
+      database: 'usersdb',
+      user:     'kia',
+      password: 'pass'
+    },
+    migrations: {
+      tableName: 'migrations'
+    }
+  }
+};
