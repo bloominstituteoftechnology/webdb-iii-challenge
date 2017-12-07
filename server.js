@@ -80,8 +80,8 @@ server.get('/users/:id/posts', function(req, res) {
         });
 });
 
-server.delete('/zoos/:id', function(req, res) {
-    knex('zoos')
+server.delete('/users/:id', function(req, res) {
+    knex('users')
         .where('id', req.params.id)
         .del()
         .then(function(count) {
@@ -89,75 +89,107 @@ server.delete('/zoos/:id', function(req, res) {
         })
         .catch(function(err) {
             if (err.code === 'SQLITE_CONSTRAINT') {
-                res.status(422).json({ error: 'The Zoo already exist' });
+                res.status(422).json({ error: 'The User does not exist' });
             } else {
                 res.status(500).json(err);
             }
         });
 });
-// server.put('/zoos/:id', function(req, res) {
-//     knex('zoos')
-//         .where('id', req.params.id)
-//         .update(req.body)
-//         .then(function(count) {
-//             res.status(200).json({ updated: count });
-//         })
-//         .catch(function(err) {
-//             if (err.code === 'SQLITE_CONSTRAINT') {
-//                 res.status(422)
-//                     .json({ error: 'The Zoo already exist' });
-//             } else {
-//                 res.status(500).json(err);
-//             }
-//         });
-// });
 
-// server.delete('/zoos/:id', function(req, res) {
-//     knex('zoos')
-//         .where('id', req.params.id)
-//         .del()
-//         .then(function(count) {
-//             res.status(200).json({ deleted: count });
-//         })
-//         .catch(function(err) {
-//             if (err.code === 'SQLITE_CONSTRAINT') {
-//                 res.status(422).json({ error: 'The Zoo already exist' });
-//             } else {
-//                 res.status(500).json(err);
-//             }
-//         });
-// });
+server.get('/posts', function(req, res) {
+    const posts = knex('posts')
+        .then(function(records) {
+            res.status(200).json(records);
+        })
+        .catch(function(error) {
+            res.status(500).json({ error });
+        });
+});
 
-// // server.get('/', function(req, res) {
-// //     // console.log(knex('zoos').where('id', 6).toString());
-    
-// //     knex('zoos')
-// //         .join('bears', 'zoos.id', '=', 'bears.zooId')
-// //         .select('zoos.*', 'bears.species')
-// //         .then(function(records) {
-// //             res.status(200).json(records);
-// //         });
+server.get('/posts/:id', function(req, res) {
+    const { id } = req.params;
 
-//     // knex
-//     //     .select()
-//     //     .from('bears')
-//     //     // .groupBy('zooId')
-//     //     // .orderBy('species','desc')
-//     //     // .limit(2)
-//     //     // .offset(4)
-//     //     .then(function(records) {
-//     //         res.status(200).json(records);
-//     //     });
+    const posts = knex('posts')
+        .where('id', id)
+        .then(function(records) {
+            res.status(200).json(records);
+        })
+        .catch(function(error) {
+            res.status(500).json({ error });
+        });
+});
 
-//     // using parenthesis and logic
-//     // knex('students')
-//     //     .where(function() {
-//     //         this.where('age', '<=', 35).orWhere('age', '>=' 18)
-//     //     })
-//     //     .orWhere('age', '>', 60);
+server.delete('/posts/:id', function(req, res) {
+    knex('posts')
+        .where('id', req.params.id)
+        .del()
+        .then(function(count) {
+            res.status(200).json({ deleted: count });
+        })
+        .catch(function(err) {
+            if (err.code === 'SQLITE_CONSTRAINT') {
+                res.status(422).json({ error: 'The User does not exist' });
+            } else {
+                res.status(500).json(err);
+            }
+        });
+});
 
-//     // res.status(200).json({ success: true });
-// //});
+server.post('/tags', function(req, res) {
+    const newtag = req.body;
+    knex
+        .insert(newtag)
+        .into('tags')
+        .then(function(tag) {
+            res.status(201).json({ tag: tag });
+        })
+        .catch(function(err) {
+            if (err.code === 'SQLITE_CONSTRAINT') {
+                res.status(422).json({ error: 'The Tag already exist' });
+            } else {
+                res.status(500).json(err);
+            }
+        });
+});
+
+server.get('/tags', function(req, res) {
+    const tags = knex('tags')
+        .then(function(records) {
+            res.status(200).json(records);
+        })
+        .catch(function(error) {
+            res.status(500).json({ error });
+        });
+});
+
+server.get('/tags/:id', function(req, res) {
+    const { id } = req.params;
+
+    const tags = knex('tags')
+        .where('id', id)
+        .then(function(records) {
+            res.status(200).json(records);
+        })
+        .catch(function(error) {
+            res.status(500).json({ error });
+        });
+});
+
+server.delete('/tags/:id', function(req, res) {
+    knex('tags')
+        .where('id', req.params.id)
+        .del()
+        .then(function(count) {
+            res.status(200).json({ deleted: count });
+        })
+        .catch(function(err) {
+            if (err.code === 'SQLITE_CONSTRAINT') {
+                res.status(422).json({ error: 'The Tags does not exist' });
+            } else {
+                res.status(500).json(err);
+            }
+        });
+});
 
 const port = 3000;
 server.listen(port, function() {
