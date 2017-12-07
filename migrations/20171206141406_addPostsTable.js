@@ -1,6 +1,6 @@
 
 exports.up = function(knex, Promise) {
-    return knex.schema.creataeTable('posts', function(tbl) {
+    return knex.schema.createTable('posts', function(tbl) {
         tbl.increments('id');
         tbl
             .integer('userId')
