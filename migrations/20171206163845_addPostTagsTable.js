@@ -1,15 +1,20 @@
 
 exports.up = function(knex, Promise) {
-    return knex.schema.createTable('posttags', function(tb1) {
-        tb1.increments('id');
-        tb1.integer('postId')
+    return knex.schema.createTable('posttags', function(tbl) {
+        tbl.increments('id');
+        tbl.integer('postId')
           .notNullable()
           .references('id')
-          .inTable('posts');
-        tb1.integer('tagId')
+          .inTable('posts')
+          .onDelete('CASCADE')
+          .onUpdate('CASCADE');
+        tbl.integer('tagId')
           .notNullable()
           .references('id')
-          .inTable('tags');
+          .inTable('tags')
+          .onDelete('CASCADE')
+          .onUpdate('CASCADE');
+        tbl.timestamp('createdAt').defaultTo(knex.fn.now());
     })
   };
   

@@ -18,8 +18,8 @@ module.exports = {
     connection: {
       host: 'localhost',
       database: 'blogdb',
-      user:     'cassidy',
-      password: 'pass'
+      user:     'Cassidy',
+      password: 'TableSays13'
     },
 
     migrations: {

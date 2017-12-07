@@ -1,13 +1,15 @@
 
 exports.up = function(knex, Promise) {
-  return knex.schema.createTable('posts', function(tb1) {
-    tb1.increments('id');
-    tb1.integer('userId')
+  return knex.schema.createTable('posts', function(tbl) {
+    tbl.increments('id');
+    tbl.integer('userId')
       .notNullable()
       .references('id')
-      .inTable('users');
-    tb1.string('text').notNullable();
-    tb1.timestamp('createdAt').defaultTo(knex.fn.now());
+      .inTable('users')
+      .onDelete('CASCADE')
+      .onUpdate('CASCADE');
+    tbl.text('text').notNullable();
+    tbl.timestamp('createdAt').defaultTo(knex.fn.now());
   });
 };
 
