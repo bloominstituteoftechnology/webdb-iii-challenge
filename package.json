@@ -1,0 +1,19 @@
+{
+  "name": "relationalfull",
+  "version": "1.0.0",
+  "description": "RelationalFull SQL",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "repository": "https://github.com/KryoKorpz/rdbms-api-full.git",
+  "author": "Jesse Reichel <31119775+KryoKorpz@users.noreply.github.com>",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "knex": "^0.14.2",
+    "mysql": "^2.15.0",
+    "sqlite3": "^3.1.13"
+  }
+}
