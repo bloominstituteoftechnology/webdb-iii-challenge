@@ -10,7 +10,7 @@ exports.up = function(knex, Promise) {
       .integer('tagId')
       .notNullable()
       .references('id')
-      .inTable('Tagss');
+      .inTable('Tags');
   });
 };
 
