@@ -40,34 +40,28 @@ server.get('/users/:user_id', function(req, res) {
     .then(function(user) {
       res.status(200).json(user);
     })
-    .catch(function(err) {
+    .catch(function(err) {  
       res.status(500).json({ error: err.messsage });
     });
 });
-server.get('/users/:id/posts', (req, res) => {
+/********** Work on this one *********/
+server.get('/users/:user_id/posts', (req, res) => {
   const { user_id } = req.params;
-  const user = db('users')
-    .where('id', user_id)
-    .then(function(user) {
-      const { user_id } = req.body;
-      const post = db('post')
-        .where('user_id', user_id)
-        .then(post => {
-          res.status(STATUS_OK).json(post)
-        })
-        .catch(err => {
-          res.status(USER_STATUS_ERROR).json({ error: err.message })
-        });
+  db('posts')
+    .where('user_id', user_id)
+    .then(posts => {
+      res.status(STATUS_OK).json(posts);
     })
-    .catch(function(err) {
-      res.status(500).json({ error: err.messsage });
+    .catch(err => {
+      res.status(SERVER_STATUS_ERROR).json({ error: err.message });
     });
 });
-server.put('/users/:id', (req, res) => {
+server.put('/users/:user_id', (req, res) => {
+  const { user_id } = req.params;
   db('users')
-    .where('user_id', req.params.id)
+    .where('user_id', user_id)
     .update(req.body)
-    .then((user) => {
+    .then(user => {
       res.status(STATUS_OK).json({ sucess: true })
     })
     .catch(err => {
