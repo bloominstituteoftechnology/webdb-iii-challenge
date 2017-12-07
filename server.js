@@ -70,9 +70,23 @@ server.get('/users', (req, res) => {
 server.get('/users/:id', (req,res) => {
     const { id } = req.params;
     const users = knex('users')
-    .where('id', id)
+    .where('id', id )
     .then((users) => {
         res.status(200).json(users)
+    })
+    .catch((err) => {
+        res.status(500).json({ err })
+    })
+})
+//USER GET ID POSTS
+server.get('/users/:id/posts', (req,res) => {
+    const { id } = req.params;
+    const users = knex('users')
+    // .join('users', 'users.id', 'posts.userID')
+    // .select('users.id', 'posts.text')
+    .where('id', id)
+    .then((posts) => {
+        res.status(200).json(posts)
     })
     .catch((err) => {
         res.status(500).json({ err })
@@ -81,9 +95,9 @@ server.get('/users/:id', (req,res) => {
 
 //POST CREATE
 server.post('/posts', (req, res) => {
-    const {text} = req.body;
+    const { userID, text } = req.body;
     knex
-        .insert(text)
+        .insert({ userID,text })
         .into('posts')
         .then ((ids) => {
             res.status(201).json({ id: ids });
@@ -144,6 +158,76 @@ server.get('/posts/:id', (req,res) => {
     .where('id', id)
     .then((posts) => {
         res.status(200).json(posts)
+    })
+    .catch((err) => {
+        res.status(500).json({ err })
+    })
+})
+//TAG CREATE
+server.post('/tags', (req, res) => {
+    const { tag } = req.body;
+    knex
+        .insert({ tag })
+        .into('tags')
+        .then ((ids) => {
+            res.status(201).json({ id: ids });
+        })
+        .catch((err) => {
+            if(err.code === 'SQLITE_CONSTRAINT') {
+                res.status(422).json({ error: 'input incorrect'})
+            } else {
+                res.status(500).json(err)
+            }
+        });
+});
+
+//TAG UPDATE
+server.put('/tags/:id', (req, res) => {
+    const { id } = req.params;
+    const update = req.body
+    const tags = knex('tags')
+    .where('id', id)
+    .update(update)
+    .then((tags) => {
+        res.status(200).json(tags)
+    })
+    .catch((err) => {
+        res.status(500).json({ err })
+    })
+})
+
+//TAG DELETE
+server.delete('/tags/:id', (req, res) => {
+    const { id } = req.params;
+    const tags = knex('tags')
+    .where('id', id)
+    .del()
+    .then((tags) => {
+        res.status(200).json(tags)
+    })
+    .catch((err) => {
+        res.status(500).json({ err })
+    })
+})
+
+//TAG GET ALL
+server.get('/tags', (req, res) => {
+    const tags = knex('tags')
+    .then((tags) => {
+        res.status(200).json(tags)
+    })
+    .catch((err) => {
+        res.status(500).json({ err })
+    });
+});
+
+//TAG GET ID
+server.get('/tags/:id', (req,res) => {
+    const { id } = req.params;
+    const tags = knex('tags')
+    .where('id', id)
+    .then((tags) => {
+        res.status(200).json(tags)
     })
     .catch((err) => {
         res.status(500).json({ err })
