@@ -1,0 +1,17 @@
+{
+  "name": "relationapifull",
+  "version": "1.0.0",
+  "description": "RDBMS API Full Sprint",
+  "main": "server.js",
+  "author": "Mikias Hundie",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "jshint": "^2.9.5",
+    "knex": "^0.14.2",
+    "mysql": "^2.15.0",
+    "nodemon": "^1.12.5",
+    "sqlite3": "^3.1.13"
+  }
+}

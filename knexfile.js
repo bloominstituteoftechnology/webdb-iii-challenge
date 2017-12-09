@@ -1,0 +1,30 @@
+// Update with your config settings.
+
+module.exports = {
+  
+    development: {
+      client: 'sqlite3',
+      connection: {
+        filename: './database/post.db'
+      },
+      migrations: {
+        tableName: 'migrations',
+      },
+      useNullAsDefault: true,
+    },
+  
+    production: {
+      client: 'mysql',
+      connection: {
+        host: 'localhost',
+        database: 'zoodb',
+        user:     'username',
+        password: 'password'
+      },
+      migrations: {
+        tableName: 'knex_migrations',
+      },
+    },
+  
+  };
+  
