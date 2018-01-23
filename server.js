@@ -99,6 +99,8 @@ async function createPost(req, res) {
     }
 }
 
+
+
 server.post('/posts', createPost);
 
 server.get('/posts', (req,res) => {
@@ -113,7 +115,27 @@ server.get('/posts', (req,res) => {
 
 server.get('/posts/:id', (req,res) => {
     const {id} = req.params;
-    knex.select().from('Posts').where('id',id)
+    knex.select('Posts.id','Users.name','Posts.text','Tags.tag','Posts.createdAt')
+    .from('Users')
+    .join('Posts','Users.id','Posts.userId')
+    .join('Posts_Tags','Posts.id','Posts_Tags.postId')
+    .join('Tags','Posts_Tags.tagId','Tags.id')
+    .where('Posts.id',id)
+        .then(post => {
+            res.status(201).json({post});
+        })
+        .catch(error => {
+            res.status(500).json({ errorMessage: 'Could not get the Post' });
+        })
+})
+
+server.get('/posts/:id/tags', (req,res) => {
+    const {id} = req.params;
+    console.log(id)
+    knex.select('Tags.tag').from('Posts')
+        .join('Posts_Tags','Posts.id','Posts_Tags.postId')
+        .join('Tags','Posts_Tags.tagId','Tags.id')
+        .where('Posts.id',id)
         .then(post => {
             res.status(201).json({post});
         })
