@@ -71,8 +71,9 @@ server.delete('/users/:id', (req, res) => {
   knex('users')
     .where('id', id)
     .del()
-    .then((id) => {
-      res.status(204).json({ message: 'User Deleted Successfully' });
+    .then((result) => {
+      if (!result) throw new Error('User deletion failed');
+      res.status(204).json({ result });
     })
     .catch((error) => {
       res.status(500).json({ error: error.message });
@@ -105,7 +106,11 @@ server.get('/posts', (req, res) => {
 server.get('/posts/:id', (req, res) => {
   const { id } = req.params;
   knex('posts')
-    .where('id', id)
+    .where('posts.id', id)
+    .join('users', 'posts.userId', '=', 'users.id')
+    .join('posts_tags', 'posts.id', '=', 'posts_tags.post_id')
+    .join('tags', 'posts_tags.tag_id', '=', 'tags.id')
+    .select('posts.id', 'posts.text', 'posts.created_at', 'users.name', 'tags.tag')
     .then((post) => {
       res.status(200).json(post);
     })
@@ -133,8 +138,9 @@ server.delete('/posts/:id', (req, res) => {
   knex('posts')
     .where('id', id)
     .del()
-    .then((id) => {
-      res.status(204).json({ message: 'Post Deleted Successfully' });
+    .then((result) => {
+      if (!result) throw new Error('Post deletion failed');
+      res.status(204).json({ result });
     })
     .catch((error) => {
       res.status(500).json({ error: error.message });
@@ -195,8 +201,9 @@ server.delete('/tags/:id', (req, res) => {
   knex('tags')
     .where('id', id)
     .del()
-    .then((id) => {
-      res.status(204).json({ message: 'Tag Deleted Successfully' });
+    .then((result) => {
+      if (!result) throw new Error('Tag deletion failed');
+      res.status(204).json({ result });
     })
     .catch((error) => {
       res.status(500).json({ error: error.message });
@@ -212,8 +219,9 @@ server.listen(port, () => {
 server.get('/posts/:id/tags', (req, res) => {
   const { id } = req.params;
   knex('posts')
-    .join('posts_tags', 'posts.id', '=', 'post_id')
-    .join('tags', 'tag_id', '=', 'tags.id')
+    .join('posts_tags', 'posts.id', '=', 'posts_tags.post_id')
+    .join('tags', 'posts_tags.tag_id', '=', 'tags.id')
+    .where('posts.id', id)
     .then((tags) => {
       res.status(200).json(tags);
     })
