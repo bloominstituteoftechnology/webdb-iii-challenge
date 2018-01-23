@@ -6,14 +6,36 @@ const knex = require("./database/db.js");
 const server = express();
 
 server.use(bodyParser.json());
+server.get("/", (req, res) => {
+  res.status(200).json({ success: true });
+});
 
 // Endpoints
 // ### Users
 // * [POST] `/users` This route should save a new user to the database.
-server.post("/api/users", (req, res) => {});
+server.post("/api/users", (req, res) => {
+  const user = req.body;
+  knex
+    .insert(user)
+    .into("users")
+    .then(ids => {
+      res.status(201).json({ ids });
+    })
+    .catch(() => {
+      res.status(500).json({ errorMessage: "could not insert the user" });
+    });
+});
 
 // * [GET] `/users` This route will return an array of all users.
-server.get("/api/users", (req, res) => {});
+server.get("/api/users", (req, res) => {
+  const users = knex("users")
+    .then(users => {
+      res.status(200).json(users);
+    })
+    .catch(() => {
+      res.status(500).json({ errorMessage: "could not get users" });
+    });
+});
 
 // * [GET] `/users/:id` This route will return the user with the matching `id`.
 server.get("/api/users/:id", (req, res) => {});
