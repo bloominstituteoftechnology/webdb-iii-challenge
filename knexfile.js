@@ -10,6 +10,9 @@ module.exports = {
     migrations: {
       tableName: 'knex_migrations'
     },
+    seeds: {
+      directory: './database/seeds/dev'
+    },
     useNullAsDefault: true
   },
 
@@ -17,7 +20,7 @@ module.exports = {
     client: 'mysql',
     connection: {
       database: 'user',
-      user:     'ting',
+      user: 'ting',
       password: 'password'
     },
     pool: {

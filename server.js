@@ -209,3 +209,15 @@ server.listen(port, () => {
 });
 
 // Extra Credit
+server.get('/posts/:id/tags', (req, res) => {
+  const { id } = req.params;
+  knex('posts')
+    .join('posts_tags', 'posts.id', '=', 'post_id')
+    .join('tags', 'tag_id', '=', 'tags.id')
+    .then((tags) => {
+      res.status(200).json(tags);
+    })
+    .catch((error) => {
+      res.status(500).json({ error: error.message });
+    });
+});
