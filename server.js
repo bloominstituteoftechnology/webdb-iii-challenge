@@ -63,7 +63,7 @@ server.put("/users/:id", (req, res) => {
       if (!success) throw new Error();
       res.status(200).json({ success });
     })
-    .catch(err => console.log(err));
+    .catch(err => res.status(500).json({err: 'Could not update user'}));
 });
 
 server.delete("/users/:id", (req, res) => {
@@ -99,10 +99,8 @@ server.get("/posts/:id", async (req, res) => {
   try {
     const posts = await knex('posts').where('id', id).limit(1);
     const post = posts[0];
-    console.log(post);
     const users = await knex('users').where('id', post.userId).limit(1);
     const user = users[0];
-    console.log(user);
     const tagIds = await knex('tagspost').where('postId', post.id);
     const tags = await Promise.all(
       tagIds.map(tag => knex('tags').where('id', tag.id))
