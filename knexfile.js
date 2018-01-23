@@ -1,32 +1,31 @@
-// Update with your config settings.
-
-module.exports = {
-
+/module.exports = {
   development: {
     client: 'sqlite3',
-    connection: {
-      filename: './database/social/rdbms'
+    connection: { filename: './database/blogdb.sqlite3' }, // change this if you want a different name for the database
+    useNullAsDefault: true, // used to avoid warning on console
+    migrations: {
+      directory: './database/migrations',
+      tableName: 'dbmigrations',
     },
-  
-  migrations: {
-    tableName: 'knex_migrations'
+    seeds: { directory: './database/seeds' },
   },
-  useNullAsDefault: true
-},
+
   production: {
-    client: 'postgresql',
+    client: 'mysql',
     connection: {
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
+      host: 'localhost', // update this
+      user: 'luis', // update this with the user you use to connect to MySQL
+      password: 'pass', // update this with the password of the user you use to connect to MySQL
+      database: 'blogdb', // if you want to use a different database change this name
     },
     pool: {
-      min: 2,
-      max: 10
+      min: 1,
+      max: 10,
     },
     migrations: {
-      tableName: 'knex_migrations'
-    }
-  }
-
+      directory: './database/migrations',
+      tableName: 'dbmigrations',
+    },
+    seeds: { directory: './database/seeds' },
+  },
 };
