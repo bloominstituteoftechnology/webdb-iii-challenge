@@ -38,7 +38,17 @@ server.get("/api/users", (req, res) => {
 });
 
 // * [GET] `/users/:id` This route will return the user with the matching `id`.
-server.get("/api/users/:id", (req, res) => {});
+server.get("/api/users/:id", (req, res) => {
+  const { id } = req.params;
+  const users = knex("users")
+    .where("id", id)
+    .then(records => {
+      res.status(200).json(records);
+    })
+    .catch(() => {
+      res.status(500).json({ errorMessage: "could not get the user" });
+    });
+});
 
 // * [GET] `/users/:id/posts` returns all posts for the user with the specified `id`.
 server.get("/api/users/:id/posts", (req, res) => {});
@@ -51,6 +61,18 @@ server.delete("/api/users/:id", (req, res) => {});
 
 // ### Posts
 // * [POST] `/posts` This route should save a new post to the database.
+server.post("/api/posts", (req, res) => {
+  const post = req.body;
+  knex
+    .insert(post)
+    .into("posts")
+    .then(response => {
+      res.status(201).json({ success: true });
+    })
+    .catch(() => {
+      res.status(500).json({ errorMessage: "could not insert the post" });
+    });
+});
 // * [GET] `/posts` This route will return an array of all posts.
 // * [GET] `/posts/:id` This route will return the post with the matching `id`.
 // * [PUT] `/posts/:id` This route will update the post with the matching `id` using information sent in the body of the request.
