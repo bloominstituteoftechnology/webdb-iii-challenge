@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const knex = require('./database/db');
-require('dotenv').config();
+const config = require('dotenv').config();
 
 const server = express();
 server.use(bodyParser.json());
