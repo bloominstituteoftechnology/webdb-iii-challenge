@@ -3,29 +3,31 @@ exports.up = function (knex, Promise) {
 
     knex.schema.createTable('users', function (table) {
       table.increments();
-      table.string('name', 128).notNullable().unique('name', 'uq_users_name');
-      table.timestamp('created_at').defaultTo(knex.fn.now());
+      table.string('name', 128).notNullable().unique('name');
+      table.timestamp('createdAt').defaultTo(knex.fn.now());
     }),
 
     knex.schema.createTable('posts', function (table) {
       table.increments();
       table.integer('userId')
+        .unsigned()
+        .notNullable()
         .references('id')
         .inTable('users');
-      table.string('text').notNullable();
-      table.timestamp('created_at').defaultTo(knex.fn.now());
+      table.text('text').notNullable();
+      table.timestamp('createdAt').defaultTo(knex.fn.now());
     }),
 
     knex.schema.createTable('tags', function (table) {
-      table.increments('id');
-      table.string('tag', 16).unique('tag', 'uq_tags_name');
-      table.timestamp('created_at').defaultTo(knex.fn.now());
+      table.increments();
+      table.string('tag', 80).unique('tag').notNullable();
+      table.timestamp('createdAt').defaultTo(knex.fn.now());
     }),
 
-    knex.schema.createTable('posts_tags', function(table){
-      table.increments('id');
-      table.integer('post_id').references('posts.id');
-      table.integer('tag_id').references('tags.id');
+    knex.schema.createTable('poststags', function (table) {
+      table.increments();
+      table.integer('postId').references('id').inTable('posts').unsigned().notNullable();
+      table.integer('tagId').references('id').inTable('tags').unsigned().notNullable();
     }),
   ])
 };
@@ -35,6 +37,6 @@ exports.down = function (knex, Promise) {
     knex.schema.dropTableIfExists('users'),
     knex.schema.dropTableIfExists('posts'),
     knex.schema.dropTableIfExists('tags'),
-    knex.schema.dropTableIfExists('posts_tags')
+    knex.schema.dropTableIfExists('poststags')
   ])
 };

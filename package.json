@@ -20,9 +20,11 @@
   "homepage": "https://github.com/nunulong/RDBMS-API-Full#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "dotenv": "^4.0.0",
     "express": "^4.16.2",
     "faker": "^4.1.0",
     "knex": "^0.14.2",
+    "mysql": "^2.15.0",
     "sqlite3": "^3.1.13"
   }
 }

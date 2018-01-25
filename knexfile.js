@@ -19,9 +19,9 @@ module.exports = {
   production: {
     client: 'mysql',
     connection: {
-      database: 'user',
-      user: 'ting',
-      password: 'password'
+      database: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD
     },
     pool: {
       min: 2,
@@ -29,7 +29,10 @@ module.exports = {
     },
     migrations: {
       tableName: 'knex_migrations'
-    }
+    },
+    seeds: {
+      directory: './database/seeds/dev'
+    },
   }
 
 };
