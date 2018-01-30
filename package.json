@@ -1,0 +1,27 @@
+{
+  "name": "RDBMS-API-Full",
+  "version": "1.0.0",
+  "description": "Databases\r = Relational Databases\r = Query Builder = Knex",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sarikaricky/RDBMS-API-Full.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sarikaricky/RDBMS-API-Full/issues"
+  },
+  "homepage": "https://github.com/sarikaricky/RDBMS-API-Full#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "knex": "^0.14.2",
+    "mysql": "^2.15.0",
+    "sqlite3": "^3.1.13"
+  }
+}

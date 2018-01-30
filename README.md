@@ -37,12 +37,13 @@ Seed test data into your tables using knex.
 Implement the following endpoints:
 
 ### Users
-* [POST] `/users` This route should save a new user to the database.
-* [GET] `/users` This route will return an array of all users.
-* [GET] `/users/:id` This route will return the user with the matching `id`.
-* [GET] `/users/:id/posts` returns all posts for the user with the specified `id`.
-* [PUT] `/users/:id` This route will update the user with the matching `id` using information sent in the body of the request.
-* [DELETE] `/users/:id` This route should delete the specified user.
+    * [POST] `/users` This route should save a new user to the database.
+    * [GET] `/users` This route will return an array of all users.
+    * [GET] `/users/:id` This route will return the user with the matching `id`.
+    * [GET] `/users/:id/posts` returns all posts for the user with the specified `id`.
+    * [PUT] `/users/:id` This route will update the user with the matching `id` using information sent in the body of the request.
+    * [DELETE] `/users/:id` This route should delete the specified user.
+
 
 ### Posts
 * [POST] `/posts` This route should save a new post to the database.
