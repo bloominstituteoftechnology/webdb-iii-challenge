@@ -17,5 +17,8 @@ exports.seed = function(knex, Promise) {
         arr.push({ postId, tagId });
       }
       return knex('poststags').insert(arr);
+    })
+    .catch(err => {
+      console.log(err);
     });
 };

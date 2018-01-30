@@ -10,13 +10,13 @@ server.use(bodyParser.json());
 server.post('/users', (req, res) => {
   const user = req.body;
   knex.insert(user)
-      .into('users')
-      .then((ids) => {
-        res.status(201).json({ ids });
-      })
-      .catch((error) => {
-        res.status(500).json({ error: error.message });
-      });
+    .into('users')
+    .then((ids) => {
+      res.status(201).json({ ids });
+    })
+    .catch((error) => {
+      res.status(500).json({ error: error.message });
+    });
 });
 
 server.get('/users', (req, res) => {

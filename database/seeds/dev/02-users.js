@@ -9,5 +9,8 @@ exports.seed = function(knex, Promise) {
         arr.push({ name: faker.name.findName() });
       }
       return knex('users').insert(arr);
+    })
+    .catch(err => {
+      console.log(err);
     });
 };

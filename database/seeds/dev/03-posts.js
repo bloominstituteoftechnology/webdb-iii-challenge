@@ -13,5 +13,8 @@ exports.seed = function(knex, Promise) {
         arr.push({ userId, text: faker.lorem.sentence() });
       }
       return knex('posts').insert(arr);
+    })
+    .catch(err => {
+      console.log(err);
     });
 };

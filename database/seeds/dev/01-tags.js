@@ -8,5 +8,8 @@ exports.seed = function(knex, Promise) {
         arr.push({ tag: faker.random.word() });
       }
       return knex('tags').insert(arr);
+    })
+    .catch(err => {
+      console.log(err);
     });
 };
