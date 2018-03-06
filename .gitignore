@@ -9,5 +9,6 @@ yarn-error.log*
 node_modules/
 jspm_packages/
 
-
-
+.DS_Store
+config.js
+knexfile.js

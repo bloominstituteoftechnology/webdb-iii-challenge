@@ -1,0 +1,27 @@
+{
+  "name": "rdbms-api-full",
+  "version": "1.0.0",
+  "description": "## Topics",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samscha/RDBMS-API-Full.git"
+  },
+  "author": "Samuel Cha & Haywood D. Johnson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/samscha/RDBMS-API-Full/issues"
+  },
+  "homepage": "https://github.com/samscha/RDBMS-API-Full#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "knex": "^0.14.4",
+    "mysql": "^2.15.0",
+    "nodemon": "^1.17.1"
+  }
+}
