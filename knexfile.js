@@ -8,7 +8,9 @@ module.exports = {
       host: 'localhost',
       database: 'lambdagram_db',
       user:     'webenjammin',
-      password: 'westside101'
+      password: 'westside101',
+      user: 'root',
+      password: 'lambda'
     },
     pool: {
       min: 2,

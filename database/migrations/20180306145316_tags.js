@@ -1,16 +1,19 @@
+exports.up = function(knex, Promise) {
+  return knex.schema.createTable('tags', tbl => {
+    tbl.increments('id');
 
-exports.up = function (knex, Promise) {
-    return knex.schema.createTable('tags', (tbl) => {
-        tbl
-            .increments('id')
-        tbl
-            .string('tag', 16)
-            .notNullable()
-            .unique('tag');
-        tbl
-            .timestamp('created_at').defaultTo(knex.fn.now());
-    });
-}
-    exports.down = function (knex, Promise) {
-        return knex.schema.dropTableIfExists('tags');
-    };
+    tbl
+      .integer('postId')
+      .unsigned()
+      .references('id')
+      .inTable('posts');
+    tbl
+      .string('tag', 16)
+      .notNullable()
+      .unique('tag');
+    tbl.timestamp('created_at').defaultTo(knex.fn.now());
+  });
+};
+exports.down = function(knex, Promise) {
+  return knex.schema.dropTableIfExists('tags');
+};
