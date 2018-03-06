@@ -6,10 +6,24 @@ module.exports = {
   },
 
   get: tbl => {
-    return knex(tbl)
+    return knex(tbl);
   },
 
   getById: (tbl, id) => {
-    return knex(tbl).where({ id }).first()
-  }
+    return knex(tbl)
+      .where({ id })
+      .first();
+  },
+
+  update: (tbl, id, row) => {
+    return knex(tbl)
+      .where({ id })
+      .update(row);
+  },
+
+  del: (tbl, id) => {
+    return knex(tbl)
+      .where({ id })
+      .del();
+  },
 };
