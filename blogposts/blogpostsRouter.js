@@ -6,22 +6,19 @@ const {
   request,
   create,
   requestId,
-  requestTags,
   update,
   del,
-} = require('./postsController');
+} = require('./blogpostsController');
 
 router
   .route('/')
   .get(request)
-  .post(check.post, create);
+  .post(check.blogpost, check.refIds, create);
 
 router
   .route('/:id')
   .get(check.id, requestId)
   .put(check.id, update)
   .delete(check.id, del);
-
-router.route('/:id/tags').get(check.id, requestTags);
 
 module.exports = router;

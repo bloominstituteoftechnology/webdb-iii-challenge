@@ -1,18 +1,15 @@
 const db = require('../db/knex');
+const validate = require('../validation/validation');
 const error = require('../errors/errors');
 
 const tbl = 'users';
-
-const check = id => {
-  return Number.isInteger(+id);
-};
 
 module.exports = {
   check: {
     id: (req, res, next) => {
       const { id } = req.params;
 
-      if (!check(id)) {
+      if (!validate.isNumber(id)) {
         error(res, 422, `id: ${id} is not a number.`);
         return;
       }
@@ -50,7 +47,7 @@ module.exports = {
 
     db
       .add(tbl, user)
-      .then(id => res.json({ id }))
+      .then(id => res.status(201).json({ id }))
       .catch(err => error(res, 500, 'Error saving user to db', err));
   },
 

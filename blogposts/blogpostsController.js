@@ -2,7 +2,7 @@ const db = require('../db/knex');
 const validate = require('../validation/validation');
 const error = require('../errors/errors');
 
-const tbl = 'posts';
+const tbl = 'blogposts';
 
 module.exports = {
   check: {
@@ -16,13 +16,13 @@ module.exports = {
 
       db
         .getOneBy(tbl, { id })
-        .then(post => {
-          if (!post) {
-            error(res, 404, `Post with id: ${id} not found.`);
+        .then(blogpost => {
+          if (!blogpost) {
+            error(res, 404, `Blogpost with id: ${id} not found.`);
             return;
           }
 
-          req.post = post;
+          req.blogpost = blogpost;
           next();
         })
         .catch(err =>
@@ -30,23 +30,41 @@ module.exports = {
         );
     },
 
-    post: (req, res, next) => {
-      const post = req.body;
+    blogpost: (req, res, next) => {
+      const { title, postId } = req.body;
 
-      if (!post.text) {
-        error(res, 422, 'Please provide text.');
+      if (!title || !postId) {
+        error(res, 422, 'Please provide a title and postId.');
         return;
       }
 
       next();
     },
+
+    refIds: (req, res, next) => {
+      const { postId } = req.body;
+
+      db
+        .getOneBy('posts', { id: postId })
+        .then(post => {
+          if (!post) {
+            error(res, 404, `Post with id: ${postId} not found.`);
+            return;
+          }
+
+          next();
+        })
+        .catch(err =>
+          error(res, 500, `Error requesting postId: ${postId} from db.`, err),
+        );
+    },
   },
 
   create: (req, res) => {
-    const post = req.body;
+    const blogpost = req.body;
 
     db
-      .add(tbl, post)
+      .add(tbl, blogpost)
       .then(id => res.status(201).json({ id }))
       .catch(err => error(res, 500, 'Error saving post to db', err));
   },
@@ -60,51 +78,6 @@ module.exports = {
 
   requestId: (req, res) => {
     res.json(req.post);
-  },
-
-  requestTags: (req, res) => {
-    const { id } = req.params;
-
-    /*    tbl = 'posts'    */
-    const col = 'posts.id';
-    const col_2 = 'posts.userId';
-
-    const refTbl = 'blogposts';
-    const refCol1 = 'blogposts.postId';
-    const refCol2 = 'blogposts.tag';
-
-    const tbl2 = 'tags';
-    const col2 = 'tags.tag';
-
-    const tbl3 = 'users';
-    const col3 = 'users.id';
-
-    const cond = { 'blogposts.postId': id };
-
-    const sel = JSON.stringify(
-      '"posts.id", "posts.text", "blogposts.tag", "users.name"',
-    );
-    console.log(JSON.parse(sel));
-
-    db
-      .join3_where_select(
-        refTbl,
-        refCol1,
-        refCol2,
-        col_2,
-        tbl,
-        col,
-        tbl2,
-        col2,
-        tbl3,
-        col3,
-        cond,
-        sel,
-      )
-      .then(posts => res.json(posts))
-      .catch(err =>
-        error(res, 500, `Error retrieving post (id: ${id}) tags.`, err),
-      );
   },
 
   update: (req, res) => {
