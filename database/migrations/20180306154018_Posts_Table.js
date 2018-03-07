@@ -8,7 +8,6 @@ exports.up = function(knex, Promise) {
       .references('id')
       .inTable('users');
     table.string('text').notNullable();
-    table.integer('tagId').unsigned().references('id').inTable('tags');
     table.timestamp('createdAt').defaultTo(knex.fn.now());
   });
 };

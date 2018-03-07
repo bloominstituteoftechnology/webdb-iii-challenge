@@ -6,8 +6,8 @@ module.exports = {
     client: 'mysql',
     connection: {
       database: 'RDBMS',
-      user: 'root',
-      password: 'root',
+      user: 'camila',
+      password: 'password',
       host: 'localhost'
     },
     pool: {
