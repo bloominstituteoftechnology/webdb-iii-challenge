@@ -1,9 +1,9 @@
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('tags', tbl => {
-    tbl.increments('id');
+    tbl.increments();
 
     tbl
-      .integer('postId')
+      .integer('tagId')
       .unsigned()
       .references('id')
       .inTable('posts');

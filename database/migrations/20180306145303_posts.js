@@ -1,9 +1,9 @@
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('posts', tbl => {
-    tbl.increments('id').primary();
+    tbl.increments().primary();
 
     tbl
-      .integer('userId')
+      .integer('postId')
       .unsigned()
       .references('id')
       .inTable('users');
