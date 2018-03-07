@@ -29,7 +29,7 @@ userRouter.get('/', (req, res) => {
 
 userRouter.get('/:id', (req, res) => {
     const id = req.params.id;
-    user_db.getID()
+    user_db.getID(id)
         .then((user) => {
             user.length > 0 ? res.status(200).json(user) : res.status(404).json({ message: `User with id ${id} does not exist` });
         })
@@ -51,8 +51,8 @@ userRouter.get('/:id/posts', (req, res) => {
 
 userRouter.put('/:id', (req, res) => {
     const { id } = req.params;
-    const { name } = req.body;
-    user_db.updateUser()
+    const  user  = req.body;
+    user_db.updateUser(id, user)
         .then((user) => {
             if (!user) {
                 res.status(404).json({ messsage: `Unable to update user by this id ${id}` });
@@ -67,7 +67,7 @@ userRouter.put('/:id', (req, res) => {
 
 userRouter.delete('/:id', (req, res) => {
     const { id } = req.params;
-    user_db.eraseUser()
+    user_db.eraseUser(id)
         .then((user) => {
             if (!user) {
                 res.status(404).json({ message: `Unable to delete user by this id ${id}` });

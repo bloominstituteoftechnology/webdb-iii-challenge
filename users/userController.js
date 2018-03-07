@@ -10,7 +10,7 @@ const user_db = {
     addUser: function(user) {
         return knex.insert(user).into('users');
     },
-    updateUser: function(id, zoo) {
+    updateUser: function(id, user) {
         return knex('users').where({ id }).update(user);
     },
     eraseUser: function(id) {
