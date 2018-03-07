@@ -9,10 +9,10 @@ exports.up = function(knex, Promise) {
       .inTable('users');
 
     tbl
-      .string('text')      // body of the post
+      .text('text')      // body of the post
       .notNullable();
 
-    tbl.timestamps();
+    tbl.timestamp('created_at').defaultTo(knex.fn.now());
   })
 };
 

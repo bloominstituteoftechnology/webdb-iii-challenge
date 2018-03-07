@@ -7,7 +7,7 @@ exports.up = function(knex, Promise) {
       .notNullable()
       .unique('tag');
 
-    tbl.timestamps();
+    tbl.timestamp('created_at').defaultTo(knex.fn.now());
   });
 };
 

@@ -6,8 +6,8 @@ exports.up = function(knex, Promise) {
       .string('name', 128)  // name
       .notNullable();
 
-    tbl.timestamps();  // created at
-  })
+    tbl.timestamp('created_at').defaultTo(knex.fn.now());
+  });
 };
 
 exports.down = function(knex, Promise) {

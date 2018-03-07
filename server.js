@@ -3,8 +3,8 @@ const bodyParser = require('body-parser');
 
 const knex = require('./database/db.js');
 const userRouter = require('./users/userRouter.js');
-// const postRouter = require('./posts/postRouter.js');
-// const tabRouter = require('./tabs/tabRouter.com');
+const postRouter = require('./posts/postRouter.js');
+const tagRouter = require('./tags/tagRouter.js');
 
 const server = express();
 
@@ -14,7 +14,9 @@ server.get('/', (req, res) => {
   res.status(200).json({ api: 'Server up and running.' });
 });
 
-// server.use('') // for later with specific routers
+server.use('/users', userRouter);
+server.use('/posts', postRouter);
+server.use('/tags', tagRouter);
 
 const port = 3000;
 server.listen(port, () => {
