@@ -120,20 +120,20 @@ server.get('/posts', (req, res) => {
 		})
 });
 
-server.get('/posts/:id', (req, res) => {
-	const { id } = req.params;
-	knex('posts').where({ id })
-		.then(post => {
-			if (post.length > 0) {
-				res.status(200).json(post);	
-			} else {
-				res.status(404).json({message: 'Post not found.'});
-			}
-		})
-		.catch(error => {
-			res.status(500).json(error);
-		})
-})
+// server.get('/posts/:id', (req, res) => {
+// 	const { id } = req.params;
+// 	knex('posts').where({ id })
+// 		.then(post => {
+// 			if (post.length > 0) {
+// 				res.status(200).json(post);	
+// 			} else {
+// 				res.status(404).json({message: 'Post not found.'});
+// 			}
+// 		})
+// 		.catch(error => {
+// 			res.status(500).json(error);
+// 		})
+// })
 
 server.put('/posts/:id', (req, res) => {
 	const { id } = req.params;
@@ -249,16 +249,33 @@ server.get('/posts/:id/tags', (req, res) => {
 })
 
 
+// random
 
+server.get('/posts_tags', (req, res) => {
+	knex('posts_tags')
+		.then(data => {
+			res.status(200).json(data);
+		})
+		.catch(error => {
+			res.status(500).json(error);
+		})
+});
+// have the post returned by the [GET] /posts/:id endpoint include the user name(not the id) and the tags associated with the post.
+server.get('/posts/:id', (req, res) => {
+	const { id } = req.params;
 
-
-
-
-
-
-
-
-
+	knex('posts_tags').where({ postId: id })
+		.join('tags', 'tags.id', '=', 'posts_tags.tagId')
+		.join('posts', 'posts.id', '=', 'posts_tags.postId')
+		.join('users', 'users.id', '=', 'posts.userId')
+		.select('name', 'tag')
+			.then(data => {
+				res.status(200).json(data);
+			})
+			.catch(error => {
+				res.status(500).json(error);
+			})
+});
 
 const port = 5000;
 server.listen(port, () => {
