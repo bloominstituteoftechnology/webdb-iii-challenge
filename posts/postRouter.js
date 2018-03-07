@@ -84,8 +84,7 @@ postRouter.delete("/:id", (req, res) => {
 			}
 		})
 		.catch(err => {
-			console.log(err);
-			// res.status(500).send({ msg: "Error nuking post." });
+			res.status(500).send(err);
 		});
 });
 module.exports = postRouter;

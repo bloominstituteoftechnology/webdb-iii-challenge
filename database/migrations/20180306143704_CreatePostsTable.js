@@ -6,7 +6,8 @@ exports.up = function(knex, Promise) {
 			.integer("user_id")
 			.unsigned()
 			.references("id")
-			.inTable("users");
+      .inTable("users")
+      .onDelete('CASCADE');
 
 		tbl.string("text").notNullable();
 
