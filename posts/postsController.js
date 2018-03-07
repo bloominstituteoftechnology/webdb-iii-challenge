@@ -59,7 +59,42 @@ module.exports = {
   },
 
   requestId: (req, res) => {
-    res.json(req.post);
+    const { id } = req.params;
+
+    /*    tbl = 'posts'    */
+    const col = 'posts.id';
+    const col_2 = 'posts.userId';
+
+    const refTbl = 'blogposts';
+    const refCol1 = 'blogposts.postId';
+    const refCol2 = 'blogposts.tag';
+
+    const tbl2 = 'tags';
+    const col2 = 'tags.tag';
+
+    const tbl3 = 'users';
+    const col3 = 'users.id';
+
+    const cond = { 'blogposts.postId': id };
+
+    const sel = '*';
+
+    const ref = { tbl: refTbl, col1: refCol1, col2: refCol2, col3: col_2 };
+    const tbl_1 = { id: tbl, col: col };
+    const tbl_2 = { id: tbl2, col: col2 };
+    const tbl_3 = { id: tbl3, col: col3 };
+
+    db
+      .join3_where_select(ref, tbl_1, tbl_2, tbl_3, cond, sel)
+      .then(posts => {
+        const post = posts[0];
+        post.tag = posts.map(post => post.tag);
+
+        res.json(post);
+      })
+      .catch(err =>
+        error(res, 500, `Error retrieving post (id: ${id}) tags.`, err),
+      );
   },
 
   requestTags: (req, res) => {
@@ -94,7 +129,7 @@ module.exports = {
         posts =>
           posts.length === 0
             ? res.json([null])
-            : res.json(posts.map(e => e.tag)),
+            : res.json(posts.map(post => post.tag)),
       )
       .catch(err =>
         error(res, 500, `Error retrieving post (id: ${id}) tags.`, err),
