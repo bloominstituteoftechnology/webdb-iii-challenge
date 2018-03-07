@@ -16,7 +16,6 @@ const db = {
 	},
 	nuke(id) {
 		return knex("posts")
-      // .join("posts_tags_links", "posts.id", "=", "posts_tags_links.post_id")
       .where({id})
       .del();
 	},
