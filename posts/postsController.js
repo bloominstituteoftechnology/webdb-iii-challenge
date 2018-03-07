@@ -81,7 +81,7 @@ module.exports = {
 
     const cond = { 'blogposts.postId': id };
 
-    const sel = ['posts.id', 'posts.text', 'blogposts.tag', 'users.name'];
+    const sel = 'blogposts.tag';
 
     db
       .join3_where_select(
@@ -98,7 +98,7 @@ module.exports = {
         cond,
         sel,
       )
-      .then(posts => res.json(posts))
+      .then(posts => res.json(posts.map(e => e.tag)))
       .catch(err =>
         error(res, 500, `Error retrieving post (id: ${id}) tags.`, err),
       );
