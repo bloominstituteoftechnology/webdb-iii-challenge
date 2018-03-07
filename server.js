@@ -6,7 +6,7 @@ const knex = require('./database/dbConfig');
 const server = express();
 
 const userRouter = require('./users/userRouter.js');
-// const postRouter = require('./posts/postRouter.js');
+const postRouter = require('./posts/postRouter.js');
 // const tagRouter = require('./tags/tagRouter.js');
 
 server.get('./', (req, res) => {
@@ -17,7 +17,7 @@ server.get('./', (req, res) => {
 server.use(bodyparser.json());
 
 server.use('/users', userRouter);
-// server.use('/post', postRouter);
+server.use('/posts', postRouter);
 // server.use('/tags', tagRouter);
 
 const PORT = 3000;
