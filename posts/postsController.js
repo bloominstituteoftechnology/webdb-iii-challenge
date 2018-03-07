@@ -85,20 +85,19 @@ module.exports = {
 
     db
       .join3_where_select(
-        refTbl,
-        refCol1,
-        refCol2,
-        col_2,
-        tbl,
-        col,
-        tbl2,
-        col2,
-        tbl3,
-        col3,
+        { tbl: refTbl, col1: refCol1, col2: refCol2, col3: col_2 },
+        { id: tbl, col: col },
+        { id: tbl2, col: col2 },
+        { id: tbl3, col: col3 },
         cond,
         sel,
       )
-      .then(posts => res.json(posts.map(e => e.tag)))
+      .then(
+        posts =>
+          posts.length === 0
+            ? res.json([null])
+            : res.json(posts.map(e => e.tag)),
+      )
       .catch(err =>
         error(res, 500, `Error retrieving post (id: ${id}) tags.`, err),
       );
