@@ -11,7 +11,7 @@ exports.up = function(knex, Promise) {
     tbl
       .string('text', 128)
       .notNullable()
-      .unique('post');
+      .unique('text');
     tbl.timestamp('created_at').defaultTo(knex.fn.now());
   });
 };
