@@ -39,7 +39,8 @@ userRouter.get('/:id', (req, res) => {
 });
 
 userRouter.get('/:id/posts', (req, res) => {
-    user_db.getPostByID()
+    const { id } = req.params;
+    user_db.getPostByID(id)
         .then((posts) => {
             user.length > 0 ? res.status(200).json(posts) : res.status(404).json({ message: `Posts connected with this id ${id} do not exist` });
         })
