@@ -28,6 +28,20 @@ userRouter.get('/:id', (req, res) => {
     });
 });
 
+userRouter.get('/:id/posts', (req, res) => {
+  const { id } = req.params;
+
+  db
+    .getPostsByUserId(id)
+    .then(userPosts => {
+      if (userPosts.length > 0) res.status(200).json(userPosts);
+      else (res.status(404).json({ message: `There are no posts by user with ID ${id}.`}));
+    })
+    .catch(error => {
+      res.status(500).json({ error: `Error retrieving posts by user with ID ${id}.` });
+    });
+});
+
 userRouter.post('/', (req, res) => {
   const user = req.body;
 

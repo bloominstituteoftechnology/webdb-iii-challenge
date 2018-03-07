@@ -6,7 +6,12 @@ const db = {
   },
   getUserById: function(id) {
     return knex('users')
-    .where({id});
+      .where({id});
+  },
+  getPostsByUserId: function(id) {
+    return knex('posts')
+    .where({user_id: id})
+    .select('text');
   },
   postUser: function(user) {
     return knex
