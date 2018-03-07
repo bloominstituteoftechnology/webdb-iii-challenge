@@ -6,7 +6,17 @@ const post_db = {
   },
   allPosts: function() {
     return knex('posts');
+  },
+  getID: function(id) {
+    return knex('posts').where({ id });
+  },
+  updatePost: function(id, post) {
+    return knex('posts').where({ id }).update(post);
+  },
+  deletePost: function(id) {
+    return knex('posts').where({ id }).del();
   }
+
 }
 
 module.exports = post_db;
