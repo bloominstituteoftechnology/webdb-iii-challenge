@@ -10,7 +10,7 @@ exports.up = function(knex, Promise) {
   		.inTable('users');
 
   	tbl
-  		.string('text')
+  		.text('text', 'longText')
   		.notNullable()
 
   	tbl
