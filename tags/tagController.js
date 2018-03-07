@@ -9,10 +9,16 @@ const db = {
     .where({id});
   },
   postTag: function(tag) {
-    console.log('postTag: ', tag);
     return knex
       .insert(tag)
       .into('tags');
+  },
+  putTagById: function(id, tag) {
+    return knex('tags')
+      .where({id})
+      .update({
+        tag
+      });
   },
   deleteTagById: function(id) {
     return knex('tags')

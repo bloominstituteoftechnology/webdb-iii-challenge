@@ -41,6 +41,24 @@ tagRouter.post('/', (req, res) => {
     });
 });
 
+tagRouter.put('/:id', (req, res) => {
+  const { id } = req.params;
+  const { tag } = req.body;
+
+  db
+    .putTagById(id, tag)
+    .then(count => {
+      if (count > 0) {
+        res.status(200).json({ message: `Tag ${id} updated successfully.`});
+      } else {
+        res.status(404).json({ message: `Tag with ID ${id} not found.` });
+      }
+    })
+    .catch(error => {
+      res.status(404).json({ error: `The tag with ID ${id} does not exist.` });
+    });
+});
+
 tagRouter.delete('/:id', (req, res) => {
   const { id } = req.params;
 

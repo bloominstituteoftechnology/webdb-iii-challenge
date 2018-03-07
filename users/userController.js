@@ -13,6 +13,13 @@ const db = {
       .insert(user)
       .into('users');
   },
+  putUserById: function(id, name) {
+    return knex('users')
+      .where({id})
+      .update({
+        name
+      });
+  },
   deleteUserById: function(id) {
     return knex('users')
     .where({id})

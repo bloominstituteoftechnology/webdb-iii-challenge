@@ -41,6 +41,24 @@ userRouter.post('/', (req, res) => {
     });
 });
 
+userRouter.put('/:id', (req, res) => {
+  const { id } = req.params;
+  const { name } = req.body;
+
+  db
+    .putUserById(id, name)
+    .then(count => {
+      if (count > 0) {
+        res.status(200).json({ message: `User ${id} updated successfully.`});
+      } else {
+        res.status(404).json({ message: `User with ID ${id} not found.` });
+      }
+    })
+    .catch(error => {
+      res.status(404).json({ error: `The user with ID ${id} does not exist.` });
+    });
+});
+
 userRouter.delete('/:id', (req, res) => {
   const { id } = req.params;
 
