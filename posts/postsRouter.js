@@ -1,0 +1,24 @@
+const express = require('express');
+const router = express.Router();
+
+const {
+    check,
+    request,
+    create,
+    requestId,
+    update,
+    del,
+} = require('./postsController');
+
+router
+    .route('/')
+    .get(request)
+    .post(check.post, create);
+
+router
+    .route('/:id')
+    .get(check.id, requestId)
+    .put(check.id, check.post, update)
+    .delete(check.id, del);
+
+module.exports = router;
