@@ -48,7 +48,7 @@ userRouter.get('/:id/posts', (req, res) => {
   const { id } = req.params;
 
   db
-    .getPostsByID(post)
+    .getPostsByID(posts)
     .then(posts => {
       if (users.length > 0) {
         res.status(200).json(posts)

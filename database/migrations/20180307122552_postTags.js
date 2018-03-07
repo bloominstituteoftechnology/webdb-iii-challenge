@@ -3,18 +3,14 @@ exports.up = function(knex, Promise) {
     tbl
       .integer('postId')
       .unsigned()
-      .references('postId')
+      .references('id')
       .inTable('posts');
     tbl
       .integer('tagId')
       .unsigned()
-      .references('tagId')
+      .references('id')
       .inTable('tags');
   });
-
-  knex('posts')
-    .join('postTags', 'postId', 'tags.postId')
-    .select('postId', 'tags.postTags');
 };
 
 exports.down = function(knex, Promise) {
