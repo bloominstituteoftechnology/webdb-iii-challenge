@@ -46,7 +46,7 @@ postRouter.get("/:id", (req, res) => {
 		})
 		.catch(err => {
 			res.status(500).send({ msg: "Error retrieving post." });
-		});
+    });
 });
 
 postRouter.put("/:id", (req, res) => {
@@ -87,4 +87,21 @@ postRouter.delete("/:id", (req, res) => {
 			res.status(500).send(err);
 		});
 });
+
+postRouter.get('/:id/tags', (req, res) => {
+  const { id } = req.params;
+
+  db
+    .getTagsByPost(id)
+    .then(tags => {
+      if (tags.length > 0) {
+        res.status(200).send(tags)
+      } else {
+        res.status(404).send({ msg: `No tags available for post ${id}.` });
+      }
+    }).catch(err => {
+      res.status(500).send({ msg: 'Error retrieving tags for the specified post.' });
+    })
+});
+
 module.exports = postRouter;
