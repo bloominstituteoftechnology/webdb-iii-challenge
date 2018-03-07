@@ -166,25 +166,73 @@ server.delete('/posts/:id', (req, res) => {
 
 
 
+server.post('/tags', (req, res) => {
+	const { tag } = req.body;
+
+	if (!tag) {
+		res.status(404).json({message: 'Please provide tag.'});
+	} else {
+		knex('tags').insert(req.body)
+			.then(() => {
+				res.status(201).json({message: 'Successfully added a new tag.'});
+			})
+			.catch(error => {
+				res.status(500).json(error);
+			})
+	}
+});
+
+server.get('/tags', (req, res) => {
+	knex('tags')
+		.then(tags => {
+			res.status(200).json(tags);
+		})
+		.catch(error => {
+			res.status(500).json(error);
+		})
+});
+
+server.get('/tags/:id', (req, res) => {
+	const { id } = req.params;
+
+	knex('tags').where({ id })
+		.then(tag => {
+			res.status(200).json(tag);
+		})
+		.catch(error => {
+			res.status(500).json(error);
+		})
+});
+
+server.put('/tags/:id', (req, res) => {
+	const { id } = req.params;
+	const updatedTag = req.body;
+
+	if (!updatedTag) {
+		res.status(404).json({message: 'Please provide a tag.'});
+	} else {
+		knex('tags').where({ id }).update(updatedTag)
+			.then(() => {
+				res.status(201).json({message: 'Tag successfully updated'});
+			})
+			.catch(error => {
+				res.status(500).json(error);
+			})
+	}
+});
 
 
+server.delete('/tags/:id', (req, res) => {
+	const { id } = req.params;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	knex('tags').where({ id }).del()
+		.then(() => {
+			res.status(201).json({message: 'Tag successfully deleted.'});
+		})
+		.catch(error => {
+			res.status(500).json(error);
+		})
+});
 
 const port = 5000;
 server.listen(port, () => {
