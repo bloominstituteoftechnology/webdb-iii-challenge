@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const knex = require('./database/db');
 
 const postRouter = require('./database/posts/postRouter.js');
-const tagRouter = require('.database/tags/tagRouter');
+const tagRouter = require('./database/tags/tagRouter');
 const userRouter = require('./database/users/userRouter');
 
 const server = express();
