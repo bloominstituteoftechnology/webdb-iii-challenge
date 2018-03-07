@@ -46,7 +46,7 @@ module.exports = {
     sel,
   ) => {
     return knex(refTbl)
-      .select(JSON.parse(sel))
+      .select(sel)
       .join(tbl1, refCol1, '=', col1)
       .join(tbl2, refCol2, '=', col2)
       .join(tbl3, refCol3, '=', col3)

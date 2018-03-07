@@ -81,10 +81,7 @@ module.exports = {
 
     const cond = { 'blogposts.postId': id };
 
-    const sel = JSON.stringify(
-      '"posts.id", "posts.text", "blogposts.tag", "users.name"',
-    );
-    console.log(JSON.parse(sel));
+    const sel = ['posts.id', 'posts.text', 'blogposts.tag', 'users.name'];
 
     db
       .join3_where_select(
