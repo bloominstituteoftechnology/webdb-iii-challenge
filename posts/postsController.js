@@ -83,15 +83,13 @@ module.exports = {
 
     const sel = 'blogposts.tag';
 
+    const ref = { tbl: refTbl, col1: refCol1, col2: refCol2, col3: col_2 };
+    const tbl_1 = { id: tbl, col: col };
+    const tbl_2 = { id: tbl2, col: col2 };
+    const tbl_3 = { id: tbl3, col: col3 };
+
     db
-      .join3_where_select(
-        { tbl: refTbl, col1: refCol1, col2: refCol2, col3: col_2 },
-        { id: tbl, col: col },
-        { id: tbl2, col: col2 },
-        { id: tbl3, col: col3 },
-        cond,
-        sel,
-      )
+      .join3_where_select(ref, tbl_1, tbl_2, tbl_3, cond, sel)
       .then(
         posts =>
           posts.length === 0
