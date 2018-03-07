@@ -8,6 +8,7 @@ const {
   requestId,
   update,
   del,
+  posts,
 } = require('./usersController');
 
 router
@@ -20,5 +21,7 @@ router
   .get(check.id, requestId)
   .put(check.id, check.user, update)
   .delete(check.id, del);
+
+router.route('/:id/posts').get(check.id, posts);
 
 module.exports = router;

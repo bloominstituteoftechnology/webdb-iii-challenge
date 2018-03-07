@@ -9,9 +9,13 @@ module.exports = {
     return knex(tbl);
   },
 
-  getById: (tbl, id) => {
+  getBy: (tbl, cond) => {
+    return knex(tbl).where(cond);
+  },
+
+  getOneBy: (tbl, cond) => {
     return knex(tbl)
-      .where({ id })
+      .where(cond)
       .first();
   },
 

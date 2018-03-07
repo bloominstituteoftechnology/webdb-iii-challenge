@@ -18,7 +18,7 @@ module.exports = {
       }
 
       db
-        .getById(tbl, id)
+        .getOneBy(tbl, { id })
         .then(user => {
           if (!user) {
             error(res, 404, `User with id: ${id} not found.`);
@@ -82,5 +82,14 @@ module.exports = {
       .del(tbl, id)
       .then(count => res.json({ message: 'User deleted successfully.', count }))
       .catch(err => error(res, 500, 'Error deleting user', err));
+  },
+
+  posts: (req, res) => {
+    const { id } = req.params;
+
+    db
+      .getBy('posts', { userId: id })
+      .then(posts => res.json(posts))
+      .catch(err => error(res, 500, 'Error finding posts.', err));
   },
 };

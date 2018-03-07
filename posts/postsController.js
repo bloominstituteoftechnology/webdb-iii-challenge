@@ -1,86 +1,86 @@
 const db = require('../db/knex');
 const error = require('../errors/errors');
 
-const tbl = 'users';
+const tbl = 'posts';
 
 const check = id => {
-    return Number.isInteger(+id);
+  return Number.isInteger(+id);
 };
 
 module.exports = {
-    check: {
-        id: (req, res, next) => {
-            const { id } = req.params;
+  check: {
+    id: (req, res, next) => {
+      const { id } = req.params;
 
-            if (!check(id)) {
-                error(res, 422, `id: ${id} is not a number.`);
-                return;
-            }
+      if (!check(id)) {
+        error(res, 422, `id: ${id} is not a number.`);
+        return;
+      }
 
-            db
-                .getById(tbl, id)
-                .then(user => {
-                    if (!user) {
-                        error(res, 404, `User with id: ${id} not found.`);
-                        return;
-                    }
+      db
+        .getById(tbl, id)
+        .then(post => {
+          if (!post) {
+            error(res, 404, `Post with id: ${id} not found.`);
+            return;
+          }
 
-                    req.user = user;
-                    next();
-                })
-                .catch(err =>
-                    error(res, 500, `Error requesting id: ${id} from db.`, err),
-            );
-        },
-
-        user: (req, res, next) => {
-            const user = req.body;
-
-            if (!user.name) {
-                error(res, 422, 'Please provide a username.');
-                return;
-            }
-
-            next();
-        },
+          req.post = post;
+          next();
+        })
+        .catch(err =>
+          error(res, 500, `Error requesting id: ${id} from db.`, err),
+        );
     },
 
-    create: (req, res) => {
-        const user = req.body;
+    post: (req, res, next) => {
+      const post = req.body;
 
-        db
-            .add(tbl, user)
-            .then(id => res.json({ id }))
-            .catch(err => error(res, 500, 'Error saving user to db', err));
+      if (!post.text) {
+        error(res, 422, 'Please provide text.');
+        return;
+      }
+
+      next();
     },
+  },
 
-    request: (req, res) => {
-        db
-            .get(tbl)
-            .then(users => res.json(users))
-            .catch(err => error(res, 500, 'Error connecting to db', err));
-    },
+  create: (req, res) => {
+    const post = req.body;
 
-    requestId: (req, res) => {
-        res.json(req.user);
-    },
+    db
+      .add(tbl, post)
+      .then(id => res.json({ id }))
+      .catch(err => error(res, 500, 'Error saving post to db', err));
+  },
 
-    update: (req, res) => {
-        const { id } = req.params;
-        const user = req.body;
+  request: (req, res) => {
+    db
+      .get(tbl)
+      .then(posts => res.json(posts))
+      .catch(err => error(res, 500, 'Error connecting to db', err));
+  },
 
-        db
-            .update(tbl, id, user)
-            .then(count => res.json({ message: 'User updated successfully.', count }))
-            .catch(err => error(res, 500, 'Error updating user', err));
-    },
+  requestId: (req, res) => {
+    res.json(req.post);
+  },
 
-    del: (req, res) => {
-        const { id } = req.params;
+  update: (req, res) => {
+    const { id } = req.params;
+    const post = req.body;
 
-        db
-            .del(tbl, id)
-            .then(count => res.json({ message: 'User deleted successfully.', count }))
-            .catch(err => error(res, 500, 'Error deleting user', err));
-    },
+    db
+      .update(tbl, id, post)
+      .then(count => res.json({ message: 'Post updated successfully.', count }))
+      .catch(err => error(res, 500, 'Error updating post', err));
+  },
+
+  del: (req, res) => {
+    const { id } = req.params;
+
+    db
+      .del(tbl, id)
+      .then(count => res.json({ message: 'Post deleted successfully.', count }))
+      .catch(err => error(res, 500, 'Error deleting post', err));
+  },
 };

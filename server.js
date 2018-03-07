@@ -3,11 +3,13 @@ const bodyParser = require('body-parser');
 const { port } = require('./config');
 
 const usersRouter = require('./users/usersRouter');
+const postsRouter = require('./posts/postsRouter');
 
 const server = express();
 
 server.use(bodyParser.json());
 server.use('/users', usersRouter);
+server.use('/posts', postsRouter);
 
 server.get('/', (req, res) => {
   res.json({ api: 'running...' });
