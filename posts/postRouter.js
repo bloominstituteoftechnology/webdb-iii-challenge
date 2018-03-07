@@ -15,6 +15,19 @@ postRouter.get('/', (req, res) => {
     });
 });
 
+postRouter.get('/:id', (req, res) => {
+  const { id } = req.params;
+
+  db
+    .getPostById(id)
+    .then(posts => {
+      res.status(200).json(posts);
+    })
+    .catch(error => {
+      res.status(500).json({ error: `Error retrieving post with ID ${id}.` });
+    });
+});
+
 postRouter.post('/', (req, res) => {
   const post = req.body;
 
@@ -25,6 +38,23 @@ postRouter.post('/', (req, res) => {
     })
     .catch(error => {
       res.status(500).json({ error: 'Error posting the post.' });
+    });
+});
+
+postRouter.delete('/:id', (req, res) => {
+  const { id } = req.params;
+
+  db
+    .deletePostById(id)
+    .then(count => {
+      if (count > 0) {
+        res.status(200).json({ message: `Post ${id} deleted successfully.`});
+      } else {
+        res.status(404).json({ message: `Post with ID ${id} not found.` });
+      }
+    })
+    .catch(error => {
+      res.status(404).json({ error: `The post with ID ${id} does not exist.` });
     });
 });
 

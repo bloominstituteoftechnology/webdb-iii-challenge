@@ -15,6 +15,19 @@ userRouter.get('/', (req, res) => {
     });
 });
 
+userRouter.get('/:id', (req, res) => {
+  const { id } = req.params;
+
+  db
+    .getUserById(id)
+    .then(users => {
+      res.status(200).json(users);
+    })
+    .catch(error => {
+      res.status(500).json({ error: `Error retrieving user with ID ${id}.` });
+    });
+});
+
 userRouter.post('/', (req, res) => {
   const user = req.body;
 
@@ -25,6 +38,23 @@ userRouter.post('/', (req, res) => {
     })
     .catch(error => {
       res.status(500).json({ error: 'Error retrieving the posts.' });
+    });
+});
+
+userRouter.delete('/:id', (req, res) => {
+  const { id } = req.params;
+
+  db
+    .deleteUserById(id)
+    .then(count => {
+      if (count > 0) {
+        res.status(200).json({ message: `User ${id} deleted successfully.`});
+      } else {
+        res.status(404).json({ message: `User with ID ${id} not found.` });
+      }
+    })
+    .catch(error => {
+      res.status(404).json({ error: `The user with ID ${id} does not exist.` });
     });
 });
 
