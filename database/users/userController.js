@@ -1,4 +1,4 @@
-const knex = require('../database/db.js');
+const knex = require('../db');
 
 const db = {
   getAll: function() {
@@ -7,8 +7,11 @@ const db = {
   getById: function(id) {
     return knex('users').where({ id });
   },
+  getPostsByID: function(id) {
+    return knex('posts').where('userId', id)
+  },
   addUser: function(user) {
-    return knex.insert(user).into('user');
+    return knex.insert(user).into('users');
   },
   nuke: function(id) {
     return knex('users')
@@ -16,7 +19,7 @@ const db = {
       .del();
   },
   update: function(id, user) {
-    return knex('user')
+    return knex('users')
       .where({ id })
       .update(user);
   }
