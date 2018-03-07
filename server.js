@@ -95,6 +95,95 @@ server.delete('/users/:id', (req, res) => {
 		})
 });
 
+server.post('/posts', (req, res) => {
+	const { userId, text } = req.body;
+	if (!userId || !text) {
+		res.status(404).json({message: 'Provide both userId and text.'});
+	} else {
+		knex('posts').insert(req.body)
+			.then(() => {
+				res.status(201).json({message: 'Successfully added a new post.'})
+			})
+			.catch(error => {
+				res.status(500).json(error);
+			});
+	}
+});
+
+server.get('/posts', (req, res) => {
+	knex('posts')
+		.then(posts => {
+			res.status(200).json(posts);
+		})
+		.catch(error => {
+			res.status(500).json(error);
+		})
+});
+
+server.get('/posts/:id', (req, res) => {
+	const { id } = req.params;
+	knex('posts').where({ id })
+		.then(post => {
+			if (post.length > 0) {
+				res.status(200).json(post);	
+			} else {
+				res.status(404).json({message: 'Post not found.'});
+			}
+		})
+		.catch(error => {
+			res.status(500).json(error);
+		})
+})
+
+server.put('/posts/:id', (req, res) => {
+	const { id } = req.params;
+	const newPost = req.body;
+	if (!id) {
+		res.status(404).json({message: 'Please provide an id.'});
+	} else if (!newPost) {
+		res.status(404).json({message: 'Please provide updated information.'});
+	} else {
+		knex('posts').where({ id }).update(newPost)
+			.then(() => {
+				res.status(201).json({message: 'Successfully updated post.'})
+			})
+			.catch(error => {
+				res.status(500).json(error);
+			})
+	}
+});
+
+server.delete('/posts/:id', (req, res) => {
+	const { id } = req.params;
+	knex('posts').where({ id }).del()
+		.then(() => {
+			res.status(201).json({message: 'Successfully deleted post.'});
+		})
+		.catch(error => {
+			res.status(500).json(error);
+		})
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 const port = 5000;
