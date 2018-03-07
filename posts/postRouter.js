@@ -18,4 +18,14 @@ postRouter.post('/', (req, res) => {
     })
 })
 
+postRouter.get('/', (req, res) => {
+  post_db.allPosts()
+    .then((posts) => {
+      res.status(200).json(posts)
+    })
+    .catch((error) => {
+      res.status(500).json({ message: 'Unable to retrieve posts from database.'})
+    })
+})
+
 module.exports = postRouter;
