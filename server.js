@@ -234,6 +234,32 @@ server.delete('/tags/:id', (req, res) => {
 		})
 });
 
+// add a [GET] /posts/:id/tags endpoint that returns all tags for the post with the specified id.
+server.get('/posts/:id/tags', (req, res) => {
+	const { id } = req.params;
+	knex('posts_tags').where({postId: id})
+		.join('tags', 'posts_tags.tagId', '=', 'tags.id')
+		.select('postId', 'tag')
+		.then(tags => {
+			res.status(200).json(tags);
+		})
+		.catch(error => {
+			res.status(500).json(error);
+		})
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
 const port = 5000;
 server.listen(port, () => {
 	console.log(`Server listening on port ${port}`);
