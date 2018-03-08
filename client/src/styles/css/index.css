@@ -134,8 +134,12 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  font-size: 62.5%;
+  min-width: 400px;
+  min-height: 500px;
 }
-/* app */
+/* variables */
+/* components */
 .App {
   text-align: center;
 }
@@ -150,7 +154,7 @@ body {
   height: 80px;
 }
 .App .AppHeader .AppHeader__title {
-  font-size: 1.5em;
+  font-size: 1.8rem;
 }
 @keyframes AppLogo-spin {
   from {
@@ -159,4 +163,15 @@ body {
   to {
     transform: rotate(360deg);
   }
+}
+.Users {
+  margin: 20px 0 0 0;
+  font-size: 1.2rem;
+}
+.Posts {
+  margin: 20px 0 0 0;
+  font-size: 1.2rem;
+}
+.Posts .Post {
+  padding: 5px 0;
 }

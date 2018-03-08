@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import logo from '../../assets/logo.svg';
-import Users from '../users/users';
+import Posts from '../posts/posts';
 
 class App extends Component {
   render() {
@@ -12,7 +12,7 @@ class App extends Component {
           <h1 className="AppHeader__title">Welcome to React</h1>
         </header>
 
-        <Users />
+        <Posts />
       </div>
     );
   }
