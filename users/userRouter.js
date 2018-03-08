@@ -29,7 +29,7 @@ userRouter.get('/', (req, res) => {
 
 userRouter.get('/:id', (req, res) => {
   const userId = req.params.id;
-  console.log(userId);
+  // console.log(userId);
   user_db.getID(userId)
     .then((user) => {
       user.length > 0 ? res.status(200).json(user) : res.status(404).json({ message: `User with id ${userId} does not exist` });
@@ -39,11 +39,13 @@ userRouter.get('/:id', (req, res) => {
     });
 });
 
-userRouter.get('/:id/posts', (req, res) => {
-  const { id } = req.params;
-  user_db.getPostByID(id)
+userRouter.get('/:id/:posts', (req, res) => {
+  const { id, posts } = req.params;
+  console.log(id, posts)
+
+  user_db.getPostByID(id, posts)
     .then((posts) => {
-      user.length > 0 ? res.status(200).json(posts) : res.status(404).json({ message: `Posts connected with this id ${id} do not exist` });
+      posts.length > 0 ? res.status(200).json(posts) : res.status(404).json({ message: `Post is not connected with the id ${id}.` });
     })
     .catch((error) => {
       res.status(500).json({ message: 'Error finding the posts' });

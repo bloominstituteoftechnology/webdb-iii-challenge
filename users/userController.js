@@ -16,8 +16,12 @@ const user_db = {
   eraseUser: function(id) {
     return knex('users').where({ id }).del();
   },
-  getPostByID: function(UserId) {
-    return knex('posts').where('userId', id);
+  getPostByID: function(id, posts) {
+    return knex('posts').where({
+      userId: id,
+      postId: posts
+    })
+    // .select(posts).having('userId','=', posts);
   }
 }
 
