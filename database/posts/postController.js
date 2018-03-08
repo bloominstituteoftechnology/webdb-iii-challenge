@@ -19,6 +19,14 @@ const db = {
     return knex('posts')
       .where({ id })
       .update(post);
+  },
+  postTagIt: function (id) {
+    return knex('postTags')
+    .where({ postId: id })
+    .join('tags', 'tags.id', '=', 'postTags.tagId')
+    .join('posts', 'posts.id', '=', 'postTags.postId')
+    .join('users', 'users.id', '=', 'posts.userId')
+    .select('name', 'tag')
   }
 };
 

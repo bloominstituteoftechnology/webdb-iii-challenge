@@ -1,6 +1,6 @@
 const express = require('express');
 
-const db = require('./tagController.js');
+const db = require('./tagController');
 
 const tagRouter = express.Router();
 
