@@ -55,15 +55,17 @@ userRouter.get('/:id/:posts', (req, res) => {
 userRouter.put('/:id', (req, res) => {
   const { id } = req.params;
   const user = req.body;
+
   user_db.updateUser(id, user)
-    .then((user) => {
-      if (!user) {
+    .then((id) => {
+      if (!id) {
         res.status(404).json({ messsage: `Unable to update user by this id ${id}` });
       } else {
         res.status(201).json(user);
       }
     })
     .catch((error) => {
+      console.log(id, user);
       res.status(500).json({ message: 'Error updating User' });
     });
 });

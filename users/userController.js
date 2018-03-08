@@ -11,7 +11,7 @@ const user_db = {
     return knex.insert(user).into('users');
   },
   updateUser: function(id, user) {
-    return knex('users').where({ id }).update(user);
+    return knex('users').where({ userId: id }).update(user);
   },
   eraseUser: function(id) {
     return knex('users').where({ id }).del();
