@@ -32,9 +32,10 @@ postRouter.get('/:id', (req, res) => {
 
   post_db.getID(id)
     .then((post) => {
-      post.length > 0 ? res.status(200).json(post) : res.status(404).json({message: `There are no post with id # ${id} in the database.`})
+      post.length > 0 ? res.status(200).json(post) : res.status(404).json({message: `There are no posts with id # ${id} in the database.`})
     })
     .catch((error) => {
+      console.log(id)
       res.status(500).json({ message: 'Error finding the post in the database.' });
     });
 });

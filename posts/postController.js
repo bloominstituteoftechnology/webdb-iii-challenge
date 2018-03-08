@@ -7,8 +7,8 @@ const post_db = {
   allPosts: function() {
     return knex('posts');
   },
-  getID: function(id) {
-    return knex('posts').where({ id });
+  getID: function(postId) {
+    return knex('posts').where({ postId });
   },
   updatePost: function(id, post) {
     return knex('posts').where({ id }).update(post);
