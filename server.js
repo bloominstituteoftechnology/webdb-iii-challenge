@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { port } = require('./config');
+const cors = require('cors');
 
 const usersRouter = require('./users/usersRouter');
 const postsRouter = require('./posts/postsRouter');
@@ -9,6 +10,7 @@ const blogpostsRouter = require('./blogposts/blogpostsRouter');
 
 const server = express();
 
+server.use(cors());
 server.use(bodyParser.json());
 server.use('/users', usersRouter);
 server.use('/posts', postsRouter);
