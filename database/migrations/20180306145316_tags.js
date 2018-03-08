@@ -8,7 +8,7 @@ exports.up = function(knex, Promise) {
       .references('id')
       .inTable('posts');
     tbl
-      .string('tag', 128)
+      .string('tag', 256)
       .notNullable()
       .unique('tag');
     tbl.timestamp('created_at').defaultTo(knex.fn.now());

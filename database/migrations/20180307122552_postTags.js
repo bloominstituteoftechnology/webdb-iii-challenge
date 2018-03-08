@@ -4,11 +4,13 @@ exports.up = function(knex, Promise) {
     tbl
     .integer('postId')
     .unsigned()
+    .notNullable()
     .references('id')
     .inTable('posts');
     tbl
     .integer('tagId')
     .unsigned()
+    .notNullable()
     .references('id')
     .inTable('posts');
   })
@@ -17,3 +19,6 @@ exports.up = function(knex, Promise) {
 exports.down = function(knex, Promise) {
   return knex.schema.dropTableIfExists('postTags');
 };
+
+//add this in
+
