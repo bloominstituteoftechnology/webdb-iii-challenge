@@ -7,14 +7,14 @@ const tag_db = {
     allTags: function () {
         return knex('tags');
     },
-    getId: function (id) {
-        return knex('tags').where({ id });
+    getId: function (tagId) {
+        return knex('tags').where({ tagId });
     },
-    updateTag: function (id, tag) {
-        return knex('tags').where({ id }).update(tag);
+    updateTag: function (tagId, tag) {
+        return knex('tags').where({ tagId }).update(tag);
     },
-    deleteTag: function(id) {
-        return knex('tags').where({ id }).del();
+    deleteTag: function(tagId) {
+        return knex('tags').where({ tagId }).del();
     }
 }
 

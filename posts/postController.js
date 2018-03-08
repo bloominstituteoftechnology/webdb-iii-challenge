@@ -10,11 +10,11 @@ const post_db = {
   getID: function(postId) {
     return knex('posts').where({ postId });
   },
-  updatePost: function(id, post) {
-    return knex('posts').where({ id }).update(post);
+  updatePost: function(postId, post) {
+    return knex('posts').where({ postId }).update(post);
   },
-  deletePost: function(id) {
-    return knex('posts').where({ id }).del();
+  deletePost: function(postId) {
+    return knex('posts').where({ postId }).del();
   }
 
 }
