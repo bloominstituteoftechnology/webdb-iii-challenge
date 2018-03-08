@@ -80,7 +80,7 @@ postRouter.delete('/:id', (req, res) => {
 });
 
 // added to posts router - :-)
-postsRouter.get('/:id/tags', function(req, res) {
+postRouter.get('/:id/tags', function(req, res) {
   // /api/posts/:id/tags
   const { id } = req.params;
 
