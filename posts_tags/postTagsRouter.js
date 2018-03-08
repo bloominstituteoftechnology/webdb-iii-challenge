@@ -12,10 +12,6 @@ const postTagsRouter = express.Router()
   //  tagId: tagId
   //};
 
-// tagRouter.post('/:id/posts')
-  // const tagId = req.params.id
-  // const postId = req.body.id
-
 postTagsRouter.post('/:id', (req, res) => {
   const postId = req.params.id
   const tagId = req.body.tagId;
