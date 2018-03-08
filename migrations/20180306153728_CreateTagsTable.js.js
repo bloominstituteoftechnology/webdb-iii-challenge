@@ -1,7 +1,7 @@
 // TAGS
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('tags', (tbl) => {
-    tbl.increments();
+    tbl.increments('tagId');
 
     tbl.string('tags', 16).notNullable().unique('tags');
 
