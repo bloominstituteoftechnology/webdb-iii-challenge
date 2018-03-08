@@ -29,7 +29,7 @@ postRouter.get('/:id', (req, res) => {
 	const { id } = req.params;
 	postDb.getById(id)
 		.then((post) => {
-			if (post.length > 0) {
+			if (post) {
 				res.status(200).json(post);
 			} else {
 				res.status(422).json({ error: 'post not found' });
