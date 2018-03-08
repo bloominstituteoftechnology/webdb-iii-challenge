@@ -14,7 +14,7 @@ const user_db = {
     return knex('users').where({ userId: id }).update(user);
   },
   eraseUser: function(id) {
-    return knex('users').where({ id }).del();
+    return knex('users').where({ userId: id }).del();
   },
   getPostByID: function(id, posts) {
     return knex('posts').where({

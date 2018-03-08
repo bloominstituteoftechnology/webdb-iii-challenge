@@ -75,9 +75,9 @@ userRouter.delete('/:id', (req, res) => {
   user_db.eraseUser(id)
     .then((user) => {
       if (!user) {
-        res.status(404).json({ message: `Unable to delete user by this id ${id}` });
+        res.status(404).json({ message: `Unable to delete user by this id ${id}.`});
       } else {
-        res.status(200).json(user);
+        res.status(200).json({ message: `User with an id #${user} removed from database.`});
       }
     })
     .catch((error) => {
