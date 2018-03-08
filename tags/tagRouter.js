@@ -3,7 +3,6 @@ const knex = require('../database/dbConfig');
 const tag_db = require('./tagController.js');
 
 
-
 const tagRouter = express.Router()
 
 // Tag routes
@@ -29,10 +28,10 @@ tagRouter.get('/', (req, res) => {
         res.status(500).json({ message: 'Unable to retrieve tags from database.'})
       })
   })
-  
+
   tagRouter.get('/:id', (req, res) => {
     const  id  = req.params.id;
-  
+
     tag_db.getId(id)
       .then((tag) => {
         tag.length > 0 ? res.status(200).json(tag) : res.status(404).json({message: `There are no tag with id # ${id} in the database.`})
@@ -41,11 +40,11 @@ tagRouter.get('/', (req, res) => {
         res.status(500).json({ message: 'Error finding the tag in the database.' });
       });
   });
-  
+
   tagRouter.put('/:id', (req, res) => {
     const { id } = req.params;
     const tag = req.body;
-  
+
     tag_db.updateTag(id, tag)
       .then((tag) => {
         !tag ? res.status(404).json({ messsage: `Unable to update tag using id #${id}` }) :
@@ -55,7 +54,7 @@ tagRouter.get('/', (req, res) => {
         res.status(500).json({ message: 'Error updating the tag.'})
       })
   })
-  
+
   tagRouter.delete('/:id', (req, res) => {
     const { id } = req.params;
     tag_db.deleteTag(id)
