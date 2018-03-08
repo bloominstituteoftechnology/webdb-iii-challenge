@@ -5,21 +5,6 @@ const post_db = require('./postController.js');
 const postRouter = express.Router()
 
 // Posts routes
-
-
-// postRouter.post('/:id/tags')
-  // const postId = req.params.id
-  // const tagId = req.body.id;
-  // const postTags = {
-  //  postId: postId,
-  //  tagId: tagId
-  //};
-
-// tagRouter.post('/:id/posts')
-  // const tagId = req.params.id
-  // const postId = req.body.id
-
-
 postRouter.post('/', (req, res) => {
   const post = req.body;
 

@@ -8,6 +8,7 @@ const server = express();
 const userRouter = require('./users/userRouter.js');
 const postRouter = require('./posts/postRouter.js');
 const tagRouter = require('./tags/tagRouter.js');
+const postTagsRouter = require('./posts_tags/postTagsRouter.js');
 
 server.get('./', (req, res) => {
     res.status(200).json({ message: 'Everything is working!' });
@@ -19,6 +20,7 @@ server.use(bodyparser.json());
 server.use('/users', userRouter);
 server.use('/posts', postRouter);
 server.use('/tags', tagRouter);
+server.use('/post_tags', postTagsRouter);
 
 const PORT = 3000;
 server.listen(PORT, () => {
