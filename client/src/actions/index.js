@@ -2,7 +2,10 @@ import axios from 'axios';
 
 const ROOT_URL = `http://localhost:5000`;
 
-export const ERROR_GENERAL = 'ERROR_GENERAL';
+export const AUTH_USER_START = 'AUTH_USER_START';
+export const AUTH_USER_SUCCESS = 'AUTH_USER_SUCCESS';
+export const AUTH_USER_ERROR = 'AUTH_USER_ERROR';
+export const AUTH_USER_FINISH = 'AUTH_USER_FINISH';
 
 export const USERS_GET_START = 'USERS_GET_START';
 export const USERS_GET_SUCCESS = 'USERS_GET_SUCCESS';
@@ -13,6 +16,10 @@ export const POSTS_GET_START = 'POSTS_GET_START';
 export const POSTS_GET_SUCCESS = 'POSTS_GET_SUCCESS';
 export const POSTS_GET_ERROR = 'POSTS_GET_ERROR';
 export const POSTS_GET_FINISH = 'POSTS_GET_FINISH';
+
+export const authenticateUser = user => {
+  const { name, pw } = user;
+};
 
 export const getUsers = _ => {
   return dispatch => {
