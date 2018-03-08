@@ -72,4 +72,36 @@ postRouter.put('/:id', (req, res) => {
 		});
 });
 
+postRouter.post('/:id/tags', (req, res) => {
+	const postId = req.params.id;
+	const tagId = req.body.id;
+	const postTag = {
+		postId: postId,
+		tagId: tagId
+	}
+	postDb.addPostTag(postTag)
+		.then((ids) => {
+			res.status(200).json({ success: true })
+		})
+		.catch((err) => {
+			res.status(500).json({ error: `Could not add post_tag ${err}` });
+		});
+});
+
+postRouter.get('/:id/tags', (req, res) => {
+	const { id } = req.params;
+	postDb.getTagsByPostId(id)
+		.then((tags) => {
+			res.status(200).json(tags);
+		})
+		.catch((err) => {
+			res.status(500).json({ error: `Could not retreive tags ${err}` });
+		});
+});
+
 module.exports = postRouter;
+
+
+
+
+
