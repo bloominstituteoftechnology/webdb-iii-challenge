@@ -4,42 +4,42 @@ const db = require('./postController.js');
 
 const postRouter = express.Router();
 
-postRouter.post('/', function (req, res) {
+postRouter.post('/', function(req, res) {
   const post = req.body;
   db
     .addPost(post)
-    .then(function (id) {
+    .then(function(id) {
       res.status(201).json({ id });
     })
-    .catch(function (err) {
+    .catch(function(err) {
       res.status(500).json({ msg: 'Error Adding post' });
     });
 });
 
-postRouter.get('/', function (req, res) {
+postRouter.get('/', function(req, res) {
   db
     .getAll()
-    .then(function (posts) {
+    .then(function(posts) {
       res.status(200).json(posts);
     })
-    .catch(function (err) {
+    .catch(function(err) {
       res.status(500).json({ msg: 'Error retrieving posts' });
     });
 });
 
-postRouter.get('/:id', function (req, res) {
+postRouter.get('/:id', function(req, res) {
   const { id } = req.params;
 
   db
     .getById(id)
-    .then(function (posts) {
+    .then(function(posts) {
       if (posts.length > 0) {
         res.status(200).json(posts);
       } else {
         res.status(404).json({ msg: `Post with ${id} does not exist` });
       }
     })
-    .catch(function (err) {
+    .catch(function(err) {
       res.status(500).json({ msg: 'Error retrieving posts' });
     });
 });
@@ -79,29 +79,30 @@ postRouter.delete('/:id', (req, res) => {
     });
 });
 
-//just need to break this off to a controller and test everything...looks good though for right now lol
-postRouter.get('/:id/tags', (req, res) => {
+// added to posts router - :-)
+postsRouter.get('/:id/tags', function(req, res) {
+  // /api/posts/:id/tags
   const { id } = req.params;
-  knex('postTags').where({ postId: id })
-    .join('tags', 'postTags.tagId', '=', 'tags.id')
-    .select('postId', 'tag')
-    .then(tags => {
-      res.status(200).json(tags)
+
+  posts
+    .getPostTags(id)
+    .then(function(tags) {
+      res.status(200).json(tags);
     })
-    .catch(err => {
-      res.status(500).json(err);
-    })
-})
+    .catch(function(error) {
+      res.status(500).json({ error });
+    });
+});
 
 postRouter.get('/:id', (req, res) => {
   const { id } = req.params;
-  db
+  db;
   postTagIt(id)
     .then(uptags => {
       res.status(200).json(uptags);
     })
     .catch(err => {
       res.status(500).json(err);
-    })
-})
+    });
+});
 module.exports = postRouter;
