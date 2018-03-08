@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import logo from '../../assets/logo.svg';
+
 import Posts from '../posts/posts';
+import TopStatusBar from './topStatusBar';
+
+import logo from '../../assets/logo.svg';
 
 class App extends Component {
   render() {
@@ -11,6 +14,8 @@ class App extends Component {
 
           <h1 className="AppHeader__title">Welcome to React</h1>
         </header>
+
+        <TopStatusBar />
 
         <Posts />
       </div>

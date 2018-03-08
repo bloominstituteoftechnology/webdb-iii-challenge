@@ -164,6 +164,30 @@ body {
     transform: rotate(360deg);
   }
 }
+.TopStatusBar {
+  display: flex;
+  flex-direction: row-reverse;
+}
+.TopStatusBar .TopStatusBar__addNewPost {
+  background: #222;
+  color: white;
+  border: solid 1px #222;
+  font-size: 1.25rem;
+  text-decoration: none;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  max-width: 250px;
+}
+.TopStatusBar .TopStatusBar__addNewPost:hover {
+  border-color: #6f6f6f;
+  background: #6f6f6f;
+  color: white;
+  cursor: pointer;
+}
 .Users {
   margin: 20px 0 0 0;
   font-size: 1.2rem;

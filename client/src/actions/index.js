@@ -17,8 +17,13 @@ export const POSTS_GET_SUCCESS = 'POSTS_GET_SUCCESS';
 export const POSTS_GET_ERROR = 'POSTS_GET_ERROR';
 export const POSTS_GET_FINISH = 'POSTS_GET_FINISH';
 
+export const POSTS_ADD_START = 'POSTS_ADD_START';
+export const POSTS_ADD_SUCCESS = 'POSTS_ADD_SUCCESS';
+export const POSTS_ADD_ERROR = 'POSTS_ADD_ERROR';
+export const POSTS_ADD_FINISH = 'POSTS_ADD_FINISH';
+
 export const authenticateUser = user => {
-  const { name, pw } = user;
+  // const { name, pw } = user;
 };
 
 export const getUsers = _ => {
@@ -59,6 +64,23 @@ export const getPosts = _ => {
       .catch(err => {
         dispatch({ type: POSTS_GET_ERROR, payload: err });
         dispatch({ type: POSTS_GET_FINISH });
+      });
+  };
+};
+
+export const addPost = post => {
+  return dispatch => {
+    dispatch({ type: POSTS_ADD_START });
+
+    axios
+      .post(`${ROOT_URL}/posts`, post)
+      .then(({ data }) => {
+        dispatch({ type: POSTS_ADD_SUCCESS });
+        dispatch({ type: POSTS_ADD_FINISH });
+      })
+      .catch(err => {
+        dispatch({ type: POSTS_ADD_ERROR, payload: err });
+        dispatch({ type: POSTS_ADD_FINISH });
       });
   };
 };

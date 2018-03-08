@@ -1,4 +1,73 @@
 /* variables */
+@themeColor: #222;
+@themeColorI: #6f6f6f;
+
 @headerFontSize: 1.8rem;
 
+@buttonFontSizeSmall: 1.05rem;
+@buttonFontSizeMedium: 1.25rem;
+
+@buttonSmall: 25px;
+@buttonMedium: 35px;
+
+@buttonWidthSmall: 20%;
+@buttonWidthMedium: 35%;
+
 @textFontSize: 1.2rem;
+
+.button(@fontSize) {
+  background: @themeColor;
+  color: white;
+  border: solid 1px @themeColor;
+
+  font-size: @fontSize;
+  text-decoration: none;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  &:hover {
+    border-color: @themeColorI;
+    background: @themeColorI;
+    color: white;
+
+    cursor: pointer;
+  }
+}
+
+#buttonCreator() {
+  .small() {
+    .button(@buttonFontSizeSmall);
+
+    width: @buttonWidthSmall;
+    height: @buttonSmall;
+    max-width: 250px;
+  }
+
+  .medium() {
+    .button(@buttonFontSizeMedium);
+
+    width: @buttonWidthMedium;
+    height: @buttonMedium;
+    max-width: 250px;
+  }
+}
+
+#sqButtonCreator() {
+  .small() {
+    .button(@buttonFontSizeSmall);
+
+    width: @buttonSmall;
+    height: @buttonSmall;
+  }
+
+  .medium() {
+    .button(@buttonFontSizeMedium);
+
+    width: @buttonMedium;
+    height: @buttonMedium;
+    max-width: 250px;
+  }
+}
