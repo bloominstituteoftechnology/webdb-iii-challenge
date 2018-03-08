@@ -70,7 +70,7 @@ module.exports = {
     const refCol2 = 'blogposts.tag';
 
     const tbl2 = 'tags';
-    const col2 = 'tags.tag';
+    const col2 = 'tags.id';
 
     const tbl3 = 'users';
     const col3 = 'users.id';
@@ -109,14 +109,14 @@ module.exports = {
     const refCol2 = 'blogposts.tag';
 
     const tbl2 = 'tags';
-    const col2 = 'tags.tag';
+    const col2 = 'tags.id';
 
     const tbl3 = 'users';
     const col3 = 'users.id';
 
     const cond = { 'blogposts.postId': id };
 
-    const sel = 'blogposts.tag';
+    const sel = 'tags.tag';
 
     const ref = { tbl: refTbl, col1: refCol1, col2: refCol2, col3: col_2 };
     const tbl_1 = { id: tbl, col: col };

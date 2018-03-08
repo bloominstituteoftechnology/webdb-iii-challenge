@@ -31,10 +31,10 @@ module.exports = {
     },
 
     blogpost: (req, res, next) => {
-      const { title, postId } = req.body;
+      const { postId } = req.body;
 
-      if (!title || !postId) {
-        error(res, 422, 'Please provide a title and postId.');
+      if (!postId) {
+        error(res, 422, 'Please a postId.');
         return;
       }
 

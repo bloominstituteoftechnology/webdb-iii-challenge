@@ -10,8 +10,9 @@ exports.up = function(knex, Promise) {
       .notNullable();
 
     tbl
-      .string('tag')
-      .references('tag')
+      .integer('tag')
+      .unsigned()
+      .references('id')
       .inTable('tags');
 
     tbl.timestamp('createdAt').defaultTo(knex.fn.now());
