@@ -5,7 +5,23 @@
 
   font-size: @textFontSize;
 
+  .flexCenter(column);
+
   .Post {
+    width: 100%;
+
     padding: 5px 0;
+
+    .flexCenter(row);
+    justify-content: space-between;
+
+    .Post__deleteButton {
+      #sqButtonCreator > .small;
+
+      &:hover {
+        background: red;
+        color: black;
+      }
+    }
   }
 }

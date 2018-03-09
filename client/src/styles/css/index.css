@@ -253,7 +253,14 @@ body {
   align-items: center;
 }
 .Users {
-  margin: 20px 0 0 0;
+  width: 85%;
+  margin: 20px auto;
+}
+.Users .UsersTitle {
+  width: 150px;
+  margin: 10px auto;
+  font-size: 1.7rem;
+  border-bottom: 1px solid #222;
 }
 .Users .User {
   margin: 5px;
@@ -263,9 +270,42 @@ body {
   width: 85%;
   margin: 20px auto;
   font-size: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .Posts .Post {
+  width: 100%;
   padding: 5px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+}
+.Posts .Post .Post__deleteButton {
+  background: #222;
+  color: white;
+  border: solid 1px #222;
+  font-size: 1.05rem;
+  text-decoration: none;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+}
+.Posts .Post .Post__deleteButton:hover {
+  border-color: #6f6f6f;
+  background: #6f6f6f;
+  color: white;
+  cursor: pointer;
+}
+.Posts .Post .Post__deleteButton:hover {
+  background: red;
+  color: black;
 }
 .AddPost {
   height: 100px;

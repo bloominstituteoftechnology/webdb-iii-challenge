@@ -24,6 +24,11 @@ export const POSTS_ADD_SUCCESS = 'POSTS_ADD_SUCCESS';
 export const POSTS_ADD_ERROR = 'POSTS_ADD_ERROR';
 export const POSTS_ADD_FINISH = 'POSTS_ADD_FINISH';
 
+export const POSTS_DELETE_START = 'POSTS_DELETE_START';
+export const POSTS_DELETE_SUCCESS = 'POSTS_DELETE_SUCCESS';
+export const POSTS_DELETE_ERROR = 'POSTS_DELETE_ERROR';
+export const POSTS_DELETE_FINISH = 'POSTS_DELETE_FINISH';
+
 export const login = (user, history) => {
   const { userId, name } = user;
 
@@ -112,17 +117,55 @@ export const addPost = post => {
 
             dispatch({ type: POSTS_GET_FINISH });
             dispatch(reset('addPost'));
+
+            dispatch({ type: POSTS_ADD_FINISH });
           })
           .catch(err => {
             dispatch({ type: POSTS_GET_ERROR, payload: err });
             dispatch({ type: POSTS_GET_FINISH });
+            dispatch({ type: POSTS_ADD_FINISH });
           });
-
-        dispatch({ type: POSTS_ADD_FINISH });
       })
       .catch(err => {
         dispatch({ type: POSTS_ADD_ERROR, payload: err });
         dispatch({ type: POSTS_ADD_FINISH });
+      });
+  };
+};
+
+export const deletePost = id => {
+  return dispatch => {
+    dispatch({ type: POSTS_DELETE_START });
+
+    axios
+      .delete(`${ROOT_URL}/posts/${id}`)
+      .then(({ data }) => {
+        dispatch({ type: POSTS_DELETE_SUCCESS });
+
+        dispatch({ type: POSTS_GET_START });
+
+        axios
+          .get(`${ROOT_URL}/posts`)
+          .then(({ data }) => {
+            dispatch({
+              type: POSTS_GET_SUCCESS,
+              payload: data,
+            });
+
+            dispatch({ type: POSTS_GET_FINISH });
+            dispatch(reset('addPost'));
+
+            dispatch({ type: POSTS_DELETE_FINISH });
+          })
+          .catch(err => {
+            dispatch({ type: POSTS_GET_ERROR, payload: err });
+            dispatch({ type: POSTS_GET_FINISH });
+            dispatch({ type: POSTS_DELETE_FINISH });
+          });
+      })
+      .catch(err => {
+        dispatch({ type: POSTS_DELETE_ERROR, payload: err });
+        dispatch({ type: POSTS_DELETE_FINISH });
       });
   };
 };
