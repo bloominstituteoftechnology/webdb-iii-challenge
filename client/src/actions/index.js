@@ -19,6 +19,11 @@ export const USERS_DELETE_SUCCESS = 'USERS_DELETE_SUCCESS';
 export const USERS_DELETE_ERROR = 'USERS_DELETE_ERROR';
 export const USERS_DELETE_FINISH = 'USERS_DELETE_FINISH';
 
+export const USERS_ADD_START = 'USERS_ADD_START';
+export const USERS_ADD_SUCCESS = 'USERS_ADD_SUCCESS';
+export const USERS_ADD_ERROR = 'USERS_ADD_ERROR';
+export const USERS_ADD_FINISH = 'USERS_ADD_FINISH';
+
 export const POSTS_GET_START = 'POSTS_GET_START';
 export const POSTS_GET_SUCCESS = 'POSTS_GET_SUCCESS';
 export const POSTS_GET_ERROR = 'POSTS_GET_ERROR';
@@ -109,6 +114,39 @@ export const deleteUser = id => {
       .catch(err => {
         dispatch({ type: USERS_DELETE_ERROR, payload: err });
         dispatch({ type: USERS_DELETE_FINISH });
+      });
+  };
+};
+
+export const addUser = name => {
+  return dispatch => {
+    dispatch({ type: USERS_ADD_START });
+
+    axios
+      .post(`${ROOT_URL}/users`, { name })
+      .then(({ data }) => {
+        dispatch({ type: USERS_ADD_SUCCESS });
+
+        axios
+          .get(`${ROOT_URL}/users`)
+          .then(({ data }) => {
+            dispatch({
+              type: USERS_GET_SUCCESS,
+              payload: data,
+            });
+
+            dispatch({ type: USERS_GET_FINISH });
+            dispatch({ type: USERS_ADD_FINISH });
+          })
+          .catch(err => {
+            dispatch({ type: USERS_GET_ERROR, payload: err });
+            dispatch({ type: USERS_GET_FINISH });
+            dispatch({ type: USERS_ADD_FINISH });
+          });
+      })
+      .catch(err => {
+        dispatch({ type: USERS_DELETE_ERROR, payload: err });
+        dispatch({ type: USERS_ADD_FINISH });
       });
   };
 };

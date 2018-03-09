@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { addUser } from '../../actions';
 
 class TopStatusBar extends Component {
-  state = {
-    isAddingFriend: false,
-  };
-
-  addPostButtonClickedHandler = _ => {
-    this.setState({ isAddingPost: !this.state.isAddingPost });
+  addUserButtonClickedHandler = _ => {
+    this.props.addUser(window.prompt('Enter a user name to add.'));
   };
 
   render() {
@@ -14,13 +13,19 @@ class TopStatusBar extends Component {
       <div className="TopStatusBar">
         <div
           className="TopStatusBar__addNewPost"
-          onClick={this.addPostButtonClickedHandler}
+          onClick={_ => this.addUserButtonClickedHandler()}
         >
-          {this.state.isAddingPost ? '-' : '+'}
+          +
         </div>
       </div>
     );
   }
 }
 
-export default TopStatusBar;
+const mapStateToProps = state => {
+  return {
+    //
+  };
+};
+
+export default connect(mapStateToProps, { addUser })(TopStatusBar);

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import Header from './header';
 import Posts from '../posts/posts';
-// import TopStatusBar from './topStatusBar';
+import TopStatusBar from './topStatusBar';
 import AddPost from '../posts/addPost';
 import Users from '../users/users';
 
@@ -12,7 +12,7 @@ class App extends Component {
       <div className="App">
         <Header />
 
-        {/* <TopStatusBar /> */}
+        <TopStatusBar />
 
         <AddPost />
 
