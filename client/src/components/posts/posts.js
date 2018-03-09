@@ -19,7 +19,7 @@ class Posts extends Component {
       if (updatedUserId === '') this.props.updatePost(id, { text });
       else if (text === '')
         this.props.updatePost(id, { userId: updatedUserId });
-      else this.props.updatePost(id, { updatedUserId, text });
+      else this.props.updatePost(id, { userId: updatedUserId, text });
     }
   };
 

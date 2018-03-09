@@ -30,9 +30,7 @@ class Users extends Component {
             >
               x
             </div>
-
-            {user.name}
-
+            {user.name} ({user.id})
             <div
               className="User__editButton"
               onClick={_ => this.updateUserButtonClickHandler(user.id)}
