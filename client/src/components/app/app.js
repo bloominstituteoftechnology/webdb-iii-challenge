@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Posts from '../posts/posts';
 import TopStatusBar from './topStatusBar';
+import AddPost from '../posts/addPost';
 
 import logo from '../../assets/logo.svg';
 
@@ -16,6 +17,8 @@ class App extends Component {
         </header>
 
         <TopStatusBar />
+
+        <AddPost />
 
         <Posts />
       </div>

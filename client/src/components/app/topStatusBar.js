@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 
-import AddPost from '../posts/addPost';
-
 class TopStatusBar extends Component {
   state = {
-    isAddingPost: false,
+    isAddingFriend: false,
   };
 
   addPostButtonClickedHandler = _ => {
@@ -20,17 +18,9 @@ class TopStatusBar extends Component {
         >
           {this.state.isAddingPost ? '-' : '+'}
         </div>
-
-        {this.state.isAddingPost ? <AddPost /> : null}
       </div>
     );
   }
 }
-
-// const mapStateToProps = state => {
-//   return {
-//     submitSucceeded: state.form.addPost.submitSucceeded
-//   }
-// }
 
 export default TopStatusBar;
