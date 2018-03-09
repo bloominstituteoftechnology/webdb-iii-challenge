@@ -5,7 +5,8 @@ const debug = true;
 const initialState = {
   authenticated: debug,
   // authenticated: false,
-  userId: -1,
+  userId: debug ? 2 : -1,
+  // userId: -1,
   error: '',
 };
 
