@@ -11,6 +11,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import reducers from './reducers';
 
 import App from './components/app/app';
+import CheckAuth from './components/auth/checkAuth';
+import Login from './components/passport/login';
 
 import './styles/css/index.css';
 
@@ -21,7 +23,8 @@ ReactDOM.render(
     <Router>
       <div>
         <Switch>
-          <Route path="/" component={App} />
+          <Route path="/login" component={Login} />
+          <Route path="/" component={CheckAuth(App)} />
         </Switch>
       </div>
     </Router>

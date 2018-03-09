@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import Header from './header';
 import Posts from '../posts/posts';
-import TopStatusBar from './topStatusBar';
+// import TopStatusBar from './topStatusBar';
 import AddPost from '../posts/addPost';
 
 class App extends Component {
