@@ -294,6 +294,27 @@ body {
   background: red;
   border-color: red;
 }
+.Users .User .User__editButton {
+  background: #222;
+  color: white;
+  border: solid 1px #222;
+  font-size: 1.05rem;
+  text-decoration: none;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  background: none;
+  color: #222;
+}
+.Users .User .User__editButton:hover {
+  border-color: #6f6f6f;
+  background: #6f6f6f;
+  color: white;
+  cursor: pointer;
+}
 .Posts {
   width: 85%;
   margin: 20px auto;

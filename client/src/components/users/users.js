@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getUsers, deleteUser } from '../../actions';
+import { getUsers, deleteUser, updateUser } from '../../actions';
 
 class Users extends Component {
   componentDidMount() {
@@ -9,6 +9,12 @@ class Users extends Component {
 
   deleteUserButtonClickedHandler = id => {
     this.props.deleteUser(id);
+  };
+
+  editUserButtonClickHandler = id => {
+    const name = prompt('Enter a user name to edit.');
+
+    if (name) this.props.updateUser(id, { name });
   };
 
   render() {
@@ -27,7 +33,12 @@ class Users extends Component {
 
             {user.name}
 
-            <div className="User__editButton">...</div>
+            <div
+              className="User__editButton"
+              onClick={_ => this.editUserButtonClickHandler(user.id)}
+            >
+              ...
+            </div>
           </div>
         ))}
       </div>
@@ -41,4 +52,6 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { getUsers, deleteUser })(Users);
+export default connect(mapStateToProps, { getUsers, deleteUser, updateUser })(
+  Users,
+);
