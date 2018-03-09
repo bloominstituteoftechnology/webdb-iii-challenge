@@ -10,21 +10,27 @@ class AddPost extends Component {
 
   render() {
     return (
-      <form
-        onSubmit={this.props.handleSubmit(this.handleFormSubmit.bind(this))}
-      >
-        <fieldset>
-          <label>UserId:</label>
-          <Field name="userId" component="input" type="text" />
-        </fieldset>
+      <div className="AddPost">
+        <div className="AddPostTitle">Add Post</div>
 
-        <fieldset>
-          <label>Text:</label>
-          <Field name="text" component="input" type="text" />
-        </fieldset>
+        <form
+          className="AddPostForm"
+          onSubmit={this.props.handleSubmit(this.handleFormSubmit.bind(this))}
+        >
+          <fieldset className="AddPostFieldSet">
+            <Field
+              className="AddPostFieldSet__field"
+              name="text"
+              component="input"
+              type="text"
+            />
+          </fieldset>
 
-        <button action="submit">Add Post</button>
-      </form>
+          <button className="AddPostSubmitButton" action="submit">
+            +
+          </button>
+        </form>
+      </div>
     );
   }
 }
@@ -39,5 +45,5 @@ AddPost = connect(mapStateToProps, { addPost })(AddPost);
 
 export default reduxForm({
   form: 'addPost',
-  fields: ['userId', 'text'],
+  fields: ['text'],
 })(AddPost);

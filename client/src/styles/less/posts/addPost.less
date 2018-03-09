@@ -1,0 +1,41 @@
+@formHeight: @buttonMedium;
+@topbtmMargins: 10px;
+
+.AddPost {
+  height: 100px;
+  width: 350px;
+
+  margin: 0 auto;
+
+  border: 1px solid @themeColor;
+
+  .AddPostTitle {
+    margin: @topbtmMargins 0;
+
+    font-size: @detailFontSize;
+  }
+
+  .AddPostForm {
+    height: @formHeight;
+
+    .flexCenter(row);
+
+    .AddPostFieldSet {
+      .AddPostFieldSet__field {
+        font-size: @textFontSize;
+        padding: 15px;
+
+        height: @formHeight;
+
+        outline: none;
+      }
+    }
+
+    .AddPostSubmitButton {
+      margin: 0 0 0 10px;
+
+      #buttonCreator > .custom(@textFontSize, @formHeight, @formHeight);
+      .flexCenter();
+    }
+  }
+}

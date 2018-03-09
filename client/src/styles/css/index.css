@@ -137,24 +137,17 @@ body {
   font-size: 62.5%;
   min-width: 400px;
   min-height: 500px;
+  background: #f2f2f2;
 }
 /* variables */
 /* components */
 .App {
   text-align: center;
 }
-.App .AppHeader {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-.App .AppHeader .AppLogo {
+.AppLogo {
   animation: AppLogo-spin infinite 20s linear;
-  height: 80px;
-}
-.App .AppHeader .AppHeader__title {
-  font-size: 1.8rem;
+  height: 40px;
+  margin: 10px 0;
 }
 @keyframes AppLogo-spin {
   from {
@@ -164,7 +157,22 @@ body {
     transform: rotate(360deg);
   }
 }
+.Header {
+  width: 100%;
+  background-color: #222;
+  color: white;
+  margin: 0 0 20px 0;
+}
+.Header .HeaderContainer {
+  width: 85%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
 .TopStatusBar {
+  width: 85%;
+  margin: 0 auto;
   display: flex;
   flex-direction: row-reverse;
 }
@@ -178,9 +186,8 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 35px;
-  height: 35px;
-  max-width: 250px;
+  width: 45px;
+  height: 45px;
 }
 .TopStatusBar .TopStatusBar__addNewPost:hover {
   border-color: #6f6f6f;
@@ -198,4 +205,48 @@ body {
 }
 .Posts .Post {
   padding: 5px 0;
+}
+.AddPost {
+  height: 100px;
+  width: 350px;
+  margin: 0 auto;
+  border: 1px solid #222;
+}
+.AddPost .AddPostTitle {
+  margin: 10px 0;
+  font-size: 0.95rem;
+}
+.AddPost .AddPostForm {
+  height: 45px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.AddPost .AddPostForm .AddPostFieldSet .AddPostFieldSet__field {
+  font-size: 1.2rem;
+  padding: 15px;
+  height: 45px;
+  outline: none;
+}
+.AddPost .AddPostForm .AddPostSubmitButton {
+  margin: 0 0 0 10px;
+  background: #222;
+  color: white;
+  border: solid 1px #222;
+  font-size: 1.2rem;
+  text-decoration: none;
+  text-align: center;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.AddPost .AddPostForm .AddPostSubmitButton:hover {
+  border-color: #6f6f6f;
+  background: #6f6f6f;
+  color: white;
+  cursor: pointer;
 }
