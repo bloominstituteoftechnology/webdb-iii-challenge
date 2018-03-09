@@ -4,6 +4,7 @@ const ROOT_URL = `http://localhost:5000`;
 
 export const AUTH_USER_START = 'AUTH_USER_START';
 export const AUTH_USER_SUCCESS = 'AUTH_USER_SUCCESS';
+export const AUTH_USER_FAIL = 'AUTH_USER_FAIL';
 export const AUTH_USER_ERROR = 'AUTH_USER_ERROR';
 export const AUTH_USER_FINISH = 'AUTH_USER_FINISH';
 
@@ -22,8 +23,29 @@ export const POSTS_ADD_SUCCESS = 'POSTS_ADD_SUCCESS';
 export const POSTS_ADD_ERROR = 'POSTS_ADD_ERROR';
 export const POSTS_ADD_FINISH = 'POSTS_ADD_FINISH';
 
-export const authenticateUser = user => {
-  // const { name, pw } = user;
+export const login = (user, history) => {
+  const { userId, name } = user;
+
+  return dispatch => {
+    dispatch({ type: AUTH_USER_START });
+
+    axios
+      .get(`${ROOT_URL}/users/${userId}`)
+      .then(({ data }) => {
+        if (data.name === name) {
+          dispatch({ type: AUTH_USER_SUCCESS, payload: userId });
+          history.push('/');
+          dispatch({ type: AUTH_USER_FINISH });
+        } else {
+          dispatch({ type: AUTH_USER_FAIL });
+          dispatch({ type: AUTH_USER_FINISH });
+        }
+      })
+      .catch(err => {
+        dispatch({ type: AUTH_USER_ERROR, payload: err });
+        dispatch({ type: AUTH_USER_FINISH });
+      });
+  };
 };
 
 export const getUsers = _ => {

@@ -4,8 +4,8 @@ import { reduxForm, Field } from 'redux-form';
 import { addPost } from '../../actions';
 
 class AddPost extends Component {
-  handleFormSubmit = ({ userId, text }) => {
-    this.props.addPost({ userId, text });
+  handleFormSubmit = ({ text }) => {
+    this.props.addPost({ text });
   };
 
   render() {
