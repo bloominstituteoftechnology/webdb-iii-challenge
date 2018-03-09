@@ -27,6 +27,7 @@ class UserList extends React.Component {
     return (
       <Div>
         <ul>
+          <h1>Hello World</h1>
           {this.state.users.map(user => <User key={user.id} user={user} />)}
         </ul>
       </Div>
