@@ -1,11 +1,11 @@
 exports.up = function(knex, Promise) {
-  return knex.schema.createTable('users', tbl => {
-    tbl.increments();
-    tbl
+  return knex.schema.createTable('users', users => {
+    users.increments();
+    users
       .string('name', 128)
       .notNullable()
-      .unique('name');
-    tbl.timestamp('created_at').defaultTo(knex.fn.now());
+      .unique();
+    users.timestamp('created_at').defaultTo(knex.fn.now());
   });
 };
 
