@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { reset } from 'redux-form';
 
 const ROOT_URL = `http://localhost:5000`;
 
@@ -98,6 +99,25 @@ export const addPost = post => {
       .post(`${ROOT_URL}/posts`, post)
       .then(({ data }) => {
         dispatch({ type: POSTS_ADD_SUCCESS });
+
+        dispatch({ type: POSTS_GET_START });
+
+        axios
+          .get(`${ROOT_URL}/posts`)
+          .then(({ data }) => {
+            dispatch({
+              type: POSTS_GET_SUCCESS,
+              payload: data,
+            });
+
+            dispatch({ type: POSTS_GET_FINISH });
+            dispatch(reset('addPost'));
+          })
+          .catch(err => {
+            dispatch({ type: POSTS_GET_ERROR, payload: err });
+            dispatch({ type: POSTS_GET_FINISH });
+          });
+
         dispatch({ type: POSTS_ADD_FINISH });
       })
       .catch(err => {

@@ -254,10 +254,14 @@ body {
 }
 .Users {
   margin: 20px 0 0 0;
+}
+.Users .User {
+  margin: 5px;
   font-size: 1.2rem;
 }
 .Posts {
-  margin: 20px 0 0 0;
+  width: 85%;
+  margin: 20px auto;
   font-size: 1.2rem;
 }
 .Posts .Post {

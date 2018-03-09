@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getPosts } from '../../actions';
+import { getPosts, getUsers } from '../../actions';
 
 class Posts extends Component {
   componentDidMount() {
+    this.props.getUsers();
     this.props.getPosts();
   }
 
@@ -12,7 +13,11 @@ class Posts extends Component {
       <div className="Posts">
         {this.props.posts.map(post => (
           <div key={post.id} className="Post">
-            {post.text}
+            {`${post.text} > ${
+              this.props.users.length > 0
+                ? this.props.users.find(user => user.id === post.userId).name
+                : null
+            }`}
           </div>
         ))}
       </div>
@@ -23,7 +28,8 @@ class Posts extends Component {
 const mapStateToProps = state => {
   return {
     posts: state.posts,
+    users: state.users,
   };
 };
 
-export default connect(mapStateToProps, { getPosts })(Posts);
+export default connect(mapStateToProps, { getPosts, getUsers })(Posts);

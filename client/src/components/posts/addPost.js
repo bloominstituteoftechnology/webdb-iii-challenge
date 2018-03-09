@@ -5,7 +5,7 @@ import { addPost } from '../../actions';
 
 class AddPost extends Component {
   handleFormSubmit = ({ text }) => {
-    this.props.addPost({ text });
+    this.props.addPost({ userId: this.props.userId, text });
   };
 
   render() {
@@ -37,7 +37,7 @@ class AddPost extends Component {
 
 const mapStateToProps = state => {
   return {
-    //
+    userId: state.auth.userId,
   };
 };
 

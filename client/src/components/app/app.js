@@ -4,6 +4,7 @@ import Header from './header';
 import Posts from '../posts/posts';
 // import TopStatusBar from './topStatusBar';
 import AddPost from '../posts/addPost';
+import Users from '../users/users';
 
 class App extends Component {
   render() {
@@ -16,6 +17,8 @@ class App extends Component {
         <AddPost />
 
         <Posts />
+
+        <Users />
       </div>
     );
   }
