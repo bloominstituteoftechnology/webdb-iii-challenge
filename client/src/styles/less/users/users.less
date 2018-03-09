@@ -17,5 +17,19 @@
     margin: 5px;
 
     font-size: @textFontSize;
+
+    .flexCenter(row);
+    justify-content: space-between;
+
+    .User__deleteButton {
+      #sqButtonCreator > .small;
+      background: none;
+      color: @themeColor;
+
+      &:hover {
+        background: red;
+        border-color: red;
+      }
+    }
   }
 }

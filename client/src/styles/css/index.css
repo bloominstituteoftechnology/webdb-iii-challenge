@@ -265,6 +265,36 @@ body {
 .Users .User {
   margin: 5px;
   font-size: 1.2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+}
+.Users .User .User__deleteButton {
+  background: #222;
+  color: white;
+  border: solid 1px #222;
+  font-size: 1.05rem;
+  text-decoration: none;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  background: none;
+  color: #222;
+}
+.Users .User .User__deleteButton:hover {
+  border-color: #6f6f6f;
+  background: #6f6f6f;
+  color: white;
+  cursor: pointer;
+}
+.Users .User .User__deleteButton:hover {
+  background: red;
+  border-color: red;
 }
 .Posts {
   width: 85%;
@@ -296,6 +326,8 @@ body {
   justify-content: center;
   width: 25px;
   height: 25px;
+  background: none;
+  color: #222;
 }
 .Posts .Post .Post__deleteButton:hover {
   border-color: #6f6f6f;
@@ -305,7 +337,7 @@ body {
 }
 .Posts .Post .Post__deleteButton:hover {
   background: red;
-  color: black;
+  border-color: red;
 }
 .AddPost {
   height: 100px;

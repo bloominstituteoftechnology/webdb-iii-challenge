@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getUsers } from '../../actions';
+import { getUsers, deleteUser } from '../../actions';
 
 class Users extends Component {
   componentDidMount() {
     this.props.getUsers();
   }
+
+  deleteUserButtonClickedHandler = id => {
+    this.props.deleteUser(id);
+  };
 
   render() {
     return (
@@ -14,7 +18,16 @@ class Users extends Component {
 
         {this.props.users.map(user => (
           <div key={user.id} className="User">
+            <div
+              className="User__deleteButton"
+              onClick={_ => this.deleteUserButtonClickedHandler(user.id)}
+            >
+              x
+            </div>
+
             {user.name}
+
+            <div className="User__editButton">...</div>
           </div>
         ))}
       </div>
@@ -28,4 +41,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { getUsers })(Users);
+export default connect(mapStateToProps, { getUsers, deleteUser })(Users);
