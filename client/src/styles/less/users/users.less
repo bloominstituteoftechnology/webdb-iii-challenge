@@ -1,0 +1,41 @@
+.Users {
+  width: @appWidth;
+
+  margin: 20px auto;
+
+  .UsersTitle {
+    width: 150px;
+
+    margin: 10px auto;
+
+    font-size: @titleFontSize;
+
+    border-bottom: 1px solid @themeColor;
+  }
+
+  .User {
+    margin: 5px 0;
+
+    font-size: @textFontSize;
+
+    .flexCenter(row);
+    justify-content: space-between;
+
+    .User__deleteButton {
+      #sqButtonCreator > .small;
+      background: none;
+      color: @themeColor;
+
+      &:hover {
+        background: red;
+        border-color: red;
+      }
+    }
+
+    .User__editButton {
+      #sqButtonCreator > .small;
+      background: none;
+      color: @themeColor;
+    }
+  }
+}

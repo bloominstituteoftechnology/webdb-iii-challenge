@@ -1,0 +1,35 @@
+.Posts {
+  width: @appWidth;
+
+  margin: 20px auto;
+
+  font-size: @textFontSize;
+
+  .flexCenter(column);
+
+  .Post {
+    width: 100%;
+
+    padding: 5px 0;
+
+    .flexCenter(row);
+    justify-content: space-between;
+
+    .Post__deleteButton {
+      #sqButtonCreator > .small;
+      background: none;
+      color: @themeColor;
+
+      &:hover {
+        background: red;
+        border-color: red;
+      }
+    }
+
+    .Post__editButton {
+      #sqButtonCreator > .small;
+      background: none;
+      color: @themeColor;
+    }
+  }
+}

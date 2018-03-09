@@ -1,0 +1,93 @@
+/* variables */
+@themeColor: #222;
+@themeColorI: #6f6f6f;
+
+@appWidth: 85%;
+
+@headerFontSize: 2.4rem;
+@titleFontSize: 1.7rem;
+@textFontSize: 1.2rem;
+@detailFontSize: 0.95rem;
+
+@buttonFontSizeSmall: 1.05rem;
+@buttonFontSizeMedium: 1.25rem;
+
+@buttonSmall: 25px;
+@buttonMedium: 45px;
+
+@buttonWidthSmall: 35px;
+@buttonWidthMedium: 55px;
+@buttonWidthLarge: 85px;
+
+@iconSmall: 40px;
+@iconMedium: 70px;
+
+@tablet: ~'(max-width: 800px)';
+
+.button(@fontSize) {
+  background: @themeColor;
+  color: white;
+  border: solid 1px @themeColor;
+
+  font-size: @fontSize;
+  text-decoration: none;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  &:hover {
+    border-color: @themeColorI;
+    background: @themeColorI;
+    color: white;
+
+    cursor: pointer;
+  }
+}
+
+.flexCenter(@direction: column) {
+  display: flex;
+  flex-direction: @direction;
+  justify-content: center;
+  align-items: center;
+}
+
+#buttonCreator() {
+  .small() {
+    .button(@buttonFontSizeSmall);
+
+    width: @buttonWidthSmall;
+    height: @buttonSmall;
+  }
+
+  .medium() {
+    .button(@buttonFontSizeMedium);
+
+    width: @buttonWidthMedium;
+    height: @buttonMedium;
+  }
+
+  .custom(@customFontSize, @width, @height) {
+    .button(@customFontSize);
+
+    width: @width;
+    height: @height;
+  }
+}
+
+#sqButtonCreator() {
+  .small() {
+    .button(@buttonFontSizeSmall);
+
+    width: @buttonSmall;
+    height: @buttonSmall;
+  }
+
+  .medium() {
+    .button(@buttonFontSizeMedium);
+
+    width: @buttonMedium;
+    height: @buttonMedium;
+  }
+}

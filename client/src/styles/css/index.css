@@ -1,0 +1,425 @@
+/* general */
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  font-size: 62.5%;
+  min-width: 400px;
+  min-height: 500px;
+  background: #f2f2f2;
+}
+/* variables */
+/* components */
+.App {
+  text-align: center;
+}
+.AppLogo {
+  animation: AppLogo-spin infinite 20s linear;
+  height: 40px;
+  margin: 10px 0;
+}
+@keyframes AppLogo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.Header {
+  width: 100%;
+  background-color: #222;
+  color: white;
+}
+.Header .HeaderContainer {
+  width: 85%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.TopStatusBar {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row-reverse;
+}
+.TopStatusBar .TopStatusBar__addNewPost {
+  background: #222;
+  color: white;
+  border: solid 1px #222;
+  font-size: 1.25rem;
+  text-decoration: none;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+}
+.TopStatusBar .TopStatusBar__addNewPost:hover {
+  border-color: #6f6f6f;
+  background: #6f6f6f;
+  color: white;
+  cursor: pointer;
+}
+.Login .LoginForm {
+  height: 150px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+@media (max-width: 800px) {
+  .Login .LoginForm {
+    flex-direction: column;
+  }
+}
+.Login .LoginForm .LoginFieldSet {
+  margin: 0 10px;
+}
+@media (max-width: 800px) {
+  .Login .LoginForm .LoginFieldSet {
+    margin: 10px 0;
+  }
+}
+.Login .LoginForm .LoginFieldSet .LoginLabel {
+  margin: 0 4px;
+  font-size: 1.2rem;
+}
+.Login .LoginForm .LoginFieldSet .LoginFieldSet__field {
+  font-size: 1.2rem;
+  outline: none;
+}
+.Login .LoginForm .LoginSubmitButton {
+  margin: 5px 0;
+  background: #222;
+  color: white;
+  border: solid 1px #222;
+  font-size: 1.2rem;
+  text-decoration: none;
+  text-align: center;
+  width: 100px;
+  height: 35px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.Login .LoginForm .LoginSubmitButton:hover {
+  border-color: #6f6f6f;
+  background: #6f6f6f;
+  color: white;
+  cursor: pointer;
+}
+.Login .LoginError {
+  font-size: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.Users {
+  width: 85%;
+  margin: 20px auto;
+}
+.Users .UsersTitle {
+  width: 150px;
+  margin: 10px auto;
+  font-size: 1.7rem;
+  border-bottom: 1px solid #222;
+}
+.Users .User {
+  margin: 5px 0;
+  font-size: 1.2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+}
+.Users .User .User__deleteButton {
+  background: #222;
+  color: white;
+  border: solid 1px #222;
+  font-size: 1.05rem;
+  text-decoration: none;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  background: none;
+  color: #222;
+}
+.Users .User .User__deleteButton:hover {
+  border-color: #6f6f6f;
+  background: #6f6f6f;
+  color: white;
+  cursor: pointer;
+}
+.Users .User .User__deleteButton:hover {
+  background: red;
+  border-color: red;
+}
+.Users .User .User__editButton {
+  background: #222;
+  color: white;
+  border: solid 1px #222;
+  font-size: 1.05rem;
+  text-decoration: none;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  background: none;
+  color: #222;
+}
+.Users .User .User__editButton:hover {
+  border-color: #6f6f6f;
+  background: #6f6f6f;
+  color: white;
+  cursor: pointer;
+}
+.Posts {
+  width: 85%;
+  margin: 20px auto;
+  font-size: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.Posts .Post {
+  width: 100%;
+  padding: 5px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+}
+.Posts .Post .Post__deleteButton {
+  background: #222;
+  color: white;
+  border: solid 1px #222;
+  font-size: 1.05rem;
+  text-decoration: none;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  background: none;
+  color: #222;
+}
+.Posts .Post .Post__deleteButton:hover {
+  border-color: #6f6f6f;
+  background: #6f6f6f;
+  color: white;
+  cursor: pointer;
+}
+.Posts .Post .Post__deleteButton:hover {
+  background: red;
+  border-color: red;
+}
+.Posts .Post .Post__editButton {
+  background: #222;
+  color: white;
+  border: solid 1px #222;
+  font-size: 1.05rem;
+  text-decoration: none;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  background: none;
+  color: #222;
+}
+.Posts .Post .Post__editButton:hover {
+  border-color: #6f6f6f;
+  background: #6f6f6f;
+  color: white;
+  cursor: pointer;
+}
+.AddPost {
+  height: 100px;
+  width: 350px;
+  margin: 0 auto;
+  border: 1px solid #222;
+}
+.AddPost .AddPostTitle {
+  margin: 10px 0;
+  font-size: 0.95rem;
+}
+.AddPost .AddPostForm {
+  height: 45px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.AddPost .AddPostForm .AddPostFieldSet .AddPostFieldSet__field {
+  font-size: 1.2rem;
+  padding: 15px;
+  height: 45px;
+  outline: none;
+}
+.AddPost .AddPostForm .AddPostSubmitButton {
+  margin: 0 0 0 10px;
+  background: #222;
+  color: white;
+  border: solid 1px #222;
+  font-size: 1.2rem;
+  text-decoration: none;
+  text-align: center;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.AddPost .AddPostForm .AddPostSubmitButton:hover {
+  border-color: #6f6f6f;
+  background: #6f6f6f;
+  color: white;
+  cursor: pointer;
+}
