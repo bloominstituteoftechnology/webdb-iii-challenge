@@ -44,6 +44,11 @@ export const POSTS_DELETE_SUCCESS = 'POSTS_DELETE_SUCCESS';
 export const POSTS_DELETE_ERROR = 'POSTS_DELETE_ERROR';
 export const POSTS_DELETE_FINISH = 'POSTS_DELETE_FINISH';
 
+export const POSTS_UPDATE_START = 'POSTS_UPDATE_START';
+export const POSTS_UPDATE_SUCCESS = 'POSTS_UPDATE_SUCCESS';
+export const POSTS_UPDATE_ERROR = 'POSTS_UPDATE_ERROR';
+export const POSTS_UPDATE_FINISH = 'POSTS_UPDATE_FINISH';
+
 export const login = (user, history) => {
   const { userId, name } = user;
 
@@ -280,6 +285,41 @@ export const deletePost = id => {
       .catch(err => {
         dispatch({ type: POSTS_DELETE_ERROR, payload: err });
         dispatch({ type: POSTS_DELETE_FINISH });
+      });
+  };
+};
+
+export const updatePost = (id, post) => {
+  return dispatch => {
+    dispatch({ type: POSTS_UPDATE_START });
+
+    axios
+      .put(`${ROOT_URL}/posts/${id}`, post)
+      .then(({ data }) => {
+        dispatch({ type: POSTS_UPDATE_SUCCESS });
+
+        dispatch({ type: POSTS_GET_START });
+
+        axios
+          .get(`${ROOT_URL}/posts`)
+          .then(({ data }) => {
+            dispatch({
+              type: POSTS_GET_SUCCESS,
+              payload: data,
+            });
+
+            dispatch({ type: POSTS_GET_FINISH });
+            dispatch({ type: POSTS_UPDATE_FINISH });
+          })
+          .catch(err => {
+            dispatch({ type: POSTS_GET_ERROR, payload: err });
+            dispatch({ type: POSTS_GET_FINISH });
+            dispatch({ type: POSTS_UPDATE_FINISH });
+          });
+      })
+      .catch(err => {
+        dispatch({ type: POSTS_UPDATE_ERROR, payload: err });
+        dispatch({ type: POSTS_UPDATE_FINISH });
       });
   };
 };

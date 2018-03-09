@@ -11,8 +11,8 @@ class Users extends Component {
     this.props.deleteUser(id);
   };
 
-  editUserButtonClickHandler = id => {
-    const name = prompt('Enter a user name to edit.');
+  updateUserButtonClickHandler = id => {
+    const name = prompt('Enter a user name to update.');
 
     if (name) this.props.updateUser(id, { name });
   };
@@ -35,7 +35,7 @@ class Users extends Component {
 
             <div
               className="User__editButton"
-              onClick={_ => this.editUserButtonClickHandler(user.id)}
+              onClick={_ => this.updateUserButtonClickHandler(user.id)}
             >
               ...
             </div>

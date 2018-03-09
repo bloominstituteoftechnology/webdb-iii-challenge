@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getPosts, deletePost } from '../../actions';
+import { getPosts, deletePost, updatePost } from '../../actions';
 
 class Posts extends Component {
   componentDidMount() {
@@ -11,6 +11,18 @@ class Posts extends Component {
     this.props.deletePost(id);
   };
 
+  editPostButtonClickHandler = (id, userId) => {
+    const text = prompt('Enter text to update post.');
+    const updatedUserId = prompt('Enter a userId', userId);
+
+    if (text !== '' || updatedUserId !== '') {
+      if (updatedUserId === '') this.props.updatePost(id, { text });
+      else if (text === '')
+        this.props.updatePost(id, { userId: updatedUserId });
+      else this.props.updatePost(id, { updatedUserId, text });
+    }
+  };
+
   render() {
     return (
       <div className="Posts">
@@ -18,7 +30,9 @@ class Posts extends Component {
           <div key={post.id} className="Post">
             <div
               className="Post__deleteButton"
-              onClick={_ => this.deletePostButtonClickedHandler(post.id)}
+              onClick={_ =>
+                this.deletePostButtonClickedHandler(post.id, post.userId)
+              }
             >
               x
             </div>
@@ -29,7 +43,12 @@ class Posts extends Component {
                 : null
             })`}
 
-            <div className="Post__editButton">...</div>
+            <div
+              className="Post__editButton"
+              onClick={_ => this.editPostButtonClickHandler(post.id)}
+            >
+              ...
+            </div>
           </div>
         ))}
       </div>
@@ -44,4 +63,6 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { getPosts, deletePost })(Posts);
+export default connect(mapStateToProps, { getPosts, deletePost, updatePost })(
+  Posts,
+);
