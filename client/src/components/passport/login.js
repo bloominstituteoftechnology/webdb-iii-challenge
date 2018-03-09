@@ -25,7 +25,7 @@ class Login extends Component {
           onSubmit={this.props.handleSubmit(this.handleFormSubmit.bind(this))}
         >
           <fieldset className="LoginFieldSet">
-            <label>UserId:</label>
+            <label className="LoginLabel">UserId</label>
 
             <Field
               className="LoginFieldSet__field"
@@ -36,7 +36,7 @@ class Login extends Component {
           </fieldset>
 
           <fieldset className="LoginFieldSet">
-            <label>name:</label>
+            <label className="LoginLabel">Name</label>
             <Field
               className="LoginFieldSet__field"
               name="name"

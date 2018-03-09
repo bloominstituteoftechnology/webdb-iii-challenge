@@ -17,7 +17,7 @@ export default (auth = initialState, action) => {
     case actionType.AUTH_USER_FAIL:
       return {
         ...auth,
-        error: 'Login failed: userId and name did not match.',
+        error: 'Login failed: userId and name did not match',
       };
 
     case actionType.AUTH_USER_ERROR:

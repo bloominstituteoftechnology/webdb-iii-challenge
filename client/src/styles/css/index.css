@@ -195,6 +195,63 @@ body {
   color: white;
   cursor: pointer;
 }
+.Login .LoginForm {
+  height: 150px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+@media (max-width: 800px) {
+  .Login .LoginForm {
+    flex-direction: column;
+  }
+}
+.Login .LoginForm .LoginFieldSet {
+  margin: 0 10px;
+}
+@media (max-width: 800px) {
+  .Login .LoginForm .LoginFieldSet {
+    margin: 10px 0;
+  }
+}
+.Login .LoginForm .LoginFieldSet .LoginLabel {
+  margin: 0 4px;
+  font-size: 1.2rem;
+}
+.Login .LoginForm .LoginFieldSet .LoginFieldSet__field {
+  font-size: 1.2rem;
+  outline: none;
+}
+.Login .LoginForm .LoginSubmitButton {
+  margin: 5px 0;
+  background: #222;
+  color: white;
+  border: solid 1px #222;
+  font-size: 1.2rem;
+  text-decoration: none;
+  text-align: center;
+  width: 100px;
+  height: 35px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.Login .LoginForm .LoginSubmitButton:hover {
+  border-color: #6f6f6f;
+  background: #6f6f6f;
+  color: white;
+  cursor: pointer;
+}
+.Login .LoginError {
+  font-size: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .Users {
   margin: 20px 0 0 0;
   font-size: 1.2rem;

@@ -1,4 +1,4 @@
-@formHeight: @buttonMedium;
+@addPostFormHeight: @buttonMedium;
 @topbtmMargins: 10px;
 
 .AddPost {
@@ -16,7 +16,7 @@
   }
 
   .AddPostForm {
-    height: @formHeight;
+    height: @addPostFormHeight;
 
     .flexCenter(row);
 
@@ -25,7 +25,7 @@
         font-size: @textFontSize;
         padding: 15px;
 
-        height: @formHeight;
+        height: @addPostFormHeight;
 
         outline: none;
       }
@@ -34,7 +34,8 @@
     .AddPostSubmitButton {
       margin: 0 0 0 10px;
 
-      #buttonCreator > .custom(@textFontSize, @formHeight, @formHeight);
+      #buttonCreator
+        > .custom(@textFontSize, @addPostFormHeight, @addPostFormHeight);
       .flexCenter();
     }
   }

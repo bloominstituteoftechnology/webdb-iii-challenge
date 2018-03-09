@@ -1,0 +1,51 @@
+@loginFormHeight: 100px;
+
+.Login {
+  .LoginForm {
+    height: 150px;
+
+    margin: 0 auto;
+
+    .flexCenter(row);
+
+    @media @tablet {
+      flex-direction: column;
+    }
+
+    .LoginFieldSet {
+      margin: 0 10px;
+
+      @media @tablet {
+        margin: 10px 0;
+      }
+
+      .LoginLabel {
+        margin: 0 4px;
+
+        font-size: @textFontSize;
+      }
+
+      .LoginFieldSet__field {
+        font-size: @textFontSize;
+        // padding: 2px;
+
+        // height: @loginFormHeight;
+
+        outline: none;
+      }
+    }
+
+    .LoginSubmitButton {
+      margin: 5px 0;
+
+      #buttonCreator > .custom(@textFontSize, @loginFormHeight, 35px);
+      .flexCenter();
+    }
+  }
+
+  .LoginError {
+    font-size: @textFontSize;
+
+    .flexCenter();
+  }
+}
