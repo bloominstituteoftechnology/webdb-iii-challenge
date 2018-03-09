@@ -1,7 +1,10 @@
 import * as actionType from '../actions';
 
+const debug = true;
+
 const initialState = {
-  authenticated: false,
+  authenticated: debug,
+  // authenticated: false,
   userId: -1,
   error: '',
 };
