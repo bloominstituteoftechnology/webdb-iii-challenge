@@ -28,24 +28,29 @@ tag.get('/:id', (req,res) => {
       .catch(err => res.status(500).json(err))
 })
 
-// tag.put('/:id', (req,res) => {
-//   const id = req.params.id
-//   const body= req.body
+tag.put('/:id', (req,res) => {
+  const id = req.params.id
+  const tag = req.body
 
-//   db('tags')
-//     .where({id})
-//     .update(body)
-//       .then( tag => {
-//         console.log(tag)
-//         if (tag === 1){
-//           res.status(200).json(`message: ${tag} tag record updated`)
-//         }
-//         else {
-//           res.status(400).json(`message: the tag id was not found`)
-//         }
-//       })
-//       .catch(err => res.status(500).json(err))
-// })
+  if (!tag.tag) {
+    res.status(400).json({err: 'The tag property is required in this endpoint'})
+  }else {
+
+    db('tags')
+      .where({id})
+      .update(tag)
+        .then( tag => {
+          console.log(tag)
+          if (tag === 1){
+            res.status(200).json(`message: ${tag} tag record updated`)
+          }
+          else {
+            res.status(400).json(`message: the tag id was not found`)
+          }
+        })
+        .catch(err => res.status(500).json(err))
+  }
+})
 
 
 tag.post('/', (req,res) => {
@@ -65,20 +70,20 @@ tag.post('/', (req,res) => {
   }
 })
 
-// tag.delete('/:id', (req,res) => {
-//   const id = req.params.id
+tag.delete('/:id', (req,res) => {
+  const id = req.params.id
 
-//   db('tags')
-//     .where({id})
-//     .del()
-//     .then( data => {
-//       if (data === 1){
-//         res.status(201).json({message: `1 tag deleted`})
-//       }else {
-//         res.status(400).json({message: 'tag with that ID not found'})
-//       }
-//     })
-//     .catch(err => res.status(500).json(err))
-// })
+  db('tags')
+    .where({id})
+    .del()
+    .then( data => {
+      if (data === 1){
+        res.status(201).json({message: `1 tag deleted`})
+      }else {
+        res.status(400).json({message: 'tag with that ID not found'})
+      }
+    })
+    .catch(err => res.status(500).json(err))
+})
 
 module.exports = tag
