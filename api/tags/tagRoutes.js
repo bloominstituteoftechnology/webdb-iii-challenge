@@ -6,7 +6,6 @@ const router = express.Router();
 
 router.post('/', tagCheck, async (req, res, next) => {
     const { tag } = req.body;
-    console.log(tag);
     try {
         const response = await db('tags').insert({ tag });
         return res.status(201).json(response);
@@ -31,6 +30,17 @@ router.get('/:id', async (req, res, next) => {
         return res.status(200).json(response);
     } catch (err) {
         return next({ code: 500, error: "The tag information could not be retrieved." });
+    }
+})
+
+router.put('/:id', tagCheck, async (req, res, next) => {
+    const { tag } = req.body;
+    try {
+        const response = await db('tags').where('id', req.params.id).update({ tag });
+        if (!response) return next({ code: 404, message: "The tag with the specified ID does not exist." });
+        return res.status(200).json(response);
+    } catch (err) {
+        return next({ code: 500, error: "The tag information could not be modified." });
     }
 })
 
