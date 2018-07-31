@@ -63,5 +63,34 @@ server.delete('/api/users/:id', (req, res)=> {
 });
 
 
+server.put('/api/users/:id', (req, res) => {
+
+	const id = req.params.id;
+	const name = req.body.name;
+
+if (!name) {
+                res.status(400).json({errorMessage: "Please provide name for the user to be updated."});
+}
+
+else{
+	db('users')
+        .where('id', id)
+        .update({
+         name: name
+        })
+
+        .then(response => {
+         if(response===0)  res.status(404).json({ message: "The user with the specified ID does not exist." });
+        else{ 
+              let responseObject ={};
+              responseObject.message= `Successfully updated user name  with  ${name}`
+              res.status(200).json(responseObject);
+            }
+        })
+
+        .catch(err => res.status(500).json(err));
+}
+});
+
 
 server.listen(5000, () => console.log('API running on port 5000'));
