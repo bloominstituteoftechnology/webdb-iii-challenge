@@ -16,12 +16,25 @@ user.get('/:id', (req,res) => {
   const id = req.params.id
 
   db('users')
-  .where({id})
-    .then( user => {
-      res.status(200).json(user)
-    })
-    .catch(err => res.status(500).json(err))
+    .where({id})
+      .then( user => {
+        res.status(200).json(user)
+      })
+      .catch(err => res.status(500).json(err))
 })
+
+user.put('/:id', (req,res) => {
+  const id = req.params.id
+
+  db('users')
+    .where({id})
+    .update({name: "The Godfather"})
+      .then( user => {
+        res.status(200).json(`message: ${user} user record updated`)
+      })
+      .catch(err => res.status(500).json(err))
+})
+
 
 user.post('/', (req,res) => {
   const user = req.body
