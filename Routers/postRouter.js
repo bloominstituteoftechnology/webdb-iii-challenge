@@ -18,7 +18,12 @@ post.get('/:id', (req,res) => {
   db('posts')
     .where({id})
       .then( post => {
-        res.status(200).json(post)
+        if (post.length > 0){
+          res.status(200).json(post)
+        }else{
+          res.status(400).json({err: 'That post ID was not found'})
+        }
+        
       })
       .catch(err => res.status(500).json(err))
 })
