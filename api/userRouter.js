@@ -5,7 +5,6 @@ const db = require('../data/dbConfig.js');
 const router = express.Router();
 
 router.get('/', (req, res, next) => {
-    console.log('users');
     db('users')
     .then(response => {
         res.status(codes.OK).json(response);
