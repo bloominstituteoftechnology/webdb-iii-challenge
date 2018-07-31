@@ -38,6 +38,32 @@ server.get("/tags", (req, res) => {
         .catch(err => res.status(500).json(err));
 });
 
+// GET users, posts, tags by id
+
+server.get('/users/:id', (req, res) => {
+    const { id } = req.params;
+    db('users').where({id: Number(id)})
+    .then(response => {
+        res.status(200).json(response);
+    }).catch(err => res.status(500).json(err));
+})
+
+server.get('/posts/:id', (req, res) => {
+    const { id } = req.params;
+    db('posts').where({id: Number(id)})
+    .then(response => {
+        res.status(200).json(response);
+    }).catch(err => res.status(500).json(err));
+})
+
+server.get('/tags/:id', (req, res) => {
+    const { id } = req.params;
+    db('tags').where({id: Number(id)})
+    .then(response => {
+        res.status(200).json(response);
+    }).catch(err => res.status(500).json(err));
+})
+
 // POST users, posts, tags
 
 server.post("/users", (req, res) => {
