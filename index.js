@@ -16,7 +16,7 @@ app.use(express.json())
 
 app.use('/users', userRouter)
 app.use('/posts', postRouter)
-app.use('tags', tagRouter)
+app.use('/tags', tagRouter)
 
 app.get('/', (req, res) => {
   res.send('All good!')
