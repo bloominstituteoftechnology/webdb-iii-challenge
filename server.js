@@ -15,6 +15,15 @@ server.get('/users', (req, res) => {
 	}).catch(err => res.status(500).json(err));
 });
 
+server.post('/users', (req, res) => {
+	const user = req.body;
+	db.insert(user).into('users').then(ids => {
+		const id = ids[0];
+
+		res.status(201).json({ id, ...user });
+	}).catch(err => res.status(500).json(err));
+})
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
