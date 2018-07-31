@@ -48,18 +48,22 @@ tag.get('/', (req,res) => {
 // })
 
 
-// tag.tag('/', (req,res) => {
-//   const tag = req.body
+tag.post('/', (req,res) => {
+  const tag = req.body
 
-//   db.insert(tag)
-//     .into('tags')
-//     .then( data => {
-//       if (data.length === 1){
-//         res.status(201).json({message: `1 tag added with ID = ${data[0]}`})
-//       }
-//     })
-//     .catch(err => res.status(500).json(err))
-// })
+  if (!tag.tag) {
+    res.status(400).json({err: 'The tag property is required in this endpoint'})
+  }else {
+    db.insert(tag)
+      .into('tags')
+      .then( data => {
+        if (data.length === 1){
+          res.status(201).json({message: `1 tag added with ID = ${data[0]}`})
+        }
+      })
+      .catch(err => res.status(500).json(err))
+  }
+})
 
 // tag.delete('/:id', (req,res) => {
 //   const id = req.params.id
