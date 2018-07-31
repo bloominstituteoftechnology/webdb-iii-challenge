@@ -8,6 +8,6 @@ const api = express.Router();
 
 api.use('/users', usersRoutes);
 api.use('/posts', postsRoutes);
-// api.use('/tags', tagsRoutes);
+api.use('/tags', tagsRoutes);
 
 module.exports = api;

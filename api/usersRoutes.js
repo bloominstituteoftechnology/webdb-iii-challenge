@@ -74,27 +74,6 @@ router.post('/', (req, res, next) => {
   }
 })
 
-// router.post('/', (req, res, next) => {
-//   const userId = req.body.userId;
-//   const text = req.body.text;
-//   const post = { userId, text };
-//   if(!(userId || text)) {
-//     next({ code: 400 })
-//   } else {
-//     db
-//       .insert(post)
-//       .then(response => {
-//         res
-//           .status(200)
-//           .json(response)
-//           .end()
-//       })
-//       .catch(() => {
-//         next({ code: 500 })
-//       })
-//   }
-// })
-
 router.put('/:id', (req, res, next) => {
   const id = req.params.id;
   const name = req.body.name;
