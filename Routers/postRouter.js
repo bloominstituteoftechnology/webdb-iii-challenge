@@ -61,20 +61,20 @@ post.post('/', (req,res) => {
     .catch(err => res.status(500).json(err))
 })
 
-// post.delete('/:id', (req,res) => {
-//   const id = req.params.id
+post.delete('/:id', (req,res) => {
+  const id = req.params.id
 
-//   db('posts')
-//     .where({id})
-//     .del()
-//     .then( data => {
-//       if (data === 1){
-//         res.status(201).json({message: `1 post deleted`})
-//       }else {
-//         res.status(400).json({message: 'post with that ID not found'})
-//       }
-//     })
-//     .catch(err => res.status(500).json(err))
-// })
+  db('posts')
+    .where({id})
+    .del()
+    .then( data => {
+      if (data === 1){
+        res.status(201).json({message: `1 post deleted`})
+      }else {
+        res.status(400).json({message: 'post with that ID not found'})
+      }
+    })
+    .catch(err => res.status(500).json(err))
+})
 
 module.exports = post
