@@ -12,4 +12,19 @@ user.get('/', (req,res) => {
     .catch(err => res.status(500).json(err))
 })
 
+
+user.post('/', (req,res) => {
+  const user = req.body
+
+  db.insert(user)
+    .into('users')
+    .then( data => {
+      if (data.length === 1){
+        res.status(201).json({message: `1 record updated with ID = ${data[0]}`})
+      }
+    })
+    .catch(err => res.status(500).json(err))
+})
+
+
 module.exports = user
