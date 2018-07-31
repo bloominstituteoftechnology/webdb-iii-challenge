@@ -139,7 +139,21 @@ server.delete('/posts/:id', (req, res) => {
     });
 })
 
-
+//Update Post
+server.put('/posts/:id', (req, res) =>{
+    const { id } = req.params;
+    const {userId, text} = req.body;
+    db('posts')
+    .where("id", Number(id))
+    .update({userId, text})
+    .into('posts')
+    .then(name => {
+        res.status(201).json({userId, text})
+    })
+    .catch(err => {
+        res.status(500).json(err);
+      });
+})
 
 
 
@@ -200,7 +214,21 @@ server.delete('/tags/:id', (req, res) => {
     });
 })
 
-
+//Update Tag
+server.put('/tags/:id', (req, res) =>{
+    const { id } = req.params;
+    const tag = req.body;
+    db('tags')
+    .where("id", Number(id))
+    .update(tag)
+    .into('tags')
+    .then(tag => {
+        res.status(201).json(tag)
+    })
+    .catch(err => {
+        res.status(500).json(err);
+      });
+})
 
 
 
