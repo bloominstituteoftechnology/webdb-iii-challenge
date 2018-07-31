@@ -28,6 +28,20 @@ server.get('/users', async (req, res, next) => {
     }
 })
 
+server.get('/users/:id', async (req, res, next) => {
+    const id = req.params.id;
+
+    try {
+        const response = await(db('Users').where({id: Number(id)}));
+        if (response.length === 0) {
+            return next(sendError(404, 'Failed to retrieve user information', 'This specific Id does not exists'))
+        }
+        res.status(200).json(response[0]);
+    } catch(error) {
+        next(sendError(500, 'Failed to get users information', error.message))
+    }
+})
+
 server.post('/users', async (req, res, next) => {
     const newUser = req.body;
     try {
@@ -35,10 +49,10 @@ server.post('/users', async (req, res, next) => {
         const id = response[0];
         res.status(201).json({id, ...newUser});
     } catch(error) {
-        console.log(error)
         next(sendError(500, 'Failed to get users information', error.message))
     }
 })
+
 
 const port = 8000;
 server.listen(port, function() {
