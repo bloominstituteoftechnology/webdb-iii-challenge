@@ -33,4 +33,15 @@ router.get('/:id', async (req, res, next) => {
     }
 })
 
+router.put('/:id', userCheck, async (req, res, next) => {
+    const { name } = req.body;
+    try {
+        const response = await db('users').where('id', req.params.id).update({ name });
+        if (response === 0) return next({ code: 404, message: 'The user with the specified ID does not exist.' });
+        return res.status(200).json(response);
+    } catch (err) {
+        return next({ code: 500, error: "The users information could not be modified." });
+    }
+})
+
 module.exports = router;
