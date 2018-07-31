@@ -5,9 +5,18 @@ exports.seed = function(knex, Promise) {
     .then(function () {
       // Inserts seed entries
       return knex('Tags').insert([
-        {tag: 'avenger'},
-        {tag: 'DC comics'},
-        {tag: 'xmen'}
+        {
+          id: 1,
+          tag: 'avenger'
+        },
+        {
+          id: 2,
+          tag: 'DC comics'
+        },
+        {
+          id: 3,
+          tag: 'xmen'
+        }
       ]);
     });
 };

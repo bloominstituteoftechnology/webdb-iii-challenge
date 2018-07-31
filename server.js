@@ -82,7 +82,6 @@ server.put('/users/:id', async (req, res, next) => {
     
     try {
         const response = await(db('Users').where('id', id).update(changes));
-        console.log(response);
         if (response === 0) {
             return next(sendError(404, 'Failed to update user', 'The user for this specific Id does not exists.'))
         }
