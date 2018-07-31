@@ -44,4 +44,14 @@ router.put('/:id', userCheck, async (req, res, next) => {
     }
 })
 
+router.delete('/:id', async (req, res, next) => {
+    try {
+        const response = await db('users').where('id', req.params.id).del();
+        if (response === 0) return next({ code: 404, message: 'The user with the specified ID does not exist.' });
+        return res.status(200).json(response);
+    } catch (err) {
+        return next({ code: 500, error: "The user could not be removed." });
+    }
+})
+
 module.exports = router;
