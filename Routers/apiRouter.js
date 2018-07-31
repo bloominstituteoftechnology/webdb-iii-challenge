@@ -1,6 +1,7 @@
 const express = require('express');
 
-const users = require('./userRouter')
+const users = require('./userRouter');
+const posts = require('./postRouter');
 
 const api = express.Router();
 
@@ -9,6 +10,6 @@ api.get('/', (req,res) => {
 })
 
 api.use('/users', users);
-// api.use('/proj', proj);
+api.use('/posts', posts);
 
 module.exports = api;
