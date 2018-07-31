@@ -13,4 +13,14 @@ router.get('/', (req, res, next) => {
         next(err);
     })
 })
+router.post('/', (req,res, next) => {
+    db('users')
+    .insert(req.body)
+    .then(response => {
+        res.status(codes.CREATED).json(response);
+    })
+    .catch(err => {
+        next(err);
+    })
+})
 module.exports = router;
