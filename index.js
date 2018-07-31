@@ -7,6 +7,8 @@ const server = express();
 server.use(express.json());
 
 // endpoints here
+
+/////////////////////users
 server.get('/users', (req, res) => {
     db('users').then(user => {
       res.status(200).json(user);
@@ -17,9 +19,9 @@ server.get('/users', (req, res) => {
 
   server.get('/users/:id', (req, res) => {
     db('users')
-    .get(req.params.id - 1)
+    .where("id", req.params.id)
     .then(user => {
-      if(!user) {
+      if(user.length === 0) {
         res.status(404).json({ message: "ID DONT EXIST"});
       }
       res.status(200).json(user);
@@ -39,6 +41,40 @@ server.get('/users', (req, res) => {
     .catch(err => res.status(400).json({error: "Error posting"}))
   })
 
+  server.delete('/users/:id', (req, res) => {
+    const { id } = req.params;
+    db('users')
+    .where('id', Number(id))
+    .delete()   
+    .then(user => {
+        if(user === 0) {
+            res.status(404).json({ message: "That ID doesn't exists"});
+        }
+        res.status(200).json({message: "Success in deleting"});
+    })
+    .catch(error => {
+        res.status(500).json({ error: "Error Deleteing post"})
+    });
+})
+
+  server.put('/users/:id', (req, res) => {
+    const { name } = req.body;
+    if(!name)
+    res.status(400).json({ errorMessage: "Provide name please"});
+    db('users')
+    .where("id", Number(id))
+    .update(id, {name})
+    .then(user => {
+        if(!user) {
+            res.status(404).json({ message: "ID doesn't exist"});
+        }
+        res.status(200).json({name});
+    })
+    .catch(error => {
+        res.status(500).json({error: "Didnt work"})
+    });
+})
+
   ///////////////post 
 
   server.get('/posts', (req, res) => {
@@ -49,21 +85,12 @@ server.get('/users', (req, res) => {
     
   });
 
-  server.post('/posts', (req, res) => {
-    const { text } = req.body;
-    if (!text)
-    res.status(400).json({ errorMessage: "Text required"});
-    db.insert({ text }) 
-    .into("posts")
-    .then(post => res.status(201).json({text})) 
-    .catch(err => res.status(400).json({error: "Error posting"}))
-  })
-
   server.get('/posts/:id', (req, res) => {
+    const { id } = req.params;
     db('posts')
-    .get(req.params.id - 1)
+    .where("id", Number(id))
     .then(post => {
-      if(!post) {
+      if(post.length === 0) {
         res.status(404).json({ message: "ID DONT EXIST"});
       }
       res.status(200).json(post);
@@ -73,6 +100,59 @@ server.get('/users', (req, res) => {
     });
   })
 
+  server.post('/posts', (req, res) => {
+    const {userId, text } = req.body;
+    if (!userId || !text)
+    res.status(400).json({ errorMessage: "Text required"});
+    db.insert({ text, userId }) 
+    .into("posts")
+    .then(post => res.status(201).json({text, userId})) 
+    .catch(err => res.status(400).json({error: "Error posting"}))
+  })
+
+  server.delete('/posts/:id', (req, res) => {
+    const { id } = req.params;
+    db('posts')
+    .where('id', Number(id))
+    .delete()   
+    .then(post => {
+        if(post === 0) {
+            res.status(404).json({ message: "That ID doesn't exists"});
+        }
+        res.status(200).json({message: "Success in deleting"});
+    })
+    .catch(error => {
+        res.status(500).json({ error: "Error Deleteing post"})
+    });
+})
+
+
+
+/////////////////tags
+
+
+server.get('/tags', (req, res) => {
+    db('tags').then(tag => {
+      res.status(200).json(tag);
+    })
+    .catch(err => res.status(500).json(err));
+    
+  });
+
+  server.get('/tags/:id', (req, res) => {
+    const { id } = req.params;
+    db('tags')
+    .where("id", Number(id))
+    .then(tag => {
+      if(tag.length === 0) {
+        res.status(404).json({ message: "ID DONT EXIST"});
+      }
+      res.status(200).json(tag);
+    })
+    .catch(error => {
+      res.status(500).json({ error: "That did not work haha"})
+    });
+  })
 
 
 
