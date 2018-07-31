@@ -5,10 +5,7 @@ const server = express();
 
 server.use(express.json());
 
-server.get('/', (req, res) => {
-  res.status(200).send('Up and running!');
-})
-
+//USERS CRUD START
 server.get('/users', async (req, res) => {
   try {
     const users = await db('Users');
@@ -42,12 +39,54 @@ server.put('/users/:id', async (req, res) => {
   const name = req.body;
   try {
     const index = await db('users').where('id', req.params.id).update(name);
-    if (index > 0) return res.status(200).json(await db('Users').where('id', req.params.id).first());
+    if (index > 0) return res.status(200).json(await db('Users').where('id', req.params.id).first()); //any point to this .first()?
     res.status(200).send("If didn't trigger");
   } catch(err) {
     res.status(500).send(`Try again and ${err}`);
   }
 })
+//USERS CRUD END
+
+server.get('/posts', async (req, res) => {
+  try {
+    const posts = await db('posts');
+    res.status(200).json(posts);
+  } catch(err) {
+    res.status(500).send(`You done goofed with ${err}`);
+  }
+});
+
+server.post('/posts', async (req,  res) => {
+  const {userId, text} = req.body;
+  try {
+    const ids = await db.insert({userId, text}).into('posts');
+    const id = ids[0];
+    res.status(201).json(await db('posts').where('id', id));
+  } catch(err) {
+    res.status(500).send(`Ya done goofed with ${err}`);
+  }
+})
+
+server.delete('/posts/:id', async (req, res) => {
+  try {
+    const result = await db('posts').where('id', req.params.id).del();
+    res.status(200).json(result);
+  } catch(err) {
+    res.status(500).send(`Try again and ${err}`);
+  }
+})
+
+server.put('/posts/:id', async (req, res) => {
+  const {userId, text} = req.body;
+  try {
+    const index = await db('posts').where('id', req.params.id).update({userId, text});
+    if (index > 0) return res.status(200).json(await db('posts').where('id', req.params.id)); //any point to this .first()?
+    res.status(200).send("It didn't trigger");
+  } catch(err) {
+    res.status(500).send(`Try again and ${err}`);
+  }
+})
+
 
 const port = 3000;
 server.listen(port, () => {console.log(`Server is listening on port ${port}`)})
