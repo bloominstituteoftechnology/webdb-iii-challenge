@@ -80,23 +80,9 @@ server.delete('/users/:id', (req, res) => {
 })
 
 
-//Get Posts for a user
-// server.get('/users/:id/posts', (req, res) => {
-//     db('users')
-//     .get(req.params.id-1)
-//     .then()
-// })
-
-
-
-
-
-
-
-
 
 //Posts
-//Get
+//Get posts
 server.get('/posts', (req, res) => {
     db('posts')
     .then(post => {
@@ -106,7 +92,7 @@ server.get('/posts', (req, res) => {
 })
 
 
-//Post
+//Post post
 server.post('/posts', (req, res) => {
     const {userId, text } = req.body;
         if (!userId || !text)
@@ -122,10 +108,11 @@ server.post('/posts', (req, res) => {
 })
 
 
-//Get By ID
+//Get Post By ID
 server.get('/posts/:id', (req, res) => {
+    const { id } = req.params;
     db('posts')
-    .get(req.params.id - 1)
+    .where("id", Number(id))
     .then(post => {
         res.status(200).json(post)
     })
@@ -157,7 +144,7 @@ server.delete('/posts/:id', (req, res) => {
 
 
 //Tags
-//Get
+//Get tags
 server.get('/tags', (req, res) => {
     db('tags')
     .then(tag => {
@@ -167,7 +154,7 @@ server.get('/tags', (req, res) => {
 })
 
 
-//Post
+//Post tag
 server.post('/tags', (req, res) => {
     const tag = req.body;
     db
@@ -183,10 +170,11 @@ server.post('/tags', (req, res) => {
 })
 
 
-//Get By ID
+//Get tag By ID
 server.get('/tags/:id', (req, res) => {
+    const { id } = req.params;
     db('tags')
-    .get(req.params.id - 1)
+    .where("id", Number(id))
     .then(tag => {
         res.status(200).json(tag)
     })
