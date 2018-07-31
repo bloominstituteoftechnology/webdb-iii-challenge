@@ -31,6 +31,18 @@ server.get('/users', (req, res) => {
     });
   })
 
+  server.get('/users/:id/posts', (req, res) => {
+      db('posts')
+      .where('userId', req.params.id)
+      .then(posts => {
+          if (posts.length === 0) {
+              res.status(200).send({error: "This user has not posted"});
+          }
+          res.status(200).json(posts);
+      })
+      .catch(err => res.status(500).json(err));
+  })
+
   server.post('/users', (req, res) => {
     const { name } = req.body;
     if (!name)
