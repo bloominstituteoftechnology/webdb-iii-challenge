@@ -112,6 +112,35 @@ server.post("/tags", (req, res) => {
         });
 });
 
+// DELETE users, posts, tags
+
+server.delete('/users/:id', (req, res) => {
+    const { id } = req.params;
+    db('users').where({id: Number(id)})
+    .delete()
+    .then(response => {
+        res.status(200).json(response);
+    }).catch(err => res.status(500).json(err));
+})
+
+server.delete('/posts/:id', (req, res) => {
+    const { id } = req.params;
+    db('posts').where({id: Number(id)})
+    .delete()
+    .then(response => {
+        res.status(200).json(response);
+    }).catch(err => res.status(500).json(err));
+})
+
+server.delete('/tags/:id', (req, res) => {
+    const { id } = req.params;
+    db('tags').where({id: Number(id)})
+    .delete()
+    .then(response => {
+        res.status(200).json(response);
+    }).catch(err => res.status(500).json(err));
+})
+
 const port = 3333;
 server.listen(port, function () {
     console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
