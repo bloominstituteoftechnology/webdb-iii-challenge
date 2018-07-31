@@ -49,5 +49,20 @@ user.post('/', (req,res) => {
     .catch(err => res.status(500).json(err))
 })
 
+user.delete('/:id', (req,res) => {
+  const id = req.params.id
+
+  db('users')
+    .where({id})
+    .del()
+    .then( data => {
+      if (data === 1){
+        res.status(201).json({message: `1 user deleted`})
+      }else {
+        res.status(400).json({message: 'User with that ID not found'})
+      }
+    })
+    .catch(err => res.status(500).json(err))
+})
 
 module.exports = user
