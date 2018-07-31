@@ -4,13 +4,13 @@ const server = express();
 
 server.use(express.json());
 
-
 server.get('/', (req, res) => {
     res.send('We runnin....')
   })
 
+
 //Users 
-//Get
+//Get User
 server.get('/users', (req, res) => {
     db('users')
     .then(user => {
@@ -19,7 +19,7 @@ server.get('/users', (req, res) => {
     .catch(err => res.status(500).json(err))
 })
 
-//Post
+//Post User
 server.post('/users', (req, res) => {
     const user = req.body;
     db()
@@ -33,7 +33,7 @@ server.post('/users', (req, res) => {
       });
 })
 
-//Get By ID
+//Get User By ID
 server.get('/users/:id', (req, res) => {
     const { id } = req.params;
     db('users')
@@ -49,13 +49,13 @@ server.get('/users/:id', (req, res) => {
 //UpdateUser
 server.put('/users/:id', (req, res) =>{
     const { id } = req.params;
-    const user = req.body;
+    const name = req.body;
     db('users')
     .where("id", Number(id))
-    .update(user)
+    .update(name)
     .into('users')
-    .then(user => {
-        res.status(201).json(user)
+    .then(name => {
+        res.status(201).json(name)
     })
     .catch(err => {
         res.status(500).json(err);
