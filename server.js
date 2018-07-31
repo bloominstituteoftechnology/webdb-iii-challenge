@@ -7,7 +7,7 @@ const server = express();
 
 
 const userRoutes = require('./api/userRouter');
-const postRoutes = require('./api/postRotuer');
+const postRoutes = require('./api/postRouter');
 
 server.use(express.json());
 server.use('/api/users', userRoutes);
