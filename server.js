@@ -21,7 +21,7 @@ server.get('/', (req, res) => {
 
 server.get('/users', async (req, res, next) => {
     try {
-        const response = await(db('Users'));
+        const response = await(db('Users').select());
         res.status(200).json(response);
     } catch(error) {
         next(sendError(500, 'Failed to get users information', error.message))
@@ -53,6 +53,19 @@ server.post('/users', async (req, res, next) => {
     }
 })
 
+server.delete('/users/:id', async (req, res, next) => {
+    const id = req.params.id;
+
+    try {
+        const response = await(db('Users').where('id', id).del());
+        if (response === 0) {
+            return next(sendError(404, 'Failed to remove user', 'The user for this specific Id does not exists.'))
+        }
+        res.status(200).json(response);
+    } catch(error) {
+        next(sendError(500, 'Failed to get users information', error.message))
+    }
+})
 
 const port = 8000;
 server.listen(port, function() {
