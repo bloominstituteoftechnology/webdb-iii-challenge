@@ -24,4 +24,14 @@ router.get('/', async (req, res, next) => {
     }
 })
 
+router.get('/:id', async (req, res, next) => {
+    try {
+        const response = await db('tags').where('id', Number(req.params.id)).first();
+        if (!response) return next({ code: 404, message: "The tag with the specified ID does not exist." });
+        return res.status(200).json(response);
+    } catch (err) {
+        return next({ code: 500, error: "The tag information could not be retrieved." });
+    }
+})
+
 module.exports = router;
