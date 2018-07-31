@@ -40,6 +40,9 @@ server.get('/tags', (req, res) => {
 
 server.get('/users/:id', (req, res) => {
     const id = req.params.id;
+    if(!id){
+        res.status(404).json({error: 'The user with the specified ID does not exist.'})
+    }
     db('users')
     .where({id: Number(id)})
     .then(response => {
@@ -52,6 +55,9 @@ server.get('/users/:id', (req, res) => {
 
 server.get('/posts/:id', (req, res) => {
     const id = req.params.id;
+    if(!id){
+        res.status(404).json({error: 'The post with the specified ID does not exist.'})
+    }
     db('posts')
     .where({id: Number(id)})
     .then(response => {
@@ -64,6 +70,9 @@ server.get('/posts/:id', (req, res) => {
 
 server.get('/tags/:id', (req, res) => {
     const id = req.params.id;
+    if(!id){
+        res.status(404).json({error: 'The tag with the specified ID does not exist.'})
+    }
     db('tags')
     .where({id: Number(id)})
     .then(response => {
@@ -78,6 +87,9 @@ server.get('/tags/:id', (req, res) => {
 
 server.get('/users/:id/posts', (req, res) => {
     const id = req.params.id;
+    if(!id){
+        res.status(404).json({error: 'The user with the specified ID does not exist.'})
+    }
     db('posts as p')
     .join('users as u', 'p.userId', 'u.id')
     .select('p.text', 'u.name as postedBy')
@@ -94,6 +106,9 @@ server.get('/users/:id/posts', (req, res) => {
 
 server.post('/users', (req, res) => {
     const user = req.body;
+    if(user.name.length > 128) {
+        res.status(400).json({error: 'Name must be less than 128 characters.'})
+    }
     db('users')
     .insert(user)
     .then(ids => {
@@ -118,6 +133,9 @@ server.post('/posts', (req, res) => {
 
 server.post('/tags', (req, res) => {
     const tag = req.body;
+    if(tag.tag.length > 16) {
+        res.status(400).json({error: 'Tag must be less than 16 characters.'})
+    }
     db.insert(tag).into('tags').then(ids => {
         const id = ids[0];
         res.status(201).json({ id, ...tag})
@@ -132,6 +150,12 @@ server.post('/tags', (req, res) => {
 server.put('/users/:id', (req, res) => {
     const id = req.params.id;
     const user = req.body;
+    if(!id){
+        res.status(404).json({error: 'The user with the specified ID does not exist.'})
+    }
+    if(user.name.length > 128) {
+        res.status(400).json({error: 'Name must be less than 128 characters.'})
+    }
     db('users')
     .where({id: Number(id)})
     .update(user)
@@ -146,6 +170,9 @@ server.put('/users/:id', (req, res) => {
 server.put('/posts/:id', (req, res) => {
     const id = req.params.id;
     const post = req.body;
+    if(!id){
+        res.status(404).json({error: 'The post with the specified ID does not exist.'})
+    }
     db('posts')
     .where({id: Number(id)})
     .update(post)
@@ -160,6 +187,12 @@ server.put('/posts/:id', (req, res) => {
 server.post('/tags/:id', (req, res) => {
     const id = req.params.id;
     const tag = req.body;
+    if(!id){
+        res.status(404).json({error: 'The tag with the specified ID does not exist.'})
+    }
+    if(tag.tag.length > 16) {
+        res.status(400).json({error: 'Tag must be less than 16 characters.'})
+    }
     db('tags')
     .where({id: Number(id)})
     .update(tag)
@@ -175,6 +208,9 @@ server.post('/tags/:id', (req, res) => {
 
 server.delete('/users/:id', (req, res) => {
     const id = req.params.id;
+    if(!id){
+        res.status(404).json({error: 'The user with the specified ID does not exist.'})
+    }
     db('users')
     .where({id: Number(id)})
     .delete()
@@ -188,6 +224,9 @@ server.delete('/users/:id', (req, res) => {
 
 server.delete('/posts/:id', (req, res) => {
     const id = req.params.id;
+    if(!id){
+        res.status(404).json({error: 'The post with the specified ID does not exist.'})
+    }
     db('posts')
     .where({id: Number(id)})
     .delete()
@@ -201,6 +240,9 @@ server.delete('/posts/:id', (req, res) => {
 
 server.delete('/tags/:id', (req, res) => {
     const id = req.params.id;
+    if(!id){
+        res.status(404).json({error: 'The tag with the specified ID does not exist.'})
+    }
     db('tags')
     .where({id: Number(id)})
     .delete()
