@@ -10,6 +10,17 @@ router.get('/', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+router.get('/:id', (req, res) => {
+  db('posts').where('id', req.params.id)
+    .then(post => {
+      if (post.length === 0) {
+        res.status(200).send({ error: 'A post with this id does not exist.'});
+      }
+      res.status(200).json(post);
+    })
+    .catch(err => res.status(500).json(err));
+});
+
 router.post('/', (req, res) => {
   const post = req.body;
 
