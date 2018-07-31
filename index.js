@@ -74,6 +74,22 @@ server.get('/tags/:id', (req, res) => {
     })
 })
 
+/* *************************** GETPOSTSBYID ENDPOINTS ****************************/
+
+server.get('/users/:id/posts', (req, res) => {
+    const id = req.params.id;
+    db('posts as p')
+    .join('users as u', 'p.userId', 'u.id')
+    .select('p.text', 'u.name as postedBy')
+    .where('p.id', id)
+    .then(response => {
+        res.status(200).json(response);
+    })
+    .catch(err => {
+        res.status(500).json({error: 'The user information could not be retrieved.'})
+    })
+})
+
 /* *************************** POST ENDPOINTS ****************************/
 
 server.post('/users', (req, res) => {
@@ -156,6 +172,47 @@ server.post('/tags/:id', (req, res) => {
 })
 
 /* *************************** DELETE ENDPOINTS ****************************/
+
+server.delete('/users/:id', (req, res) => {
+    const id = req.params.id;
+    db('users')
+    .where({id: Number(id)})
+    .delete()
+    .then(response => {
+        res.status(200).json(response)
+    })
+    .catch(err => {
+        res.status(500).json({error: 'There was an error deleting user.'})
+    })
+})
+
+server.delete('/posts/:id', (req, res) => {
+    const id = req.params.id;
+    db('posts')
+    .where({id: Number(id)})
+    .delete()
+    .then(response => {
+        res.status(200).json(response)
+    })
+    .catch(err => {
+        res.status(500).json({error: 'There was an error deleting post.'})
+    })
+})
+
+server.delete('/tags/:id', (req, res) => {
+    const id = req.params.id;
+    db('tags')
+    .where({id: Number(id)})
+    .delete()
+    .then(response => {
+        res.status(200).json(response)
+    })
+    .catch(err => {
+        res.status(500).json({error: 'There was an error deleting tag.'})
+    })
+})
+
+
 
 const port = 3300;
 server.listen(port, () => {console.log(`\n=== Web API listening on http:localhost:${port} ===\n`)});
