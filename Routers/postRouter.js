@@ -23,17 +23,24 @@ post.get('/:id', (req,res) => {
       .catch(err => res.status(500).json(err))
 })
 
-// post.put('/:id', (req,res) => {
-//   const id = req.params.id
+post.put('/:id', (req,res) => {
+  const id = req.params.id
+  const body= req.body
 
-//   db('posts')
-//     .where({id})
-//     .update({name: "The Godfather"})
-//       .then( post => {
-//         res.status(200).json(`message: ${post} post record updated`)
-//       })
-//       .catch(err => res.status(500).json(err))
-// })
+  db('posts')
+    .where({id})
+    .update(body)
+      .then( post => {
+        console.log(post)
+        if (post === 1){
+          res.status(200).json(`message: ${post} post record updated`)
+        }
+        else {
+          res.status(400).json(`message: the post id was not found`)
+        }
+      })
+      .catch(err => res.status(500).json(err))
+})
 
 
 post.post('/', (req,res) => {
