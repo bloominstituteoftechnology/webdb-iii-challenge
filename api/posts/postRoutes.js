@@ -34,7 +34,7 @@ router.get('/:id', async (req, res, next) => {
     }
 })
 
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', postCheck, async (req, res, next) => {
     const { userId, text } = req.body;
     const post = { userId, text };
     try {
@@ -43,6 +43,16 @@ router.put('/:id', async (req, res, next) => {
         return res.status(200).json(response);
     } catch (err) {
         return next({ code: 500, error: "The post information could not be modified." });
+    }
+})
+
+router.delete('/:id', async (req, res, next) => {
+    try {
+        const response = await db('posts').where('id', req.params.id).del();
+        if (response === 0) return next({ code: 404, message: "The post with the specified ID does not exist." });
+        return res.status(200).json(response);
+    } catch (err) {
+        return next({ code: 500, error: "The post could not be removed." });
     }
 })
 
