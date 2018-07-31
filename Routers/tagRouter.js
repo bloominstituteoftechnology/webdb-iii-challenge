@@ -12,21 +12,21 @@ tag.get('/', (req,res) => {
     .catch(err => res.status(500).json(err))
 })
 
-// tag.get('/:id', (req,res) => {
-//   const id = req.params.id
+tag.get('/:id', (req,res) => {
+  const id = req.params.id
 
-//   db('tags')
-//     .where({id})
-//       .then( tag => {
-//         if (tag.length > 0){
-//           res.status(200).json(tag)
-//         }else{
-//           res.status(400).json({err: 'That tag ID was not found'})
-//         }
+  db('tags')
+    .where({id})
+      .then( tag => {
+        if (tag.length > 0){
+          res.status(200).json(tag)
+        }else{
+          res.status(400).json({err: 'That tag ID was not found'})
+        }
         
-//       })
-//       .catch(err => res.status(500).json(err))
-// })
+      })
+      .catch(err => res.status(500).json(err))
+})
 
 // tag.put('/:id', (req,res) => {
 //   const id = req.params.id
