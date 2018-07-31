@@ -9,7 +9,7 @@ router.post('/', postCheck, async (req, res, next) => {
     const post = { userId, text };
     try {
         const response = await db('posts').insert(post);
-        return res.status(201).json(response);
+        return res.status(201).json({ id: response[0], ...post });
     } catch (err) {
         return next({ code: 500, error: "There was an error while saving the post to the database." });
     }

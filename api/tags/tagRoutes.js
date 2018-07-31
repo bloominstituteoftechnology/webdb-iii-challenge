@@ -8,7 +8,7 @@ router.post('/', tagCheck, async (req, res, next) => {
     const { tag } = req.body;
     try {
         const response = await db('tags').insert({ tag });
-        return res.status(201).json(response);
+        return res.status(201).json({ id: response[0], tag });
     } catch (err) {
         return next({ code: 500, error: 'The tags information could not be retrieved.' });
     }
