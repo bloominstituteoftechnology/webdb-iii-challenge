@@ -62,3 +62,7 @@ typings/
 
 # VSCode settings
 .vscode/
+
+# Vim
+*.swp
+*.swo
