@@ -58,17 +58,19 @@ server.get('/users', (req, res) => {
 })
 
   server.put('/users/:id', (req, res) => {
-    const { name } = req.body;
+    const name = req.body;
+    const { id } = req.params
     if(!name)
     res.status(400).json({ errorMessage: "Provide name please"});
     db('users')
     .where("id", Number(id))
-    .update(id, {name})
+    .update(name)
+    .into('users')
     .then(user => {
         if(!user) {
             res.status(404).json({ message: "ID doesn't exist"});
         }
-        res.status(200).json({name});
+        res.status(200).json(name);
     })
     .catch(error => {
         res.status(500).json({error: "Didnt work"})
