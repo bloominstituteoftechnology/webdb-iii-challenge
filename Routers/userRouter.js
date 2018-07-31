@@ -12,6 +12,16 @@ user.get('/', (req,res) => {
     .catch(err => res.status(500).json(err))
 })
 
+user.get('/:id', (req,res) => {
+  const id = req.params.id
+
+  db('users')
+  .where({id})
+    .then( user => {
+      res.status(200).json(user)
+    })
+    .catch(err => res.status(500).json(err))
+})
 
 user.post('/', (req,res) => {
   const user = req.body
@@ -20,7 +30,7 @@ user.post('/', (req,res) => {
     .into('users')
     .then( data => {
       if (data.length === 1){
-        res.status(201).json({message: `1 record updated with ID = ${data[0]}`})
+        res.status(201).json({message: `1 user added with ID = ${data[0]}`})
       }
     })
     .catch(err => res.status(500).json(err))
