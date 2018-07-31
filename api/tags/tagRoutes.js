@@ -44,4 +44,14 @@ router.put('/:id', tagCheck, async (req, res, next) => {
     }
 })
 
+router.delete('/:id', async (req, res, next) => {
+    try {
+        const response = await db('tags').where('id', req.params.id).del();
+        if (!response) return next({ code: 404, message: "The tag with the specified ID does not exist." });
+        return res.status(200).json(response);
+    } catch (err) {
+        return next({ code: 500, error: "The tag could not be removed." });
+    }
+})
+
 module.exports = router;
