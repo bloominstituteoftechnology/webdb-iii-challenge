@@ -1,6 +1,17 @@
 const users = require('express').Router()
 const db = require('../data/db.js')
 
+users.post('/', async (req, res, next) => {
+  const { body: user } = req
+  try {
+    const userIds = await db.insert(user).into('users')
+    const id = userIds[userIds.length - 1]
+    res.status(200).json({ id, ...user })
+  } catch(e) {
+    next(e)
+  }
+})
+
 users.get('/', async (req, res, next) => {
   try {
     const users = await db('users')
@@ -10,12 +21,15 @@ users.get('/', async (req, res, next) => {
   }
 })
 
-users.post('/', async (req, res, next) => {
-  const { body: user } = req
+users.get('/:id', async (req, res, next) => {
+  const id = +req.params.id
+
   try {
-    const userIds = await db.insert(user).into('users')
-    const id = userIds[userIds.length - 1]
-    res.status(200).json({ id, ...user })
+    const user = await db('users')
+      .where('id', '=', id) 
+      .select()
+
+    res.status(200).json(user)
   } catch(e) {
     next(e)
   }
