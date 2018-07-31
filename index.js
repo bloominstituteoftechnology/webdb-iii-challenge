@@ -108,17 +108,19 @@ server.get('/posts', (req, res) => {
 
 //Post
 server.post('/posts', (req, res) => {
-    const post = req.body;
-    db
-    .insert(post)
+    const {userId, text } = req.body;
+        if (!userId || !text)
+    res.status(400).json({ errorMessage: "Text required"});    db
+    .insert({userId, text})
     .into('posts')
     .then(post => {
-        res.status(201).json(post)
+    res.status(201).json({userId, text})
     })
     .catch(err => {
         res.status(500).json(err);
       });
 })
+
 
 //Get By ID
 server.get('/posts/:id', (req, res) => {
