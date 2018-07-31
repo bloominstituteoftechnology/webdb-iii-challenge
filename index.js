@@ -39,12 +39,18 @@ server.get('/users/:id', (req, res) => {
     db('users')
     .where("id", Number(id))
     .then(user => {
+        if (user.length === 0) {
+            res
+              .status(404)
+              .json({ mesage: "The user with the specified ID does not exist." });
+          }
         res.status(200).json(user)
     })
     .catch(err => {
         res.status(500).json(err);
       });
 })
+
 
 //UpdateUser
 server.put('/users/:id', (req, res) =>{
@@ -61,6 +67,7 @@ server.put('/users/:id', (req, res) =>{
         res.status(500).json(err);
       });
 })
+
 
 //Delete User
 server.delete('/users/:id', (req, res) => {
@@ -114,6 +121,11 @@ server.get('/posts/:id', (req, res) => {
     db('posts')
     .where("id", Number(id))
     .then(post => {
+        if (post.length === 0) {
+            res
+              .status(404)
+              .json({ mesage: "The post with the specified ID does not exist." });
+          }
         res.status(200).json(post)
     })
     .catch(err => {
@@ -190,6 +202,11 @@ server.get('/tags/:id', (req, res) => {
     db('tags')
     .where("id", Number(id))
     .then(tag => {
+        if (tag.length === 0) {
+            res
+              .status(404)
+              .json({ mesage: "The tag with the specified ID does not exist." });
+          }
         res.status(200).json(tag)
     })
     .catch(err => {
