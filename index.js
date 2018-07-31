@@ -15,7 +15,9 @@ server.get('/users/:id', (req, res) => {
   db('users')
     .where('id', Number(id))
     .then(response => {
-      res.status(200).json(response)
+      if (response.length === 0) {
+        res.status(404).json('The user with the specified ID does not exist.')
+      } res.status(200).json(response)
     })
     .catch(err => res.status(500).json({ error: "The user information could not be retrieved." }))
 })
@@ -40,7 +42,7 @@ server.get('/posts/:id', (req, res) => {
   db('posts')
     .where('id', Number(id))
     .then(response => {
-      if (!response) {
+      if (response.length === 0) {
         res.status(400).json({ message: "The user with the ID does not exist." })
       } res.status(200).json(response)
     })
@@ -65,7 +67,7 @@ server.get('/tags/:id', (req, res) => {
   db('tags')
     .where('id', Number(id))
     .then(response => {
-      if (!response) {
+      if (response.length == 0) {
         res.status(400).json({ message: "The tag with the ID does not exist." })
       } res.status(200).json(response)
     })
