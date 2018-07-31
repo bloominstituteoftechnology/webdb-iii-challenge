@@ -9,10 +9,7 @@ module.exports = {
     return query
   },
   getUserPosts: (userId) => {
-    return db('posts as p')
-      .join('users as u', 'u.id', 'p.userId')
-      .select('p.id', 'p.text', 'u.name as postedBy')
-      .where('p.userId', userId)
+    return db('posts').where('userId', userId)
   },
   insert: (user) => {
     return db('users')

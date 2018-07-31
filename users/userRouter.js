@@ -28,7 +28,7 @@ router.get('/:id/posts', (req, res) => {
   const { id } = req.params
 
   db
-    .getuserPosts(id)
+    .getUserPosts(id)
     .then(userPosts => {
       console.log('IN USER userPosts', userPosts)
       res.status(200).json(userPosts)
