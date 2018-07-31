@@ -7,7 +7,7 @@ function userCheck(req, res, next) {
 
 function postCheck(req, res, next) {
     const { userId, text } = req.body;
-    if (!userId || !text) next({ code: 400, errorMessage: "Please provide userId and text for the post." });
+    if (!userId || !text) return next({ code: 400, errorMessage: "Please provide userId and text for the post." });
     next();
 }
 
