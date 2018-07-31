@@ -35,6 +35,22 @@ users.get('/:id', async (req, res, next) => {
   }
 })
 
+users.put('/:id', async (req, res, next) => {
+  const id = +req.params.id
+  const { body: user } = req
+
+  try {
+    const numberOfRowsUpdated = await db('users')
+      .where('id', '=', id)
+      .update(user)
+
+    res.status(200).json({ id, ...user })
+
+  } catch(e) {
+    next(e)
+  }
+})
+
 users.use((err, req, res, next) => {
   res.status(500).json(err)
 })
