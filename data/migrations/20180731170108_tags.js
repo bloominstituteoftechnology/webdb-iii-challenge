@@ -1,10 +1,10 @@
 
 exports.up = function (knex, Promise) {
-    return knex.schema.createTable('tags', function (tags) {
-        tags.increments();
+    return knex.schema.createTable('tags', function (table) {
+        table.increments();
 
-        tags.string('tag', 16);
-        tags.string('createdAt').defaultTo(Date.now());
+        table.string('tag', 16);
+        table.timestamps();
     });
 };
 

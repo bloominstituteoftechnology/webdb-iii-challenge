@@ -1,10 +1,10 @@
 
 exports.up = function (knex, Promise) {
-    return knex.schema.createTable('users', function (users) {
-        users.increment();
+    return knex.schema.createTable('users', function (table) {
+        table.increments();
 
-        users.string('name', 128).notNullable();
-        users.string('createdAt').defaultTo(Date.now());
+        table.string('name', 128).notNullable();
+        table.timestamps();
     });
 };
 
