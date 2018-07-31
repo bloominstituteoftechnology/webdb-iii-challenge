@@ -210,23 +210,6 @@ server.get('/api/tags/:id', async (req, res) => {
   }
 });
 
-// // gets all of a user's posts
-// server.get('/api/users/:id/posts', async (req, res) => {
-//   const ID = req.params.id;
-
-//   try {
-//     const posts = await db.where('userId', ID).from('posts');
-//     console.log('POSTS', posts);
-//     if (posts) {
-//       res.status(200).json(posts);
-//     } else {
-//       res.status(404).json({ error: `No post with id:${ID} exists.` });
-//     }
-//   } catch (err) {
-//     err => res.status(500).json(err);
-//   }
-// });
-
 // error handling
 server.use(errors);
 
