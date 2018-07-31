@@ -2,7 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
 
-const db = require('./data/db');
+
 
 const apiRoutes = require('./data/routers/apiRoutes');
 
