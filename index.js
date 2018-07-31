@@ -75,7 +75,7 @@ server.delete('/users/:id', (req, res) => {
         res.status(200).json({message: "Success in deleting"});
     })
     .catch(error => {
-        res.status(500).json({ error: "Error Deleteing post"})
+        res.status(500).json({ error: "Error Deleting user"})
     });
 })
 
@@ -133,7 +133,22 @@ server.get('/posts/:id', (req, res) => {
 })
 
 
-
+//Delete Post
+server.delete('/posts/:id', (req, res) => {
+    const { id } = req.params;
+    db('posts')
+    .where("id", Number(id))
+    .delete()
+    .then(posts => {
+        if(posts.length === 0) {
+            res.status(404).json({ message: "That ID doesn't exists"});
+        }
+        res.status(200).json({message: "Success in deleting"});
+    })
+    .catch(error => {
+        res.status(500).json({ error: "Error Deleting post"})
+    });
+})
 
 
 
@@ -178,7 +193,22 @@ server.get('/tags/:id', (req, res) => {
       });
 })
 
-
+//Delete Tag
+server.delete('/tags/:id', (req, res) => {
+    const { id } = req.params;
+    db('tags')
+    .where("id", Number(id))
+    .delete()
+    .then(tags => {
+        if(tags.length === 0) {
+            res.status(404).json({ message: "That ID doesn't exists"});
+        }
+        res.status(200).json({message: "Success in deleting"});
+    })
+    .catch(error => {
+        res.status(500).json({ error: "Error Deleting tag"})
+    });
+})
 
 
 
