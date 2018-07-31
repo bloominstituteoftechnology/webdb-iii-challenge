@@ -7,7 +7,8 @@ module.exports = {
     connection: {
       // filename: './dev.sqlite3'
       filename: './rdbmsFull.db'
-    }
+    },
+    useNullAsDefault: true,
   },
 
   staging: {
