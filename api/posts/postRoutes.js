@@ -1,7 +1,15 @@
 const express = require('express');
 const db = require('../../data/db');
+const { postCheck } = require('../../middleware/required');
 
 const router = express.Router();
+
+router.post('/', postCheck, async (req, res, next) => {
+    try {
+    } catch (err) {
+
+    }
+})
 
 router.get('/', async (req, res, next) => {
     try {
