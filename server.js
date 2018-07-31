@@ -9,7 +9,7 @@ const port = 8000;
 server.use(helmet());
 server.use(cors());
 server.use(express.json());
-server.use('/api', apiRoutes);
+server.use('/', apiRoutes);
 
 server.get('/', (req, res) => {
   res.send('The blog server is running...')
