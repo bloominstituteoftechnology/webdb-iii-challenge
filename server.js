@@ -17,11 +17,23 @@ server.get('/users', (req, res) => {
 
 server.post('/users', (req, res) => {
 	const user = req.body;
-	db.insert(user).into('users').then(ids => {
+	db.insert(user).into('users')
+	.then(ids => {
 		const id = ids[0];
 
-		res.status(201).json({ id, ...user });
-	}).catch(err => res.status(500).json(err));
+		res.status(201).json({ id, ...user })
+	})
+	.catch(err => res.status(500).json(err));
+});
+
+server.get('/users/:id', (req, res) => {
+    const { id } = req.params;
+    db('Users').where({id: Number(id)})
+    .then(response => {
+        res.status(200).json(response);
+    }).catch(err => {
+        res.status(500).json({error: 'Unable to retrieve user information.'})
+    })
 })
 
 const port = 3300;
