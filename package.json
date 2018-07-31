@@ -2,6 +2,9 @@
   "name": "RDBMS-API-Full",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
   "repository": "git@github.com:Skidragon/RDBMS-API-Full.git",
   "author": "Simon <Simon_Freelance@hotmail.com>",
   "license": "MIT",
