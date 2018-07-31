@@ -15,10 +15,11 @@ function tagCheck(req, res, next) {
     const { tag } = req.body;
     if (!tag) return next({ code: 400, errorMessage: "Please provide a tag." });
     if (tag.length > 16) return next({ code: 400, errorMessage: "Tag provided is too long!" });
-    tag = tag.toUpperCase();
+    req.body.tag = req.body.tag.toUpperCase();
     next();
 }
 
 module.exports.userCheck = userCheck;
 module.exports.postCheck = postCheck;
+module.exports.tagCheck = tagCheck;
 
