@@ -43,7 +43,12 @@ server.get('/users/:id', async (req, res, next) => {
 })
 
 server.post('/users', async (req, res, next) => {
+    if (!req.body.name) {
+        return next(sendError(400, 'Failed to add user to database.', 'Please provide user name.'))
+    }
+
     const newUser = req.body;
+
     try {
         const response = await (db('Users').insert(newUser));
         const id = response[0];
@@ -63,22 +68,27 @@ server.delete('/users/:id', async (req, res, next) => {
         }
         res.status(200).json(response);
     } catch(error) {
-        next(sendError(500, 'Failed to get users information', error.message))
+        next(sendError(500, 'Failed to remove user.', error.message))
     }
 })
 
 server.put('/users/:id', async (req, res, next) => {
+    if (!req.body.name) {
+        return next(sendError(400, 'Failed to update user.', 'Please provide user name.'))
+    }
+    
     const id = req.params.id;
     const changes = req.body;
+    
     try {
         const response = await(db('Users').where('id', id).update(changes));
         console.log(response);
-        // if (response === 0) {
-        //     return next(sendError(404, 'Failed to update user', 'The user for this specific Id does not exists.'))
-        // }
+        if (response === 0) {
+            return next(sendError(404, 'Failed to update user', 'The user for this specific Id does not exists.'))
+        }
         res.status(200).json(response);
     } catch(error) {
-        next(sendError(500, 'Failed to get users information', error.message))
+        next(sendError(500, 'Failed to update user.', error.message))
     }
 })
 
