@@ -7,8 +7,7 @@ const router = express.Router();
 router.use(express.json());
 
 router.get('/', (req, res, next) => {
-  db
-    .get()
+  db('users')
     .then(response => {
       res
         .status(200)
@@ -62,6 +61,7 @@ router.post('/', (req, res, next) => {
   } else {
     db
       .insert(user)
+      .into('users')
       .then(response => {
         res
           .status(200)
@@ -83,6 +83,7 @@ router.put('/:id', (req, res, next) => {
   } else {
     db
       .update(id, user)
+      .into('users')
       .then(response => {
         if(!response) {
           next({ code: 404 })

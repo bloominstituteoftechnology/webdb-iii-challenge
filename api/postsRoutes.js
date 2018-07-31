@@ -7,8 +7,7 @@ const router = express.Router();
 router.use(express.json());
 
 router.get('/', (req, res, next) => {
-  db
-    .get()
+  db('posts')
     .then(response => {
       res
         .status(200)
@@ -35,8 +34,8 @@ router.get('/:id', (req, res, next) => {
     })
 })
 
-router.post('/', (req, res, next) => {
-  const userId = req.body.userId;
+router.post('/:id', (req, res, next) => {
+  const userId = req.params.id;
   const text = req.body.text;
   const post = { userId, text };
   if(!(userId || text)) {
@@ -44,6 +43,7 @@ router.post('/', (req, res, next) => {
   } else {
     db
       .insert(post)
+      .into('posts')
       .then(response => {
         res
           .status(200)
@@ -66,6 +66,7 @@ router.put('/:id', (req, res, next) => {
   } else {
     db
       .update(id, post)
+      .into('posts')
       .then(response => {
         if(!response) {
           next({ code: 404 })
