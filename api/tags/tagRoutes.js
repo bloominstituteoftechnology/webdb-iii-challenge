@@ -3,6 +3,14 @@ const db = require('../../data/db');
 
 const router = express.Router();
 
+router.post('/', async (req, res, next) => {
+    try {
+        
+    } catch (err) {
+
+    }
+})
+
 router.get('/', async (req, res, next) => {
     try {
         const response = await db('tags');
