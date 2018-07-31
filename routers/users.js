@@ -51,6 +51,21 @@ users.put('/:id', async (req, res, next) => {
   }
 })
 
+users.delete('/:id', async (req, res, next) => {
+  const id = +req.params.id
+
+  try {
+    const numberOfRowsDeleted = await db('users')
+      .where('id', '=', id)
+      .del()
+  
+    res.status(200).send(`User (${id}) successfully deleted`)
+
+  } catch(e) {
+    next(e)
+  }
+})
+
 users.use((err, req, res, next) => {
   res.status(500).json(err)
 })
