@@ -314,6 +314,70 @@ server.get('/api/tags/:id', async (req, res) => {
   }
 });
 
+// edit a tag
+server.put('/api/tags/:id', tagsConstraints, async (req, res) => {
+  const ID = req.params.id;
+  const TAG = req.body.tag;
+  const modifiedtag = { tag: TAG };
+
+  try {
+    const tags = await db
+      .where('id', ID)
+      .from('tags')
+      .first();
+    if (tags) {
+      try {
+        const tag = await db
+          .where('id', ID)
+          .from('tags')
+          .update(modifiedtag);
+        if (tag) {
+          res.status(200).json({ message: `Updated tag id:${ID}` });
+        } else {
+          res.status(500).send(`impossible error updating tag id:${ID}`);
+        }
+      } catch (err) {
+        res.status(500).json(err);
+      }
+    } else {
+      res.status(404).json({ error: `No tag with id:${ID} exists.` });
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// delete a tag
+server.delete('/api/tags/:id', async (req, res) => {
+  const ID = req.params.id;
+
+  try {
+    const tags = await db
+      .where('id', ID)
+      .from('tags')
+      .first();
+    if (tags) {
+      try {
+        const tag = await db
+          .where('id', ID)
+          .from('tags')
+          .del();
+        if (tag) {
+          res.status(200).json({ message: `Deleted tag id:${ID}` });
+        } else {
+          res.status(500).send(`impossible error deleting tag id:${ID}`);
+        }
+      } catch (err) {
+        res.status(500).json(err);
+      }
+    } else {
+      res.status(404).json({ error: `No tag with id:${ID} exists.` });
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 // error handling
 server.use(errors);
 
