@@ -141,6 +141,56 @@ server.delete('/tags/:id', (req, res) => {
     }).catch(err => res.status(500).json(err));
 })
 
+// PUT Users, Posts, Tags
+
+server.put('/users/:id', (req,res) => {
+    const id = req.params.id
+    const name = req.body
+    if (!name) res.status(400).json({err})
+    
+    else {
+      db('users').where({id: Number(id)})
+        .update(name)
+        .then(user => {
+          if (user > 0) res.status(200).json(user) 
+          else res.status(400).json({err})
+        })
+        .catch( err => res.status(500).json(err))
+    }
+  })
+
+server.put("/posts/:id", (req, res) => {
+    const id = req.params.id;
+    const { text, userId } = req.body;
+    if (!text || !userId ) res.status(400).json({ err });
+    else {
+        db("posts")
+            .where({ id: Number(id) })
+            .update({text, userId})
+            .then(post => {
+                if (post > 0) res.status(200).json(post);
+                else res.status(400).json({ err });
+            })
+            .catch(err => res.status(500).json(err));
+    }
+});
+
+server.put('/tags/:id', (req,res) => {
+    const id = req.params.id
+    const tag = req.body
+    if (!tag) res.status(400).json({err})
+    
+    else {
+      db('tags').where({id: Number(id)})
+        .update(tag)
+        .then(tag => {
+          if (tag > 0) res.status(200).json(tag) 
+          else res.status(400).json({err})
+        })
+        .catch( err => res.status(500).json(err))
+    }
+  })
+
 const port = 3333;
 server.listen(port, function () {
     console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
