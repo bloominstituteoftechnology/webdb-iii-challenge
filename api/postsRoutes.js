@@ -21,13 +21,17 @@ router.get('/', (req, res, next) => {
 
 router.get('/:id', (req, res, next) => {
   const id = req.params.id;
-  db
-    .get(id)
+  db('posts')
+    .where({ id })
     .then(response => {
-      res
+      if(!response[0]) {
+        next({ code: 404 })
+      } else {
+        res
         .status(200)
         .json(response)
         .end()
+      }
     })
     .catch(() => {
       next({ code: 500 })
