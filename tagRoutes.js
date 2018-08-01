@@ -54,5 +54,32 @@ tagrouter.post('/', (req, res) => {
 });
 
 
+tagrouter.delete('/:id', (req, res)=> {
+
+        const id = req.params.id;
+        console.log(id);
+
+        if(isNaN(id)) res.status(400).json({errorMessage: "Id should be a number"});
+
+        else{
+         db('tags')
+        .where('id', id)
+        .del()
+        .then(response => {
+
+                if(response===1) {
+                let responseObject ={};
+                responseObject.message = `Successfully deleted tag with id ${id}`;
+
+                res.status(200).json(responseObject);
+                }
+
+                else res.status(404).json({ errorMessage: "The tag with the specified ID does not exist."});
+        })
+
+        .catch(err => res.status(500).json({errorMessage: "There was a problem while deleting the tag"}));
+        }
+});
+
 module.exports = tagrouter;
 
