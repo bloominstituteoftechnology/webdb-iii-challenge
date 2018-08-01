@@ -15,6 +15,15 @@ server.get('/users', async (req, res) => {
   }
 });
 
+server.get('/users/:id', async (req, res) => {
+  try {
+    const user = await db('Users').where('id', req.params.id);
+    res.status(200).json(user);
+  } catch(err) {
+    res.status(500).send(`You done goofed with ${err}`);
+  }
+});
+
 server.post('/users', async (req,  res) => {
   const name = req.body;
   try {
@@ -52,6 +61,15 @@ server.get('/posts', async (req, res) => {
   try {
     const posts = await db('posts');
     res.status(200).json(posts);
+  } catch(err) {
+    res.status(500).send(`You done goofed with ${err}`);
+  }
+});
+
+server.get('/posts/:id', async (req, res) => {
+  try {
+    const post = await db('posts').where('id', req.params.id);
+    res.status(200).json(post);
   } catch(err) {
     res.status(500).send(`You done goofed with ${err}`);
   }
@@ -99,6 +117,15 @@ server.get('/tags', async (req, res) => {
   }
 });
 
+server.get('/tags/:id', async (req, res) => {
+  try {
+    const tag = await db('tags').where('id', req.params.id);
+    res.status(200).json(tag);
+  } catch(err) {
+    res.status(500).send(`You done goofed with ${err}`);
+  }
+});
+
 server.post('/tags', async (req,  res) => {
   const tag = req.body;
   try {
@@ -130,5 +157,6 @@ server.put('/tags/:id', async (req, res) => {
   }
 })
 //TAGS CRUD END
+
 const port = 3000;
 server.listen(port, () => {console.log(`Server is listening on port ${port}`)})
