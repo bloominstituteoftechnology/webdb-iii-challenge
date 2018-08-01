@@ -38,9 +38,10 @@ router.get('/:id', (req, res, next) => {
     })
 })
 
-router.post('/', (req, res, next) => {
+router.post('/:postId', (req, res, next) => {
+  const { postId } = req.params;
   const tagText = req.body.tag;
-  const tag = { tag: tagText};
+  const tag = { tag: tagText, postId };
   if(!tagText) {
     next({ code: 400 })
   } else {

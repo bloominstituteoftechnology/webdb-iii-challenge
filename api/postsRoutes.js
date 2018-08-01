@@ -23,6 +23,8 @@ router.get('/:id', (req, res, next) => {
   const id = req.params.id;
   db('posts')
     .where({ id })
+    // .join('users', 'users.id', '=', 'posts.userId')
+    // .select('posts.id', 'users.name', 'posts.text', 'post.created_at')
     .then(response => {
       if(!response[0]) {
         next({ code: 404 })
