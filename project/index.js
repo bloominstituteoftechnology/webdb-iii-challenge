@@ -8,6 +8,11 @@ server.use(express.json());
 const port = 8000;
 
 //users
+server.post("/users", (req, res) => {
+  const { name } = req.body;
+  db.insert({"name": name}).into('Users')
+    .then(response => (res.json(response)))
+});
 server.get("/users", (req, res) => {
   db.select().from('Users')
     .then(response => (res.send(response)));
