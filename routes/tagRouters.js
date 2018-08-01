@@ -19,10 +19,10 @@ const getTag = async (req, res, next) => {
     let error = INVALID_TAG_ID
     
     try{
-        const tagIn = await db.get(id)
-        if(!tagIn){ throw Error() }
+        const tagIn = await db('tags').where({id})
+        if(tagIn.length < 1){ throw Error() }
         error = INTERNAL_SERVER_ERROR
-        req.tagIn = tagIn  
+        req.tagIn = tagIn
 
         next();
     }catch(err){
@@ -30,17 +30,14 @@ const getTag = async (req, res, next) => {
     }
 }
 
-const upperCaser = (req, res, next) => {
-    req.body.tag = req.body.tag.toUpperCase()
-    next();
-}
-
 
 // ******************************  Tags ********************************************
 
 router.get('/', async (req, res, next) => {
+    let error = INTERNAL_SERVER_ERROR
+
     try{
-        const tags = await db.get()
+        const tags = await db('tags')
         res.status(SUCCESS).json(tags)
     }catch(err){
         next({error: error, internalError: err.message})    }
@@ -56,7 +53,7 @@ router.get('/:id', getTag, async (req, res, next) => {
         next({error: error, internalError: err.message})    }
 })
 
-router.post('/', upperCaser, async (req, res, next) => {
+router.post('/', async (req, res, next) => {
     const { tag } = req.body
     let error = MISSING_TAG
 

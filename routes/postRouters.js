@@ -39,8 +39,6 @@ const getUser = async (req, res, next) => {
     const { userId } = req.body
     let error = INVALID_USER_ID
 
-    console.log("In getUser");
-
     try{
         const userIn = await db('users').where({id : userId})
         if(userIn.length < 1){ throw Error() }

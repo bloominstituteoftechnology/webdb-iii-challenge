@@ -7,7 +7,7 @@ const api = express.Router()
 
 api.use('/users', users)
 api.use('/posts', posts)
-api.use('./tags', tags)
+api.use('/tags', tags)
 
 
 // ******************************  Error Constants ********************************************
