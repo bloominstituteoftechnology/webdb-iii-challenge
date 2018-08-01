@@ -5,7 +5,8 @@ const server = express();
 server.use(express.json());
 const PORT = 3000;
 /* prettier-ignore */
-const { usersConstraints, postsConstraints, tagsConstraints } = require('./middleware');
+const { usersConstraints, postsConstraints, tagsConstraints, posttagsConstraints } = 
+  require('./middleware');
 const errors = require('./middleware/errors');
 
 // endpoints here
@@ -73,7 +74,6 @@ server.get('/api/users/:id/posts', async (req, res) => {
       .where('userId', ID)
       .from('posts')
       .first();
-    console.log('POSTS', posts);
     if (posts) {
       res.status(200).json(posts);
     } else {
@@ -375,6 +375,72 @@ server.delete('/api/tags/:id', async (req, res) => {
       }
     } else {
       res.status(404).json({ error: `No tag with id:${ID} exists.` });
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+/*
+  Extra Credit
+*/
+
+// add a posttag relationship
+server.post('/api/posttags', posttagsConstraints, async (req, res) => {
+  const TAG = req.body.tagId;
+  const POST = req.body.postId;
+  const newTag = { postId: POST, tagId: TAG };
+
+  try {
+    const tags = await db.insert(newTag).into('posttags');
+    res
+      .status(201)
+      // returns an array, we want the first one
+      .json({ message: `Succesfully added posttag id:${tags[0]}` });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// get all post-tags
+server.get('/api/posttags', async (req, res) => {
+  try {
+    const posttags = await db('posttags');
+    if (posttags.length === 0) {
+      res.status(200).json({ message: 'There are currently no posttags' });
+    } else {
+      res.status(200).json(posttags);
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// get all tags for a specific post
+server.get('/api/posts/:id/tags', async (req, res) => {
+  const ID = req.params.id;
+
+  // make sure we have a post with that ID
+
+  try {
+    const posts = await db
+      .where('id', ID)
+      .from('posts')
+      .first();
+    if (posts) {
+      console.log('POSTS', posts);
+      try {
+        const tags = await db.where('postId', ID).from('posttags');
+        if (tags.length > 0) {
+          res.status(200).json(tags);
+        } else {
+          res.status(200).json({ message: `No tags for post id:${ID} exist.` });
+        }
+      } catch (err) {
+        res.status(500).json(err);
+      }
+    } else {
+      res.status(404).json({ error: `No post with id:${ID} exists.` });
     }
   } catch (err) {
     res.status(500).json(err);

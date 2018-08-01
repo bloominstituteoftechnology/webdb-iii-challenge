@@ -52,6 +52,27 @@ function tagsConstraints(req, res, next) {
   next();
 }
 
+// middleware for tags constraints
+function posttagsConstraints(req, res, next) {
+  const TAGID = req.body.tagId;
+  const POSTID = req.body.postId;
+
+  if (!TAGID) {
+    return next({
+      code: 400,
+      error: `Please provide an 'tagId' for the tag.`,
+    });
+  }
+  if (!POSTID) {
+    return next({
+      code: 400,
+      error: `Please provide an 'postId' for the post.`,
+    });
+  }
+  next();
+}
+
 module.exports.usersConstraints = usersConstraints;
 module.exports.postsConstraints = postsConstraints;
 module.exports.tagsConstraints = tagsConstraints;
+module.exports.posttagsConstraints = posttagsConstraints;
