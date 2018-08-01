@@ -3,6 +3,11 @@ const db = require('../data/db.js')
 
 users.post('/', async (req, res, next) => {
   const { body: user } = req
+
+  if(!user.name) {
+    res.status(400).send("please provide name")
+  }
+
   try {
     const userIds = await db.insert(user).into('users')
     const id = userIds[userIds.length - 1]
