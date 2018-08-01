@@ -18,6 +18,15 @@ posts.post('/', async (req, res) => {
   }
 })
 
+posts.get('/', async (req, res) => {
+  try {
+    const posts = await db('posts')
+    res.status(200).json(posts)
+  } catch(e) {
+    next(e)
+  }
+})
+
 posts.use((err, req, res, next) => {
   res.status(500).json(error)
 })
