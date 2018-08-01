@@ -10,19 +10,9 @@ const getPostTags = function(postId) {
     .where('pt.postId', postId);
 }
 
-const getUserNames = function(userId) {
-    db('posts as p')
-    .join('users as u', 'p.userId', 'u.id')
-    .select('p.text', 'u.name as postedBy')
-    .where('p.id', id)
-}
 
 router.get('/', (req, res) => {
-    const posts = db('posts');
-    posts.map(post => {
-        return getUserNames(post.id)
-    })
-    
+    db('posts')
     .then(response => {
         res.status(200).json(response)
     })
@@ -39,7 +29,9 @@ router.get('/:id', (req, res) => {
         return;
     }
     db('posts as p')
-    .where({id: Number(id)})
+    .join('users as u', 'p.userId', 'u.id')
+    .select('p.text', 'u.name as postedBy')
+    .where('p.id', id)
     .then(response => {
         res.status(200).json(response)
     })
