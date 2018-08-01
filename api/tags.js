@@ -7,7 +7,7 @@ const router = express.Router();
 
 
 
-server.get('/tags', (req, res) => {
+router.get('/tags', (req, res) => {
     db('tags')
     .then(response => {
         res.status(200).json(response)
@@ -18,7 +18,7 @@ server.get('/tags', (req, res) => {
 })
 
 
-server.get('/tags/:id', (req, res) => {
+router.get('/tags/:id', (req, res) => {
     const id = req.params.id;
     if(!id){
         res.status(404).json({error: 'The tag with the specified ID does not exist.'})
@@ -34,7 +34,7 @@ server.get('/tags/:id', (req, res) => {
 })
 
 
-server.post('/tags', (req, res) => {
+router.post('/tags', (req, res) => {
     const tag = req.body;
     if(tag.tag.length > 16) {
         res.status(400).json({error: 'Tag must be less than 16 characters.'})
@@ -49,7 +49,7 @@ server.post('/tags', (req, res) => {
 })
 
 
-server.post('/tags/:id', (req, res) => {
+router.post('/tags/:id', (req, res) => {
     const id = req.params.id;
     const tag = req.body;
     if(!id){
@@ -72,7 +72,7 @@ server.post('/tags/:id', (req, res) => {
 /* *************************** DELETE ENDPOINTS ****************************/
 
 
-server.delete('/tags/:id', (req, res) => {
+router.delete('/tags/:id', (req, res) => {
     const id = req.params.id;
     if(!id){
         res.status(404).json({error: 'The tag with the specified ID does not exist.'})

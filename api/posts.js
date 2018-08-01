@@ -6,7 +6,7 @@ const db = require('./data/db.js');
 const router = express.Router();
 
 
-server.get('/posts', (req, res) => {
+router.get('/posts', (req, res) => {
     db('posts')
     .then(response => {
         res.status(200).json(response)
@@ -17,7 +17,7 @@ server.get('/posts', (req, res) => {
 })
 
 
-server.get('/posts/:id', (req, res) => {
+router.get('/posts/:id', (req, res) => {
     const id = req.params.id;
     if(!id){
         res.status(404).json({error: 'The post with the specified ID does not exist.'})
@@ -33,7 +33,7 @@ server.get('/posts/:id', (req, res) => {
 })
 
 
-server.post('/posts', (req, res) => {
+router.post('/posts', (req, res) => {
     const post = req.body;
     db.insert(post).into('posts').then(ids => {
         const id = ids[0];
@@ -45,7 +45,7 @@ server.post('/posts', (req, res) => {
 })
 
 
-server.put('/posts/:id', (req, res) => {
+router.put('/posts/:id', (req, res) => {
     const id = req.params.id;
     const post = req.body;
     if(!id){
@@ -63,7 +63,7 @@ server.put('/posts/:id', (req, res) => {
 })
 
 
-server.delete('/posts/:id', (req, res) => {
+router.delete('/posts/:id', (req, res) => {
     const id = req.params.id;
     if(!id){
         res.status(404).json({error: 'The post with the specified ID does not exist.'})

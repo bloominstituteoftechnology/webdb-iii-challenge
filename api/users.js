@@ -4,7 +4,7 @@ const db = require('./data/db.js');
 const router = express.Router();
 
 
-server.get('/users', (req, res) => {
+router.get('/users', (req, res) => {
     db('users')
     .then(response => {
         res.status(200).json(response);
@@ -15,7 +15,7 @@ server.get('/users', (req, res) => {
 })
 
 
-server.get('/users/:id', (req, res) => {
+router.get('/users/:id', (req, res) => {
     const id = req.params.id;
     if(!id){
         res.status(404).json({error: 'The user with the specified ID does not exist.'})
@@ -31,7 +31,7 @@ server.get('/users/:id', (req, res) => {
 })
 
 
-server.get('/users/:id/posts', (req, res) => {
+router.get('/users/:id/posts', (req, res) => {
     const id = req.params.id;
     if(!id){
         res.status(404).json({error: 'The user with the specified ID does not exist.'})
@@ -49,7 +49,7 @@ server.get('/users/:id/posts', (req, res) => {
 })
 
 
-server.post('/users', (req, res) => {
+router.post('/users', (req, res) => {
     const user = req.body;
     if(user.name.length > 128) {
         res.status(400).json({error: 'Name must be less than 128 characters.'})
@@ -66,7 +66,7 @@ server.post('/users', (req, res) => {
 })
 
 
-server.put('/users/:id', (req, res) => {
+router.put('/users/:id', (req, res) => {
     const id = req.params.id;
     const user = req.body;
     if(!id){
@@ -87,7 +87,7 @@ server.put('/users/:id', (req, res) => {
 })
 
 
-server.delete('/users/:id', (req, res) => {
+router.delete('/users/:id', (req, res) => {
     const id = req.params.id;
     if(!id){
         res.status(404).json({error: 'The user with the specified ID does not exist.'})
