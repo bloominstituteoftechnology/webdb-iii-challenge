@@ -50,7 +50,7 @@ router.put('/:id', async (req, res) => {
     if (editedPost === 0) {
       return res.status(404).json({ message: "Post does not exist." });
     } else {
-      return res.status(200).json(editedPost);
+      return res.status(200).json({ message: "Post edited." });
     }
   } catch (error) {
     return res.status(500).json({ message: "Post could not be edited." });
@@ -63,7 +63,7 @@ router.delete('/:id', async (req, res) => {
     if (deletedPost === 0) {
       return res.status(404).json({ message: "Post does not exist." });
     } else {
-      return res.status(200).json(deletedPost);
+      return res.status(200).json({ message: "Post deleted." });
     }
   } catch (error) {
     return res.status(500).json({ message: "Post could not be deleted." });

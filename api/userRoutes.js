@@ -62,7 +62,7 @@ router.put('/:id', async (req, res) => {
     if (editedUser === 0) {
       return res.status(404).json({ message: "User does not exist." });
     } else {
-      return res.status(200).json(editedUser);
+      return res.status(200).json({ message: "User edited." });
     }
   } catch (error) {
     return res.status(500).json({ message: "User could not be edited." });
@@ -75,7 +75,7 @@ router.delete('/:id', async (req, res) => {
     if (deletedUser === 0) {
       return res.status(404).json({ message: "User does not exist." });
     } else {
-      return res.status(200).json(deletedUser);
+      return res.status(200).json({ message: "User deleted." });
     }
   } catch (error) {
     return res.status(500).json({ message: "User could not be deleted." });
