@@ -2,11 +2,15 @@ const express = require('express');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const db = require('./data/db');
-
+const postRoutes = require('./postRoutes');
 
 const server = express();
 
 server.use(express.json());
+
+server.use('/api/posts', postRoutes)
+
+
 
 server.use(morgan('dev'));
 
@@ -42,8 +46,17 @@ server.get('/api/users/:id', (req, res) => {
 
 
 server.post('/api/users', (req, res) => {
-	const user = req.body;
+	//const user = req.body; db.insert(user)
+	
+	const {name} = req.body;
+	console.log(name);
 
+	if(!name) res.status(400).json({errorMessage: "Please provide name for the user."});
+	
+	else{
+	
+	const user = {name: name};	
+	console.log(req.body);
 	db.insert(user)
 	.into('users')
 	.then(ids => {
@@ -52,13 +65,16 @@ server.post('/api/users', (req, res) => {
 	})
 	
 	.catch(err => res.status(500).json(err));
-
+	}
 });
 
 server.delete('/api/users/:id', (req, res)=> {
-	console.log(req.params.id);
-	const id = req.params.id; 
 	
+	const id = req.params.id; 
+	console.log(id);
+	if(isNaN(id)) res.status(400).json({errorMessage: "Id should be a number"});
+	
+	else{
 	 db('users')
 	.where('id', id)
 	.del()	
@@ -66,7 +82,7 @@ server.delete('/api/users/:id', (req, res)=> {
 		
 		if(response===1) {
                 let responseObject ={};
-                responseObject.message = `Successfully deleted post with id ${id}`;
+                responseObject.message = `Successfully deleted user with id ${id}`;
 
                 res.status(200).json(responseObject);
                 }
@@ -75,7 +91,7 @@ server.delete('/api/users/:id', (req, res)=> {
 	})
 	
 	.catch(err => res.status(500).json(err));
-
+	}
 });
 
 
@@ -106,6 +122,10 @@ else{
 
         .catch(err => res.status(500).json(err));
 }
+});
+
+server.use(function(req, res) {
+  res.status(404).send("Wrong path. Please provide a correct url");
 });
 
 
