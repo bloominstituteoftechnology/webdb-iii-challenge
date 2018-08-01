@@ -3,13 +3,13 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const db = require('./data/db');
 const postRoutes = require('./postRoutes');
-
+const tagRoutes = require('./tagRoutes');
 const server = express();
 
 server.use(express.json());
 
-server.use('/api/posts', postRoutes)
-
+server.use('/api/posts', postRoutes);
+server.use('/api/tags', tagRoutes)
 
 
 server.use(morgan('dev'));
