@@ -38,6 +38,32 @@ router.get('/:id', (req, res, next) => {
     })
 })
 
+router.get('/:id/tags', (req, res, next) => {
+  const { id } = req.params;
+  db('posts')
+    .where({ id })
+    .then(response => {
+      if(!response[0]) {
+        next({ code: 404 })
+      } else {
+        db('tags')
+          .where({ postId: id})
+          .then(response => {
+              res
+                .status(200)
+                .json(response)
+                .end()
+          })
+          .catch(() => {
+            next({ code: 500 })
+          })
+      }
+    })
+    .catch(() => {
+      next({ code: 500 })
+    })
+})
+
 router.post('/:id', (req, res, next) => {
   const { id } = req.params;
   const text = req.body.text;
