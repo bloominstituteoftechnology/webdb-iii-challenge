@@ -8,11 +8,12 @@ server.use(express.json());
 
 // endpoints here
 
-// GET users, posts, tags
-
 server.get("/", (req, res) => {
     res.send("up and running...");
 });
+
+
+// GET, GET by ID, POST, DELETE and PUT users
 
 server.get("/users", (req, res) => {
     db("users")
@@ -21,24 +22,6 @@ server.get("/users", (req, res) => {
         })
         .catch(err => res.status(500).json(err));
 });
-
-server.get("/posts", (req, res) => {
-    db("posts")
-        .then(posts => {
-            res.status(200).json(posts);
-        })
-        .catch(err => res.status(500).json(err));
-});
-
-server.get("/tags", (req, res) => {
-    db("tags")
-        .then(tags => {
-            res.status(200).json(tags);
-        })
-        .catch(err => res.status(500).json(err));
-});
-
-// GET users, posts, tags by id
 
 server.get("/users/:id", (req, res) => {
     const { id } = req.params;
@@ -49,28 +32,6 @@ server.get("/users/:id", (req, res) => {
         })
         .catch(err => res.status(500).json(err));
 });
-
-server.get("/posts/:id", (req, res) => {
-    const { id } = req.params;
-    db("posts")
-        .where({ id: Number(id) })
-        .then(response => {
-            res.status(200).json(response);
-        })
-        .catch(err => res.status(500).json(err));
-});
-
-server.get("/tags/:id", (req, res) => {
-    const { id } = req.params;
-    db("tags")
-        .where({ id: Number(id) })
-        .then(response => {
-            res.status(200).json(response);
-        })
-        .catch(err => res.status(500).json(err));
-});
-
-// POST users, posts, tags
 
 server.post("/users", (req, res) => {
     const user = req.body;
@@ -85,6 +46,53 @@ server.post("/users", (req, res) => {
         .catch(err => {
             res.status(500).json(err);
         });
+});
+
+server.delete("/users/:id", (req, res) => {
+    const { id } = req.params;
+    db("users")
+        .where({ id: Number(id) })
+        .delete()
+        .then(response => {
+            res.status(200).json(response);
+        })
+        .catch(err => res.status(500).json(err));
+});
+
+server.put("/users/:id", (req, res) => {
+    const id = req.params.id;
+    const name = req.body;
+    if (!name) res.status(400).json({ err });
+    else {
+        db("users")
+            .where({ id: Number(id) })
+            .update(name)
+            .then(user => {
+                if (user > 0) res.status(200).json(user);
+                else res.status(400).json({ err });
+            })
+            .catch(err => res.status(500).json(err));
+    }
+});
+
+// GET, GET by ID, POST, DELETE and PUT posts
+
+server.get("/posts", (req, res) => {
+    db("posts")
+        .then(posts => {
+            res.status(200).json(posts);
+        })
+        .catch(err => res.status(500).json(err));
+});
+
+server.get("/posts/:id", (req, res) => {
+    const { id } = req.params;
+    db("posts")
+        .where({ id: Number(id) })
+        .then(response => {
+            res.status(200).json(response);
+        })
+        .catch(err => res.status(500).json(err));
 });
 
 server.post("/posts", (req, res) => {
@@ -102,35 +110,6 @@ server.post("/posts", (req, res) => {
         });
 });
 
-server.post("/tags", (req, res) => {
-    const tag = req.body;
-    // const { tag } = tag;
-    // Suggestions to change this ^?
-
-    db.insert(tag)
-        .into("tags")
-        .then(ids => {
-            const id = ids[0];
-            res.status(201).json({ id, ...tag });
-        })
-        .catch(err => {
-            res.status(500).json(err);
-        });
-});
-
-// DELETE users, posts, tags
-
-server.delete("/users/:id", (req, res) => {
-    const { id } = req.params;
-    db("users")
-        .where({ id: Number(id) })
-        .delete()
-        .then(response => {
-            res.status(200).json(response);
-        })
-        .catch(err => res.status(500).json(err));
-});
-
 server.delete("/posts/:id", (req, res) => {
     const { id } = req.params;
     db("posts")
@@ -140,35 +119,6 @@ server.delete("/posts/:id", (req, res) => {
             res.status(200).json(response);
         })
         .catch(err => res.status(500).json(err));
-});
-
-server.delete("/tags/:id", (req, res) => {
-    const { id } = req.params;
-    db("tags")
-        .where({ id: Number(id) })
-        .delete()
-        .then(response => {
-            res.status(200).json(response);
-        })
-        .catch(err => res.status(500).json(err));
-});
-
-// PUT Users, Posts, Tags
-
-server.put("/users/:id", (req, res) => {
-    const id = req.params.id;
-    const name = req.body;
-    if (!name) res.status(400).json({ err });
-    else {
-        db("users")
-            .where({ id: Number(id) })
-            .update(name)
-            .then(user => {
-                if (user > 0) res.status(200).json(user);
-                else res.status(400).json({ err });
-            })
-            .catch(err => res.status(500).json(err));
-    }
 });
 
 server.put("/posts/:id", (req, res) => {
@@ -187,6 +137,53 @@ server.put("/posts/:id", (req, res) => {
     }
 });
 
+// GET, GET by ID, POST, DELETE and PUT tags
+
+server.get("/tags", (req, res) => {
+    db("tags")
+        .then(tags => {
+            res.status(200).json(tags);
+        })
+        .catch(err => res.status(500).json(err));
+});
+
+server.get("/tags/:id", (req, res) => {
+    const { id } = req.params;
+    db("tags")
+        .where({ id: Number(id) })
+        .then(response => {
+            res.status(200).json(response);
+        })
+        .catch(err => res.status(500).json(err));
+});
+
+server.post("/tags", (req, res) => {
+    const tag = req.body;
+    // const { tag } = tag;
+    // Suggestions to change this ^?
+
+    db.insert(tag)
+        .into("tags")
+        .then(ids => {
+            const id = ids[0];
+            res.status(201).json({ id, ...tag });
+        })
+        .catch(err => {
+            res.status(500).json(err);
+        });
+});
+
+server.delete("/tags/:id", (req, res) => {
+    const { id } = req.params;
+    db("tags")
+        .where({ id: Number(id) })
+        .delete()
+        .then(response => {
+            res.status(200).json(response);
+        })
+        .catch(err => res.status(500).json(err));
+});
+
 server.put("/tags/:id", (req, res) => {
     const id = req.params.id;
     const tag = req.body;
@@ -203,13 +200,25 @@ server.put("/tags/:id", (req, res) => {
     }
 });
 
-// Get posts by user id
+// GET posts by user id
 
 server.get("/users/:id/posts", (req, res) => {
     db("posts")
         .where("userId", req.params.id)
         .then(posts => {
             if (posts.length > 0) res.status(200).json(posts);
+            else res.status(200).json({ err });
+        })
+        .catch(err => res.status(500).json(err));
+});
+
+// GET tags by post id
+
+server.get("/posts/:id/tags", (req, res) => {
+    db("tags")
+        .where("postId", req.params.id)
+        .then(tags => {
+            if (tags.length > 0) res.status(200).json(tags);
             else res.status(200).json({ err });
         })
         .catch(err => res.status(500).json(err));
