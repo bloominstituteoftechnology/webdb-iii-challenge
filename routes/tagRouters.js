@@ -62,7 +62,7 @@ router.post('/', async (req, res, next) => {
         error = INTERNAL_SERVER_ERROR
 
         const newTag = {...req.body}
-        await db.insert(newTag)
+        await db('tags').insert(newTag)
         res.status(SUCCESS).json(newTag)
     }catch(err){
         next({error: error, internalError: err.message})    }
