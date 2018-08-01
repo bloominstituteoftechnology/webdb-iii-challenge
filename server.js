@@ -12,26 +12,32 @@ db('users').then(response => {
     res.status(200).json(response);
 })
 .catch(err => {
-  res.status(500).json(err)
+  res.status(500).json({error: 'The users could not be retrieved'})
 });
 });
 
 //GET user by id
 server.get('/users/:id', (req, res) => {
   const { id } = req.params;
+  if(!id) {
+    res.status(404).json({ error: 'The user ID does not exist'})
+  }
   db('users')
   .where({id: Number(id)})
   .then(response => {
     res.status(200).json(response);
   })
   .catch(err => {
-    res.status(500).json(err)
+    res.status(500).json({error: 'The user could not be retrieved'})
   });
 });
 
 //GET posts for user by id
 server.get('/users/:id/posts', (req, res) => {
   const { id } = req.params;
+  if(!id) {
+    res.status(404).json({ error: 'The user ID does not exist'})
+  }
   db('posts')
   .join('users', 'posts.userId', 'users.id')
   .select('posts.text', 'users.name')
@@ -40,7 +46,7 @@ server.get('/users/:id/posts', (req, res) => {
     res.status(200).json(response);
   })
   .catch(err => {
-    res.status(500).json(err)
+    res.status(500).json({error: 'The posts for user could not be retrieved'})
   });
 })
 
@@ -55,7 +61,7 @@ server.post('/users', (req, res) => {
     res.status(201).json({ id, ...user })
   })
   .catch(err => {
-    res.status(500).json(err)
+    res.status(500).json({error: 'The user could not be created'})
   });
 });
 
@@ -63,6 +69,9 @@ server.post('/users', (req, res) => {
 server.put('/users/:id', (req, res) => {
   const { user } = req.body;
   const { id } = req.params;
+  if(!id) {
+    res.status(404).json({ error: 'The user ID does not exist'})
+  }
   db('users')
   .where({ id: Number(id) })
   .update(user)
@@ -70,13 +79,16 @@ server.put('/users/:id', (req, res) => {
     res.status(201).json({ response });
   })
   .catch(err => {
-    res.status(500).json(err)
+    res.status(500).json({error: 'The user could not be updated'})
   });
 });
 
 //DELETE user
 server.delete('/users/:id', (req, res) => {
   const { id } = req.params;
+  if(!id) {
+    res.status(404).json({ error: 'The user ID does not exist'})
+  }
   db('users')
   .where({ id: Number(id) })
   .delete()
@@ -84,7 +96,7 @@ server.delete('/users/:id', (req, res) => {
     res.status(200).json(response)
   })
   .catch(err => {
-    res.status(500).json(err)
+    res.status(500).json({error: 'The user could not be deleted'})
   });
 });
 
@@ -95,20 +107,23 @@ server.get('/posts', (req, res) => {
       res.status(200).json(response);
   })
   .catch(err => {
-    res.status(500).json(err)
+    res.status(500).json({error: 'The posts could not be retrieved'})
   });
   });
 
 //GET post by id
 server.get('/posts/:id', (req, res) => {
   const { id } = req.params;
+  if(!id) {
+    res.status(404).json({ error: 'The post ID does not exist'})
+  }
   db('posts')
   .where({id: Number(id)})
   .then(response => {
     res.status(200).json(response);
   })
   .catch(err => {
-    res.status(500).json(err)
+    res.status(500).json({error: 'The post could not be retrieved'})
   });
 });
 
@@ -122,7 +137,7 @@ server.post('/posts', (req, res) => {
     res.status(201).json({ id, ...post })
   })
   .catch(err => {
-    res.status(500).json(err)
+    res.status(500).json({error: 'The post could not be created'})
   });
 });
 
@@ -130,6 +145,9 @@ server.post('/posts', (req, res) => {
 server.put('/posts/:id', (req, res) => {
   const { post } = req.body;
   const { id } = req.params;
+  if(!id) {
+    res.status(404).json({ error: 'The post ID does not exist'})
+  }
   db('posts')
   .where({ id: Number(id) })
   .update(post)
@@ -137,13 +155,16 @@ server.put('/posts/:id', (req, res) => {
     res.status(201).json({ response });
   })
   .catch(err => {
-    res.status(500).json(err)
+    res.status(500).json({error: 'The post could not be updated'})
   });
 });
 
 //DELETE post
 server.delete('/posts/:id', (req, res) => {
   const { id } = req.params;
+  if(!id) {
+    res.status(404).json({ error: 'The post ID does not exist'})
+  }
   db('posts')
   .where({ id: Number(id) })
   .delete()
@@ -151,31 +172,35 @@ server.delete('/posts/:id', (req, res) => {
     res.status(200).json(response)
   })
   .catch(err => {
-    res.status(500).json(err)
+    res.status(500).json({error: 'The post could not be deleted'})
   });
 });
 
 //Tag endpoints here
 //GET array of tags
 server.get('/tags', (req, res) => {
-  db('tags').then(response => {
+  db('tags')
+  .then(response => {
       res.status(200).json(response);
   })
   .catch(err => {
-    res.status(500).json(err)
+    res.status(500).json({error: 'The tags could not be retrieved'})
   });
   });
 
   //GET tag by id
   server.get('/tags/:id', (req, res) => {
     const { id } = req.params;
+    if(!id) {
+      res.status(404).json({ error: 'The tag ID does not exist'})
+    }
     db('tags')
     .where({id: Number(id)})
     .then(response => {
       res.status(200).json(response);
     })
     .catch(err => {
-      res.status(500).json(err)
+      res.status(500).json({error: 'The tag could not be retrieved'})
     });
   });
 
@@ -189,7 +214,7 @@ server.get('/tags', (req, res) => {
       res.status(201).json({ id, ...tag })
     })
     .catch(err => {
-      res.status(500).json(err)
+      res.status(500).json({error: 'The tag could not be created'})
     });
   });
 
@@ -197,6 +222,9 @@ server.get('/tags', (req, res) => {
   server.put('/tags/:id', (req, res) => {
     const { tag } = req.body;
     const { id } = req.params;
+    if(!id) {
+      res.status(404).json({ error: 'The tag ID does not exist'})
+    }
     db('tags')
     .where({ id: Number(id) })
     .update(tag)
@@ -204,13 +232,16 @@ server.get('/tags', (req, res) => {
       res.status(201).json({ response });
     })
     .catch(err => {
-      res.status(500).json(err)
+      res.status(500).json({error: 'The tag could not be updated'})
     });
   });
 
   //DELETE tag
   server.delete('/tags/:id', (req, res) => {
     const { id } = req.params;
+    if(!id) {
+      res.status(404).json({ error: 'The tag ID does not exist'})
+    }
     db('tags')
     .where({ id: Number(id) })
     .delete()
@@ -218,7 +249,7 @@ server.get('/tags', (req, res) => {
       res.status(200).json(response)
     })
     .catch(err => {
-      res.status(500).json(err)
+      res.status(500).json({error: 'The tag could not be deleted'})
     });
   });
 
