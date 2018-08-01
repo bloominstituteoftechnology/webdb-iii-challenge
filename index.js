@@ -1,7 +1,5 @@
 const express = require("express");
 
-const db = require("./data/db");
-
 // Routers
 const userRouter = require("./routers/users");
 const postRouter = require("./routers/posts");
