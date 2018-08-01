@@ -15,8 +15,9 @@ function sendError(code, message, error) {
     }
 }
 
+// =================================== USERS ENDPOINTS ================================== 
 server.get('/', (req, res) => {
-    res.send('Welcome to my Lambda Forum')
+    res.send('Welcome to Lambda Forum')
 })
 
 server.get('/users', async (req, res, next) => {
@@ -106,6 +107,60 @@ server.get('/users/:id/posts', async (req, res, next) => {
         next(sendError(500, 'Failed to retrieve posts for this user.', error.message))
     }
 })
+
+// =================================== POSTS ENDPOINTS ================================== 
+server.get('/posts', async (req, res, next) => {
+    try {
+        const response = await(db('Posts').select());
+        res.status(200).json(response);
+    } catch(error) {
+        next(sendError(500, 'Failed to get posts information.', error.message))
+    }
+})
+
+server.get('/posts/:id', async (req, res, next) => {
+    const id = req.params.id;
+    const getPostQuery = db('Posts as p').select('p.id', 'u.name as username', 'p.text', 'p.createdAt')
+                                         .leftJoin('Users as u', 'p.userid', 'u.id')
+                                         .where('p.id', '=', Number(id));
+    
+    const getTagQuery = db('Posts as p').select('t.tag')
+                                       .join('PostTags as pt', 'p.id', 'pt.postid')
+                                       .join('Tags as t', 't.id', 'pt.tagid')
+                                       .where('p.id', '=', Number(id));
+
+    try {
+        const postRes = await(getPostQuery);
+        const tagRes = await(getTagQuery);
+        if (postRes.length === 0) {
+            return next(sendError(404, 'Failed to retrieve post information', 'The post for this specific id does not exists.'))
+        }
+
+        let post = postRes[0];
+        post.tag = tagRes.length > 0 ?
+                   tagRes.map(tag => tag.tag) : []
+
+        res.status(200).json(post);
+    } catch(error) {
+        next(sendError(500, 'Failed to get post information.', error.message))
+    }
+})
+
+server.post('/posts', async (req, res, next) => {
+    if (!(req.body.text && req.body.userid)) {
+        return next(sendError(400, 'Failed to add post to database.', 'Please provide userid and text for post.'))
+    }
+
+    try {
+        const response = await (db('Posts').insert(req.body));
+        const id = response[0];
+        const newPost = await(db('Posts').where({ id }));
+        res.status(201).json(newPost[0]);
+    } catch (error) {
+        next(sendError(500, 'Failed to add post to database.', error.message))
+    }
+})
+// =================================== TAGS ENDPOINTS ================================== 
 
 server.use((err, req, res, next) => {
     res.status(err.code).send({message: err.message, error: err.error})

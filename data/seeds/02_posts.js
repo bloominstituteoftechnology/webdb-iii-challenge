@@ -26,10 +26,6 @@ exports.seed = function(knex, Promise) {
           text: " N-nothing important. That is, I heard a great deal about a ring, a Dark Lord, and something about the end of the world, but... Please, Mr. Gandalf, sir, don't hurt me. Don't turn me into anything... unnatural.",
         },
         {
-          userId: 2,
-          text: 'You need people of intelligence on this sort of mission...quest...thing.',
-        },
-        {
           id: 5,
           userId: 3,
           text: 'All you have to do is decide what to do with the time that is given to you.',
@@ -48,6 +44,11 @@ exports.seed = function(knex, Promise) {
           id: 8,
           userId: 3,
           text: 'I will be dead before I see the ring in the hands of an elf! Never trust an elf!',
+        },
+        {
+          id: 9,
+          userId: 2,
+          text: 'You need people of intelligence on this sort of mission...quest...thing.',
         },
       ]);
     });
