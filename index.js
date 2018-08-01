@@ -6,74 +6,15 @@ const server = express();
 
 server.use(express.json());
 
+const apiRouter = require('./routes/apiRouter');
+server.use('/', apiRouter);
+
 // endpoints here
 
 server.get("/", (req, res) => {
     res.send("up and running...");
 });
 
-
-// GET, GET by ID, POST, DELETE and PUT users
-
-server.get("/users", (req, res) => {
-    db("users")
-        .then(users => {
-            res.status(200).json(users);
-        })
-        .catch(err => res.status(500).json(err));
-});
-
-server.get("/users/:id", (req, res) => {
-    const { id } = req.params;
-    db("users")
-        .where({ id: Number(id) })
-        .then(response => {
-            res.status(200).json(response);
-        })
-        .catch(err => res.status(500).json(err));
-});
-
-server.post("/users", (req, res) => {
-    const user = req.body;
-    const { name } = user;
-
-    db.insert(user)
-        .into("users")
-        .then(ids => {
-            const id = ids[0];
-            res.status(201).json({ id, ...user });
-        })
-        .catch(err => {
-            res.status(500).json(err);
-        });
-});
-
-server.delete("/users/:id", (req, res) => {
-    const { id } = req.params;
-    db("users")
-        .where({ id: Number(id) })
-        .delete()
-        .then(response => {
-            res.status(200).json(response);
-        })
-        .catch(err => res.status(500).json(err));
-});
-
-server.put("/users/:id", (req, res) => {
-    const id = req.params.id;
-    const name = req.body;
-    if (!name) res.status(400).json({ err });
-    else {
-        db("users")
-            .where({ id: Number(id) })
-            .update(name)
-            .then(user => {
-                if (user > 0) res.status(200).json(user);
-                else res.status(400).json({ err });
-            })
-            .catch(err => res.status(500).json(err));
-    }
-});
 
 // GET, GET by ID, POST, DELETE and PUT posts
 
