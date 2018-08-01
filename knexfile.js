@@ -5,7 +5,7 @@ module.exports = {
   development: {
     client: 'sqlite3',
     connection: {
-      filename: './data/RDBMSfull.db.sqbpro'
+      filename: './data/RDBMSfull.db'
     }
     , useNullAsDefault: true
   },
