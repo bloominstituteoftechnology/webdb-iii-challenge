@@ -29,4 +29,15 @@ router.get('/:id', (req, res, next) => {
     })
 })
 
+router.post('/', (req,res, next) => {
+    db('tags')
+    .insert(req.body)
+    .then(response => {
+        res.status(codes.CREATED).json(response);
+    })
+    .catch(err => {
+        next(err);
+    })
+})
+
 module.exports = router;
