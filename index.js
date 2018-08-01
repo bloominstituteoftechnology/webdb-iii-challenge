@@ -59,7 +59,7 @@ server.put('/users/:id', (req, res) =>{
     db('users')
     .where("id", Number(id))
     .update(name)
-    .into('users')
+    .into('users') //can we remove this?
     .then(name => {
         res.status(201).json(name)
     })
@@ -86,6 +86,19 @@ server.delete('/users/:id', (req, res) => {
     });
 })
 
+
+//Get Posts by User ID
+server.get('/users/:id/posts', (req, res) => {
+    db('posts')
+    .where('userId', req.params.id)
+    .then(posts => {
+        if (posts.length === 0) {
+            res.status(200).send({error: "This user has not posted"});
+        }
+        res.status(200).json(posts);
+    })
+    .catch(err => res.status(500).json(err));
+})
 
 
 //Posts
