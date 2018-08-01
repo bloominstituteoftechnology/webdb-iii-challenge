@@ -61,6 +61,13 @@ router.delete('/:id', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
-router.get('/:id/tags', (req, res) => {});
+router.get('/:id/tags', (req, res) => {
+  const { id } = req.params;
+
+  db('tags')
+    .where({ postId: id })
+    .then(tags => res.status(200).json(tags))
+    .catch(err => res.status(500).json(err));
+});
 
 module.exports = router;

@@ -54,6 +54,7 @@ router.delete('/:id', (req, res) => {
     )
     .catch(err => res.status(500).json(err));
 });
+
 router.get('/:id/posts', (req, res) => {
   const { id } = req.params;
 
