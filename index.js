@@ -96,6 +96,34 @@ server.get('/posts/:id', (req, res) => {
         })
 });
 
+server.put('/posts/:id', (req, res) => {
+    const changes = req.body;
+    const {id} = req.params;
+    db('Users')
+        .where({id})
+        .update(changes)
+        .then(count => {
+            res.status(201).json(count);
+        })
+        .catch(err => {
+            res.status(500).json(err);
+        })
+});
+
+server.put('/users/:id', (req, res) => {
+    const changes = req.body;
+    const {id} = req.params;
+    db('Users')
+        .where({id})
+        .update(changes)
+        .then(count => {
+            res.status(201).json(count);
+        })
+        .catch(err => {
+            res.status(500).json(err);
+        })
+});
+
 server.post('/tags', (req, res) => {
     const tag = req.body;
     db.insert(tag)
@@ -126,6 +154,20 @@ server.get('/tags/:id', (req, res) => {
         .where({id})
         .then(tags => {
             res.status(201).json(tags);
+        })
+        .catch(err => {
+            res.status(500).json(err);
+        })
+});
+
+server.put('/tags/:id', (req, res) => {
+    const changes = req.body;
+    const {id} = req.params;
+    db('Users')
+        .where({id})
+        .update(changes)
+        .then(count => {
+            res.status(201).json(count);
         })
         .catch(err => {
             res.status(500).json(err);
