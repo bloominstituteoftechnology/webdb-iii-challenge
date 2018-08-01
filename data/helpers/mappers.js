@@ -5,7 +5,7 @@ module.exports = {
 };
 
 function userToBody(user) {
-  const result = {...user};
+  const result = { ...user };
 
   if (user.posts) {
     result.posts = user.posts.map(post => ({
@@ -17,9 +17,17 @@ function userToBody(user) {
 }
 
 function postToBody(post) {
-  return {...post};
+  const result = { ...post };
+
+  if (post.tags) {
+    result.tags = post.tags.map(tag => ({
+      ...tag
+    }));
+  }
+
+  return result;
 }
 
 function tagToBody(tag) {
-  return {...tag};
+  return { ...tag };
 }

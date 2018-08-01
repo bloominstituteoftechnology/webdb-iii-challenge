@@ -1,24 +1,24 @@
 exports.seed = function (knex, Promise) {
   // Deletes ALL existing entries
-  return knex("posts")
+  return knex("table_name")
     .del()
     .then(function () {
       // Inserts seed entries
-      return knex("posts").insert([
+      return knex("table_name").insert([
         {
           id: 1,
-          userId: 1,
-          text: "post test 1"
+          postId: 1,
+          tagId: 1
         },
         {
           id: 2,
-          userId: 2,
-          text: "post test 2"
+          postId: 2,
+          tagId: 2
         },
         {
           id: 3,
-          userId: 3,
-          text: "post test 3"
+          postId: 3,
+          tagId: 3
         }
       ]);
     });

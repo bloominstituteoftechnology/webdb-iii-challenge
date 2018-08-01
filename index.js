@@ -21,7 +21,7 @@ server.get('/posts', async (req, res) => {
         const posts = await postDb.get();
 
         res.status(200).json(posts);
-    } catch(err) {
+    } catch (err) {
         res.status(500).json(err);
     }
 });
@@ -32,18 +32,18 @@ server.get('/posts/:id', async (req, res) => {
         const post = await postDb.get(id);
 
         res.status(200).json(post);
-    } catch(err) {
+    } catch (err) {
         res.status(500).json(err);
     }
 });
 
 server.post('/posts', async (req, res) => {
     try {
-        const newPost = {...req.body};
+        const newPost = { ...req.body };
         const post = await postDb.insert(newPost);
 
         res.status(200).json(post);
-    } catch(err) {
+    } catch (err) {
         res.status(500).json(err);
     }
 });
@@ -51,11 +51,11 @@ server.post('/posts', async (req, res) => {
 server.put('/posts/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const changes = {...req.body};
+        const changes = { ...req.body };
         const post = await postDb.update(id, changes);
 
         res.status(200).json(post);
-    } catch(err) {
+    } catch (err) {
         res.status(500).json(err);
     }
 });
@@ -66,7 +66,7 @@ server.delete('/posts/:id', async (req, res) => {
         const post = await postDb.remove(id);
 
         res.status(200).json(post);
-    } catch(err) {
+    } catch (err) {
         res.status(500).json(err);
     }
 });
@@ -77,7 +77,7 @@ server.get('/users', async (req, res) => {
         const users = await userDb.get();
 
         res.status(200).json(users);
-    } catch(err) {
+    } catch (err) {
         res.status(500).json(err);
     }
 });
@@ -88,7 +88,7 @@ server.get('/users/:id', async (req, res) => {
         const user = await userDb.get(id);
 
         res.status(200).json(user);
-    } catch(err) {
+    } catch (err) {
         res.status(500).json(err);
     }
 });
@@ -100,18 +100,18 @@ server.get('/users/:id/posts', async (req, res) => {
         posts = posts.filter(post => post.userId == id ? post : null);
 
         res.status(200).json(posts);
-    } catch(err) {
+    } catch (err) {
         res.status(500).json(err);
     }
 });
 
 server.post('/users', async (req, res) => {
     try {
-        const newUser = {...req.body};
+        const newUser = { ...req.body };
         const user = await userDb.insert(newUser);
 
         res.status(200).json(user);
-    } catch(err) {
+    } catch (err) {
         res.status(500).json(err);
     }
 });
@@ -119,11 +119,11 @@ server.post('/users', async (req, res) => {
 server.put('/users/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const changes = {...req.body};
+        const changes = { ...req.body };
         const user = await userDb.update(id, changes);
 
         res.status(200).json(user);
-    } catch(err) {
+    } catch (err) {
         res.status(500).json(err);
     }
 });
@@ -134,7 +134,7 @@ server.delete('/users/:id', async (req, res) => {
         const user = await userDb.remove(id);
 
         res.status(200).json(user);
-    } catch(err) {
+    } catch (err) {
         res.status(500).json(err);
     }
 });
@@ -145,7 +145,7 @@ server.get('/tags', async (req, res) => {
         const tags = await tagDb.get();
 
         res.status(200).json(tags);
-    } catch(err) {
+    } catch (err) {
         res.status(500).json(err);
     }
 });
@@ -156,18 +156,18 @@ server.get('/tags/:id', async (req, res) => {
         const tag = await tagDb.get(id);
 
         res.status(200).json(tag);
-    } catch(err) {
+    } catch (err) {
         res.status(500).json(err);
     }
 });
 
 server.post('/tags', async (req, res) => {
     try {
-        const newTag = {...req.body};
+        const newTag = { ...req.body };
         const tag = await tagDb.insert(newTag);
 
         res.status(200).json(tag);
-    } catch(err) {
+    } catch (err) {
         res.status(500).json(err);
     }
 });
@@ -175,11 +175,11 @@ server.post('/tags', async (req, res) => {
 server.put('/tags/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const changes = {...req.body};
+        const changes = { ...req.body };
         const tag = await tagDb.update(id, changes);
 
         res.status(200).json(tag);
-    } catch(err) {
+    } catch (err) {
         res.status(500).json(err);
     }
 });
@@ -190,13 +190,13 @@ server.delete('/tags/:id', async (req, res) => {
         const tag = await tagDb.remove(id);
 
         res.status(200).json(tag);
-    } catch(err) {
+    } catch (err) {
         res.status(500).json(err);
     }
 });
 
 server.use(function (req, res) {
-    res.status(404).json({error: "Ain't nobody got time for that!"});
+    res.status(404).json({ error: "Ain't nobody got time for that!" });
 });
 
 const port = 8000;

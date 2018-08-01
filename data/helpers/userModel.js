@@ -2,15 +2,15 @@ const db = require('../db');
 const mappers = require('../helpers/mappers');
 
 module.exports = {
-    get: function(id) {
+    get: function (id) {
         let query = db('users as u');
 
-        if(id) {
+        if (id) {
             query.where('u.id', id).first();
 
             const promises = [query, this.getUserPosts(id)];
 
-            return Promise.all(promises).then(function(results) {
+            return Promise.all(promises).then(function (results) {
                 let [user, posts] = results;
                 user.posts = posts;
 
@@ -22,25 +22,25 @@ module.exports = {
             return users.map(user => mappers.userToBody(user));
         });
     },
-    getUserPosts: function(userId) {
+    getUserPosts: function (userId) {
         return db('posts')
-        .where('userId', userId)
-        .then(posts => posts.map(post => mappers.postToBody(post)));
+            .where('userId', userId)
+            .then(posts => posts.map(post => mappers.postToBody(post)));
     },
-    insert: function(user) {
+    insert: function (user) {
         return db('users')
-        .insert(user)
-        .then(([id]) => this.get(id));
+            .insert(user)
+            .then(([id]) => this.get(id));
     },
-    update: function(id, changes) {
+    update: function (id, changes) {
         return db('users')
-        .where('id', id)
-        .update(changes)
-        .then(count => (count > 0 ? this.get(id) : null));
+            .where('id', id)
+            .update(changes)
+            .then(count => (count > 0 ? this.get(id) : null));
     },
-    remove: function(id) {
+    remove: function (id) {
         return db('users')
-        .where('id', id)
-        .del();
+            .where('id', id)
+            .del();
     },
 };
