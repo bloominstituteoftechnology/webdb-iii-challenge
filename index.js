@@ -114,6 +114,18 @@ server.get('/users', (req, res) => {
     });
   })
 
+  server.get('/posts/:id/tags', (req, res) => {
+    db('tags')
+    .where('id', req.params.id)
+    .then(tags => {
+        if (tags.length === 0) {
+            res.status(200).send({error: "No tags for post"});
+        }
+        res.status(200).json(tags);
+    })
+    .catch(err => res.status(500).json(err));
+})
+
   server.post('/posts', (req, res) => {
     const {userId, text } = req.body;
     if (!userId || !text)
