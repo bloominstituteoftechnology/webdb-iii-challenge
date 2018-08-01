@@ -116,7 +116,7 @@ server.get('/users', (req, res) => {
 
   server.get('/posts/:id/tags', (req, res) => {
     db('tags')
-    .where('id', req.params.id)
+    .where('userId', req.params.id)
     .then(tags => {
         if (tags.length === 0) {
             res.status(200).send({error: "No tags for post"});
