@@ -10,6 +10,7 @@ const INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR"
 const INVALID_POST_ID = "INVALID_POST_ID"
 const INVALID_USER_ID = "INVALID_USER_ID"
 const MISSING_TEXT_OR_ID = "MISSING_TEXT_OR_ID"
+const INVALID_TAG_ID = "INVALID_TAG_ID"
 
 
 
@@ -22,7 +23,7 @@ const getPost = async (req, res, next) => {
     let error = INVALID_POST_ID
     
     try{
-        const postIn = await db('posts').where({id: Number(id)})
+        const postIn = await db('posts').where({id})
         if(postIn.length < 1){ throw Error() }
         error = INTERNAL_SERVER_ERROR
         req.postIn = postIn  
@@ -51,6 +52,25 @@ const getUser = async (req, res, next) => {
         next({error: error, internalError: err.message})    }
 }
 
+// Used to validate posts tags on input
+const getTags = async (req, res, next) => {
+    let tags = JSON.parse(req.body.tags)
+    let error = INVALID_TAG_ID
+    
+    try{
+        tagsIn = await db('tags').whereIn('id', tags)
+        // Check to see all our body tags returned from the database
+        if(tagsIn.length < 1 || tagsIn.length < tags.length){ throw Error() }
+        error = INTERNAL_SERVER_ERROR
+        req.tagsIn = tagsIn
+
+        next();
+    }catch(err){
+        next({error: error, internalError: err.message})
+    }
+}
+
+
 
 // ******************************  Posts ********************************************
 
@@ -58,7 +78,10 @@ router.get('/', async (req, res, next) => {
     let error = INTERNAL_SERVER_ERROR
 
     try{
-        const posts = await db('posts')
+        let posts = await db('posts')
+        console.log(posts)
+        // Convert stringified tags back to objects
+        posts = posts.map(post => {return {...post, tags: JSON.parse(post.tags)}})
         res.status(SUCCESS).json(posts)
     }catch(err){
         next({error: error, internalError: err.message})
@@ -69,7 +92,7 @@ router.get('/:id', getPost, (req,res, next) => {
     let error = INTERNAL_SERVER_ERROR
 
     try{
-        res.status(SUCCESS).json(req.postIn)
+        res.status(SUCCESS).json({...req.postIn, tags: JSON.parse(post.tags)})
     }catch(err){
         next({error: error, internalError: err.message})
     }
@@ -78,17 +101,16 @@ router.get('/:id', getPost, (req,res, next) => {
 // Get all tags for a post
 router.get('/:id/tags', getPost, async (req, res, next) => {
     let error = INTERNAL_SERVER_ERROR
-    let id = req.params.id
-    
+
     try{
-        const tags = await db.getPostTags(req.params.id)
+        let tags = JSON.parse(req.postIn[0].tags)
         res.status(SUCCESS).json(tags)
     }catch(err){
         next({error: error, internalError: err.message})
     }
 })
 
-router.post('/', getUser, async (req, res, next) => {
+router.post('/', getUser, getTags, async (req, res, next) => {
     // getUser has already validated we have a valid user
     const { text, userId } = req.body
     let error = MISSING_TEXT_OR_ID
@@ -96,10 +118,10 @@ router.post('/', getUser, async (req, res, next) => {
     try{
         if(!text || !userId){ throw Error() }   // throw if missing information
 
-        const postOut = {...req.body}
+        const postOut = {...req.body, tags: req.tagsIn}
         error = INTERNAL_SERVER_ERROR           
 
-        await db('posts').insert(postOut)
+        await db('posts').insert({...postOut, tags: JSON.stringify(req.tagsIn)})
         res.status(SUCCESS).json({Added: postOut})
     }catch(err){
         next({error: error, internalError: err.message})    }
