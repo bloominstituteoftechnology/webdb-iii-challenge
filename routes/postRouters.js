@@ -37,13 +37,12 @@ const getPost = async (req, res, next) => {
 // Use to confirm valid user
 const getUser = async (req, res, next) => {
     const { userId } = req.body
-    const { id } = req.params
     let error = INVALID_USER_ID
 
     console.log("In getUser");
 
     try{
-        const userIn = await db('users').where({id : (userId || id)})
+        const userIn = await db('users').where({id : userId})
         if(userIn.length < 1){ throw Error() }
         error = INTERNAL_SERVER_ERROR
 
@@ -81,7 +80,8 @@ router.get('/:id', getPost, (req,res, next) => {
 // Get all tags for a post
 router.get('/:id/tags', getPost, async (req, res, next) => {
     let error = INTERNAL_SERVER_ERROR
-
+    let id = req.params.id
+    
     try{
         const tags = await db.getPostTags(req.params.id)
         res.status(SUCCESS).json(tags)
@@ -107,10 +107,13 @@ router.post('/', getUser, async (req, res, next) => {
         next({error: error, internalError: err.message})    }
 })
 
-router.put('/:id', getPost, async (req, res, next) => {
+router.put('/:id', getPost, getUser, async (req, res, next) => {
+    // getPost checks for valid post, getUser a valid user (if they try to update userId)
+    const id = req.params.id
+
     try{
         const updated = {...req.body} 
-        await db.update(req.params.id, updated); 
+        await db('posts').where({id}).update(updated); 
         res.status(SUCCESS).json(updated)
     }catch(err) {
         next({error: INTERNAL_SERVER_ERROR, internalError: err.message})    }
