@@ -19,14 +19,16 @@ server.get('/users', (req, res) => {
         res.status(500).json(err);
     })
 })
+
 server.get('/users/:id', (req, res) => {
     const { id } = req.params;
-    db.get(id).then(u => {
+    db('users').where({ id: id }).then(u => {
         res.status(200).json(u);
     }).catch(err => {
         res.status(500).json(err);
     })
 })
+
 // server.get('/users/:id/posts', (req, res) => {
 //     const { id } = req.params;
 //     db.someFunction(id).then(u => {
@@ -37,11 +39,14 @@ server.get('/users/:id', (req, res) => {
 // })
 
 server.post('/users', (req, res) => {
-    const info = req.body;
-    db.insert(info).into('users')
+    const  name = req.body;
+    if(!name ){
+        res.status(400).json({ error: 'Please provide user name.' })
+    }
+    db('users').insert(name).into('users')
     .then(ids => {
         const id = ids[0]
-        res.status(201).json({ id, ...info});
+        res.status(201).json({ id, ...name}); // how to get createdAt in json res
     }).catch(err => {
         res.status(500).json(err)
     })
@@ -49,43 +54,49 @@ server.post('/users', (req, res) => {
 
 server.delete('/users/:id', (req, res) => {
     const { id } = req.params;
-    db.remove(id).then(ids => {
+    db('users').where({ id: id }).delete().then(ids => {
         if(!ids) {
             res.status(404).json({ error: 'The user with specified ID does not exist'})
         }
-        res.status(200).json(ids);
+        res.status(200).json(ids, { message: 'The user has been deleted' });
     })
     .catch(err  => {
         res.status(500).json(err)
     })
 })
+
 server.put('/users/:id', (req, res) => {
     const { id } = req.params;
-    const { name } = req.body;
-    db.update( id, { name }).then(ids => {
+    const  name  = req.body;
+    if(!name)  {
+        res.status(400).json({ error: 'Please provide user name'})
+    } 
+    db('users').where({ id: id }).update( name ).then(ids => {
         const id = ids[0]
-        if(!name)  {
-            res.status(400).json({ error: 'Please provide user name'})
-        } else if (!ids) {
+       if (!ids) {
             res.status(404).json({ error: 'The user with specified ID does not exist' })
         } else {
-            res.status(200).json(id, ...{ name })
+            res.status(200).json(id)
         }
     })
+    .catch(err => {
+        res.status(500).json(err);
+      });
 
 })
 
 // **** posts *****
 server.get('/posts', (req, res) => {
-    db('Posts').then(post => {
+    db('posts').then(post => {
         res.status(200).json(post);
     }).catch(err => {
         res.status(500).json(err);
     })
 })
+
 server.get('/posts/:id', (req, res) => {
     const { id } = req.params;
-    db.get(id).then(post => {
+    db('posts').where({ id: id }).then(post => {
         res.status(200).json(post);
     }).catch(err => {
         res.status(500).json(err);
@@ -94,7 +105,7 @@ server.get('/posts/:id', (req, res) => {
 
 server.post('/posts', (req, res) => {
     const info = req.body;
-    db.insert(info).into('posts')
+    db('posts').insert(info).into('posts')
     .then(ids => {
         const id = ids[0]
         res.status(201).json({ id, ...info});
@@ -102,6 +113,7 @@ server.post('/posts', (req, res) => {
         res.status(500).json(err)
     })
 })
+
 server.delete('/posts/:id', (req, res) => {
     const { id } = req.params;
     db.remove(id).then(ids => {
@@ -114,10 +126,11 @@ server.delete('/posts/:id', (req, res) => {
         res.status(500).json(err)
     })
 })
+
 server.put('/posts/:id', (req, res) => {
     const { id } = req.params;
     const { post } = req.body;
-    db.update( id, { post }).then(ids => {
+    db('posts').update( id, { post }).then(ids => {
         const id = ids[0]
         if(!post)  {
             res.status(400).json({ error: 'Please provide post text'})
@@ -140,7 +153,7 @@ server.get('/tags', (req, res) => {
 })
 server.get('/tags/:id', (req, res) => {
     const { id } = req.params;
-    db.get(id).then(tag => {
+    db('tags').get(id).then(tag => {
         res.status(200).json(tag);
     }).catch(err => {
         res.status(500).json(err);
@@ -149,17 +162,18 @@ server.get('/tags/:id', (req, res) => {
 
 server.post('/tags', (req, res) => {
     const info = req.body;
-    db.insert(info).into('tags')
+    db('tags').insert(info).into('tags')
     .then(ids => {
-        const id = ids[0]
-        res.status(201).json({ id, ...info});
+        // const id = ids[0]
+        // res.status(201).json({ id, ...info});
+        res.status(201).json(ids);
     }).catch(err => {
         res.status(500).json(err)
     })
 })
 server.delete('/tags/:id', (req, res) => {
     const { id } = req.params;
-    db.remove(id).then(ids => {
+    db('tags').remove(id).then(ids => {
         if(!ids) {
             res.status(404).json({ error: 'The tag with specified ID does not exist'})
         }
@@ -172,7 +186,7 @@ server.delete('/tags/:id', (req, res) => {
 server.put('/tags/:id', (req, res) => {
     const { id } = req.params;
     const { tag } = req.body;
-    db.update( id, { tag }).then(ids => {
+    db('tags').update( id, { tag }).then(ids => {
         const id = ids[0]
         if(!tag)  {
             res.status(400).json({ error: 'Please provide tag text'})
