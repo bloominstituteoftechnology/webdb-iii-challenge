@@ -5,7 +5,7 @@ const router = express.Router()
 
 // ******************************  Error Constants ********************************************
 
-const SUCCESS = 200;
+const SUCCESS = 200
 const INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR"
 const INVALID_USER_ID = "INVALID_USER_ID"
 const MISSING_NAME = "MISSING_NAME"
