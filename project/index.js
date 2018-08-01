@@ -32,6 +32,11 @@ server.put("/users/:id", (req, res) => {
     db.update({"name": name}).into('Users').where('id', id)
       .then(response => (res.json(response)))
 });
+server.delete("/users/:id", (req, res) => {
+  const { id } = req.params
+  db('Users').where("id", id).delete()
+    .then(response => (res.json(response)))
+})
 
 
 server.listen(port, () => { console.log(`Server is running on port ${port}`)});
