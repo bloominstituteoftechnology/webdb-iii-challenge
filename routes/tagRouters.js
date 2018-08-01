@@ -80,8 +80,10 @@ router.put('/:id', getTag, async (req, res, next) => {
 })
 
 router.delete('/:id', getTag, async (req, res, next) => {
+    const id = req.params.id
+
     try{
-        await db.remove(req.params.id)
+        await db('tags').where({id}).del()
         res.status(SUCCESS).json({"Removed": req.tagIn})
     }catch(err){
         next({error: INTERNAL_SERVER_ERROR, internalError: err.message})    }
