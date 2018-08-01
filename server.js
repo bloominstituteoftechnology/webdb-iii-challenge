@@ -25,6 +25,22 @@ server.get('/api/users', (req, res) => {
 });
 
 
+server.get('/api/users/:id', (req, res) => {
+        
+	const id = req.params.id;
+
+	db('users')
+	.where('id',id)
+        .then(response => {
+                if(response.length ===0) res.status(404).json({message: "User with the specified ID does not exist." })
+		else res.status(200).json(response);
+        })
+
+        .catch(err => res.status(500).json(err));
+
+});
+
+
 server.post('/api/users', (req, res) => {
 	const user = req.body;
 
