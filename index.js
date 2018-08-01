@@ -15,13 +15,8 @@ server.get('/', (req, res) => {
     res.status(200).send(`\n=== Web API Listening on http://localhost:${port} ===\n`);
 });
 
+// posts
 server.get('/posts', async (req, res) => {
-    // db('Posts').then(posts => {
-    //     if (posts.length === 0) res.status(404).json({ error: 'There are no posts.' });
-    //     res.status(200).json(posts)
-    // })
-    //     .catch(err => res.status(500).json(err));
-    
     try {
         const posts = await postDb.get();
         res.status(200).json(posts);
@@ -30,13 +25,19 @@ server.get('/posts', async (req, res) => {
     }
 });
 
-server.get('/users', async (req, res) => {
-    // db('Users').then(users => {
-    //     if (users.length === 0) res.status(404).json({ error: 'There are no users.' });
-    //     res.status(200).json(users)
-    // })
-    //     .catch(err => res.status(500).json(err));
+server.get('/posts/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
 
+        const post = await postDb.get(id);
+        res.status(200).json(post);
+    } catch(err) {
+        res.status(500).json(err);
+    }
+});
+
+// users
+server.get('/users', async (req, res) => {
     try {
         const users = await userDb.get();
         res.status(200).json(users);
@@ -45,13 +46,29 @@ server.get('/users', async (req, res) => {
     }
 });
 
-server.get('/tags', async (req, res) => {
-    // db('Tags').then(tags => {
-    //     if (tags.length === 0) res.status(404).json({ error: 'There are no tags.' });
-    //     res.status(200).json(tags)
-    // })
-    //     .catch(err => res.status(500).json(err));
+server.get('/users/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
 
+        const user = await userDb.get(id);
+        res.status(200).json(user);
+    } catch(err) {
+        res.status(500).json(err);
+    }
+});
+
+server.post('/users', async (req, res) => {
+    try {
+        const newUser = {...req.body};
+        const user = await userDb.insert(newUser);
+        res.status(200).json(user);
+    } catch(err) {
+        res.status(500).json(err);
+    }
+});
+
+// tags
+server.get('/tags', async (req, res) => {
     try {
         const tags = await tagDb.get();
         res.status(200).json(tags);
@@ -60,13 +77,19 @@ server.get('/tags', async (req, res) => {
     }
 });
 
-server.post('/users', (req, res) => {
-    const user = req.body;
-    db.insert(user).into('Users').then(ids => {
-        if(user.name === "") res.status(400).json({error: 'Missing name'});
-        const id = ids[0];
-        res.status(200).json({id, ...user});
-    }).catch(err => res.status(500).json({error: err}));
+server.get('/tags/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const tag = await tagDb.get(id);
+        res.status(200).json(tag);
+    } catch(err) {
+        res.status(500).json(err);
+    }
+});
+
+server.use(function (req, res) {
+    res.status(404).json({error: "Ain't nobody got time for that!"});
 });
 
 const port = 8000;

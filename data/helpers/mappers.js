@@ -20,12 +20,12 @@ function userToBody(user) {
     // completed: intToBoolean(user.completed),
   };
 
-  // if (project.actions) {
-  //   result.actions = project.actions.map(action => ({
-  //     ...action,
-  //     completed: intToBoolean(action.completed),
-  //   }));
-  // }
+  if (user.posts) {
+    result.posts = user.posts.map(post => ({
+      ...post,
+      // completed: intToBoolean(action.completed),
+    }));
+  }
 
   return result;
 }
