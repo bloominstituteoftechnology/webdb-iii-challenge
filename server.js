@@ -36,6 +36,37 @@ server.get('/users/:id', (req, res) => {
     })
 })
 
+server.put('/users/:id', (req, res) => {
+    const { id } = req.params;
+    const user = req.body;
+    db('Users')
+    .where({id: Number(id)})
+    .update(user)
+    .then(response => {
+        res.status(201).json({response})
+    })
+    .catch(err => {
+        res.status(500).json(err)
+    })
+})
+
+server.delete('/users/:id', (req, res) => {
+    const { id } = req.params;
+    const user = req.body;
+    db('Users')
+    .where({id: Number(id)})
+    .delete(user)
+    .then(response => {
+        res.status(201).json({response})
+    })
+    .catch(err => {
+        res.status(500).json(err)
+    })
+})
+
+
+
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
