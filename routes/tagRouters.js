@@ -69,9 +69,11 @@ router.post('/', async (req, res, next) => {
 })
 
 router.put('/:id', getTag, async (req, res, next) => {
+    const id = req.params.id
+ 
     try{
         const updated = {...req.body}
-        await db.update(req.params.id, updated)
+        await db('tags').where({id}).update(updated)
         res.status(SUCCESS).json(updated)
     }catch(err){
         next({error: INTERNAL_SERVER_ERROR, internalError: err.message})    }
