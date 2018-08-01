@@ -59,6 +59,19 @@ server.put('/users/:id', (req, res) => {
         })
 });
 
+server.delete('/users/:id', (req, res) => {
+    const {id} = req.params;
+    db('Users')
+        .where({id})
+        .del()
+        .then(count => {
+            res.status(201).json(count);
+        })
+        .catch(err => {
+            res.status(500).json(err);
+        })
+});
+
 
 server.post('/posts', (req, res) => {
     const post = req.body;
@@ -99,7 +112,7 @@ server.get('/posts/:id', (req, res) => {
 server.put('/posts/:id', (req, res) => {
     const changes = req.body;
     const {id} = req.params;
-    db('Users')
+    db('Posts')
         .where({id})
         .update(changes)
         .then(count => {
@@ -110,12 +123,11 @@ server.put('/posts/:id', (req, res) => {
         })
 });
 
-server.put('/users/:id', (req, res) => {
-    const changes = req.body;
+server.delete('/posts/:id', (req, res) => {
     const {id} = req.params;
-    db('Users')
+    db('Posts')
         .where({id})
-        .update(changes)
+        .del()
         .then(count => {
             res.status(201).json(count);
         })
@@ -163,9 +175,22 @@ server.get('/tags/:id', (req, res) => {
 server.put('/tags/:id', (req, res) => {
     const changes = req.body;
     const {id} = req.params;
-    db('Users')
+    db('Tags')
         .where({id})
         .update(changes)
+        .then(count => {
+            res.status(201).json(count);
+        })
+        .catch(err => {
+            res.status(500).json(err);
+        })
+});
+
+server.delete('/tags/:id', (req, res) => {
+    const {id} = req.params;
+    db('Tags')
+        .where({id})
+        .del()
         .then(count => {
             res.status(201).json(count);
         })
