@@ -12,11 +12,9 @@ function getTags (req, res, next) {
         }
         res.status(200).json(tag)
       })
-      .catch((err) => res.status(500).send(err))
+      .catch(next)
   } else {
-    db('tags')
-      .then((tags) => res.status(200).json(tags))
-      .catch((err) => res.status(500).send(err))
+    db('tags').then((tags) => res.status(200).json(tags)).catch(next)
   }
 }
 // ADD NEW TAG
@@ -32,9 +30,9 @@ function tagTag (req, res, next) {
       db('tags')
         .where({ id })
         .then((tags) => res.status(201).json(tags))
-        .catch((err) => res.status(500).json(err))
+        .catch(next)
     })
-    .catch((err) => res.status(500).send(err))
+    .catch(next)
 }
 // UPDATE A TAG
 function updateTag (req, res, next) {
@@ -54,23 +52,27 @@ function updateTag (req, res, next) {
         db('tags')
           .where({ id })
           .then((tag) => res.status(200).json(tag))
-          .catch((err) => res.status(500).json(err))
+          .catch(next)
       })
-      .catch((err) => res.status(500).send(err))
+      .catch(next)
   })
 }
 // DELETE TAG
 function deleteTag (req, res, next) {
   const id = req.params.id
-  db('tags').where({ id }).then((tag) => {
-    if (!tag.length > 0) {
-      next(new Error(`CANT_FIND`))
-    }
-    db('tags')
-      .where('id', id)
-      .del()
-      .then((tag) => res.status(200).json({ mes: 'success! ' }))
-  })
+  db('tags')
+    .where({ id })
+    .then((tag) => {
+      if (!tag.length > 0) {
+        next(new Error(`CANT_FIND`))
+      }
+      db('tags')
+        .where('id', id)
+        .del()
+        .then((tag) => res.status(200).json({ mes: 'success! ' }))
+        .catch(next)
+    })
+    .catch(next)
 }
 // GET ALL TAGS
 server.get('/', getTags)

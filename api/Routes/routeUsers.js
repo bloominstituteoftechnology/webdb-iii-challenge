@@ -72,11 +72,24 @@ function deleteUser (req, res, next) {
 }
 function getUserPosts (req, res, next) {
   const userID = req.params.id
+  const id = req.params.id
+  db('users').where({ id }).then((user) => {
+    if (!user.length > 0) {
+      console.log(user)
+      next(new Error(`CANT_FIND`))
+    }
+  })
   db('posts as p')
     .join('users as u', 'u.id', 'p.userID')
     .select('p.id', 'p.text', 'u.name as postedBy')
     .where('p.userId', userID)
-    .then((posts) => res.status(200).json(posts))
+    .then((posts) => {
+      console.log(posts.length)
+      if (posts.length === 0) {
+        next(new Error(`CANT_FIND`))
+      }
+      res.status(200).json(posts)
+    })
     .catch((err) => res.status(500).send(err))
 }
 // GET ALL USERS

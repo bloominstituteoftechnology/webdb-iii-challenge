@@ -3,16 +3,18 @@ const db = require('../../data/dbConfig')
 // GET ALL POST
 function getPosts (req, res, next) {
   const { id } = req.params
+  db('posts').where({ id }).then((post) => {
+    if (!post.length > 0) {
+      next(new Error(`CANT_FIND`))
+    }
+    return post
+  })
   if (id) {
-    db('posts')
-      .where({ id })
-      .then((post) => {
-        if (!post.length > 0) {
-          next(new Error(`CANT_FIND`))
-        }
-        res.status(200).json(post)
-      })
-      .catch(next)
+    db
+      .raw(
+        `select posts.id, users.name, posts.text, posts.createdAt, posts.tag from posts inner join users on posts.userID = users.id where posts.id = ${id}`
+      )
+      .then((post) => res.status(200).json(post))
   } else {
     db('posts').then((posts) => res.status(200).json(posts)).catch(next)
   }
@@ -31,9 +33,9 @@ function newPost (req, res, next) {
       db('posts')
         .where('id', id)
         .then((post) => res.status(201).json(post))
-        .catch((err) => res.status(500).json(err))
+        .catch(next)
     })
-    .catch((err) => res.status(500).send(err))
+    .catch(next)
 }
 // UPDATE A POST
 function updatePost (req, res, next) {
@@ -85,4 +87,14 @@ server.post('/', newPost)
 server.put('/:id', updatePost)
 // DELETE A POST
 server.delete('/:id', deletePost)
+
+server.get('/:id/tags', (req, res) => {
+  const postID = req.params.id
+  db('tags')
+    .where({ postID })
+    .then((tags) => {
+      res.status(200).json(tags)
+    })
+    .catch((err) => res.status(500).json(err))
+})
 module.exports = server
