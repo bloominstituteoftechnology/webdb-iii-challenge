@@ -23,6 +23,20 @@ user.get('/:id', (req,res) => {
       .catch(err => res.status(500).json(err))
 })
 
+user.get('/:id/posts', (req,res) => {
+  const id = req.params.id
+
+  db
+    .select('*')
+    .from('posts')
+    .leftJoin('users', 'posts.user_id','users.id')
+    .where({'users.id' : id})
+    .then( data => {
+      res.status(200).json(data)      
+    })
+
+})
+
 user.put('/:id', (req,res) => {
   const id = req.params.id
 
