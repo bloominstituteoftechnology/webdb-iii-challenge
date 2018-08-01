@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
 })
 
 router.get('/:id', (req, res) => {
-    const id = req.params.id
+    const { id } = req.params
     db('users').where({id: Number(id)}).then(id => {
         res.status(200).json(id)
     }).catch(err => {

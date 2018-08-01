@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
 })
 
 router.get('/:id', (req, res) => {
-    const id = req.params.id
+    const { id } = req.params
     db('posts').where({id: Number(id)}).then(post => {
         res.status(200).json(post)
     }).catch(err => {
@@ -19,4 +19,4 @@ router.get('/:id', (req, res) => {
     })
 })
 
-module.exports = router
+module.exports = router;
