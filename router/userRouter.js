@@ -41,11 +41,11 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
     const { id } = req.params
-    const { name } = req.body
-    db('users').where({id}).delete({name}).then(user => {
+    db('users').where({id}).delete().then(user => {
         res.status(200).json(user)
     }).catch(err => {
         res.status(500).json(err)
     })
 })
+
 module.exports = router;
