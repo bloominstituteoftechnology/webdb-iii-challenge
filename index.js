@@ -177,7 +177,7 @@ server.post('/tags', (req, res) => {
 })
 server.delete('/tags/:id', (req, res) => {
     const { id } = req.params;
-    db('tags').remove(id).then(ids => {
+    db('tags').where({ id }).del().then(ids => {
         if(!ids) {
             res.status(404).json({ error: 'The tag with specified ID does not exist'})
         }
