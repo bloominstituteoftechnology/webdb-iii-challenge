@@ -2,11 +2,12 @@ const express = require('express')
 
 const router = express.Router()
 
-const db = require('../data/helpers/userDb')
+const db = require('../data/db')
 
 router.get('/', (req, res) => {
-  db
-    .get()
+  // db
+  //   .get()
+  db('users')
     .then(users => {
       res.status(200).json(users)
     })
@@ -15,8 +16,7 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
   const { id } = req.params
-  db
-    .get(id)
+  db('users').where('id', id)
     .then(user => {
       if (!user) res.status(404).json({ error: `user with id ${id} not found.` })
       res.status(200).json(user)
