@@ -67,6 +67,18 @@ server.get('/users/:id', async (req, res) => {
     }
 });
 
+server.get('/users/:id/posts', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        let posts = await postDb.get();
+        posts = posts.filter(post => post.userId == id ? post : null);
+        res.status(200).json(posts);
+    } catch(err) {
+        res.status(500).json(err);
+    }
+});
+
 server.post('/users', async (req, res) => {
     try {
         const newUser = {...req.body};
