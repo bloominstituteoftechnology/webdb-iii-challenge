@@ -78,8 +78,7 @@ router.get('/', async (req, res, next) => {
     let error = INTERNAL_SERVER_ERROR
 
     try{
-        let posts = await db('posts')
-        console.log(posts)
+        let posts = await db.select('posts.id', 'name', 'text', 'tags').from('posts').innerJoin('users', 'posts.userId', 'users.id')
         // Convert stringified tags back to objects
         posts = posts.map(post => {return {...post, tags: JSON.parse(post.tags)}})
         res.status(SUCCESS).json(posts)
@@ -87,6 +86,7 @@ router.get('/', async (req, res, next) => {
         next({error: error, internalError: err.message})
     }
 })
+
 
 router.get('/:id', getPost, (req,res, next) => {
     let error = INTERNAL_SERVER_ERROR
