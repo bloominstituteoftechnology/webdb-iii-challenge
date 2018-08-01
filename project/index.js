@@ -8,8 +8,9 @@ server.use(express.json());
 const port = 8000;
 
 
-server.get("/api", (req, res) => {
-  res.json({ message: "Hello World" });
+server.get("/api/users", (req, res) => {
+  db.select('name').from('Users')
+    .then(response => (res.send(response)));
 });
 
 
