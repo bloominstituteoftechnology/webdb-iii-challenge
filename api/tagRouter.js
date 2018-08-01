@@ -39,5 +39,18 @@ router.post('/', (req,res, next) => {
         next(err);
     })
 })
-
+router.delete('/:id', (req, res, next) => {
+    const { id } = req.params;
+    db('tags')
+    .where('id', id)
+    .del().then(response => {
+        if(response === 0) {
+            throw {code: codes.NOT_FOUND, message: 'Tag does not exist with that id'}
+        }
+        res.status(200).json(response);
+    })
+    .catch(err => {
+        next(err);
+    });
+});
 module.exports = router;
