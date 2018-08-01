@@ -20,4 +20,32 @@ router.get('/:id', (req, res) => {
     })
 })
 
+router.post('/', (req,res) => {
+    const { name } = req.body
+    db('users').insert({name}).then(user => {
+        res.status(200).json(user)
+    }).catch(err => {
+        res.status(500).json(err)
+    })
+})
+
+router.put('/:id', (req, res) => {
+  const { name } = req.body
+  const { id } = req.params
+  db('users').where({id}).update({name}).then(user => {
+      res.status(200).json(user)
+  }).catch(err => {
+      res.status(500).json(err)
+  })
+})
+
+router.delete('/:id', (req, res) => {
+    const { id } = req.params
+    const { name } = req.body
+    db('users').where({id}).delete({name}).then(user => {
+        res.status(200).json(user)
+    }).catch(err => {
+        res.status(500).json(err)
+    })
+})
 module.exports = router;
