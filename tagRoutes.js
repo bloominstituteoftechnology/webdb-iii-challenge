@@ -81,5 +81,36 @@ tagrouter.delete('/:id', (req, res)=> {
         }
 });
 
+
+tagrouter.put('/:id', (req, res) => {
+
+        const id = req.params.id;
+        const tag = req.body.tag;
+
+if (!tag) {
+                res.status(400).json({errorMessage: "Please provide text for the tag to be updated."});
+}
+
+else{
+        db('tags')
+        .where('id', id)
+        .update({
+         tag: tag
+        })
+
+        .then(response => {
+         if(response===0)  res.status(404).json({ message: "The tag  with the specified ID does not exist." });
+        else{
+              let responseObject ={};
+              responseObject.message= `Successfully updated tag with  ${tag}`;
+              res.status(200).json(responseObject);
+            }
+        })
+
+        .catch(err => res.status(500).json(err));
+}
+});
+
+
 module.exports = tagrouter;
 
