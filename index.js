@@ -185,7 +185,7 @@ server.put('/posts/:id', (req, res) =>{
       });
 })
 
-
+// Get tags for a specific post by PostId
 server.get("/posts/:id/tags", (req, res) => {
     db("tags")
     .where("postId", req.params.id)
