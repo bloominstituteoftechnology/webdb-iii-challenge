@@ -12,4 +12,7 @@ server.get('/', (req, res) => {
 
 
 
-server.listen(port, () => console.log(`Server is running on port ${port}`));
+// server.listen(port, () => console.log(`\n Server is running on http://localhost:${port} === \n`));
+server.listen(port, function() {
+	console.log(`\n Server is running on http://localhost:${port} === \n`);
+});
