@@ -81,6 +81,70 @@ server.get('/api/users/:id/posts', async (req, res) => {
   }
 });
 
+// edit a user
+server.put('/api/users/:id', usersConstraints, async (req, res) => {
+  const ID = req.params.id;
+  const NAME = req.body.name;
+  const modifiedUser = { name: NAME };
+
+  try {
+    const users = await db
+      .where('id', ID)
+      .from('users')
+      .first();
+    if (users) {
+      try {
+        const user = await db
+          .where('id', ID)
+          .from('users')
+          .update(modifiedUser);
+        if (user) {
+          res.status(200).json({ message: `Updated user id:${ID}` });
+        } else {
+          res.status(500).send(`impossible error updating user id:${ID}`);
+        }
+      } catch (err) {
+        res.status(500).json(err);
+      }
+    } else {
+      res.status(404).json({ error: `No user with id:${ID} exists.` });
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// delete a user
+server.delete('/api/users/:id', async (req, res) => {
+  const ID = req.params.id;
+
+  try {
+    const users = await db
+      .where('id', ID)
+      .from('users')
+      .first();
+    if (users) {
+      try {
+        const user = await db
+          .where('id', ID)
+          .from('users')
+          .del();
+        if (user) {
+          res.status(200).json({ message: `Deleted user id:${ID}` });
+        } else {
+          res.status(500).send(`impossible error deleting user id:${ID}`);
+        }
+      } catch (err) {
+        res.status(500).json(err);
+      }
+    } else {
+      res.status(404).json({ error: `No user with id:${ID} exists.` });
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 /* 
   POSTS
 */
@@ -141,7 +205,6 @@ server.get('/api/posts/:id', async (req, res) => {
 server.post('/api/tags', tagsConstraints, async (req, res) => {
   const TAG = req.body.tag;
   const newTag = { tag: TAG };
-  // const newTag = {};
 
   try {
     const tags = await db.insert(newTag).into('tags');

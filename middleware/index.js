@@ -5,7 +5,7 @@ function usersConstraints(req, res, next) {
   if (!NAME) {
     return next({
       code: 400,
-      error: `Please provide a 'name' for the new user.`,
+      error: `Please provide a 'name' for the user.`,
     });
   }
 
@@ -25,7 +25,7 @@ function postsConstraints(req, res, next) {
   if (!TEXT) {
     return next({
       code: 400,
-      error: `Please provide 'text' for the new post.`,
+      error: `Please provide 'text' for the post.`,
     });
   }
 
@@ -39,7 +39,7 @@ function tagsConstraints(req, res, next) {
   if (!TAG) {
     return next({
       code: 400,
-      error: `Please provide a 'tag' for the new tag.`,
+      error: `Please provide a 'tag' for the tag.`,
     });
   }
 
