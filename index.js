@@ -77,7 +77,7 @@ server.get('/users', (req, res) => {
     db('users')
     .where("id", Number(id))
     .update(name)
-    .into('users')
+    // .into('users')line is not needed
     .then(user => {
         if(!user) {
             res.status(404).json({ message: "ID doesn't exist"});
@@ -89,7 +89,7 @@ server.get('/users', (req, res) => {
     });
 })
 
-  ///////////////post 
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////post 
 
   server.get('/posts', (req, res) => {
     db('posts').then(post => {
@@ -140,9 +140,29 @@ server.get('/users', (req, res) => {
     });
 })
 
+server.put('/posts/:id', (req, res) => {
+    const text = req.body;
+    const { id } = req.params
+    if(!text)
+    res.status(400).json({ errorMessage: "Provide text and userId please"});
+    db('posts')
+    .where("id", Number(id))
+    .update(text)
+    // .into('users')line is not needed
+    .then(post => {
+        if(!post) {
+            res.status(404).json({ message: "ID doesn't exist"});
+        }
+        res.status(200).json(text);
+    })
+    .catch(error => {
+        res.status(500).json({error: "Didnt work"})
+    });
+})
 
 
-/////////////////tags
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////tags
 
 
 server.get('/tags', (req, res) => {
@@ -167,6 +187,52 @@ server.get('/tags', (req, res) => {
       res.status(500).json({ error: "That did not work haha"})
     });
   })
+
+  server.post('/tags', (req, res) => {
+    const { tag } = req.body;
+    if (!tag)
+    res.status(400).json({ errorMessage: "Tag required"});
+    db.insert({ tag }) 
+    .into("tags")
+    .then(post => res.status(201).json({tag})) 
+    .catch(err => res.status(400).json({error: "Error posting"}))
+  })
+
+  server.delete('/tags/:id', (req, res) => {
+    const { id } = req.params;
+    db('tags')
+    .where('id', Number(id))
+    .delete()   
+    .then(tag => {
+        if(tag === 0) {
+            res.status(404).json({ message: "That ID doesn't exists"});
+        }
+        res.status(200).json({message: "Success in deleting"});
+    })
+    .catch(error => {
+        res.status(500).json({ error: "Error Deleteing post"})
+    });
+})
+
+server.put('/tags/:id', (req, res) => {
+    const tag = req.body;
+    const { id } = req.params
+    if(!tag)
+    res.status(400).json({ errorMessage: "Provide tag please"});
+    db('tags')
+    .where("id", Number(id))
+    .update(tag)
+    // .into('users')line is not needed
+    .then(tag => {
+        if(!tag) {
+            res.status(404).json({ message: "ID doesn't exist"});
+        }
+        res.status(200).json({tag, message: "Success Updating"});
+    })
+    .catch(error => {
+        res.status(500).json({error: "Didnt work"})
+    });
+})
 
 
 
