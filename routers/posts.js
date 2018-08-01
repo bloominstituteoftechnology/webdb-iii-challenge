@@ -27,6 +27,20 @@ posts.get('/', async (req, res) => {
   }
 })
 
+posts.get('/:id', async (req, res) => {
+  const id = +req.params.id
+
+  try { 
+    const post = await db('posts')
+      .where('id', '=', id)
+      .select()
+
+    res.status(200).json(post)
+  } catch(e) {
+    next(e)
+  }
+})
+
 posts.use((err, req, res, next) => {
   res.status(500).json(error)
 })
