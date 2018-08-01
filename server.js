@@ -428,7 +428,6 @@ server.get('/api/posts/:id/tags', async (req, res) => {
       .from('posts')
       .first();
     if (posts) {
-      console.log('POSTS', posts);
       try {
         const tags = await db.where('postId', ID).from('posttags');
         if (tags.length > 0) {
