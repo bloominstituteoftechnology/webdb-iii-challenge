@@ -95,7 +95,7 @@ server.get('/posts/:id/tags', (req, res) => {
 			res.status(500).json(error);
 		})
 })
-
+// [GET] /posts/:id/tags endpoint that returns all tags for the post with the specified id.
 server.get('/posts_tags', (req, res) => {
 	knex('posts_tags')
 		.then(data => {
