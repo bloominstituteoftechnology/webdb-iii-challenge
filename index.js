@@ -33,4 +33,17 @@ server.get('/users', (req, res) => {
 });
 
 
+server.get('/users/:id', (req, res) => {
+    const {id} = req.params;
+    db('Users')
+        .where({id})
+        .then(users => {
+            res.status(201).json(users);
+        })
+        .catch(err => {
+            res.status(500).json(err);
+        })
+});
+
+
 server.listen(8000, () => console.log('Running on port 8000'));
