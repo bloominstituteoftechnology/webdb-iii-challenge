@@ -69,13 +69,23 @@ function deletePost (req, res, next) {
       if (!post.length > 0) {
         next(new Error(`CANT_FIND`))
       }
-      db('posts')
-        .where('id', id)
-        .del()
-        .then((post) => res.status(200).json({ mes: 'success! ' }))
-        .catch(next)
     })
     .catch(next)
+  db('posts')
+    .where('id', id)
+    .del()
+    .then((post) => res.status(200).json({ mes: 'success! ' }))
+    .catch(next)
+}
+// GET POST TAGS
+function getPostTags (req, res, next) {
+  const postID = req.params.id
+  db('tags')
+    .where({ postID })
+    .then((tags) => {
+      res.status(200).json(tags)
+    })
+    .catch((err) => res.status(500).json(err))
 }
 // GET ALL POST
 server.get('/', getPosts)
@@ -87,14 +97,6 @@ server.post('/', newPost)
 server.put('/:id', updatePost)
 // DELETE A POST
 server.delete('/:id', deletePost)
-
-server.get('/:id/tags', (req, res) => {
-  const postID = req.params.id
-  db('tags')
-    .where({ postID })
-    .then((tags) => {
-      res.status(200).json(tags)
-    })
-    .catch((err) => res.status(500).json(err))
-})
+// GET POST TAGS
+server.get('/:id/tags', getPostTags)
 module.exports = server

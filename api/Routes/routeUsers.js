@@ -42,21 +42,22 @@ function updateUser (req, res, next) {
   if (!user.name || user.name.length > 120) {
     next(new Error('INVALID_USER'))
   }
-  db('users').where({ id }).then((user) => {
-    if (!user.length > 0) {
-      next(new Error(`CANT_FIND`))
-    }
-  })
   db('users')
     .where('id', id)
     .update(user)
     .then((users) => {
-      db('users')
-        .where('id', id)
-        .then((user) => res.status(201).json(user))
-        .catch(next)
+      return users
     })
     .catch((err) => res.status(500).send(err))
+  db('users')
+    .where('id', id)
+    .then((user) => {
+      if (user.length == 0) {
+        next(new Error('CANT_FIND'))
+      }
+      res.status(201).json(user)
+    })
+    .catch(next)
 }
 // DELETE A USER
 function deleteUser (req, res, next) {
@@ -72,13 +73,6 @@ function deleteUser (req, res, next) {
 }
 function getUserPosts (req, res, next) {
   const userID = req.params.id
-  const id = req.params.id
-  db('users').where({ id }).then((user) => {
-    if (!user.length > 0) {
-      console.log(user)
-      next(new Error(`CANT_FIND`))
-    }
-  })
   db('posts as p')
     .join('users as u', 'u.id', 'p.userID')
     .select('p.id', 'p.text', 'u.name as postedBy')
