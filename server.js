@@ -197,6 +197,70 @@ server.get('/api/posts/:id', async (req, res) => {
   }
 });
 
+// edit a post
+server.put('/api/posts/:id', postsConstraints, async (req, res) => {
+  const ID = req.params.id;
+  const TEXT = req.body.text;
+  const modifiedpost = { text: TEXT };
+
+  try {
+    const posts = await db
+      .where('id', ID)
+      .from('posts')
+      .first();
+    if (posts) {
+      try {
+        const post = await db
+          .where('id', ID)
+          .from('posts')
+          .update(modifiedpost);
+        if (post) {
+          res.status(200).json({ message: `Updated post id:${ID}` });
+        } else {
+          res.status(500).send(`impossible error updating post id:${ID}`);
+        }
+      } catch (err) {
+        res.status(500).json(err);
+      }
+    } else {
+      res.status(404).json({ error: `No post with id:${ID} exists.` });
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// delete a post
+server.delete('/api/posts/:id', async (req, res) => {
+  const ID = req.params.id;
+
+  try {
+    const posts = await db
+      .where('id', ID)
+      .from('posts')
+      .first();
+    if (posts) {
+      try {
+        const post = await db
+          .where('id', ID)
+          .from('posts')
+          .del();
+        if (post) {
+          res.status(200).json({ message: `Deleted post id:${ID}` });
+        } else {
+          res.status(500).send(`impossible error deleting post id:${ID}`);
+        }
+      } catch (err) {
+        res.status(500).json(err);
+      }
+    } else {
+      res.status(404).json({ error: `No post with id:${ID} exists.` });
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 /* 
   TAGS
 */
