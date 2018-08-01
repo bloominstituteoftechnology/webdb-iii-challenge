@@ -16,7 +16,7 @@ router.get('/:id', (req, res) => {
     .catch( err => res.status(500).json(err) )
 })
   
-router.get('/:id/posts', (req,res) => {
+router.get('/:id/posts', (req, res) => {
   const id = req.params.id
   db
     .select('*')
@@ -27,7 +27,7 @@ router.get('/:id/posts', (req,res) => {
     .catch( err => res.status(400).json({err}) )
 })
 
-router.post('/', (req,res) => {
+router.post('/', (req, res) => {
   const body = req.body
   if (!body.name) res.status(400).json({err: 'Field required.'})
   let id = 0;
@@ -43,7 +43,7 @@ router.post('/', (req,res) => {
     .catch( err => res.status(500).json(err) )
 })
 
-router.put('/:id', (req,res) => {
+router.put('/:id', (req, res) => {
   const id = req.params.id
   const body = req.body
   if (!body.name) res.status(400).json({err: 'Field required.'})
@@ -59,7 +59,7 @@ router.put('/:id', (req,res) => {
   }
 })
 
-router.delete('/:id', (req,res) => {
+router.delete('/:id', (req, res) => {
   const id = req.params.id
   db('users')
     .where({id})
