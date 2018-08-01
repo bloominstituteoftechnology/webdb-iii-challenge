@@ -60,6 +60,17 @@ server.put('/posts/:id', async (req, res) => {
     }
 });
 
+server.delete('/posts/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const post = await postDb.remove(id);
+
+        res.status(200).json(post);
+    } catch(err) {
+        res.status(500).json(err);
+    }
+});
+
 // users
 server.get('/users', async (req, res) => {
     try {
@@ -117,6 +128,17 @@ server.put('/users/:id', async (req, res) => {
     }
 });
 
+server.delete('/users/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await userDb.remove(id);
+
+        res.status(200).json(user);
+    } catch(err) {
+        res.status(500).json(err);
+    }
+});
+
 // tags
 server.get('/tags', async (req, res) => {
     try {
@@ -155,6 +177,17 @@ server.put('/tags/:id', async (req, res) => {
         const { id } = req.params;
         const changes = {...req.body};
         const tag = await tagDb.update(id, changes);
+
+        res.status(200).json(tag);
+    } catch(err) {
+        res.status(500).json(err);
+    }
+});
+
+server.delete('/tags/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const tag = await tagDb.remove(id);
 
         res.status(200).json(tag);
     } catch(err) {

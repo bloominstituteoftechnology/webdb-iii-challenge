@@ -27,7 +27,9 @@ module.exports = {
         .update(changes)
         .then(count => (count > 0 ? this.get(id) : null));
     },
-    remove: function() {
-        
+    remove: function(id) {
+        return db('posts')
+        .where('id', id)
+        .del();
     },
 };
