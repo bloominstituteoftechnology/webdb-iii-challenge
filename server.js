@@ -31,12 +31,12 @@ server.post('/users', (req, res) => {
         res.status(201).json({id, ...user})
     }).catch(err => res.status(500).json(err))
 })
-server.delete('/users/:id', (req, res) => {//not working properly
+server.delete('/users/:id', (req, res) => {//delete user
     const id = req.params.id;
     // posts = posts.filter(p => p.id != id)
     db('users')
     .where('id', '=', id)
-    .del(id)
+    .del()
       .then(user => {
         if (user === 0) {
           res.status(404)
@@ -48,6 +48,22 @@ server.delete('/users/:id', (req, res) => {//not working properly
           .json({ error: "error 2." })
       });
   })
+  server.put('/users/:id', (req, res) => {// update users
+    const changes = req.body;
+    const id = req.params.id;
+  
+    db('users')
+      .where('id', '=', id) // or .where({ id: id })
+      .update(changes)
+      .then(count => {
+        // count === number of records updated
+        res.status(200).json(count);
+      })
+      .catch(err => {
+        res.status(500).json(err);
+      });
+      
+  });
 server.get('/posts', (req, res) => {// get all posts
     db('posts').then(pid => {
         res.status(200).json(pid)
@@ -62,7 +78,7 @@ server.post('/posts', (req, res) => {// post new post
         res.status(201).json({id, ...post})
     }).catch(err => res.status(500).json(err))
 })
-server.get('/posts/:id', (req, res) => {//get tag by id
+server.get('/posts/:id', (req, res) => {//get post by id
     const id = req.params.id;
     db('posts')
     .where('id', '=', id)
@@ -70,7 +86,7 @@ server.get('/posts/:id', (req, res) => {//get tag by id
         res.status(200).json(post)
     }).catch(err => res.status(500).json(err))
 });
-server.put('/posts/:id', (req, res) => {// update tags
+server.put('/posts/:id', (req, res) => {// update posts
     const changes = req.body;
     const id = req.params.id;
   
@@ -86,7 +102,23 @@ server.put('/posts/:id', (req, res) => {// update tags
       });
       
   });
-
+  server.delete('/posts/:id', (req, res) => {//delete post
+    const id = req.params.id;
+    
+    db('posts')
+    .where('id', '=', id)
+    .del()
+      .then(post => {
+        if (post === 0) {
+          res.status(404)
+          .json({ error: "The post with the specified ID does not exist." })
+        }
+        res.status(200).json(post)
+      }).catch(error => {
+        res.status(500)
+          .json({ error: "error 2." })
+      });
+  })
 server.get('/tags', (req, res) => {// get all tags
     db('tags').then(tag => {
         res.status(200).json(tag)
