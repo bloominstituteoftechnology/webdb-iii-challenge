@@ -70,13 +70,31 @@ server.post('/posts', (req, res) => {
 	db.insert(post).into('Posts')
 	.then(ids => {
 		const id = ids[0];
-		res.status(201).json({ id, ...user })
+		res.status(201).json({ id, ...post })
 	}).catch(err => res.status(500).json(err));
 });
 
+server.put('/posts/:id', (req, res) => {
+    const { id } = req.params;
+    const post = req.body;
+    db('Posts').where({id: Number(id)})
+    .update(post)
+    .then(response => {
+        res.status(201).json({response})
+    }).catch(err => {res.status(500).json(err)
+    })
+});
 
-
-
+server.delete('/posts/:id', (req, res) => {
+    const { id } = req.params;
+    const post = req.body;
+    db('Posts').where({id: Number(id)})
+    .delete(post)
+    .then(response => {
+        res.status(201).json({response})
+    }).catch(err => {res.status(500).json(err)
+    })
+});
 
 
 
