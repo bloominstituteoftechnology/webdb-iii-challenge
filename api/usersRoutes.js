@@ -46,10 +46,21 @@ router.get('/:id/posts', (req, res, next) => {
       if(!response[0]) {
         next({ code: 404 })
       } else {
-        res
-          .status(200)
-          .json(resposne)
-          .end()
+        db('posts')
+          .where({ userId: id})
+          .then(response => {
+            if(!response[0]) {
+              next({ code: 404 })
+            } else {
+              res
+                .status(200)
+                .json(response)
+                .end()
+            }
+          })
+          .catch(() => {
+            next({ code: 500 })
+          })
       }
     })
     .catch(() => {
