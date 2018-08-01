@@ -45,6 +45,20 @@ server.get('/users/:id', (req, res) => {
         })
 });
 
+server.put('/users/:id', (req, res) => {
+    const changes = req.body;
+    const {id} = req.params;
+    db('Users')
+        .where({id})
+        .update(changes)
+        .then(count => {
+            res.status(201).json(count);
+        })
+        .catch(err => {
+            res.status(500).json(err);
+        })
+});
+
 
 server.post('/posts', (req, res) => {
     const post = req.body;
