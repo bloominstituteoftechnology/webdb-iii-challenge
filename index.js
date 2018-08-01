@@ -71,7 +71,7 @@ server.put('/users/:id', (req, res) => {
     if(!name)  {
         res.status(400).json({ error: 'Please provide user name'})
     } 
-    db('users').where({ id: id }).update( name ).then(ids => {
+    db('users').where({ id: id }).update(name).then(ids => {
         const id = ids[0]
        if (!ids) {
             res.status(404).json({ error: 'The user with specified ID does not exist' })
@@ -116,7 +116,7 @@ server.post('/posts', (req, res) => {
 
 server.delete('/posts/:id', (req, res) => {
     const { id } = req.params;
-    db.remove(id).then(ids => {
+    db('posts').where({ id: id }).delete(id).then(ids => {
         if(!ids) {
             res.status(404).json({ error: 'The post with specified ID does not exist'})
         }
@@ -127,19 +127,23 @@ server.delete('/posts/:id', (req, res) => {
     })
 })
 
-server.put('/posts/:id', (req, res) => {
+server.put('/posts/:id', (req, res) => { // needs work with proper errors return
     const { id } = req.params;
-    const { post } = req.body;
-    db('posts').update( id, { post }).then(ids => {
+    const  post  = req.body;
+    if(!post)  {
+        res.status(400).json({ error: 'Please provide post text'})
+    } 
+    db('posts').where({ id }).update(post).then(ids => {
         const id = ids[0]
-        if(!post)  {
-            res.status(400).json({ error: 'Please provide post text'})
-        } else if (!ids) {
+       if (!ids) {
             res.status(404).json({ error: 'The post with specified ID does not exist' })
         } else {
-            res.status(200).json(id, ...{ post })
+            res.status(200).json(id, ...post)
         }
     })
+    .catch(error => {
+        res.status(500).json({error: "Didnt work"})
+    });
 
 })
 
