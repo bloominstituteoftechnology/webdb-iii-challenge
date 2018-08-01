@@ -6,7 +6,8 @@ const server = express();
 
 server.use(express.json());
 
-// endpoints here
+// ! ====== Users
+// TODO get all posts by user id
 server.get('/', (req, res) => {
   res.send('up and running...');
 });
@@ -61,6 +62,62 @@ server.put('/users/:id', (req, res) => {
     .update({ name })
     .then(user => {
       res.status(200).json(user);
+    })
+    .catch((err) => res.status(500).json(err));
+});
+
+//! ============ Tags
+
+server.get('/tags', (req, res) => {
+  db('Tags')
+    .then(tag => {
+      res.status(200).json(tag);
+    })
+    .catch((err) => res.status(500).json(err));
+});
+
+server.get('/tags/:id', (req, res) => {
+  const { id } = req.params;
+  db('Tags')
+    .where({ id })
+    .then(tags => {
+      res.status(200).json(tags);
+    })
+    .catch((err) => res.status(500).json(err));
+});
+
+server.post('/tags', (req, res) => {
+  const tag = req.body;
+  db
+    .insert(tag)
+    .into('Tags')
+    .then(ids => {
+      const id = ids[0]
+      res.status(201).json({ id, ...tag})
+    })
+    .catch(err => res.status(500).json(err));
+});
+
+server.delete('/tags/:id', (req, res) => {
+  const {id} = req.params;
+  console.log(id)
+  db('Tags')
+    .where({ id })
+    .del()
+    .then(tag=> {
+      res.status(200).json(tag);
+    })
+    .catch((err) => res.status(500).json(err));
+});
+
+server.put('/tags/:id', (req, res) => {
+  const { id } = req.params;
+  const { tag } = req.body;
+  db('Tags')
+    .where({ id })
+    .update({ tag })
+    .then(tag => {
+      res.status(200).json(tag);
     })
     .catch((err) => res.status(500).json(err));
 });
