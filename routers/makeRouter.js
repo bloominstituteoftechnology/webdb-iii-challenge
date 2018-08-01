@@ -20,7 +20,7 @@ function postRouter(db, target, middlewares = []) {
         throw new HttpError(errors.noResult);
       } else {
         res.status(200);
-        req.locals = { ...req.locals, payload: payload[0] };
+        req.locals = { ...req.locals, payload: payload[0], type: target };
       }
       next();
     }),
@@ -34,7 +34,7 @@ function postRouter(db, target, middlewares = []) {
         throw new HttpError(errors.noResult);
       } else {
         res.status(200);
-        req.locals = { ...req.locals, payload };
+        req.locals = { ...req.locals, payload, type: target };
         next();
       }
     }),
@@ -45,7 +45,7 @@ function postRouter(db, target, middlewares = []) {
     wrapAsync(async (req, res, next) => {
       const payload = await db(target).insert(req.body);
       res.status(201);
-      req.locals = { ...req.locals, payload };
+      req.locals = { ...req.locals, payload, type: 'id' };
       next();
     }),
   );
@@ -61,7 +61,7 @@ function postRouter(db, target, middlewares = []) {
         throw new HttpError(errors.noEffect);
       } else {
         res.status(200);
-        req.locals = { ...req.locals, payload };
+        req.locals = { ...req.locals, payload, type: 'number' };
       }
       next();
     }),
@@ -78,7 +78,7 @@ function postRouter(db, target, middlewares = []) {
         throw new HttpError(errors.noEffect);
       } else {
         res.status(200);
-        req.locals = { ...req.locals, payload };
+        req.locals = { ...req.locals, payload, type: 'number' };
       }
       next();
     }),

@@ -7,6 +7,11 @@ module.exports = {
     connection: {
       filename: './db/blog.db',
     },
+    pool: {
+      afterCreate: (conn, cb) => {
+        conn.run('PRAGMA foreign_keys = ON', cb);
+      },
+    },
     useNullAsDefault: true,
   },
   production: {

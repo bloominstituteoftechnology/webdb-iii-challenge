@@ -42,10 +42,10 @@ async function processOnePost(post, db) {
 
 async function processPost(req, res, next, db) {
   // collect previously returned payload on req.locals namespace
-  const { payload } = req.locals;
+  const { payload, type } = req.locals;
 
   // only handles if payload is defined
-  if (payload !== undefined) {
+  if (payload !== undefined && type === 'post') {
 
     // if payload is an array, handles all posts in the array using Promise.all, then return processed array
     if (payload instanceof Array) {

@@ -32,6 +32,8 @@ server.use('/api/tags', makeRouter(db, 'tags'));
 server.use((err, req, res, next) => {
   if (err.code === 'SQLITE_CONSTRAINT') {
     res.status(500).json('Database returned an error.');
+    next();
+    return;
   }
   res.status(err.code).json(err.message);
   next();
