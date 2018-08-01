@@ -1,7 +1,10 @@
 {
   "name": "RDBMS-API-Full",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
   "repository": "https://github.com/TangledTessellations/RDBMS-API-Full.git",
   "author": "TangledTessellations <mcevoya@oregonstate.edu>",
   "license": "MIT",

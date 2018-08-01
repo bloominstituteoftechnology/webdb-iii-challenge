@@ -87,3 +87,5 @@ router.delete('/:id', getTag, async (req, res, next) => {
     }catch(err){
         next({error: INTERNAL_SERVER_ERROR, internalError: err.message})    }
 })
+
+module.exports = router

@@ -3,14 +3,15 @@ const helmet = require('helmet')
 const morgan = require('morgan')
 const api = require('./routes/apiRouter.js')
 
-const db = require('./data/db');
-
 const server = express();
 
 server.use(express.json());
 server.use(helmet())
 server.use(morgan('tiny'))
 
+server.get('/', (req, res) => {
+  res.send(`Server running on port ${port}`)
+})
 
 server.use('/api', api)
 

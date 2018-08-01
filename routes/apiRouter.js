@@ -12,7 +12,7 @@ api.use('./tags', tags)
 
 // ******************************  Error Handler ********************************************
 
-server.use(( err, req, res ) => {
+api.use(( err, req, res ) => {
     switch(err.error) {
         case MISSING_TEXT_OR_ID:
             res.status(400).send({
