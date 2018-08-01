@@ -68,9 +68,9 @@ router.put('/:id', (req, res, next) => {
   if(!text) {
     next({ code: 400 })
   } else {
-    db
-      .update(id, post)
-      .into('posts')
+    db('posts')
+      .where({ id })
+      .update(post)
       .then(response => {
         if(!response) {
           next({ code: 404 })

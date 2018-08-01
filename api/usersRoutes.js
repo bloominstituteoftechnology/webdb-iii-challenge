@@ -79,15 +79,14 @@ router.post('/', (req, res, next) => {
 })
 
 router.put('/:id', (req, res, next) => {
-  const id = req.params.id;
-  const name = req.body.name;
-  const user = { name };
-  if(!name || name.length > 128) {
+  const { id } = req.params;
+  const name = req.body;
+  if(!name.name || name.name.length > 128) {
     next({ code: 400 })
   } else {
-    db
-      .update(id, user)
-      .into('users')
+    db('users')
+      .where({ id })
+      .update(name)
       .then(response => {
         if(!response) {
           next({ code: 404 })
@@ -101,7 +100,7 @@ router.put('/:id', (req, res, next) => {
       .catch(() => {
         next({ code: 500 })
       })
-  }
+   }
 })
 
 router.delete('/:id', (req, res, next) => {

@@ -61,14 +61,13 @@ router.post('/', (req, res, next) => {
 
 router.put('/:id', (req, res, next) => {
   const id = req.params.id;
-  const tagText = req.body.tag;
-  const tag = { tag: tagText };
-  if(!tagText) {
+  const tag = req.body
+  if(!tag.tag) {
     next({ code: 400 })
   } else {
-    db
-      .update(id, tag)
-      .into('tags')
+    db('tags')
+      .where({ id })
+      .update(tag)
       .then(response => {
         if(!response) {
           next({ code: 404 })
