@@ -201,10 +201,10 @@ server.get('/tags', (req, res) => {
   })
 
   server.post('/tags', (req, res) => {
-    const { tag } = req.body;
-    if (!tag)
+    const { tag, userId } = req.body;
+    if (!tag || !userId)
     res.status(400).json({ errorMessage: "Tag required"});
-    db.insert({ tag }) 
+    db.insert({ tag, userId }) 
     .into("tags")
     .then(post => res.status(201).json({tag})) 
     .catch(err => res.status(400).json({error: "Error posting"}))
