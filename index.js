@@ -4,13 +4,14 @@ const server = express();
 
 server.use(express.json());
 
+//Root 
 server.get('/', (req, res) => {
     res.send('We runnin....')
   })
 
 
 //Users 
-//Get User
+//Get Users
 server.get('/users', (req, res) => {
     db('users')
     .then(user => {
@@ -19,7 +20,8 @@ server.get('/users', (req, res) => {
     .catch(err => res.status(500).json(err))
 })
 
-//Post User
+
+//Post New User
 server.post('/users', (req, res) => {
     const user = req.body;
     db()
@@ -33,7 +35,8 @@ server.post('/users', (req, res) => {
       });
 })
 
-//Get User By ID
+
+//Get Specific User By ID
 server.get('/users/:id', (req, res) => {
     const { id } = req.params;
     db('users')
@@ -87,7 +90,7 @@ server.delete('/users/:id', (req, res) => {
 })
 
 
-//Get Posts by User ID
+//Get Posts for a User by User ID
 server.get('/users/:id/posts', (req, res) => {
     db('posts')
     .where('userId', req.params.id)
@@ -101,7 +104,8 @@ server.get('/users/:id/posts', (req, res) => {
 })
 
 
-//Posts
+
+//Posts ---------------------------------------------------------
 //Get posts
 server.get('/posts', (req, res) => {
     db('posts')
@@ -164,6 +168,7 @@ server.delete('/posts/:id', (req, res) => {
     });
 })
 
+
 //Update Post
 server.put('/posts/:id', (req, res) =>{
     const { id } = req.params;
@@ -181,8 +186,23 @@ server.put('/posts/:id', (req, res) =>{
 })
 
 
+server.get("/posts/:id/tags", (req, res) => {
+    db("tags")
+    .where("postId", req.params.id)
+    .then(tags => {
+        if(tags.length === 0) {
+            res.status(404).json({message: "the tags with that ID do not exist"})
+        }
+        res.status(200).json(tags);
+    })
+    .catch(error => {
+        res.status(500).json({error: "POst info coult not be retrieved"})
+    })
+})
 
-//Tags
+
+
+//Tags --------------------------------------------------------------------------------------
 //Get tags
 server.get('/tags', (req, res) => {
     db('tags')
