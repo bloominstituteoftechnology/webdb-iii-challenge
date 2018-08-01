@@ -82,4 +82,40 @@ server.get('/posts/:id', (req, res) => {
         })
 });
 
+server.post('/tags', (req, res) => {
+    const tag = req.body;
+    db.insert(tag)
+        .into('Tags')
+        .then(ids => {
+            res.status(201).json(ids);
+        })
+        .catch(err => {
+            res.status(500).json(err);
+        })
+});
+
+server.get('/tags', (req, res) => {
+    db.select()
+        .from('Tags')
+        .then(tags => {
+            res.status(201).json(tags);
+        })
+        .catch(err => {
+            res.status(500).json(err);
+        })
+});
+
+
+server.get('/tags/:id', (req, res) => {
+    const {id} = req.params;
+    db('Tags')
+        .where({id})
+        .then(tags => {
+            res.status(201).json(tags);
+        })
+        .catch(err => {
+            res.status(500).json(err);
+        })
+});
+
 server.listen(8000, () => console.log('Running on port 8000'));
