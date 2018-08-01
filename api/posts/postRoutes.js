@@ -34,6 +34,16 @@ router.get('/:id', async (req, res, next) => {
     }
 })
 
+router.get('/:id/tags', async (req, res, next) => {
+    try {
+        const response = await db('tags as t').join('posttags as pt', 't.id', 'pt.tagId').select('t.tag').where('pt.postId', req.params.id);
+        if (response.length === 0) next({ code: 404, message: "The post with the specified ID does not exist or the post has no tags!" });
+        return res.status(200).json(response);
+    } catch (err) {
+        return next({ code: 500, error: "The post information could not be retrieved." });
+    }
+})
+
 router.put('/:id', postCheck, async (req, res, next) => {
     const { userId, text } = req.body;
     const post = { userId, text };
