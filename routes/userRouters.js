@@ -82,17 +82,21 @@ router.post('/', async (req, res, next) => {
 })
 
 router.put('/:id', getUser, async (req, res, next) => {
+    const id = req.params.id
+
     try{
         const updated = {...req.body}
-        await db.update(req.params.id, updated)
+        await db('users').where({id}).update(updated)
         res.status(SUCCESS).json(updated)
     }catch(err){
         next({error: INTERNAL_SERVER_ERROR, internalError: err.message})    }
 })
 
 router.delete('/:id', getUser, async (req, res, next) => {
+    const id = req.params.id
+
     try{
-        await db.remove(req.params.id)
+        await db('users').where({id}).del()
         res.status(SUCCESS).json({"Removed": req.userIn})
     }catch(err){
         next({error: INTERNAL_SERVER_ERROR, internalError: err.message})    }
