@@ -3,6 +3,7 @@ const express = require('express')
 const router = express.Router()
 
 const db = require('../data/helpers/postDb')
+const dbBasic = require('../data/db')
 
 router.get('/', (req, res) => {
   db
@@ -14,8 +15,10 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
   const { id } = req.params
 
-  db
-    .get(id)
+  // db
+  //   .get(id)
+  // dbBasic.raw(`select posts.id, posts.text, posts.userId from posts where id=${id}`)
+  dbBasic.raw(`select posts.id, posts.text, users.name as CreatedBy, posts.createdAt from posts inner join users on users.id=posts.userId where posts.id=${id}`)
     .then(post => {
       if (post === undefined) {
         res.status(400).json({ error: `Post with id ${id} not found.` })
@@ -76,4 +79,15 @@ router.delete('/:id', (req, res) => {
     .catch(error => res.status(500).json({ error: `post with id ${id} could not be deleted.` }))
 })
 
+router.get('/:id/tags', (req, res) => {
+  const { id } = req.params
+  console.log('yup in here', id)
+  dbBasic('tags')
+    .where('postId', id)
+    .then(tags => {
+      console.log(tags)
+      res.status(200).json(tags)
+    })
+    .catch(err => res.status(500).json(err))
+})
 module.exports = router

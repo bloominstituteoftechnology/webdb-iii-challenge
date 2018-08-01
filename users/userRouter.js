@@ -18,7 +18,8 @@ router.get('/:id', (req, res) => {
   const { id } = req.params
   db('users').where('id', id)
     .then(user => {
-      if (!user) res.status(404).json({ error: `user with id ${id} not found.` })
+      console.log('USER', user)
+      if (!user.length) res.status(404).json({ error: `user with id ${id} not found.` })
       res.status(200).json(user)
     })
     .catch(err => res.status(500).json(err))
@@ -41,6 +42,7 @@ router.post('/', (req, res) => {
     res
       .status(400)
       .json({ error: 'Name field is required (128 characters maximum).' })
+    return
   }
   db('users')
     .insert(user)
@@ -59,6 +61,7 @@ router.put('/:id', (req, res) => {
     res
       .status(400)
       .json({ error: 'Name field is required (128 characters maximum).' })
+    return
   }
   db('users')
     .where('id', id)

@@ -31,8 +31,8 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
   const tag = req.body
 
-  if (tag.tag === undefined || typeof tag.tag !== 'string') {
-    res.status(400).json({ error: 'Post text (string) field is required.' })
+  if (tag.tag === undefined || typeof tag.tag !== 'string' || tag.tag.length > 16) {
+    res.status(400).json({ error: 'Post text (string, max=16) field is required.' })
   }
   db
     .insert(tag)
