@@ -46,4 +46,40 @@ server.get('/users/:id', (req, res) => {
 });
 
 
+server.post('/posts', (req, res) => {
+    const post = req.body;
+    db.insert(post)
+        .into('Posts')
+        .then(ids => {
+            res.status(201).json(ids);
+        })
+        .catch(err => {
+            res.status(500).json(err);
+        })
+});
+
+server.get('/posts', (req, res) => {
+    db.select()
+        .from('Posts')
+        .then(posts => {
+            res.status(201).json(posts);
+        })
+        .catch(err => {
+            res.status(500).json(err);
+        })
+});
+
+
+server.get('/posts/:id', (req, res) => {
+    const {id} = req.params;
+    db('Posts')
+        .where({id})
+        .then(posts => {
+            res.status(201).json(posts);
+        })
+        .catch(err => {
+            res.status(500).json(err);
+        })
+});
+
 server.listen(8000, () => console.log('Running on port 8000'));
