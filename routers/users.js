@@ -35,6 +35,19 @@ users.get('/:id', async (req, res, next) => {
   }
 })
 
+users.get('/:id/posts', async (req, res) => {
+  const id = +req.params.id
+
+  try {
+    const posts = await db('posts')
+      .where('userId', '=', id)
+      .select()
+    res.status(200).json(posts)
+  } catch(e) {
+    next(e)
+  }
+})
+
 users.put('/:id', async (req, res, next) => {
   const id = +req.params.id
   const { body: user } = req
