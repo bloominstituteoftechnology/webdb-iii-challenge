@@ -16,8 +16,10 @@ module.exports = {
             return posts.map(post => mappers.postToBody(post));
         });
     },
-    insert: function() {
-        
+    insert: function(post) {
+        return db('posts')
+        .insert(post)
+        .then(([id]) => this.get(id));
     },
     update: function() {
         

@@ -36,6 +36,16 @@ server.get('/posts/:id', async (req, res) => {
     }
 });
 
+server.post('/posts', async (req, res) => {
+    try {
+        const newPost = {...req.body};
+        const post = await postDb.insert(newPost);
+        res.status(200).json(post);
+    } catch(err) {
+        res.status(500).json(err);
+    }
+});
+
 // users
 server.get('/users', async (req, res) => {
     try {
@@ -82,6 +92,16 @@ server.get('/tags/:id', async (req, res) => {
         const { id } = req.params;
 
         const tag = await tagDb.get(id);
+        res.status(200).json(tag);
+    } catch(err) {
+        res.status(500).json(err);
+    }
+});
+
+server.post('/tags', async (req, res) => {
+    try {
+        const newTag = {...req.body};
+        const tag = await tagDb.insert(newTag);
         res.status(200).json(tag);
     } catch(err) {
         res.status(500).json(err);

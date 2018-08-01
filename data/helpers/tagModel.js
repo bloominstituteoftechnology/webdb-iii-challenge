@@ -16,8 +16,10 @@ module.exports = {
             return tags.map(tag => mappers.tagToBody(tag));
         });
     },
-    insert: function() {
-        
+    insert: function(tag) {
+        return db('tags')
+        .insert(tag)
+        .then(([id]) => this.get(id));
     },
     update: function() {
         

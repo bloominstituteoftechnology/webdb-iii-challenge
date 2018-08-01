@@ -1,29 +1,15 @@
 module.exports = {
-  intToBoolean,
-  booleanToint,
   userToBody,
   postToBody,
   tagToBody
 };
 
-function intToBoolean(int) {
-  return int === 1 ? true : false;
-}
-
-function booleanToint(bool) {
-  return bool === true ? 1 : 0;
-}
-
 function userToBody(user) {
-  const result = {
-    ...user,
-    // completed: intToBoolean(user.completed),
-  };
+  const result = {...user};
 
   if (user.posts) {
     result.posts = user.posts.map(post => ({
-      ...post,
-      // completed: intToBoolean(action.completed),
+      ...post
     }));
   }
 
@@ -31,15 +17,9 @@ function userToBody(user) {
 }
 
 function postToBody(post) {
-  return {
-    ...post,
-    // completed: intToBoolean(post.completed),
-  };
+  return {...post};
 }
 
 function tagToBody(tag) {
-  return {
-    ...tag,
-    // completed: intToBoolean(tag.completed),
-  };
+  return {...tag};
 }
