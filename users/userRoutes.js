@@ -11,8 +11,10 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
+  const { id } = req.params;
+
   db('users')
-    .where('id', req.params.id)
+    .where({ id })
     .then(user => {
       if (user.length === 0) {
         res.status(200).send({ error: 'A user with this id does not exist.'});

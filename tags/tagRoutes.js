@@ -11,8 +11,10 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
+  const { id } = req.params;
+
   db('tags')
-    .where('id', req.params.id)
+    .where({ id })
     .then(tag => {
       if (tag.length === 0) {
         res.status(200).send({ error: 'A tag with this id does not exist.'});
@@ -27,7 +29,7 @@ router.post('/', (req, res) => {
 
   db.insert(tag).into('tags')
     .then(ids => {
-      const id = ids[0]
+      const id = ids[0];
       res.status(201).json({id, ...tag});
     })
     .catch(err => res.status(500).json(err));

@@ -11,8 +11,10 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
+  const { id } = req.params;
+
   db('posts')
-    .where('id', req.params.id)
+    .where({ id })
     .then(post => {
       if (post.length === 0) {
         res.status(200).send({ error: 'A post with this id does not exist.'});
