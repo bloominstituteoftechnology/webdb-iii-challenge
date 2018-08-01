@@ -125,11 +125,33 @@ server.get("/posts", (req, res) => {
         .json({ error: "The posts information could not be retrieved." });
     });
 });
+// server.get("/posts/:id", (req, res) => {
+//   const { id } = req.params;
+//   db("posts")
+//     .where("id", Number(id))
+//     .then(post => {
+//       if (post.length === 0) {
+//         res
+//           .status(404)
+//           .json({ mesage: "The post with the specified ID does not exist." });
+//       }
+//       res.status(200).json(post);
+//     })
+//     .catch(error => {
+//       res
+//         .status(500)
+//         .json({ error: " The user information could not be retrieved" });
+//     });
+// });
+
 server.get("/posts/:id", (req, res) => {
   const { id } = req.params;
   db("posts")
-    .where("id", Number(id))
+    .join("users", "posts.userId", "=", "users.id")
+    .select("posts.id", "users.name", "posts.text", "posts.createdAt")
+    .where("posts.id", Number(id))
     .then(post => {
+      console.log(post);
       if (post.length === 0) {
         res
           .status(404)
