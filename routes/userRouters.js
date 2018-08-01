@@ -22,8 +22,8 @@ const getUser = async (req, res, next) => {
     let error = INVALID_USER_ID
 
     try{
-        const userIn = await db.get(userId || id)
-        if(!userIn){ throw Error() }
+        const userIn = await db('users').where({id : (userId || id)})
+        if(userIn.length < 1){ throw Error() }
         error = INTERNAL_SERVER_ERROR
 
         req.userIn = userIn
@@ -41,7 +41,7 @@ router.get('/', async (req, res, next) => {
     let error = INTERNAL_SERVER_ERROR
 
     try{
-        const users = await db.get()
+        const users = await db('users')
         res.status(SUCCESS).json(users)
     }catch(err){
         next({error: error, internalError: err.message})    }
@@ -75,7 +75,7 @@ router.post('/', async (req, res, next) => {
         error = INTERNAL_SERVER_ERROR
 
         const newUser = {...req.body}
-        await db.insert(newUser)
+        await db('users').insert(newUser)
         res.status(SUCCESS).json(newUser)
     }catch(err){
         next({error: error, internalError: err.message})    }
