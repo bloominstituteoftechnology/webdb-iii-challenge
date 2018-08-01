@@ -24,7 +24,7 @@ server.get('/api/users', (req, res) => {
 		res.status(200).json(response);
 	})
 
-	.catch(err => res.status(500).json(err));
+	.catch(err => res.status(500).json({errorMessage: "There was an error whil retrieving user list from the database"}));
 
 });
 
@@ -40,7 +40,7 @@ server.get('/api/users/:id', (req, res) => {
 		else res.status(200).json(response);
         })
 
-        .catch(err => res.status(500).json(err));
+        .catch(err => res.status(500).json({errorMessage: "The user with the specofied id  could not be retrieved from the database"}));
 
 });
 
