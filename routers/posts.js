@@ -1,5 +1,6 @@
 const express = require("express");
 const postRouter = express.Router();
+const db = require("../data/db");
 
 postRouter.get("/", (req, res) => {
   db("posts")

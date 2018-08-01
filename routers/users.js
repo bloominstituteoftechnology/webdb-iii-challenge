@@ -1,5 +1,6 @@
 const express = require("express");
 const userRouter = express.Router();
+const db = require("../data/db");
 
 userRouter.get("/", (req, res) => {
   db("users")
