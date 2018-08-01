@@ -6,10 +6,8 @@ const user = express.Router();
 
 user.get('/', (req,res) => {
   db('users')
-    .then( user => {
-      res.status(200).json(user)
-    })
-    .catch(err => res.status(500).json(err))
+    .then( user => res.status(200).json(user) )
+    .catch( err => res.status(500).json(err) )
 })
 
 user.get('/:id', (req,res) => {
@@ -17,10 +15,8 @@ user.get('/:id', (req,res) => {
 
   db('users')
     .where({id})
-      .then( user => {
-        res.status(200).json(user)
-      })
-      .catch(err => res.status(500).json(err))
+    .then( user => res.status(200).json(user) )
+    .catch( err => res.status(500).json(err) )
 })
 
 user.get('/:id/posts', (req,res) => {
@@ -31,36 +27,50 @@ user.get('/:id/posts', (req,res) => {
     .from('posts')
     .leftJoin('users', 'posts.user_id','users.id')
     .where({'users.id' : id})
-    .then( data => {
-      res.status(200).json(data)      
-    })
-
+    .then( data => res.status(200).json(data) )
+    .catch( err => res.status(400).json({err}) )
 })
 
 user.put('/:id', (req,res) => {
   const id = req.params.id
+  const body = req.body
 
-  db('users')
-    .where({id})
-    .update({name: "The Godfather"})
+  if (!body.name) res.status(400).json({err: 'The name property is required in this endpoint'})
+  
+  else {
+
+    db('users')
+      .where({id})
+      .update(body)
       .then( user => {
-        res.status(200).json(`message: ${user} user record updated`)
+        if (user > 0) res.status(200).json({message: `${user} user record(s) updated`}) 
+        
+        else res.status(400).json({err: 'The ID provided was not found'})
       })
-      .catch(err => res.status(500).json(err))
+      .catch( err => res.status(500).json(err) )
+  }
 })
 
-
 user.post('/', (req,res) => {
-  const user = req.body
+  const body = req.body
 
-  db.insert(user)
+  if (!body.name) res.status(400).json({err: 'The name property is required in this endpoint'})
+
+  let id = 0;
+
+  db.insert(body)
     .into('users')
-    .then( data => {
-      if (data.length === 1){
-        res.status(201).json({message: `1 user added with ID = ${data[0]}`})
-      }
+    
+    .then( data => id = data[0] )
+    
+    .then( () => {
+      db('users')
+        .where({id})
+        .then( user => res.status(200).json(user) )
+        .catch( err => res.status(500).json(err) )
     })
-    .catch(err => res.status(500).json(err))
+    
+    .catch( err => res.status(500).json(err) )
 })
 
 user.delete('/:id', (req,res) => {
