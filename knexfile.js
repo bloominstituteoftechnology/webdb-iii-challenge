@@ -6,6 +6,11 @@ module.exports = {
     connection: {
       filename: './data/cs11.sqlite3',
     },
+    pool: {
+      afterCreate: (conn, cb) => {
+        conn.run('PRAGMA foreign_keys = ON', cb);
+      },
+    },
     useNullAsDefault: true,
   },
 };
