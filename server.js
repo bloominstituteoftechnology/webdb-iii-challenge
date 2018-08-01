@@ -20,10 +20,8 @@ server.post('/users', (req, res) => {
 	db.insert(user).into('users')
 	.then(ids => {
 		const id = ids[0];
-
 		res.status(201).json({ id, ...user })
-	})
-	.catch(err => res.status(500).json(err));
+	}).catch(err => res.status(500).json(err));
 });
 
 server.get('/users/:id', (req, res) => {
@@ -39,33 +37,24 @@ server.get('/users/:id', (req, res) => {
 server.put('/users/:id', (req, res) => {
     const { id } = req.params;
     const user = req.body;
-    db('Users')
-    .where({id: Number(id)})
+    db('Users').where({id: Number(id)})
     .update(user)
     .then(response => {
         res.status(201).json({response})
-    })
-    .catch(err => {
-        res.status(500).json(err)
+    }).catch(err => {res.status(500).json(err)
     })
 })
 
 server.delete('/users/:id', (req, res) => {
     const { id } = req.params;
     const user = req.body;
-    db('Users')
-    .where({id: Number(id)})
+    db('Users').where({id: Number(id)})
     .delete(user)
     .then(response => {
         res.status(201).json({response})
-    })
-    .catch(err => {
-        res.status(500).json(err)
+    }).catch(err => {res.status(500).json(err)
     })
 })
-
-
-
 
 const port = 3300;
 server.listen(port, function() {
