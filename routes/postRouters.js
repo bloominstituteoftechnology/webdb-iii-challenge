@@ -101,8 +101,8 @@ router.post('/', getUser, async (req, res, next) => {
         const postOut = {...req.body}
         error = INTERNAL_SERVER_ERROR           
 
-        const response = await db('posts').insert(postOut)
-        res.status(SUCCESS).json(response)
+        await db('posts').insert(postOut)
+        res.status(SUCCESS).json({Added: postOut})
     }catch(err){
         next({error: error, internalError: err.message})    }
 })
@@ -120,8 +120,10 @@ router.put('/:id', getPost, getUser, async (req, res, next) => {
 })
 
 router.delete('/:id', getPost, async (req, res, next) => {
+    const id = req.params.id
+
     try{
-        await postDb.remove(req.params.id)
+        await db('posts').where({id}).del()
         res.status(SUCCESS).json({"Removed": req.postIn})
         
     }catch(err){
