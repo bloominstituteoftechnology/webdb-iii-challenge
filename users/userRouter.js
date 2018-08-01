@@ -27,8 +27,7 @@ router.get('/:id', (req, res) => {
 router.get('/:id/posts', (req, res) => {
   const { id } = req.params
 
-  db
-    .getUserPosts(id)
+  db('posts').where('userId', id)
     .then(userPosts => {
       console.log('IN USER userPosts', userPosts)
       res.status(200).json(userPosts)
@@ -43,10 +42,13 @@ router.post('/', (req, res) => {
       .status(400)
       .json({ error: 'Name field is required (128 characters maximum).' })
   }
-  db.insert(user).then(ids => {
-    const { id } = ids
-    res.status(201).json({ id, ...user })
-  }).catch(err => res.status(500).json(err))
+  db('users')
+    .insert(user)
+    .then(ids => {
+      const { id } = ids
+      res.status(201).json({ id, ...user })
+    })
+    .catch(err => res.status(500).json(err))
 })
 
 router.put('/:id', (req, res) => {
@@ -58,11 +60,13 @@ router.put('/:id', (req, res) => {
       .status(400)
       .json({ error: 'Name field is required (128 characters maximum).' })
   }
-  db
-    .update(id, user)
+  db('users')
+    .where('id', id)
+    .update(user)
     .then(count =>
-      db
-        .get(id)
+      db('users')
+        .where('id', id)
+        .first()
         .then(user => res.status(200).json(user))
         .catch(err => res.status(500).json(err)))
     .catch(err => res.status(500).json(err))
@@ -71,8 +75,9 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   const { id } = req.params
 
-  db
-    .remove(id)
+  db('users')
+    .where('id', id)
+    .del()
     .then(deletions => {
       if (deletions === 1) {
         res.status(200).json({ success: `user with id ${id} was deleted.` })
