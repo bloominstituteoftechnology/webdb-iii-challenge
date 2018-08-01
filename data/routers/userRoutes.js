@@ -11,8 +11,11 @@ router.get('/', (req, res, next) => {
 router.get('/:id/posts', (req, res, next) => {
     const userId = req.params.id;
 
-    db('posts')
-    .where( {userId: Number(userId) })
+    db
+    .select('*')
+    .from('posts')
+    .leftJoin('users', 'posts.userId','users.id')
+    .where( {'userId' : userId })
     .then(post => {
         if(!post){throw new Error('No posts found')}
         res.status(200).json(post)
