@@ -33,7 +33,7 @@ server.use((err, req, res, next) => {
   }
   res.status(err.code).json(err.message);
   next();
-})
+});
 
 
 server.listen(8000, () => { console.log('Listening on Port 8000'); });

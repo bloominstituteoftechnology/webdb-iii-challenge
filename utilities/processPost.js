@@ -15,7 +15,14 @@ async function processOnePost(post, db) {
       .then((values) => {
         const [userNameObj, tags] = values;
         const { name: userName } = userNameObj[0];
-        resolve({ ...rest, userId, userName, tags });
+        resolve(
+          {
+            ...rest,
+            userId,
+            userName,
+            tags,
+          },
+        );
       })
       .catch((err) => {
         reject(err);
