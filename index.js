@@ -1,18 +1,7 @@
-const express = require('express')
-const db = require('./data/db')
-const server = express()
-server.use(express.json())
+const server = require('express')()
+require('./api/middleware')(server)
+require('./api/routeApis')(server)
 
-server.get('/', (req, res) => {
-  res.send('up & running...')
+server.listen(8000, () => {
+  console.log('\n=== API RUNNING... ===\n')
 })
-
-server.get('/users', (req, res) => {
-  db('users')
-    .then((user) => {
-      res.status(200).json(user)
-    })
-    .catch((err) => res.status(500).json(err))
-})
-
-server.listen(8000, () => console.log('API RUNNING'))
