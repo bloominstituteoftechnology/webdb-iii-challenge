@@ -5,3 +5,12 @@ const express = require('express');
 const db = require('../data/dbConfig.js');
 const router = express.Router();
 
+router.get('/', (req, res, next) => {
+    db('tags')
+    .then(response => {
+        res.status(codes.OK).json(response);
+    })
+    .catch(err => {
+        next(err);
+    })
+})
