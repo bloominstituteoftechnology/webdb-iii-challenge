@@ -27,7 +27,8 @@ async function processPost(req, res, next, db) {
   const { payload } = req.locals;
   if (payload !== undefined) {
     if (payload instanceof Array) {
-      console.log('array');
+      const processedPosts = await Promise.all(payload.map(post => processOnePost(post, db)));
+      req.locals.payload = processedPosts;
     } else {
       const processedPost = await processOnePost(payload, db);
       req.locals.payload = processedPost;
