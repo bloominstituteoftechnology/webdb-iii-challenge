@@ -65,6 +65,16 @@ server.get('/posts', (req, res) => {
 	}).catch(err => res.status(500).json(err));
 });
 
+server.get('/posts/:id', (req, res) => {
+    const { id } = req.params;
+    db('Posts').where({id: Number(id)})
+    .then(response => {
+        res.status(200).json(response);
+    }).catch(err => {
+        res.status(500).json({error: 'Unable to retrieve user information.'})
+    })
+});
+
 server.post('/posts', (req, res) => {
 	const post = req.body;
 	db.insert(post).into('Posts')
@@ -96,7 +106,55 @@ server.delete('/posts/:id', (req, res) => {
     })
 });
 
+//***********TAGS ENDPOINTS**********************
 
+server.get('/tags', (req, res) => {
+	db('Tags').then(tags=> {
+		res.status(200).json(tags);
+	}).catch(err => res.status(500).json(err));
+});
+
+server.get('/tags/:id', (req, res) => {
+    const { id } = req.params;
+    db('Tags').where({id: Number(id)})
+    .then(response => {
+        res.status(200).json(response);
+    }).catch(err => {
+        res.status(500).json({error: 'Unable to retrieve user information.'})
+    })
+});
+
+
+server.post('/tags', (req, res) => {
+	const tag = req.body;
+	db.insert(tag).into('Tags')
+	.then(ids => {
+		const id = ids[0];
+		res.status(201).json({ id, ...tag })
+	}).catch(err => res.status(500).json(err));
+});
+
+server.put('/tags/:id', (req, res) => {
+    const { id } = req.params;
+    const tag = req.body;
+    db('Tags').where({id: Number(id)})
+    .update(tag)
+    .then(response => {
+        res.status(201).json({response})
+    }).catch(err => {res.status(500).json(err)
+    })
+});
+
+server.delete('/tags/:id', (req, res) => {
+    const { id } = req.params;
+    const tag = req.body;
+    db('Tags').where({id: Number(id)})
+    .delete(tag)
+    .then(response => {
+        res.status(201).json({response})
+    }).catch(err => {res.status(500).json(err)
+    })
+});
 
 
 const port = 3300;
