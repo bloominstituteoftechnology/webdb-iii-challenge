@@ -19,6 +19,7 @@ server.get('/', (req, res) => {
 server.get('/posts', async (req, res) => {
     try {
         const posts = await postDb.get();
+
         res.status(200).json(posts);
     } catch(err) {
         res.status(500).json(err);
@@ -28,8 +29,8 @@ server.get('/posts', async (req, res) => {
 server.get('/posts/:id', async (req, res) => {
     try {
         const { id } = req.params;
-
         const post = await postDb.get(id);
+
         res.status(200).json(post);
     } catch(err) {
         res.status(500).json(err);
@@ -40,6 +41,19 @@ server.post('/posts', async (req, res) => {
     try {
         const newPost = {...req.body};
         const post = await postDb.insert(newPost);
+
+        res.status(200).json(post);
+    } catch(err) {
+        res.status(500).json(err);
+    }
+});
+
+server.put('/posts/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const changes = {...req.body};
+        const post = await postDb.update(id, changes);
+
         res.status(200).json(post);
     } catch(err) {
         res.status(500).json(err);
@@ -50,6 +64,7 @@ server.post('/posts', async (req, res) => {
 server.get('/users', async (req, res) => {
     try {
         const users = await userDb.get();
+
         res.status(200).json(users);
     } catch(err) {
         res.status(500).json(err);
@@ -59,8 +74,8 @@ server.get('/users', async (req, res) => {
 server.get('/users/:id', async (req, res) => {
     try {
         const { id } = req.params;
-
         const user = await userDb.get(id);
+
         res.status(200).json(user);
     } catch(err) {
         res.status(500).json(err);
@@ -70,9 +85,9 @@ server.get('/users/:id', async (req, res) => {
 server.get('/users/:id/posts', async (req, res) => {
     try {
         const { id } = req.params;
-
         let posts = await postDb.get();
         posts = posts.filter(post => post.userId == id ? post : null);
+
         res.status(200).json(posts);
     } catch(err) {
         res.status(500).json(err);
@@ -83,6 +98,19 @@ server.post('/users', async (req, res) => {
     try {
         const newUser = {...req.body};
         const user = await userDb.insert(newUser);
+
+        res.status(200).json(user);
+    } catch(err) {
+        res.status(500).json(err);
+    }
+});
+
+server.put('/users/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const changes = {...req.body};
+        const user = await userDb.update(id, changes);
+
         res.status(200).json(user);
     } catch(err) {
         res.status(500).json(err);
@@ -93,6 +121,7 @@ server.post('/users', async (req, res) => {
 server.get('/tags', async (req, res) => {
     try {
         const tags = await tagDb.get();
+
         res.status(200).json(tags);
     } catch(err) {
         res.status(500).json(err);
@@ -102,8 +131,8 @@ server.get('/tags', async (req, res) => {
 server.get('/tags/:id', async (req, res) => {
     try {
         const { id } = req.params;
-
         const tag = await tagDb.get(id);
+
         res.status(200).json(tag);
     } catch(err) {
         res.status(500).json(err);
@@ -114,6 +143,19 @@ server.post('/tags', async (req, res) => {
     try {
         const newTag = {...req.body};
         const tag = await tagDb.insert(newTag);
+
+        res.status(200).json(tag);
+    } catch(err) {
+        res.status(500).json(err);
+    }
+});
+
+server.put('/tags/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const changes = {...req.body};
+        const tag = await tagDb.update(id, changes);
+
         res.status(200).json(tag);
     } catch(err) {
         res.status(500).json(err);

@@ -21,8 +21,11 @@ module.exports = {
         .insert(tag)
         .then(([id]) => this.get(id));
     },
-    update: function() {
-        
+    update: function(id, changes) {
+        return db('tags')
+        .where('id', id)
+        .update(changes)
+        .then(count => (count > 0 ? this.get(id) : null));
     },
     remove: function() {
         
