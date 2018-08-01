@@ -5,7 +5,7 @@ exports.up = function (knex, Promise) {
 
         table.integer('userId');
         table.text('text').notNullable();
-        table.timestamps();
+        table.timestamp('created_at').defaultTo(knex.fn.now());
     });
 };
 

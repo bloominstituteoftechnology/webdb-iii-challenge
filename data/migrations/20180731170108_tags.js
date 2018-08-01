@@ -4,7 +4,7 @@ exports.up = function (knex, Promise) {
         table.increments();
 
         table.string('tag', 16);
-        table.timestamps();
+        table.timestamp('created_at').defaultTo(knex.fn.now());
     });
 };
 
