@@ -10,10 +10,22 @@ router.get('/', (req, res) => {
 });
 router.get('/:id', (req, res) => {
   const { id } = req.params;
+  var post = {};
   db('posts')
     .where({ id })
-    .then(post => {
-      res.status(200).json(post);
+    .then(found => {
+      post.id = found[0].id;
+      post.text = found[0].text;
+      post.createAd = found[0].createdAt;
+      console.log(post);
+      db('users')
+        .where({ id: found[0].userId })
+        .then(user => {
+          console.log(user);
+          post.userName = user[0].name;
+          res.status(200).json(post);
+        })
+        .catch(err => res.status(500).json(err));
     })
     .catch(err => res.status(500).json(err));
 });
