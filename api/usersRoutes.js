@@ -105,8 +105,9 @@ router.put('/:id', (req, res, next) => {
 
 router.delete('/:id', (req, res, next) => {
   const id = req.params.id;
-  db
-    .remove(id)
+  db('users')
+    .where({ id })
+    .del()
     .then(response => {
       if(!response) {
         next({ code: 404 })

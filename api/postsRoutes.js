@@ -39,20 +39,31 @@ router.get('/:id', (req, res, next) => {
 })
 
 router.post('/:id', (req, res, next) => {
-  const userId = req.params.id;
+  const { id } = req.params;
   const text = req.body.text;
-  const post = { userId, text };
-  if(!(userId || text)) {
+  const post = { userId: id, text };
+  if(!(id.id || text)) {
     next({ code: 400 })
   } else {
-    db
-      .insert(post)
-      .into('posts')
+    db('users')
+      .where({ id })
       .then(response => {
-        res
-          .status(200)
-          .json(response)
-          .end()
+        if(!response[0]) {
+          next({ code: 404 })
+        } else {
+          db
+            .insert(post)
+            .into('posts')
+            .then(response => {
+              res
+                .status(200)
+                .json(response)
+                .end()
+            })
+            .catch(() => {
+              next({ code: 500 })
+            })
+        }
       })
       .catch(() => {
         next({ code: 500 })
@@ -89,8 +100,9 @@ router.put('/:id', (req, res, next) => {
 
 router.delete('/:id', (req, res, next) => {
   const id = req.params.id;
-  db
-    .remove(id)
+  db('posts')
+    .where({ id })
+    .del()
     .then(response => {
       if(!response) {
         next({ code: 404 })
