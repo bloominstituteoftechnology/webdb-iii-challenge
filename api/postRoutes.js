@@ -2,6 +2,16 @@ const express = require('express');
 const router = express.Router();
 const db = require('../data/db.js');
 
+function postCheck(req, res, next) {
+  if (!req.body.userId) {
+    return res.status(400).json({ message: "User Id required." });
+  }
+  if (!req.body.text) {
+    return res.status(400).json({ message: "Text cannot be blank." });
+  }
+  next();
+}
+
 router.get('/', async (req, res) => {
   try {
     const allPosts = await db('Posts');
@@ -23,13 +33,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
-  if (!req.body.userId) {
-    return res.status(400).json({ message: "User Id required." });
-  }
-  if (!req.body.text) {
-    return res.status(400).json({ message: "Text cannot be blank." });
-  }
+router.post('/', postCheck, async (req, res) => {
   try {
     const newPost = await db('Posts').insert(req.body);
     return res.status(201).json(newPost);
@@ -38,13 +42,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:id', async (req, res) => {
-  if (!req.body.userId) {
-    return res.status(400).json({ message: "User Id required." });
-  }
-  if (!req.body.text) {
-    return res.status(400).json({ message: "Text cannot be blank." });
-  }
+router.put('/:id', postCheck, async (req, res) => {
   try {
     const editedPost = await db('Posts').where('id', req.params.id).update(req.body);
     if (editedPost === 0) {

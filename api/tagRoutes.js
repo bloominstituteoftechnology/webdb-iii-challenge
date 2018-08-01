@@ -2,6 +2,16 @@ const express = require('express');
 const router = express.Router();
 const db = require('../data/db.js');
 
+function tagCheck(req, res, next) {
+  if (!req.body.tag){
+    return res.status(400).json({ message: "Tag cannot be blank."});
+  }
+  if (req.body.tag.length > 16){
+    return res.status(400).json({ message: "Tag must be less than 16 characters."});
+  }
+  next();
+}
+
 router.get('/', async (req, res) => {
   try {
     const allTags = await db('Tags');
@@ -24,10 +34,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
-  if (req.body.tag.length > 16){
-    return res.status(400).json({ message: "Tag must be less than 16 characters."});
-  }
+router.post('/', tagCheck, async (req, res) => {
   try {
     const newTag = await db('Tags').insert(req.body);
     return res.status(201).json(newTag);
@@ -36,10 +43,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:id', async (req, res) => {
-  if (req.body.tag.length > 16){
-    return res.status(400).json({ message: "Tag must be less than 16 characters."});
-  }
+router.put('/:id', tagCheck, async (req, res) => {
   try {
     const editedTag = await db('Tags').where('id', req.params.id).update(req.body);
     if (editedTag === 0) {

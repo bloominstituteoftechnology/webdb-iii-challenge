@@ -2,6 +2,16 @@ const express = require('express');
 const router = express.Router();
 const db = require('../data/db.js');
 
+function postCheck(req, res, next) {
+  if (!req.body.name) {
+    return res.status(400).json({ message: "Please enter a name." });
+  }
+  if (req.body.name.length > 128) {
+    return res.status(400).json({ message: "Name must be less 128 characters." });
+  }
+  next();
+}
+
 router.get('/', async (req, res) => {
   try {
     const allUsers = await db('Users');
@@ -35,13 +45,7 @@ router.get('/:id/posts', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
-  if (!req.body.name) {
-    return res.status(400).json({ message: "Please enter a name." });
-  }
-  if (!req.body.name.length > 128) {
-    return res.status(400).json({ message: "Name must be less 128 characters." });
-  }
+router.post('/', postCheck, async (req, res) => {
   try {
     const newUser = await db('Users').insert(req.body);
     return res.status(201).json(newUser);
@@ -50,13 +54,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:id', async (req, res) => {
-  if (!req.body.name) {
-    return res.status(400).json({ message: "Please enter a name." });
-  }
-  if (!req.body.name.length > 128) {
-    return res.status(400).json({ message: "Name must be less 128 characters." });
-  }
+router.put('/:id', postCheck, async (req, res) => {
   try {
     const editedUser = await db('Users').where('id', req.params.id).update(req.body);
     if (editedUser === 0) {
