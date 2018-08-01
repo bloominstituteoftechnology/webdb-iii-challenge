@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const db = require('../data/db.js');
 
-function postCheck(req, res, next) {
+function userCheck(req, res, next) {
   if (!req.body.name) {
-    return res.status(400).json({ message: "Please enter a name." });
+    return res.status(400).json({ message: "Name cannot be blank." });
   }
   if (req.body.name.length > 128) {
     return res.status(400).json({ message: "Name must be less 128 characters." });
@@ -45,7 +45,7 @@ router.get('/:id/posts', async (req, res) => {
   }
 });
 
-router.post('/', postCheck, async (req, res) => {
+router.post('/', userCheck, async (req, res) => {
   try {
     const newUser = await db('Users').insert(req.body);
     return res.status(201).json(newUser);
@@ -54,7 +54,7 @@ router.post('/', postCheck, async (req, res) => {
   }
 });
 
-router.put('/:id', postCheck, async (req, res) => {
+router.put('/:id', userCheck, async (req, res) => {
   try {
     const editedUser = await db('Users').where('id', req.params.id).update(req.body);
     if (editedUser === 0) {
