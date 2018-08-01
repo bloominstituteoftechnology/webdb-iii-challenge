@@ -1,5 +1,5 @@
 const express = require('express')
-
+const db = require('../data/db')
 const router = express.Router()
 
 
@@ -8,6 +8,8 @@ const router = express.Router()
 const SUCCESS = 200;
 const INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR"
 const INVALID_USER_ID = "INVALID_USER_ID"
+const MISSING_NAME = "MISSING_NAME"
+
 
 
 // ******************************  Middleware ********************************************
@@ -20,7 +22,7 @@ const getUser = async (req, res, next) => {
     let error = INVALID_USER_ID
 
     try{
-        const userIn = await userDb.get(userId || id)
+        const userIn = await db.get(userId || id)
         if(!userIn){ throw Error() }
         error = INTERNAL_SERVER_ERROR
 
@@ -39,7 +41,7 @@ router.get('/', async (req, res, next) => {
     let error = INTERNAL_SERVER_ERROR
 
     try{
-        const users = await userDb.get()
+        const users = await db.get()
         res.status(SUCCESS).json(users)
     }catch(err){
         next({error: error, internalError: err.message})    }
@@ -58,7 +60,7 @@ router.get('/:id', getUser, async (req, res, next) => {
 // Get all posts for a user
 router.get('/:id/posts', getUser, async (req, res, next) => {
     try{
-        const posts = await userDb.getUserPosts(req.params.id)
+        const posts = await db.getUserPosts(req.params.id)
         res.status(SUCCESS).json(posts)
     }catch(err){
         next({error: INTERNAL_SERVER_ERROR, internalError: err.message})    }
@@ -73,7 +75,7 @@ router.post('/', async (req, res, next) => {
         error = INTERNAL_SERVER_ERROR
 
         const newUser = {...req.body}
-        await userDb.insert(newUser)
+        await db.insert(newUser)
         res.status(SUCCESS).json(newUser)
     }catch(err){
         next({error: error, internalError: err.message})    }
@@ -82,7 +84,7 @@ router.post('/', async (req, res, next) => {
 router.put('/:id', getUser, async (req, res, next) => {
     try{
         const updated = {...req.body}
-        await userDb.update(req.params.id, updated)
+        await db.update(req.params.id, updated)
         res.status(SUCCESS).json(updated)
     }catch(err){
         next({error: INTERNAL_SERVER_ERROR, internalError: err.message})    }
@@ -90,7 +92,7 @@ router.put('/:id', getUser, async (req, res, next) => {
 
 router.delete('/:id', getUser, async (req, res, next) => {
     try{
-        await userDb.remove(req.params.id)
+        await db.remove(req.params.id)
         res.status(SUCCESS).json({"Removed": req.userIn})
     }catch(err){
         next({error: INTERNAL_SERVER_ERROR, internalError: err.message})    }
