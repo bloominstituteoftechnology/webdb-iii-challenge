@@ -6,21 +6,17 @@ exports.seed = function(knex, Promise) {
       // Inserts seed entries
       return knex('posts').insert([
         {
-          id: 1,
-          userId: 1, 
+          userId: 4, 
           text: 'Sample Text',
-          created_at: 'Time'
         },
         {
-          id: 2, 
-          userId: 2, 
+          userId: 5, 
           text: 'Check check check',
-          created_at: 'Time'        },
+        },
         {
-          id: 3, 
-          userId: 3, 
+          userId: 6, 
           text: 'Yippee',
-          created_at: 'Time'        }
+        }
       ]);
     });
 };

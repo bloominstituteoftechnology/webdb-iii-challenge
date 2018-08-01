@@ -6,19 +6,13 @@ exports.seed = function(knex, Promise) {
       // Inserts seed entries
       return knex('users').insert([
         {
-          id: 1, 
           name: 'Brian',
-          created_at: 'Time'
         },
         {
-          id: 2, 
           name: 'Fritz',
-          created_at: 'Time'
         },
         {
-          id: 3, 
           name: 'Bowie',
-          created_at: 'Time'
         }
       ]);
     });
