@@ -17,9 +17,8 @@ server.get('/api/users/:id/posts', wrapAsync(async (req, res) => {
 // handles get request for all tags by post
 server.get('/api/posts/:id/tags', wrapAsync(async (req, res) => {
   const { id } = req.params;
-  const tagIdObjs = await db('mapping_tags_post').where('postId', id).select();
-  const tagIds = tagIdObjs.map(item => item.tagId);
-  const posts = await db('tags').whereIn('id', tagIds).select();
+  const tagIdSubQuery = db('mapping_tags_post').where('postId', id).select('tagId');
+  const posts = await db('tags').where('id', 'in', tagIdSubQuery).select();
   res.status(200).json(posts);
 }));
 
