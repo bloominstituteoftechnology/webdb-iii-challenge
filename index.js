@@ -157,7 +157,7 @@ server.get('/tags', (req, res) => {
 })
 server.get('/tags/:id', (req, res) => {
     const { id } = req.params;
-    db('tags').get(id).then(tag => {
+    db('tags').where({ id }).then(tag => {
         res.status(200).json(tag);
     }).catch(err => {
         res.status(500).json(err);
@@ -189,8 +189,8 @@ server.delete('/tags/:id', (req, res) => {
 })
 server.put('/tags/:id', (req, res) => {
     const { id } = req.params;
-    const { tag } = req.body;
-    db('tags').update( id, { tag }).then(ids => {
+    const tag  = req.body;
+    db('tags').where({ id }).update( tag ).then(ids => {
         const id = ids[0]
         if(!tag)  {
             res.status(400).json({ error: 'Please provide tag text'})
@@ -200,7 +200,9 @@ server.put('/tags/:id', (req, res) => {
             res.status(200).json(id, ...{ tag })
         }
     })
-
+    .catch(err => {
+        res.status(500).json(err);
+      });
 })
 
 server.listen(port, () => { console.log(`Server is listening on port ${port}`)})
