@@ -10,9 +10,20 @@ api.use('/posts', posts)
 api.use('./tags', tags)
 
 
+// ******************************  Error Constants ********************************************
+
+const INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR"
+const INVALID_POST_ID = "INVALID_POST_ID"
+const MISSING_TEXT_OR_ID = "MISSING_TEXT_OR_ID"
+const MISSING_NAME = "MISSING_NAME"
+const MISSING_TAG = "MISSING_TAG"
+const INVALID_USER_ID = "INVALID_USER_ID"
+const INVALID_TAG_ID = "INVALID_TAG_ID"
+
+
 // ******************************  Error Handler ********************************************
 
-api.use(( err, req, res ) => {
+api.use(( err, req, res, next ) => {
     switch(err.error) {
         case MISSING_TEXT_OR_ID:
             res.status(400).send({
@@ -57,6 +68,8 @@ api.use(( err, req, res ) => {
                 internal_error: err.internalError
             })
     }
+
+    next()
 })
 
 module.exports = api
