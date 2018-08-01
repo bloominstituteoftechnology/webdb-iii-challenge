@@ -122,6 +122,70 @@ server.put('/tags/:id', (req, res) => {
     .catch((err) => res.status(500).json(err));
 });
 
+// ! ==================== Posts
+
+server.get('/posts', (req, res) => {
+  db('Posts')
+      .then(posts => {
+          res.json(posts);
+      })
+      .catch(err => {
+          res.json({ errorMessage: err.message });
+      })
+});
+
+server.get('/posts/:id', (req, res) => {
+  const { id } = req.params;
+  db('Posts')
+    .where({ id })
+    .then(post => {
+        res.json(post);
+    })
+    .catch(err => {
+        res.json({ err });
+    })
+});
+
+server.post('/posts', (req, res) => {
+  const post = req.body;
+  db
+    .insert(post)
+    .into('Posts')
+    .then(result => {
+        res.json(result);
+    })
+    .catch(err => {
+        res.json({ err });
+    });
+});
+
+server.put('/posts/:id', (req, res) => {
+  const { id } = req.params;
+  const post = req.body;
+  db('Posts')
+    .where({ id })
+    .update(post)
+    .then((post) => {
+        res.json(post);
+    })
+    .catch(err => {
+        res.json({ err });
+    })
+});
+
+server.delete('/posts/:id', (req, res) => {
+  const { id } = req.params;
+  db('Posts')
+    .where({ id })
+    .del()
+    .then((id) => {
+        res.json(id);
+    })
+    .catch(err => {
+        res.json({ err});
+    })
+});
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on port ${port} ===\n`);
