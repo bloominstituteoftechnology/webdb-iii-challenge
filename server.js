@@ -90,12 +90,14 @@ server.put('/api/users/:id', usersConstraints, async (req, res) => {
   const NAME = req.body.name;
   const modifiedUser = { name: NAME };
 
+  // make sure user exists
   try {
     const users = await db
       .where('id', ID)
       .from('users')
       .first();
     if (users) {
+      // exists - make the edits
       try {
         const user = await db
           .where('id', ID)
@@ -121,12 +123,14 @@ server.put('/api/users/:id', usersConstraints, async (req, res) => {
 server.delete('/api/users/:id', async (req, res) => {
   const ID = req.params.id;
 
+  // make sure user exists
   try {
     const users = await db
       .where('id', ID)
       .from('users')
       .first();
     if (users) {
+      // exists = can delete
       try {
         const user = await db
           .where('id', ID)
@@ -181,17 +185,41 @@ server.get('/api/posts', async (req, res) => {
   }
 });
 
-// get post by id
+// get post by id - extra credit: add name (not id) and tags
 server.get('/api/posts/:id', async (req, res) => {
   const ID = req.params.id;
 
+  // make sure post exists
   try {
     const posts = await db
-      .where('id', ID)
-      .from('posts')
+      .select('u.name as postedBy', 'p.text')
+      .from('posts as p')
+      .join('users as u', 'p.userId', 'u.id')
+      .where('p.id', ID)
       .first();
     if (posts) {
-      res.status(200).json(posts);
+      // post exists - get tags
+      try {
+        const tags = await db
+          .select('t.tag')
+          .from('posts as p')
+          .join('posttags as pt', 'p.Id', 'pt.postId')
+          .join('Tags as t', 't.id', 'pt.tagId')
+          .where('p.Id', ID);
+        if (tags.length > 0) {
+          let tagArr = [];
+          for (let i = 0; i < tags.length; i++) {
+            tagArr.push(tags[i].tag);
+          }
+          posts['tags'] = tagArr;
+          res.status(200).json(posts);
+        } else {
+          res.status(200).json(posts);
+        }
+      } catch (err) {
+        console.log('ERROR', err);
+        res.status(500).json(err);
+      }
     } else {
       res.status(404).json({ error: `No post with id:${ID} exists.` });
     }
@@ -206,12 +234,14 @@ server.put('/api/posts/:id', postsConstraints, async (req, res) => {
   const TEXT = req.body.text;
   const modifiedpost = { text: TEXT };
 
+  // make sure post exists
   try {
     const posts = await db
       .where('id', ID)
       .from('posts')
       .first();
     if (posts) {
+      // exists - can edit
       try {
         const post = await db
           .where('id', ID)
@@ -237,12 +267,14 @@ server.put('/api/posts/:id', postsConstraints, async (req, res) => {
 server.delete('/api/posts/:id', async (req, res) => {
   const ID = req.params.id;
 
+  // make sure post exists
   try {
     const posts = await db
       .where('id', ID)
       .from('posts')
       .first();
     if (posts) {
+      // exists - can delete
       try {
         const post = await db
           .where('id', ID)
@@ -323,12 +355,14 @@ server.put('/api/tags/:id', tagsConstraints, async (req, res) => {
   const TAG = req.body.tag;
   const modifiedtag = { tag: TAG };
 
+  // make sure tag exists
   try {
     const tags = await db
       .where('id', ID)
       .from('tags')
       .first();
     if (tags) {
+      // exists = make edits
       try {
         const tag = await db
           .where('id', ID)
@@ -354,12 +388,14 @@ server.put('/api/tags/:id', tagsConstraints, async (req, res) => {
 server.delete('/api/tags/:id', async (req, res) => {
   const ID = req.params.id;
 
+  // make sure tag exists
   try {
     const tags = await db
       .where('id', ID)
       .from('tags')
       .first();
     if (tags) {
+      // exists - can delete
       try {
         const tag = await db
           .where('id', ID)
@@ -421,13 +457,13 @@ server.get('/api/posts/:id/tags', async (req, res) => {
   const ID = req.params.id;
 
   // make sure we have a post with that ID
-
   try {
     const posts = await db
       .where('id', ID)
       .from('posts')
       .first();
     if (posts) {
+      // have post - get tags
       try {
         const tags = await db.where('postId', ID).from('posttags');
         if (tags.length > 0) {
