@@ -18,7 +18,7 @@ router.get('/:id/posts', (req, res, next) => {
         .where({ 'userId': userId })
         .then(post => {
             if (!post) { throw new Error('No posts found') }
-            res.status(200).json(post)
+            else { res.status(200).json(post) }
         })
         .catch(err => next({ code: 500, message: err.message }))
 });
@@ -53,7 +53,10 @@ router.delete('/:id', async (req, res, next) => {
     await db('users')
         .where({ id: Number(id) })
         .del()
-        .then(res.status(200).send(`User ${id} deleted`))
+        .then(data => {
+            if (!data) { throw new Error('Id not found') }
+            else { res.status(200).json(`${data} deleted`) }
+        })
         .catch(err => next({ code: 501, message: err.message }))
 })
 

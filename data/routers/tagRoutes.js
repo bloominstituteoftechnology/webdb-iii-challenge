@@ -15,7 +15,7 @@ router.get('/:id', (req, res, next) => {
         .where({ id: Number(id) })
         .then(tag => {
             if (!tag.length) { throw new Error('Id not found') }
-            res.status(200).json(tag);
+            else { res.status(200).json(tag); }
         })
         .catch(err => next({ code: 500, message: err.message }))
 })
