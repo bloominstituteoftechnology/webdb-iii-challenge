@@ -45,7 +45,7 @@ server.get('/users', (req, res) => {
 
   server.post('/users', (req, res) => {
     const { name } = req.body;
-    if (!name)
+    if (!name || name.length > 128)
     res.status(400).json({ errorMessage: "Required fields"});
     db.insert({ name }) 
     .into("users")
@@ -56,7 +56,7 @@ server.get('/users', (req, res) => {
   server.delete('/users/:id', (req, res) => {
     const { id } = req.params;
     db('users')
-    .where('id', Number(id))
+    .where('id', (id))
     .delete()   
     .then(user => {
         if(user === 0) {
@@ -75,7 +75,7 @@ server.get('/users', (req, res) => {
     if(!name)
     res.status(400).json({ errorMessage: "Provide name please"});
     db('users')
-    .where("id", Number(id))
+    .where("id",(id))
     .update(name)
     // .into('users')line is not needed
     .then(user => {
@@ -102,7 +102,7 @@ server.get('/users', (req, res) => {
   server.get('/posts/:id', (req, res) => {
     const { id } = req.params;
     db('posts')
-    .where("id", Number(id))
+    .where("id", (id))
     .then(post => {
       if(post.length === 0) {
         res.status(404).json({ message: "ID DONT EXIST"});
@@ -139,7 +139,7 @@ server.get('/users', (req, res) => {
   server.delete('/posts/:id', (req, res) => {
     const { id } = req.params;
     db('posts')
-    .where('id', Number(id))
+    .where('id', (id))
     .delete()   
     .then(post => {
         if(post === 0) {
@@ -158,7 +158,7 @@ server.put('/posts/:id', (req, res) => {
     if(!text)
     res.status(400).json({ errorMessage: "Provide text and userId please"});
     db('posts')
-    .where("id", Number(id))
+    .where("id", (id))
     .update(text)
     // .into('users')line is not needed
     .then(post => {
@@ -188,7 +188,7 @@ server.get('/tags', (req, res) => {
   server.get('/tags/:id', (req, res) => {
     const { id } = req.params;
     db('tags')
-    .where("id", Number(id))
+    .where("id", (id))
     .then(tag => {
       if(tag.length === 0) {
         res.status(404).json({ message: "ID DONT EXIST"});
@@ -202,7 +202,7 @@ server.get('/tags', (req, res) => {
 
   server.post('/tags', (req, res) => {
     const { tag, userId } = req.body;
-    if (!tag || !userId)
+    if (!tag || !userId || tag.length > 16)
     res.status(400).json({ errorMessage: "Tag required"});
     db.insert({ tag, userId }) 
     .into("tags")
@@ -213,7 +213,7 @@ server.get('/tags', (req, res) => {
   server.delete('/tags/:id', (req, res) => {
     const { id } = req.params;
     db('tags')
-    .where('id', Number(id))
+    .where('id', (id))
     .delete()   
     .then(tag => {
         if(tag === 0) {
@@ -232,7 +232,7 @@ server.put('/tags/:id', (req, res) => {
     if(!tag)
     res.status(400).json({ errorMessage: "Provide tag please"});
     db('tags')
-    .where("id", Number(id))
+    .where("id", (id))
     .update(tag)
     // .into('users')line is not needed
     .then(tag => {
