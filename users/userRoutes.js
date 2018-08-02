@@ -24,6 +24,15 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.get('/:id/posts', async (req, res) => {
+  try {
+    const user = await db('posts as p').join('Users as u', 'u.id', 'p.userId').select('p.id', 'p.text', 'u.name as postedBy').where('p.userId', req.params.id);
+    res.status(200).json(user);
+  } catch(err) {
+    res.status(500).send(`You done goofed with ${err}`);
+  }
+});
+
 router.post('/', async (req,  res) => {
   const name = req.body;
   try {
