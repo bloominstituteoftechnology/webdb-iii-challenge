@@ -82,8 +82,10 @@ router.delete('/:id', (req, res) => {
 router.get('/:id/tags', (req, res) => {
   const { id } = req.params
   console.log('yup in here', id)
-  dbBasic('tags')
-    .where('postId', id)
+  dbBasic('posts_tags')
+    .where({ postId: id })
+    .join('tags', 'posts_tags.tagId', '=', 'tags.id')
+    .select('postId', 'tag')
     .then(tags => {
       console.log(tags)
       res.status(200).json(tags)

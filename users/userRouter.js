@@ -16,10 +16,13 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
   const { id } = req.params
-  db('users').where('id', id)
+  db('users')
+    .where({ id })
     .then(user => {
-      console.log('USER', user)
-      if (!user.length) res.status(404).json({ error: `user with id ${id} not found.` })
+      if (!user.length) {
+        res.status(404).json({ error: `user with id ${id} not found.` })
+        return
+      }
       res.status(200).json(user)
     })
     .catch(err => res.status(500).json(err))
