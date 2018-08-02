@@ -11,15 +11,15 @@ server.get('/users', (req, res) => {
     .catch(err => res.status(500).json({ error: "Users .get catch error" }))
 })
 server.get('/users/:id', (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id;
   db('users')
-    .where('id', Number(id))
+    .where('id', id)
     .then(response => {
       if (response.length === 0) {
         res.status(404).json('The user with the specified ID does not exist.')
       } res.status(200).json(response)
     })
-    .catch(err => res.status(500).json({ error: "The user information could not be retrieved." }))
+    .catch(err => res.status(500).json(err, 'USER GET:ID'))
 })
 server.post('/users', (req, res) => {
   const { name } = req.body;
@@ -30,6 +30,16 @@ server.post('/users', (req, res) => {
     .then(user => res.status(201).json({ name }))
     .catch(err => res.status(400).json({ error: "Error posting" }))
 })
+server.delete('/users/:id', (req, res) => {
+  const id = req.params.id;
+  db('users')
+    .where('id', id)
+    .del()
+    .then(response => {
+      res.status(200).json(response)
+    })
+    .catch(err => res.status(500).json(err ,'USER DEL'))
+})
 
 // Posts
 server.get('/posts', (req, res) => {
@@ -38,9 +48,9 @@ server.get('/posts', (req, res) => {
     .catch(err => res.status(500).json({ error: "Posts .get catch error" }))
 })
 server.get('/posts/:id', (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id;
   db('posts')
-    .where('id', Number(id))
+    .where('id', id)
     .then(response => {
       if (response.length === 0) {
         res.status(400).json({ message: "The user with the ID does not exist." })
@@ -55,6 +65,16 @@ server.post('/posts', (req, res) => {
     .then(user => res.status(201).json(post))
     .catch(err => res.status(400).json({ error: "Error posting" }))
 })
+server.delete('/posts/:id', (req, res) => {
+  const id = req.params.id;
+  db('posts')
+    .where('id', id)
+    .del()
+    .then(response => {
+      res.status(200).json(response)
+    })
+    .catch(err => res.status(500).json(err ,'POST DEL'))
+})
 
 // Tags
 server.get('/tags', (req, res) => {
@@ -63,9 +83,9 @@ server.get('/tags', (req, res) => {
     .catch(err => res.status(500).json({ error: "Tags .get catch error" }))
 })
 server.get('/tags/:id', (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id;
   db('tags')
-    .where('id', Number(id))
+    .where('id', id)
     .then(response => {
       if (response.length == 0) {
         res.status(400).json({ message: "The tag with the ID does not exist." })
@@ -79,6 +99,16 @@ server.post('/tags', (req, res) => {
     .into("tags")
     .then(user => res.status(201).json(tag))
     .catch(err => res.status(400).json({ error: "Error posting" }))
+})
+server.delete('/tags/:id', (req, res) => {
+  const id = req.params.id;
+  db('tags')
+    .where('id', id)
+    .del()
+    .then(response => {
+      res.status(200).json(response)
+    })
+    .catch(err => res.status(500).json(err ,'TAG DEL'))
 })
 
 server.listen(8000, () => console.log('API is running on port 8000'));
