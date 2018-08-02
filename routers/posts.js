@@ -33,9 +33,10 @@ router.get('/', (req, res) => {
   
   //POST new post
   router.post('/', (req, res) => {
-    const { post } = req.body;
-    db('posts')
+    const post = req.body;
+    db
     .insert(post)
+    .into('posts')
     .then(ids => {
       const id = ids[0];
       res.status(201).json({ id, ...post })

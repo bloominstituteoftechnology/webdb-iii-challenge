@@ -53,7 +53,7 @@ router.get('/', (req, res) => {
     
     //POST user
     router.post('/', (req, res) => {
-      const { user } = req.body;
+      const user = req.body;
       db
       .insert(user)
       .into('users')

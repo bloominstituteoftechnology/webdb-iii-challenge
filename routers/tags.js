@@ -35,9 +35,10 @@ router.get('/', (req, res) => {
   
     //POST new tag
     router.post('/', (req, res) => {
-      const { tag } = req.body;
-      db('tags')
+      const tag  = req.body;
+      db
       .insert(tag)
+      .into('tags')
       .then(ids => {
         const id = ids[0];
         res.status(201).json({ id, ...tag })
