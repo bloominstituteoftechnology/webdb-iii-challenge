@@ -1,7 +1,9 @@
-const express = express('express');
+const express = require('express');
 const knex = require('knex');
 
-const server = express;
+const db = require('./data/db.js');
+
+const server = express();
 
 server.use(express.json());
 
@@ -11,7 +13,7 @@ server.get('/users', async (req, res) => {
     const users = await db('Users');
     res.status(200).json(users);
   } catch(err) {
-    res.status(500).send(`You done goofed with ${err}`);
+    res.status(500).send(`Error: ${err}`);
   }
 });
  server.post('/users', async (req,  res) => {
@@ -21,7 +23,7 @@ server.get('/users', async (req, res) => {
     const id = ids[0];
     res.status(201).json({id, ...name});
   } catch(err) {
-    res.status(500).send(`Ya done goofed with ${err}`);
+    res.status(500).send(`Error ${err}`);
   }
 })
  server.delete('/users/:id', async (req, res) => {
