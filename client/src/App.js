@@ -13,6 +13,7 @@ class App extends Component {
     }
   }
 
+// store: [] is for the search functionality
 
     componentDidMount() {
     axios
