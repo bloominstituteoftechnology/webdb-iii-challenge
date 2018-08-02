@@ -41,12 +41,12 @@ router.get('/:id/posts', (req, res) => {
 
 router.post('/', (req, res) => {
   const user = req.body
-  if (user.name === undefined || user.name.length > 128) {
-    res
-      .status(400)
-      .json({ error: 'Name field is required (128 characters maximum).' })
-    return
-  }
+  // if (user.name === undefined || user.name.length > 128) {
+  //   res
+  //     .status(400)
+  //     .json({ error: 'Name field is required (128 characters maximum).' })
+  //   return
+  // }
   db('users')
     .insert(user)
     .then(ids => {

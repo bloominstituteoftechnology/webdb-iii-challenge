@@ -18,10 +18,14 @@ app.use('/users', userRouter)
 app.use('/posts', postRouter)
 app.use('/tags', tagRouter)
 
+
 app.get('/', (req, res) => {
   res.send('All good!')
 })
 
+// app.get(/posts_tags, (req,res) => {
+
+// })
 const port = 3030
 app.listen(port, () => {
   console.log(`\n=== Web API Online on http://localhost:${port} ===\n`)
