@@ -88,11 +88,13 @@ router.get('/', async (req, res, next) => {
 })
 
 
-router.get('/:id', getPost, (req,res, next) => {
+router.get('/:id', getPost, async (req,res, next) => {
     let error = INTERNAL_SERVER_ERROR
 
+    let postIn = await db.select('posts.id', 'name', 'text', 'tags').from('posts').innerJoin('users', 'posts.userId', 'users.id')
+    .where({ ['posts.id'] : req.postIn[0].id })
     try{
-        res.status(SUCCESS).json({...req.postIn, tags: JSON.parse(post.tags)})
+        res.status(SUCCESS).json({...postIn[0], tags: JSON.parse(postIn[0].tags)})
     }catch(err){
         next({error: error, internalError: err.message})
     }
