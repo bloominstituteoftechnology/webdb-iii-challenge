@@ -8,6 +8,9 @@ module.exports = {
       filename: './data/postsdb.db'
     },
      useNullAsDefault: true,
+     seeds:{
+     	directory: './data/seeds'
+     }
   },
 
   staging: {
