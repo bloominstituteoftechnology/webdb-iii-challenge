@@ -45,7 +45,7 @@ router.delete('/:id', (req, res) => {
   .where('id', id)
   .del()
   .then(response => {
-    res.status(200).json(response);
+    res.status(200).json('the tag was deleted successfully');
   })
   .catch(error => {
     console.log(error.message)
