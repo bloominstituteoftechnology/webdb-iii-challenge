@@ -47,6 +47,26 @@ post.put('/:id', (req,res) => {
       .catch(err => res.status(500).json(err))
 })
 
+post.get('/:id/tags', (req,res) => {
+  const {id} = req.params
+
+  db('posts')
+  .where({id})
+    .then( post => {
+      if (post.length > 0){
+        
+        db('posts_tags_map').select('tags_id').where({'posts_id':id})
+        .then( data =>{
+          res.status(200).json(data)
+        })
+      }else{
+        res.status(400).json({err: 'That post ID was not found'})
+      }
+      
+    })
+    .catch(err => res.status(500).json(err))
+})
+
 
 post.post('/', (req,res) => {
   const post = req.body
