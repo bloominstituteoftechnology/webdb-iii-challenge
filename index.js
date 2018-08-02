@@ -38,7 +38,25 @@ server.delete('/users/:id', (req, res) => {
     .then(response => {
       res.status(200).json(response)
     })
-    .catch(err => res.status(500).json(err ,'USER DEL'))
+    .catch(err => res.status(500).json(err, 'USER DEL'))
+})
+server.put('/users/:id', (req, res) => {
+  const id = req.params.id;
+  const name = req.body;
+  if (!name) {
+    res.status(400).json({ errorMessage: "Please provide name for the user." })
+  }
+  db('users')
+    .where('id', id)
+    .update(name)
+    .then(response => {
+      if (!response) {
+        res.status(404).json({ message: "The action with the specified ID does not exist." })
+      } else {
+        res.status(200).json({ response });
+      }
+    })
+    .catch(err => res.status(500).json(err, 'USER PUT'))
 })
 
 // Posts
@@ -73,7 +91,25 @@ server.delete('/posts/:id', (req, res) => {
     .then(response => {
       res.status(200).json(response)
     })
-    .catch(err => res.status(500).json(err ,'POST DEL'))
+    .catch(err => res.status(500).json(err, 'POST DEL'))
+})
+server.put('/posts/:id', (req, res) => {
+  const id = req.params.id;
+  const post = req.body;
+  if (!post) {
+    res.status(400).json({ errorMessage: "Please provide content for the post." })
+  }
+  db('posts')
+    .where('id', id)
+    .update(post)
+    .then(response => {
+      if (!response) {
+        res.status(404).json({ message: "The post with the specified ID does not exist." })
+      } else {
+        res.status(200).json({ response });
+      }
+    })
+    .catch(err => res.status(500).json(err, 'POSTS PUT'))
 })
 
 // Tags
@@ -108,7 +144,25 @@ server.delete('/tags/:id', (req, res) => {
     .then(response => {
       res.status(200).json(response)
     })
-    .catch(err => res.status(500).json(err ,'TAG DEL'))
+    .catch(err => res.status(500).json(err, 'TAG DEL'))
+})
+server.put('/tags/:id', (req, res) => {
+  const id = req.params.id;
+  const tag = req.body;
+  if (!tag) {
+    res.status(400).json({ errorMessage: "Please provide content for the tag." })
+  }
+  db('tags')
+    .where('id', id)
+    .update(tag)
+    .then(response => {
+      if (!response) {
+        res.status(404).json({ message: "The tag with the specified ID does not exist." })
+      } else {
+        res.status(200).json({ response });
+      }
+    })
+    .catch(err => res.status(500).json(err, 'TAGS PUT'))
 })
 
 server.listen(8000, () => console.log('API is running on port 8000'));
