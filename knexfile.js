@@ -9,7 +9,8 @@ module.exports = {
     },
     useNullAsDefault: true,
     migrations: {
-      directory: './data/migrations'
+      directory: './data/migrations',
+      tableName: 'dbMigrations'
     },
     seeds: {
       directory: './data/seeds'
@@ -28,7 +29,8 @@ module.exports = {
       max: 10
     },
     migrations: {
-      directory: './data/migrations'
+      directory: './data/migrations',
+      tableName: 'dbMigrations'
     },
     seeds: {
       directory: './data/seeds'
@@ -47,7 +49,8 @@ module.exports = {
       max: 10
     },
     migrations: {
-      directory: './data/migrations'
+      directory: './data/migrations',
+      tableName: 'dbMigrations'
     },
     seeds: {
       directory: './data/seeds'
