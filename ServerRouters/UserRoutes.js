@@ -3,6 +3,14 @@ const db = require('../data/db');
 
 const router = express.Router();
 
+function sendError(code, message, error) {
+    return {
+        code: code,
+        message: message,
+        error: error
+    }
+}
+
 router.get('/', async (req, res, next) => {
     try {
         const response = await(db('Users').select());

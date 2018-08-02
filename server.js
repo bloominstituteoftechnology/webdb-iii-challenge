@@ -11,15 +11,6 @@ const TagRoutes = require('./ServerRouters/TagRoutes');
 server.use(express.json());
 server.use(helmet());
 
-function sendError(code, message, error) {
-    return {
-        code: code,
-        message: message,
-        error: error
-    }
-}
-
-
 server.get('/', (req, res) => {
     res.send('Welcome to Lambda Forum')
 })

@@ -3,6 +3,14 @@ const db = require('../data/db');
 
 const router = express.Router();
 
+function sendError(code, message, error) {
+    return {
+        code: code,
+        message: message,
+        error: error
+    }
+}
+
 router.get('/', async (req, res, next) => {
     try {
         const response = await(db('Posts').select());
@@ -13,7 +21,7 @@ router.get('/', async (req, res, next) => {
 })
 
 router.get('/:id', async (req, res, next) => {
-    const id = req.params.id;
+    const id = Number(req.params.id);
     const getPostQuery = db('Posts as p').select('p.id', 'u.name as username', 'p.text', 'p.createdAt')
                                          .leftJoin('Users as u', 'p.userid', 'u.id')
                                          .where('p.id', '=', Number(id));
@@ -37,6 +45,24 @@ router.get('/:id', async (req, res, next) => {
         res.status(200).json(post);
     } catch(error) {
         next(sendError(500, 'Failed to get post information.', error.message))
+    }
+})
+
+router.get('/:id/tags', async (req, res, next) => {
+    const id = Number(req.params.id);
+    const query = db('Posts as p').where('p.id', id);
+    try {
+        const post = await (query);
+        if (post.length===0) {
+            return next(sendError(404, 'Failed to retrieve post information', 'The post for this specific id does not exist.'))
+        }
+        const tags = await (query.select('t.tag')
+                                 .join('PostTags as pt', 'p.id', 'pt.postid')
+                                 .join('Tags as t', 'pt.tagid', 't.id'));
+        const tagList = tags.map(tag => tag.tag);
+        res.status(200).send(tagList.length>0?tagList:'There is no tag for this post');
+    } catch (error) {
+        next(sendError(500, 'Failed to get tags information.', error.message))
     }
 })
 
