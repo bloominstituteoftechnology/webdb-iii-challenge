@@ -22,7 +22,7 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
     const { tag } = req.body
     db('tags').insert({tag}).then(tag => {
-        res.status(200).json(tag)
+        res.status(201).json(tag)
     }).catch(err => {
         res.status(400).json(err)
     })
@@ -32,7 +32,7 @@ router.put('/:id', (req, res) => {
     const { tag } = req.body
     const { id } = req.params
     db('tags').where({id}).update({tag}).then(tag => {
-        res.status(200).json(tag)
+        res.status(201).json(tag)
     }).catch(err => {
         res.status(400).json(err)
     })
