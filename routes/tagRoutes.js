@@ -20,21 +20,38 @@ server.get("/:id", (req, res) => {
         .catch(err => res.status(500).json(err));
 });
 
-server.post("/", (req, res) => {
-    const tag = req.body;
-    // const { tag } = tag;
-    // Suggestions to change this ^?
+// Libby's code
 
-    db.insert(tag)
-        .into("tags")
-        .then(ids => {
-            const id = ids[0];
-            res.status(201).json({ id, ...tag });
-        })
-        .catch(err => {
-            res.status(500).json(err);
-        });
-});
+server.post('/', (req, res) => {
+    const  tag  = req.body;
+    db('tags')
+    .insert(tag)
+    .then(ids => {
+      const id = ids[0];
+      res.status(201).json({ id, ...tag })
+    })
+    .catch(err => {
+      res.status(500).json({error: 'The tag could not be created'})
+    });
+  });
+
+// My old code
+
+// server.post("/", (req, res) => {
+//     const tag = req.body;
+//     // const { tag } = tag;
+//     // Suggestions to change this ^?
+
+//     db.insert(tag)
+//         .into("tags")
+//         .then(ids => {
+//             const id = ids[0];
+//             res.status(201).json({ id, ...tag });
+//         })
+//         .catch(err => {
+//             res.status(500).json(err);
+//         });
+// });
 
 server.delete("/:id", (req, res) => {
     const { id } = req.params;
