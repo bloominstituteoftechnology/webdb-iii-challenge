@@ -26,9 +26,28 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
     try {
-        const response = await db('posts').where('id', Number(req.params.id)).first();
+        const response = await db('posts as p')
+            .join('users as u', 'p.userId', 'u.id')
+            .select('u.name as postedBy', 'p.text')
+            .where('p.id', req.params.id).first();
         if (!response) return next({ code: 404, message: "The post with the specified ID does not exist." });
-        return res.status(200).json(response);
+        try {
+            const tags = await db('posts as p')
+                .join('posttags as pt', 'p.id', 'pt.postId')
+                .join('tags as t', 't.id', 'pt.tagId')
+                .select('t.tag')
+                .where('p.id', req.params.id);
+            if (tags.length > 0) {
+                let tagArr = [];
+                for (let i = 0; i < tags.length; i++) {
+                    tagArr.push(tags[i].tag);
+                }
+                response['tags'] = tagArr;
+            }
+            return res.status(200).json(response);
+        } catch (err) {
+            return next({ code: 500, error: "The tag information could not be retrieved." });
+        }
     } catch (err) {
         return next({ code: 500, error: "The post information could not be retrieved." });
     }
