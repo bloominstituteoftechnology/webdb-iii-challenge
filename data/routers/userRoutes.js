@@ -8,6 +8,7 @@ router.get('/', (req, res, next) => {
         .then(posts => { res.status(200).json(posts) })
         .catch(err => next({ code: 500, message: err.message }))
 })
+
 router.get('/:id/posts', (req, res, next) => {
     const userId = req.params.id;
 
@@ -22,6 +23,7 @@ router.get('/:id/posts', (req, res, next) => {
         })
         .catch(err => next({ code: 500, message: err.message }))
 });
+
 router.get('/:id', (req, res, next) => {
     const id = req.params.id;
 
@@ -76,7 +78,6 @@ router.put('/:id', (req, res, next) => {
         })
         .catch(err => next({ code: 501, message: err.message }))
 })
-
 
 router.use((err, req, res, next) => {
     switch (err.code) {
