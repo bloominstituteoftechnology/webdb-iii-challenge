@@ -12,15 +12,15 @@ router.get('/:id/posts', (req, res, next) => {
     const userId = req.params.id;
 
     db
-    .select('*')
-    .from('posts')
-    .leftJoin('users', 'posts.userId','users.id')
-    .where( {'userId' : userId })
-    .then(post => {
-        if(!post){throw new Error('No posts found')}
-        res.status(200).json(post)
-    })
-    .catch(err => next({code: 500, message: err.message}))
+        .select('*')
+        .from('posts')
+        .leftJoin('users', 'posts.userId', 'users.id')
+        .where({ 'userId': userId })
+        .then(post => {
+            if (!post) { throw new Error('No posts found') }
+            res.status(200).json(post)
+        })
+        .catch(err => next({ code: 500, message: err.message }))
 });
 router.get('/:id', (req, res, next) => {
     const id = req.params.id;
@@ -29,7 +29,7 @@ router.get('/:id', (req, res, next) => {
         .where({ id: Number(id) })
         .then(posts => {
             if (posts.length === 0) { throw new Error('id not found') }
-            res.status(200).json(posts)
+            else { res.status(200).json(posts) }
         })
         .catch(err => next({ code: 500, message: err.message }))
 })

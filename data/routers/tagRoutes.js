@@ -41,7 +41,7 @@ router.put('/:id', (req, res, next) => {
         .update(tag)
         .then(data => {
             if (!data) { throw new Error('Id not found') }
-            res.status(200).json(tag)
+            else { res.status(200).json(tag) }
         })
         .catch(err => next({ code: 501, message: err.message }))
 })
@@ -53,10 +53,11 @@ router.delete('/:id', (req, res, next) => {
         .del()
         .then(data => {
             if (!data) { throw new Error('Id not found') }
-            res.status(200).json(`${data} entries deleted`)
+            else { res.status(200).json(`${data} entries deleted`) }
         })
         .catch(err => next({ code: 502, message: err.message }))
 })
+
 router.use((err, req, res, next) => {
     switch (err.code) {
         case 500:
