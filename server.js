@@ -2,8 +2,9 @@ const express = require('express');
 
 const server = express();
 
-const db = require('./data/db')
+const db = require('./data/db');
 
+const UserRoutes = require('./ServerRouters/UserRoutes');
 //middleware
 server.use(express.json());
 
@@ -16,97 +17,100 @@ function sendError(code, message, error) {
 }
 
 // =================================== USERS ENDPOINTS ================================== 
+
 server.get('/', (req, res) => {
     res.send('Welcome to Lambda Forum')
 })
 
-server.get('/users', async (req, res, next) => {
-    try {
-        const response = await(db('Users').select());
-        res.status(200).json(response);
-    } catch(error) {
-        next(sendError(500, 'Failed to get users information.', error.message))
-    }
-})
+server.use('/users', UserRoutes);
 
-server.get('/users/:id', async (req, res, next) => {
-    const id = req.params.id;
+// server.get('/users', async (req, res, next) => {
+//     try {
+//         const response = await(db('Users').select());
+//         res.status(200).json(response);
+//     } catch(error) {
+//         next(sendError(500, 'Failed to get users information.', error.message))
+//     }
+// })
 
-    try {
-        const response = await(db('Users').where({id: Number(id)}));
-        if (response.length === 0) {
-            return next(sendError(404, 'Failed to retrieve user information', 'The user for this specific id does not exist.'))
-        }
-        res.status(200).json(response[0]);
-    } catch(error) {
-        next(sendError(500, 'Failed to get user information.', error.message))
-    }
-})
+// server.get('/users/:id', async (req, res, next) => {
+//     const id = req.params.id;
 
-server.post('/users', async (req, res, next) => {
-    if (!req.body.name) {
-        return next(sendError(400, 'Failed to add user to database.', 'Please provide user name.'))
-    }
+//     try {
+//         const response = await(db('Users').where({id: Number(id)}));
+//         if (response.length === 0) {
+//             return next(sendError(404, 'Failed to retrieve user information', 'The user for this specific id does not exist.'))
+//         }
+//         res.status(200).json(response[0]);
+//     } catch(error) {
+//         next(sendError(500, 'Failed to get user information.', error.message))
+//     }
+// })
 
-    const newUser = req.body;
+// server.post('/users', async (req, res, next) => {
+//     if (!req.body.name) {
+//         return next(sendError(400, 'Failed to add user to database.', 'Please provide user name.'))
+//     }
 
-    try {
-        const response = await (db('Users').insert(newUser));
-        const id = response[0];
-        res.status(201).json({id, ...newUser});
-    } catch(error) {
-        next(sendError(500, 'Failed to add user to database.', error.message))
-    }
-})
+//     const newUser = req.body;
 
-server.delete('/users/:id', async (req, res, next) => {
-    const id = req.params.id;
+//     try {
+//         const response = await (db('Users').insert(newUser));
+//         const id = response[0];
+//         res.status(201).json({id, ...newUser});
+//     } catch(error) {
+//         next(sendError(500, 'Failed to add user to database.', error.message))
+//     }
+// })
 
-    try {
-        const user = await(db('Users').select().where('id', Number(id)));
-        const response = await(db('Users').where('id', id).del());
-        if (response === 0) {
-            return next(sendError(404, 'Failed to remove user.', 'The user for this specific id does not exist.'))
-        }
-        res.status(200).json(user[0]);
-    } catch(error) {
-        next(sendError(500, 'Failed to remove user.', error.message))
-    }
-})
+// server.delete('/users/:id', async (req, res, next) => {
+//     const id = req.params.id;
 
-server.put('/users/:id', async (req, res, next) => {
-    if (!req.body.name) {
-        return next(sendError(400, 'Failed to update user.', 'Please provide user name.'))
-    }
+//     try {
+//         const user = await(db('Users').select().where('id', Number(id)));
+//         const response = await(db('Users').where('id', id).del());
+//         if (response === 0) {
+//             return next(sendError(404, 'Failed to remove user.', 'The user for this specific id does not exist.'))
+//         }
+//         res.status(200).json(user[0]);
+//     } catch(error) {
+//         next(sendError(500, 'Failed to remove user.', error.message))
+//     }
+// })
+
+// server.put('/users/:id', async (req, res, next) => {
+//     if (!req.body.name) {
+//         return next(sendError(400, 'Failed to update user.', 'Please provide user name.'))
+//     }
     
-    const id = req.params.id;
-    const changes = req.body;
+//     const id = req.params.id;
+//     const changes = req.body;
     
-    try {
-        const response = await(db('Users').where('id', id).update(changes));
-        const user = await(db('Users').where('id', Number(id)));
-        if (response === 0) {
-            return next(sendError(404, 'Failed to update user', 'The user for this specific id does not exist.'))
-        }
-        res.status(200).json(user);
-    } catch(error) {
-        next(sendError(500, 'Failed to update user.', error.message))
-    }
-})
+//     try {
+//         const response = await(db('Users').where('id', id).update(changes));
+//         const user = await(db('Users').where('id', Number(id)));
+//         if (response === 0) {
+//             return next(sendError(404, 'Failed to update user', 'The user for this specific id does not exist.'))
+//         }
+//         res.status(200).json(user);
+//     } catch(error) {
+//         next(sendError(500, 'Failed to update user.', error.message))
+//     }
+// })
 
-server.get('/users/:id/posts', async (req, res, next) => {
-    const id = req.params.id;
+// server.get('/users/:id/posts', async (req, res, next) => {
+//     const id = req.params.id;
 
-    try {
-        const response = await(db('Posts').where({userid: Number(id)}));
-        if (response.length === 0) {
-            return next(sendError(404, 'Failed to retrieve posts for this user', 'The user for this specific id does not exists or there is no post by this user.'))
-        }
-        res.status(200).json(response);
-    } catch(error) {
-        next(sendError(500, 'Failed to retrieve posts for this user.', error.message))
-    }
-})
+//     try {
+//         const response = await(db('Posts').where({userid: Number(id)}));
+//         if (response.length === 0) {
+//             return next(sendError(404, 'Failed to retrieve posts for this user', 'The user for this specific id does not exists or there is no post by this user.'))
+//         }
+//         res.status(200).json(response);
+//     } catch(error) {
+//         next(sendError(500, 'Failed to retrieve posts for this user.', error.message))
+//     }
+// })
 
 // =================================== POSTS ENDPOINTS ================================== 
 server.get('/posts', async (req, res, next) => {
