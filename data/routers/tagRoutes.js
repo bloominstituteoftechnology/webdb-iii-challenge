@@ -11,6 +11,7 @@ router.get('/', (req, res, next) => {
 
 router.get('/:id', (req, res, next) => {
     const id = req.params.id;
+
     db('tags')
         .where({ id: Number(id) })
         .then(tag => {
@@ -22,6 +23,7 @@ router.get('/:id', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
     const tag = req.body;
+
     db
         .insert(tag)
         .into('tags')
@@ -48,6 +50,7 @@ router.put('/:id', (req, res, next) => {
 
 router.delete('/:id', (req, res, next) => {
     const id = req.params.id;
+    
     db('tags')
         .where({ id: Number(id) })
         .del()

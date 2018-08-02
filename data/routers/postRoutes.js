@@ -13,6 +13,7 @@ router.get('/', (req, res, next) => {
 
 router.get('/:id', (req, res, next) => {
     const id = req.params.id;
+    
     db('posts')
         .where({ id: Number(id) })
         .then(post => {
@@ -24,6 +25,7 @@ router.get('/:id', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
     const post = req.body;
+
     db
         .insert(post)
         .into('posts')
@@ -37,6 +39,7 @@ router.post('/', (req, res, next) => {
 router.put('/:id', (req, res, next) => {
     const id = req.params.id;
     const post = req.body
+
     db('posts')
         .where({ id: Number(id) })
         .update(post)
@@ -49,6 +52,7 @@ router.put('/:id', (req, res, next) => {
 
 router.delete('/:id', (req, res, next) => {
     const id = req.params.id;
+
     db('posts')
         .where({ id: Number(id) })
         .del()
