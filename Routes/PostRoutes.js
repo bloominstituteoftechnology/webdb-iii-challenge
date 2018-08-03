@@ -3,6 +3,13 @@ const posts = require("../data/db.js");
 
 const router = express.Router();
 
+const PostCheck = (req, res, next) => {
+  if (!req.body.userId || !req.body.text) {
+    res.status(400).json({ error: "Please include a text and userId in the input." });
+  }
+  next();
+};
+
 router.get("/", async (req, res) => {
   try {
     const list = await posts("Posts");
@@ -47,7 +54,7 @@ router.delete("/:id", async (req, res) => {
       .from("Posts")
       .where({ id })
       .del();
-    if (count) {
+    if (count !== 0) {
       res.status(200).json(count);
     } else {
       res.status(404).json({ error: "No post with the id exists." });
@@ -57,23 +64,18 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
-  const { userId, text } = req.body;
-  const { id } = req.params;
-  if (!userId || !text) {
-    res.status(400).json({ errorMessage: "Please provide a userId and text for the post." });
-  }
+router.put("/:id", PostCheck, async (req, res) => {
   try {
     const count = await posts
-      .where({ id })
+      .where(req.params)
       .from("Posts")
       .update(req.body);
-    if (count) {
+    if (count !== 0) {
       try {
         const updatedPost = await posts
           .select()
           .from("Posts")
-          .where({ id });
+          .where(req.params);
         res.status(200).json(updatedPost);
       } catch (err) {
         res.status(404).json({ message: "The specific user does not exist." });

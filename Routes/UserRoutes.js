@@ -3,6 +3,16 @@ const users = require("../data/db.js");
 
 const router = express.Router();
 
+const userCheck = (req, res, next) => {
+  if (!req.body.name) {
+    res.status(400).json({ message: "Please fill out a name." });
+  }
+  if (req.body.name.length > 128) {
+    res.status(400).json({ message: "The user name cannot be more than 128 characters long." });
+  }
+  next();
+};
+
 router.get("/", async (req, res) => {
   try {
     const list = await users.select().from("Users");
@@ -12,18 +22,22 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
-  const user = req.body;
+router.post("/", userCheck, async (req, res) => {
+  const addedUser = req.body;
   try {
-    const ids = await users.insert(user).into("Users");
-    const id = ids[0];
-    res.status(201).json({ id, ...user });
+    const ids = await users.insert(addedUser).into("Users");
+    res.status(201).json(ids[0]);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(400).json({ error: err.message });
   }
 });
 
 router.get("/:id", async (req, res) => {
+  console.log("req.params is: ", req.params); // {id: 3}
+  console.log("req.params.id is: ", req.params.id); // 3
+  const { id } = req.params;
+  console.log("id is: ", id); // 3
+
   try {
     const user = await users
       .select()
@@ -41,48 +55,44 @@ router.get("/:id", async (req, res) => {
 });
 
 router.delete("/:id", async (req, res) => {
-  const { id } = req.params;
-
   try {
     const count = await users
-      .where({ id })
+      .where(req.params)
       .from("Users")
       .del();
-    res.status(200).json(count);
+    if (count !== 0) {
+      res.status(200).json(count);
+    } else {
+      res.status(400).json({ error: "User couldn't be deleted." });
+    }
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", userCheck, async (req, res) => {
   const name = req.body;
-  const { id } = req.params;
-  if (!name || name.length > 128) {
-    res
-      .status(400)
-      .json({
-        errorMessage:
-          "Please provide a name. *Note, names longer than 128 characters are not accepted."
-      })
-      .end();
-  } else {
-    try {
-      const count = await users
-        .where({ id })
-        .from("Users")
-        .update(name);
+  try {
+    const count = await users
+      .where(req.params)
+      .from("Users")
+      .update(name);
+    console.log("count is: ", count);
+    if (count !== 0) {
       try {
         const updatedUser = await users
           .select()
           .from("Users")
-          .where({ id });
+          .where(req.params);
         res.status(200).json(updatedUser);
       } catch (err) {
         res.status(404).json({ message: "The specific user does not exist." });
       }
-    } catch (err) {
-      res.status(500).json({ message: err.message });
+    } else {
+      res.status(400).json({ err: "That specific user couldn't be found." });
     }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 });
 
@@ -90,7 +100,8 @@ router.get("/:id/posts", async (req, res) => {
   const { id } = req.params;
   try {
     const userPost = await users.where("userId", id).from("Posts");
-    if (userPost) {
+    console.log("userPost is: ", userPost);
+    if (userPost.length !== 0) {
       res.status(200).json(userPost);
     } else {
       res.status(404).json({ message: "That user has no posts" });

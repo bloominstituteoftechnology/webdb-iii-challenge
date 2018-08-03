@@ -3,6 +3,16 @@ const tags = require("../data/db.js");
 
 const router = express.Router();
 
+const TagCheck = (req, res, next) => {
+  if (!req.body.tag) {
+    res.status(400).json({ error: "Please input a tag" });
+  }
+  if (req.body.tag.length > 16) {
+    res.status(400).json({ error: "The tag length can't be more than 16" });
+  }
+  next();
+};
+
 router.get("/", async (req, res) => {
   try {
     const list = await tags("Tags");
@@ -40,14 +50,12 @@ router.get("/:id", async (req, res) => {
 });
 
 router.delete("/:id", async (req, res) => {
-  const { id } = req.params;
-
   try {
     const count = await tags
       .from("Tags")
-      .where({ id })
+      .where(req.params)
       .del();
-    if (count) {
+    if (count !== 0) {
       res.status(200).json(count);
     } else {
       res.status(404).json({ error: "No tag with the id exists." });
@@ -57,23 +65,18 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
-  const { tag } = req.body;
-  const { id } = req.params;
-  if (!tag) {
-    res.status(400).json({ errorMessage: "Please provide a tag." });
-  }
+router.put("/:id", TagCheck, async (req, res) => {
   try {
     const count = await tags
-      .where({ id })
+      .where(req.params)
       .from("Tags")
       .update(req.body);
-    if (count) {
+    if (count !== 0) {
       try {
         const updatedTag = await tags
           .select()
           .from("Tags")
-          .where({ id });
+          .where(req.params);
         res.status(200).json(updatedTag);
       } catch (err) {
         res.status(404).json({ message: "The specific user does not exist." });
