@@ -1,70 +1,78 @@
-# Building and API using a Relational Database
+# Sprint Challenge for RDBMS and SQL
 
-## Topics
+The purpose of this exercise is to get you used to being quizzed on _interview questions_ commonly asked about Relational Database Management Systems and SQL.
 
-- Databases
-- Relational Databases
-- Query Builder - Knex
+Please work on this challenge alone, but feel free to use outside resources. You can _reference_ any old code you may have, however, please refrain from copying and pasting any of your answers. Try and understand the question and put your responses in your own words. Be as thorough as possible when explaining something.
 
 ## Assignment
 
-Build an API that persists data to SQLite3.
+**Start by forking and cloning this repository.**
 
-Use knex migrations to create the following database tables:
+Open the _Review.md_ file and answer the questions inside, then move on to working on the following project.
 
-Users
+## Project description
 
-- id: primary key, autoincrements.
-- name: up to 128 characters long, required.
-- createdAt: defaults to the current date and time.
+The application lets users track `Projects` and `Actions` in the spirit of David Allen's _Getting Things Done (GTD)_ methodology.
 
-Posts
+You'll use _Node.js_, _Express.js_ and _Knex_ to build a RESTful API for a `Project Tracker` application that persists data to a _SQLite_ database.
 
-- id: primary key, autoincrements.
-- userId: references the id in the users table.
-- text: not size limit, required.
-- createdAt: defaults to the current date and time.
+## General Requirements
 
-Tags
+- A `project` can contain multiple actions and has:
+  - a unique Id.
+  - a name.
+  - a description.
+  - a flag that indicates if the project is complete or not.
+- An `action` belongs to only one project. An action has:
+  - a unique id.
+  - a description of what needs to be done.
+  - a notes column to add additional information.
+  - a flag that indicates if the action has been completed.
 
-- id: primary key, autoincrements
-- tag: string up to 16 characters long, unique.
-- createdAt: defaults to the current date and time.
+Feel free to name the tables and fields anything you want. **Add relationships** as you see fit.
 
-Establish a many to many relationship between `Posts` and `Tags`.
-The same `tag` can be added to different `posts` and a `post` can have multiple `tags`.
-Add any tables necessary to accomplish this.
+## tasks
 
-Seed test data into your tables using knex.
+- Build the database and tables using knex migrations. **Seeding is not needed**.
+- Build the API to perform CRUD operations on projects and actions.
+- Build an endpoint to retrieve a `project` by its `id` that returns an object
+  with the following structure:
 
-Implement the following endpoints:
+```js
+{
+  id: 1,
+  name: 'project name here',
+  desctiption: 'the project description',
+  completed: false, // or true
+  actions: [
+    {
+      id: 1,
+      description: 'action description',
+      notes: 'the action notes',
+      completed: false // or true
+    },
+    {
+      id: 7,
+      description: 'another action description',
+      notes: 'the action notes',
+      completed: false // or true
+    }
+  ]
+}
+```
 
-### Users
+## Stretch Problem
 
-- [POST] `/users` This route should save a new user to the database.
-- [GET] `/users` This route will return an array of all users.
-- [GET] `/users/:id` This route will return the user with the matching `id`.
-- [GET] `/users/:id/posts` returns all posts for the user with the specified `id`.
-- [PUT] `/users/:id` This route will update the user with the matching `id` using information sent in the body of the request.
-- [DELETE] `/users/:id` This route should delete the specified user.
+This section is **optional** and not counted towards MVP. Start working on it after you're done with the main assignment.
 
-### Posts
+Use `knext` to add _data seeding_ scripts for projects and actions.
 
-- [POST] `/posts` This route should save a new post to the database.
-- [GET] `/posts` This route will return an array of all posts.
-- [GET] `/posts/:id` This route will return the post with the matching `id`.
-- [PUT] `/posts/:id` This route will update the post with the matching `id` using information sent in the body of the request.
-- [DELETE] `/posts/:id` This route should delete the specified post.
+Add support for the concept of `contexts`. A context is something like _at home_, _at work_ or _at computer_. The idea is that some actions require a certain `context` in order to be worked on. For example, the action of _file income taxes_ may require that you are _at home_, _at computer_ and _online_ so if you are _at work_ and look at the list of pending actions you could do in your current context, filing your taxes will not show be one of them.
 
-### Tags
+A `context` can be applied to more than one `action`. An action can required more than one context, like in the example above.
 
-- [POST] `/tags` This route should save a new tag to the database.
-- [GET] `/tags` This route will return an array of all tags
-- [GET] `/tags/:id` This route will return the tag with the matching `id`.
-- [PUT] `/tags/:id` This route will update the tag with the matching `id` using information sent in the body of the request.
-- [DELETE] `/tags/:id` This route should delete the specified tag.
+When retrieving an `action` by _id_, add a property that lists all the `contexts` related to that action.
 
-## Extra Credit
+Remember to run `npm init -y` to generate a _package.json_ before adding your dependencies.
 
-- add a [GET] `/posts/:id/tags` endpoint that returns all tags for the post with the specified `id`.
-- have the post returned by the [GET] `/posts/:id` endpoint include the user name(not the id) and the tags associated with the post.
+_Good luck and have fun!_

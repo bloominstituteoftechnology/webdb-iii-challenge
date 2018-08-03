@@ -1,27 +1,25 @@
 {
-  "name": "rdbms-api-full",
+  "name": "sprint-challenge-rdbms",
   "version": "1.0.0",
-  "description": "- Databases\r - Relational Databases\r - Query Builder - Knex",
+  "description": "The purpose of this exercise is to get you used to being quizzed on _interview questions_ commonly asked about Relational Database Management Systems and SQL.",
   "main": "index.js",
-  "scripts": {
-    "start": "nodemon"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/RandyCalderon/RDBMS-API-Full.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/RandyCalderon/RDBMS-API-Full/issues"
-  },
-  "homepage": "https://github.com/RandyCalderon/RDBMS-API-Full#readme",
   "dependencies": {
     "express": "^4.16.3",
     "knex": "^0.15.2",
     "sqlite3": "^4.0.2"
   },
-  "devDependencies": {
-    "nodemon": "^1.18.3"
-  }
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LambdaSchool/Sprint-Challenge-RDBMS.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LambdaSchool/Sprint-Challenge-RDBMS/issues"
+  },
+  "homepage": "https://github.com/LambdaSchool/Sprint-Challenge-RDBMS#readme"
 }
