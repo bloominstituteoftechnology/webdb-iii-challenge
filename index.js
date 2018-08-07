@@ -118,6 +118,16 @@ server.get('/tags', (req, res) => {
     .catch((err) => res.status(500).json(err));
 });
 
+server.get('/tags/:id', (req, res) => {
+  const { id } = req.params;
+  db('tags')
+    .where({ id })
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((err) => res.status(500).json(err));
+});
+
 server.post('/tags', (req, res) => {
   const tag = req.body;
   db.insert(tag)
