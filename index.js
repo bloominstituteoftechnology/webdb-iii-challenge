@@ -14,6 +14,16 @@ server.get('/users', (req, res) => {
     .catch((err) => res.status(500).json(err));
 });
 
+server.get('/users/:id', (req, res) => {
+  const { id } = req.params;
+  db('users')
+    .where({ id })
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((err) => res.status(500).json(err));
+});
+
 server.post('/users', (req, res) => {
   const user = req.body;
   db.insert(user)
@@ -21,6 +31,17 @@ server.post('/users', (req, res) => {
     .then((ids) => {
       const id = ids[0];
       res.status(201).json({ id, ...user });
+    })
+    .catch((err) => res.status(500).json(err));
+});
+
+server.delete('/users/:id', (req, res) => {
+  const { id } = req.params;
+  db('users')
+    .where({ id })
+    .del()
+    .then((response) => {
+      res.status(200).json(response);
     })
     .catch((err) => res.status(500).json(err));
 });
