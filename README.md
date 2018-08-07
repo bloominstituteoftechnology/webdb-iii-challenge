@@ -20,7 +20,7 @@ Users
 
 Posts
 
-- id: primary key, autoincrements.
+- id: primary key, autoincrements. 
 - userId: references the id in the users table.
 - text: not size limit, required.
 - createdAt: defaults to the current date and time.
