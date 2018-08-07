@@ -58,6 +58,35 @@ server.put('/users/:id', (req, res) => {
     .catch((err) => res.status(500).json(err));
 });
 
+server.get('/posts', (req, res) => {
+  db('posts')
+    .then((posts) => {
+      res.status(200).json(posts);
+    })
+    .catch((err) => res.status(500).json(err));
+});
+
+server.get('/posts/:id', (req, res) => {
+  const { id } = req.params;
+  db('posts')
+    .where({ id })
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((err) => res.status(500).json(err));
+});
+
+server.post('/posts', (req, res) => {
+  const post = req.body;
+  db.insert(post)
+    .into('posts')
+    .then((ids) => {
+      const id = ids[0];
+      res.status(201).json({ id, ...post });
+    })
+    .catch((err) => res.status(500).json(err));
+});
+
 const port = 5000;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
