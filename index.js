@@ -110,6 +110,25 @@ server.put('/posts/:id', (req, res) => {
     .catch((err) => res.status(500).json(err));
 });
 
+server.get('/tags', (req, res) => {
+  db('tags')
+    .then((tags) => {
+      res.status(200).json(tags);
+    })
+    .catch((err) => res.status(500).json(err));
+});
+
+server.post('/tags', (req, res) => {
+  const tag = req.body;
+  db.insert(tag)
+    .into('tags')
+    .then((ids) => {
+      const id = ids[0];
+      res.status(201).json({ id, ...tag });
+    })
+    .catch((err) => res.status(500).json(err));
+});
+
 const port = 5000;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
