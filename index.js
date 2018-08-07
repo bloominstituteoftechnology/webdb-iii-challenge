@@ -87,6 +87,29 @@ server.post('/posts', (req, res) => {
     .catch((err) => res.status(500).json(err));
 });
 
+server.delete('/posts/:id', (req, res) => {
+  const { id } = req.params;
+  db('posts')
+    .where({ id })
+    .del()
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((err) => res.status(500).json(err));
+});
+
+server.put('/posts/:id', (req, res) => {
+  const { id } = req.params;
+  const post = req.body;
+  db('posts')
+    .where({ id })
+    .update(post)
+    .then((post) => {
+      res.status(201).json(post);
+    })
+    .catch((err) => res.status(500).json(err));
+});
+
 const port = 5000;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
