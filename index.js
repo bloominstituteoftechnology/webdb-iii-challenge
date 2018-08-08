@@ -10,6 +10,16 @@ server.get('/', (req, res) => {
   res.send('up and running...');
 });
 
+server.get('/users', (req, res) => {
+  db('users')
+    .then((users) => {
+      res.status(200).json(users);
+    })
+    .catch((err) => {
+      res.status(500).json(err);
+    });
+})
+
 server.post('/users', (req, res) => {
   const user = req.body;
   db.insert(user)
