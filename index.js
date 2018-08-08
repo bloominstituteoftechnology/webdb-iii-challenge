@@ -20,6 +20,18 @@ server.get('/users', (req, res) => {
     });
 })
 
+server.get('users/:id', (req, res) => {
+  const { id } = req.params;
+  db('users')
+    .where({ id })
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((err) => {
+      res.status(200).json(response);
+    })
+});
+
 server.post('/users', (req, res) => {
   const user = req.body;
   db.insert(user)
