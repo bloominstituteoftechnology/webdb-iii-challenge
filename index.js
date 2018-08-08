@@ -139,6 +139,28 @@ server.post('/tags', (req, res) => {
     .catch((err) => res.status(500).json(err));
 });
 
+server.delete('/tags/:id', (req, res) => {
+  const { id } = req.params;
+  db('tags')
+    .where({ id })
+    .del()
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((err) => res.status(500).json(err));
+});
+
+server.put('/tags/:id', (req, res) => {
+  const { id } = req.params;
+  const tag = req.body;
+  db('tags')
+    .where({ id })
+    .update(tag)
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((err) => res.status(500).json(err));
+});
 const port = 5000;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
