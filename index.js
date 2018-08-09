@@ -116,7 +116,22 @@ server.put('/posts/:id', (req,res) => {
     .catch(err => {
       res.status(500).json(err);
     });
-})
+});
+
+server.delete('/posts/:id', (req, res) => {
+  const id = req.params.id;
+  db('posts').where('id', id).del()
+    .then(response => {
+      res.status(200).json(response);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });  
+});
+
+//============Tags=============
+
+
 
 const port = 3300;
 server.listen(port, function() {
