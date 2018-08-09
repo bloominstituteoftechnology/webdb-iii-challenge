@@ -45,8 +45,15 @@ server.get('/users/:id', (req, res) => {
 });
 
 server.get('/users/:id/posts', (req, res) => {
-  
-})
+  const id = req.params.id;
+  db('posts').where('userId', id)
+    .then(response => {
+      res.status(200).json(response);
+    })
+    .catch((err) => {
+      res.status(500).json(err);
+    });
+});
 
 server.put('/users/:id', (req, res) => {
   const id = req.params.id;
