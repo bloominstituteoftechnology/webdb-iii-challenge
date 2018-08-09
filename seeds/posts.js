@@ -4,6 +4,14 @@ exports.seed = function(knex, Promise) {
     .del()
     .then(function() {
       // Inserts seed entries
-      return knex('posts').insert([{ post: 'pink' }, { post: 'love' }, { post: 'ice cream' }]);
+      return knex('posts').insert([
+        { post: 'pink', userId: 1 },
+        { post: 'love', userId: 1 },
+        { post: 'ice cream', userId: 2 }
+      ]);
     });
 };
+
+// to run the database
+// yarn knex migrate:latest
+// yarn knex seed:run

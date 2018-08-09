@@ -25,11 +25,13 @@ server.get('/users/:id', (req, res) => {
 });
 
 server.get('/users/:id/posts', (req, res) => {
-  const { userId } = req.params;
-  db('posts as p')
-    .join('users as u', 'u.id', 'p.userId')
-    .select('p.id', 'p.text', 'u.name')
-    .where('p.userId', userId)
+  // console.log(req.params);
+  const { id } = req.params;
+  // console.log(id);
+  db('users as u')
+    .join('posts as p', 'u.id', 'p.userId')
+    .select('p.id', 'p.post', 'u.name')
+    .where('p.userId', id) //post userId = user.id
     .then((response) => {
       res.status(200).json(response);
     })
