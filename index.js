@@ -95,6 +95,17 @@ server.get('/posts', (req,res) => {
     });
 });
 
+server.get('/posts/:id', (req, res) => {
+  const id = req.params.id
+  db('posts').where('id', id)
+    .then(response => {
+      res.status(200).json(response);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
+});
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
