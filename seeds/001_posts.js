@@ -5,7 +5,7 @@ exports.seed = function(knex, Promise) {
         return knex('posts').isert([
             {post: 'postage'},
             {post: 'post haste'},
-            {post: 'post partem'},
+            {post: 'post partum'},
             {post: 'postal'}
         ]);
     });
