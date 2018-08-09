@@ -1,7 +1,17 @@
 {
+  "name": "RDBMS-API-Full",
+  "version": "1.0.0",
+  "description": "RDBMS API Full Sprint",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": "https://github.com/mmargo10/RDBMS-API-Full.git",
+  "author": "M. Margo Nikolaisen <mm.nikolaisen@gmail.com>",
+  "license": "MIT",
+ 
   "dependencies": {
     "express": "^4.16.3",
-    "init": "^0.1.2",
     "knex": "^0.15.2",
     "sqlite3": "^4.0.2"
   },
