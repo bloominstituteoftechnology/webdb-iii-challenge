@@ -42,6 +42,17 @@ server.post('/users', (req, res) => {
     });
 });
 
+server.delete('/users/:id', (req, res) => {
+  const id = req.params.id;
+  db('users').where('id', id).del()
+    .then(response => {
+      res.status(200).json(response);
+    })
+    .catch(err => {
+      res.status(500).json(err)
+    });
+});
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
