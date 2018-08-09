@@ -131,7 +131,16 @@ server.delete('/posts/:id', (req, res) => {
 
 //============Tags=============
 
-
+server.post('/tags', (req, res) => {
+  const tag = req.body;
+  db.insert('tags').into('tags')
+    .then(response => {
+      res.status(200).json(response);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });  
+});
 
 const port = 3300;
 server.listen(port, function() {
