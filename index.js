@@ -44,6 +44,10 @@ server.get('/users/:id', (req, res) => {
     })
 });
 
+server.get('/users/:id/posts', (req, res) => {
+  
+})
+
 server.put('/users/:id', (req, res) => {
   const id = req.params.id;
   const name = req.body.name;
@@ -53,9 +57,9 @@ server.put('/users/:id', (req, res) => {
       res.status(200).json(response);
     })
     .catch(err => {
-      res.status(500).json(response)
+      res.status(500).json(err)
     });
-})
+});
 
 server.delete('/users/:id', (req, res) => {
   const id = req.params.id;
@@ -68,7 +72,28 @@ server.delete('/users/:id', (req, res) => {
     });
 });
 
+//============Posts=============
 
+server.post('/posts', (req, res) => {
+  const post = req.body;
+  db.insert(post).into('posts')
+    .then(response => {
+      res.status(200).json(response);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
+});
+
+server.get('/posts', (req,res) => {
+  db('posts')
+    .then(response => {
+      res.status(200).json(response);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
+});
 
 const port = 3300;
 server.listen(port, function() {
