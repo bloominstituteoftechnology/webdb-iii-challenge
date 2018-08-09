@@ -20,14 +20,14 @@ server.get('/users', (req, res) => {
     });
 })
 
-server.get('users/:id', (req, res) => {
-  const { id } = req.params;
+server.get('/users/:id', (req, res) => {
+  const id = req.params.id;
   db('users').where('id', id)
     .then((response) => {
       res.status(200).json(response);
     })
     .catch((err) => {
-      res.status(200).json(response);
+      res.status(500).json(err);
     })
 });
 
