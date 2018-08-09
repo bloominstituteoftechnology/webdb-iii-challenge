@@ -22,8 +22,7 @@ server.get('/users', (req, res) => {
 
 server.get('users/:id', (req, res) => {
   const { id } = req.params;
-  db('users')
-    .where({ id })
+  db('users').where('id', id)
     .then((response) => {
       res.status(200).json(response);
     })
@@ -34,10 +33,9 @@ server.get('users/:id', (req, res) => {
 
 server.post('/users', (req, res) => {
   const user = req.body;
-  db.insert(user)
-    .into('characters')
-    .then(ids => {
-      res.status(201).json(ids[0]);
+  db.insert(user).into('users')
+    .then(response => {
+      res.status(201).json(response);
     })
     .catch(err => {
       res.status(500).json(err);
