@@ -149,6 +149,27 @@ server.post('/tags', (req, res) => {
     });  
 });
 
+server.get('/tags', (req, res) => {
+  db('tags')
+    .then(response => {
+      res.status(200).json(response);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });  
+});
+
+server.get('/tags:id', (req, res) => {
+  const id = req.params.id;
+  db('tags').where('id', id)
+    .then(response => {
+      res.status(200).json(response);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
+});
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
