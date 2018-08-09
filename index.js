@@ -24,6 +24,18 @@ server.get('/users/:id', (req, res) => {
     .catch((err) => res.status(500).json(err));
 });
 
+server.get('/users/:id/posts', (req, res) => {
+  const { userId } = req.params;
+  db('posts as p')
+    .join('users as u', 'u.id', 'p.userId')
+    .select('p.id', 'p.text', 'u.name')
+    .where('p.userId', userId)
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((err) => res.status(500).json(err));
+});
+
 server.post('/users', (req, res) => {
   const user = req.body;
   db.insert(user)
