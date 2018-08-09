@@ -108,8 +108,8 @@ server.get('/posts/:id', (req, res) => {
 
 server.put('/posts/:id', (req,res) => {
   const id = req.params.id;
-  const text = req.body
-  db('posts').where('id', id).update({ text })
+  const post = req.body;
+  db('posts').where('id', id).update(post)
     .then(response => {
       res.status(200).json(response);
     })
