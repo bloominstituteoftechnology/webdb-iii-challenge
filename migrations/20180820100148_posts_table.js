@@ -3,7 +3,7 @@ exports.up = function (knex, Promise) {
     return knex.schema.createTable('posts', tbl => {
 
         //  primary key
-        tbl.increment();
+        tbl.increments();
 
         // foreign key: userId
         tbl
