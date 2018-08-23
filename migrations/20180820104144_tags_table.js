@@ -9,7 +9,7 @@ exports.up = function(knex, Promise) {
         tbl
             .string('tag', 16) 
             .notNullable()
-            .unique(); //NOTE: NOTE SHOWING UNIQUE IN DB BROWSER! FIX!
+            .unique(); //NOTE: NOT SHOWING UNIQUE IN DB BROWSER! FIX!
 
         //createdAt field
         tbl
