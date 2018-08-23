@@ -205,9 +205,9 @@ server.delete('/posts/:id', (req,res) => {
 
 server.get('/tags', (req,res) => {
     db('tags')
-        .select()
+        .select().table('tags')
         .then(tags => {
-            res.statusMessage(200).json(tags)
+            res.status(200).json(tags)
         })
         .catch(err => {
             res.status(500).json(err)
