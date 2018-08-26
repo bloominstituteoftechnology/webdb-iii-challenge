@@ -5,9 +5,12 @@ exports.seed = function(knex, Promise) {
     .then(function () {
       // Inserts seed entries
       return knex('tags').insert([
-        {tag: 'bleep', createdAt:20180820085944},
-        {tag: 'bloop', createdAt:20180820112544},
-        {tag: 'blaap', createdAt:20180820122544}
+        {tag: 'bleep', createdAt: knex.fn.now()},
+        {tag: 'bloop', createdAt: knex.fn.now()},
+        {tag: 'blaap', createdAt: knex.fn.now()},
+        {tag: 'bleep 2222222', createdAt: knex.fn.now()},
+        {tag: 'bloop  2222222', createdAt: knex.fn.now()},
+        {tag: 'blaap 222222222', createdAt: knex.fn.now()}
       ]);
     });
 };

@@ -54,6 +54,7 @@ server.get('/users/:id', (req,res) => {
     const id = req.params.id; //// or we could destructure it like so: const { id } = req.params;
     db('users')
         .where({id:id})
+        .select()
         .then(user => {
             res.status(200).json(user);
         })
@@ -62,16 +63,28 @@ server.get('/users/:id', (req,res) => {
         })
 });
 
-// server.get('/users/:id/posts', (req,res) => {
-//     const {id} = req.params;
+// QQQ:??????????????????????????????????
+// so for this problem here, I need to be able to look at the posts table and lists the posts that have the specified userId
+server.get('/users/:id/posts', (req,res) => {
+    const {id} = req.params;
 
-// })
+    db('posts')
+        .where({userId:id})
+        .select()
+        .then(posts => {
+            res.status(200).json(posts);
+        })
+        .catch(err => {
+            res.status(500).json(err);
+        })
+
+})
 
 server.post('/users', (req,res) => {
     const user = req.body;
-    //We’re using the .insert().into() methods found in the knex instance to add our user to the users table. 
+    // We’re using the .insert().into() methods found in the knex instance to add our user to the users table. 
     // Note that even when inserting several records at the same time only one id is returned.
-    //To insert multiple records, all we need to do is pass an array instead of an object to our .insert() method.
+    // To insert multiple records, all we need to do is pass an array instead of an object to our .insert() method.
     db.insert(user)
         .into('users')
         .then(ids => {
@@ -128,6 +141,8 @@ server.delete('/users/:id', (req,res) => {
 // [PUT] /posts/:id This route will update the post with the matching id using information sent in the body of the request.
 // [DELETE] /posts/:id This route should delete the specified post.
 
+
+// *****Q???????????????????????: Why does the userId have a value of null  whenever I create a post?
 server.get('/posts', (req,res) => {
     db('posts')
         .select()
@@ -151,6 +166,11 @@ server.get('/posts/:id', (req,res) => {
             res.status(500).json(err);
         })
 })
+
+// QQQ:??????????????????????????????????
+// server.get('/posts/:id/tags', (req,res)=> {
+//     const {id} = req.params;
+// })
 
 server.post('/posts', (req,res) => {
     let post = req.body;
@@ -211,6 +231,63 @@ server.get('/tags', (req,res) => {
         })
         .catch(err => {
             res.status(500).json(err)
+        })
+})
+
+server.get('/tags/:id', (req,res) => {
+    const {id} = req.params;
+
+    db('tags')
+        .where({id:id})
+        .select()
+        .then(ids => {
+            res.status(200).json(ids[0])
+        })
+        .catch(err => {
+            res.status(500).json(err);
+        })
+})
+
+server.post('/tags', (req,res) => {
+    let tag = req.body;
+    
+    db.insert(tag)
+        .into('tags')
+        .then(ids => {
+            res.status(201).json(ids[0])
+        })
+        .catch(err => {
+            res.status(500).json(err)
+        })
+})
+
+
+server.put('/tags/:id', (req,res) => {
+    const changes = req.body;
+    const {id} = req.params;
+
+    db('tags')
+        .where({id:id})
+        .update(changes)
+        .then(count => {
+            res.status(200).json(count);
+        })
+        .catch(err => {
+            res.status(500).json(err);
+        })
+})
+
+server.delete('/tags/:id', (req,res) => {
+    const {id} = req.params;
+
+    db('tags')
+        .where({id})
+        .del()
+        .then(count => {
+            res.status(200).json(count);  //Q????????????????: Why is the response that I'm getting 'OK'. Shouldn't I be getting the number of records that were deleted?
+        })
+        .catch(err => {
+            res.status(500).json(err);
         })
 })
 

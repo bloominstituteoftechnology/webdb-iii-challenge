@@ -15,10 +15,8 @@ exports.up = function(knex, Promise) {
 
     //createdAt field
     tbl
-        .integer('createdAt')
-        //.defaultTo('Current date and time')
-        //.defaultTo(Date.getFullYear(), Date.getMonth(), Date.getDate(), Date.getHours(), Date.getMinutes(), Date.getSeconds() )
-        .defaultTo(20180820102544);
+      .timestamp('createdAt')
+      .defaultTo(knex.fn.now())
   })
 };
 

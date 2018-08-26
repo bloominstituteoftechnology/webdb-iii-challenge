@@ -5,9 +5,12 @@ exports.seed = function(knex, Promise) {
     .then(function () {
       // Inserts seed entries
       return knex('users').insert([
-        {name: 'John', createdAt: 20180820082544},
-        {name: 'Rachel', createdAt:20180820092544},
-        {name: 'Saul', createdAt:20180820102544}
+        {name: 'John', createdAt: knex.fn.now()},
+        {name: 'Rachel', createdAt: knex.fn.now()},
+        {name: 'Saul', createdAt: knex.fn.now()},
+        {name: 'John2', createdAt: knex.fn.now()},
+        {name: 'Rachel2', createdAt: knex.fn.now()},
+        {name: 'Saul2', createdAt: knex.fn.now()}
       ]);
     });
 };
