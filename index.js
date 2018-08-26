@@ -167,10 +167,40 @@ server.get('/posts/:id', (req,res) => {
         })
 })
 
-// QQQ:??????????????????????????????????
-// server.get('/posts/:id/tags', (req,res)=> {
-//     const {id} = req.params;
-// })
+// Extra credit: Add a [GET] /posts/:id/tags endpoint that returns all tags for the post with the specified id.
+server.get('/posts/:id/tags', (req,res)=> {
+    const {id} = req.params;
+
+    // db('postsTags')
+    //     .where({postsId:id})
+    //     .select()
+    //     .then(tags => {
+    //         res.status(200).json(ids[0]);
+    //     })
+    //     .catch(err => {
+    //         res.status(500).json(err);
+    //     })
+
+    db('posts')
+        .where({id:id})
+        .then(post => {
+            if (post) {
+            db('postsTags')
+                .select('tagsId')
+                .where({'postsId':id})
+                .then(tags => {
+                    res.status(200).json(tags)
+                })
+            }
+            else {
+                res.status(404).json({err: 'Post id not found'})
+            }
+
+        })
+        .catch(err => {
+            res.status(500).json(err)
+        })
+})
 
 server.post('/posts', (req,res) => {
     let post = req.body;
