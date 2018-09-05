@@ -24,6 +24,18 @@ cohortsRouter.get('/:id', (req,res) => {
     })
 })
 
+cohortsRouter.get('/:id/students', (req,res) => {
+  const { id } = req.params; 
+  cohortDB("students")
+    .where({"cohort_id": id})
+    .then(students => {
+      res.status(200).json(students)
+    })
+    .catch(error => {
+      res.status(500).json(error.message) 
+    })
+})
+
 cohortsRouter.post('/', (req,res) => {
   cohortDB("cohorts")
   .insert(req.body)
