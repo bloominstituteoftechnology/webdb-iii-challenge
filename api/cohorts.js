@@ -63,7 +63,10 @@ router.put('/:id', (req, res) => {
   db('cohorts')
     .where({ id })
     .update({ name })
-    .then(count => res.status(200).json(count))
+    .then(count => count === 1 ?
+                    res.status(200).json(count) :
+                    res.status(404).json({ message: "No cohort with that id" })
+    )
     .catch(err => res.status(500).json(err));
 });
 
@@ -74,7 +77,10 @@ router.delete('/:id', (req, res) => {
   db('cohorts')
     .where({ id })
     .del()
-    .then(delCohort => res.status(200).json(delCohort))
+    .then(delCohort => delCohort === 1 ?
+                        res.status(200).json(delCohort) :
+                        res.status(404).json({ message: "No cohort with that id" })
+    )
     .catch(err => res.status(500).json(err));
 })
 
