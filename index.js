@@ -68,11 +68,20 @@ server.put("/cohorts/:id", (req, res) => {
 // student
 
 server.get("/students", (req, res) => {
-  db("students")
-    .then(students => res.status(200).json(students))
-    .catch(err => res.status(500).json(err));
-});
+    const {id} = req.params;
+    db("students")
+      .then(students => res.status(200).json(students))
+      .catch(err => 
+        res.status(500).json(err));
+  });
 
+server.get("/students/:id", (req, res)=>{
+  const {id} = req.params;
+  db("students")
+    .where({id})
+    .then(student => res.status(200).json(student))
+    .catch(err => res.status(500).json(err)); 
+})
 server.listen(4000, function() {
   console.log("//======Server 4k=========//");
 });
