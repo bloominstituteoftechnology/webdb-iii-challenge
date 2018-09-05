@@ -30,19 +30,42 @@ router
       .catch(next);
   });
 
-router.route('/cohorts/:id').get(function(req, res, next) {
-  db('cohorts')
-    .where({ id: req.params.id })
-    .then(data => {
-      if (!data)
-        return sendError(
-          res,
-          404,
-          'The cohort with specified ID cannot be found',
-        );
-      res.status(200).json(data);
-    })
-    .catch(next);
-});
+router
+  .route('/cohorts/:id')
+  .get(function(req, res, next) {
+    db('cohorts')
+      .where({ id: req.params.id })
+      .then(data => {
+        if (!data)
+          return sendError(
+            res,
+            404,
+            'The cohort with specified ID cannot be found',
+          );
+        res.status(200).json(data);
+      })
+      .catch(next);
+  })
+  .put(function(req, res, next) {
+    if (!req.body.name)
+      return sendError(res, 400, 'You need to provide a name to update');
+
+    db('cohorts')
+      .update({ name: req.body.name })
+      .where({ id: req.params.id })
+      .then(data => {
+        if (!data)
+          return sendError(
+            res,
+            404,
+            'The cohort with the specified ID cannot be found',
+          );
+
+        res
+          .status(200)
+          .json({ message: 'Record updated successfully', count: data });
+      })
+      .catch(next);
+  });
 
 module.exports = router;
