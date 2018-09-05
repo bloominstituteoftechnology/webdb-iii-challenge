@@ -32,14 +32,15 @@ router.post('/', (req, res, next) => {
     .then(cohort => {
       if (cohort.length < 1) {
         return next({ code: 404 });
+      } else {
+        db.insert(body)
+          .into('students')
+          .then(ids => {
+            res.status(201).json(ids);
+          })
+          .catch(err => next(err));
       }
     });
-  db.insert(body)
-    .into('students')
-    .then(ids => {
-      res.status(201).json(ids);
-    })
-    .catch(err => next(err));
 });
 
 router.put('/:id', (req, res, next) => {
@@ -52,20 +53,34 @@ router.put('/:id', (req, res, next) => {
     .then(cohort => {
       if (cohort.length < 1) {
         return next({ code: 404 });
+      } else {
+        db('students')
+          .where({ id: req.params.id })
+          .update(body)
+          .then(response => {
+            if (!response) {
+              return next({ code: 404 });
+            }
+            res.status(200).json({
+              id: req.params.id,
+              name: body.name,
+              cohort_id: body.cohort_id,
+            });
+          });
       }
-    });
+    })
+    .catch(err => next(err));
+});
+
+router.delete('/:id', (req, res, next) => {
   db('students')
     .where({ id: req.params.id })
-    .update(body)
-    .then(response => {
-      if (!response) {
+    .del()
+    .then(data => {
+      if (!data) {
         return next({ code: 404 });
       }
-      res.status(200).json({
-        id: req.params.id,
-        name: body.name,
-        cohort_id: body.cohort_id,
-      });
+      res.status(200).json({ id: req.params.id });
     })
     .catch(err => next(err));
 });
