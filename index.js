@@ -14,20 +14,34 @@ server.get('/', (req, res) => {
     res.send('API Running')
 })
 
-server.post('/api/courses', (req, res) => {
-    const course = req.body;
-    db.insert(course)
-      .into('courses')
+server.post('/api/cohorts', (req, res) => {
+    const cohort = req.body;
+    db.insert(cohort)
+      .into('cohorts')
       .then(ids => {
         res.status(201).json(ids);
       })
       .catch(err => res.status(500).json(err));
   });
   
-  server.get('/api/courses', (req, res) => {
-    db('courses')
-      .then(courses => {
-        res.status(200).json(courses);
+  server.get('/api/cohorts', (req, res) => {
+    db('cohorts')
+      .then(cohorts => {
+        res.status(200).json(cohorts);
+      })
+      .catch(err => res.status(500).json(err));
+  });
+  
+  server.get('/api/cohorts/:id', (req, res) => {
+    db('cohorts')
+      .then(cohorts => {
+        let cohort = cohorts.find(eachCohort => {
+            if (req.params.id === eachCohort.id) {
+                return eachCohort;
+            }
+        })
+        // console.log(cohort)
+        res.status(200).json(cohort);
       })
       .catch(err => res.status(500).json(err));
   });
