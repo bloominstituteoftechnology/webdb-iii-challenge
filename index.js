@@ -48,7 +48,7 @@ server.get('/api/cohorts/:id', (req, res) => {
 server.get('/api/cohorts/:id/students', (req, res) => {
     const { id } = req.params;
     db('students')
-    .where({cohort_id = id})
+    .where({cohort_id: id})
     .then(students => {
         res.status(200).json(students)
     })
@@ -86,9 +86,9 @@ server.delete('/api/cohorts/:id', (req, res) => {
 
 // students endpoints
 server.post('/api/students', (req, res) => {
-    const { name, cohort_id } = req.body;
+    const { student_name, cohort_id } = req.body;
 
-    db.insert({name, cohort_id}).into('students')
+    db.insert({student_name, cohort_id}).into('students')
     .then(ids => {
         res.status(201).json(ids);
     })
@@ -120,11 +120,11 @@ server.get('/api/students/:id', (req, res) => {
 })
 
 server.put('/api/students/:id', (req, res) => {
-    const { name, cohort_id } = req.body;
+    const { student_name, cohort_id } = req.body;
     const { id } = req.params;
     db('students')
     .where({id})
-    .update({name, cohort_id})
+    .update({student_name, cohort_id})
     .then(count => {
         res.status(200).json(count);
     })
@@ -146,4 +146,4 @@ server.delete('/api/students/:id', (req, res) => {
     })
 })
 
-server.listen(4300, console.log('\n===Server listening on port 4300.===\n'))
+server.listen(4300, console.log('\n=== Server listening on port 4300 ===\n'))
