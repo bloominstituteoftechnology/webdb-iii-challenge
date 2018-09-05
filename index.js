@@ -33,11 +33,9 @@ server.get("/api/cohorts/:id", (req, res) => {
     .where({ id })
     .then(cohort => {
       if (cohort.length === 0) {
-        res
-          .status(404)
-          .json({
-            message: "The cohort with the specified ID does not exist.",
-          });
+        res.status(404).json({
+          message: "The cohort with the specified ID does not exist.",
+        });
       } else {
         return res.status(200).json({ cohort });
       }
@@ -48,6 +46,70 @@ server.get("/api/cohorts/:id", (req, res) => {
 });
 // end get
 
+// start POST
+server.post("/api/cohorts", (req, res) => {
+  const cohort = req.body;
+  if (!cohort.name) {
+    return res.status(406).json({
+      errorMessage: "Please provide a name for the cohort.",
+    });
+  } else {
+    db("cohorts")
+      .insert(cohort)
+      .into("cohorts")
+      .then(cohorts => {
+        res.status(201).json({ message: "Cohort successfully added." });
+      })
+      .catch(err => {
+        res.status(500).json({ error: "The cohort could not be added." });
+      });
+  }
+});
+// end POST
+
+// start DELETE
+server.delete("/api/cohorts/:id", (req, res) => {
+  const { id } = req.params;
+
+  db("cohorts")
+    .where({ id })
+    .del()
+    .then(cohorts => {
+      if (cohorts === 0) {
+        res.status(404).json({
+          message: "The cohort with the specified ID does not exist.",
+        });
+      } else {
+        res.status(200).json({ message: "Cohort removed successfully." });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ error: "The cohort could not be removed." });
+    });
+});
+// end DELETE
+
+// start PUT
+server.put("/api/cohorts/:id", (req, res) => {
+  const { id } = req.params;
+  const newName = req.body.name;
+  if (!newName) {
+    return res.status(406).json({
+      errorMessage: "Please provide a name for the cohort.",
+    });
+  } else {
+    db("cohorts")
+      .where({ id })
+      .update({ name: newName })
+      .then(cohorts => {
+        res.status(200).json({ message: "Cohort successfully modified." });
+      })
+      .catch(err => {
+        res.status(500).json({ error: "The cohort could not be updated." });
+      });
+  }
+});
+// end PUT
 // end cohorts//////////////////////
 
 // students//////////////////////
