@@ -7,7 +7,6 @@ exports.up = function(knex, Promise) {
     table.string('name', 255)
          .notNullable()
          .unique('name')
-         .defaultTo('not provided')
   })
 };
 
