@@ -17,7 +17,9 @@ function checkForResource(req, res, resource) {
   if (resource.length > 0) {
     res.status(200).json(resource);
   } else {
-    res.status(404).json({ message: "The resource with that id does not exist" });
+    res
+      .status(404)
+      .json({ message: "The resource with that id does not exist" });
   }
 }
 
@@ -57,6 +59,27 @@ server.get("/api/cohorts/:id", (req, res) => {
     });
 });
 
+server.get("/api/cohorts/:id/students", (req, res) => {
+  const { id } = req.params;
+  db("students")
+    .join("cohorts", "cohorts.id", "students.cohort_id")
+    .select("students.id", "students.name", "cohorts.name as cohort")
+    .where("students.cohort_id", id)
+    .then(students => {
+      if (students.length > 0) {
+        res.status(200).json(students);
+      } else {
+        res.status(404).json({ message: "The cohort has no students." });
+      }
+    })
+    .catch(err => {
+      console.log("error", err);
+      res
+        .status(500)
+        .json({ error: "The students information could not be retrieved." });
+    });
+});
+
 server.post("/api/cohorts", (req, res) => {
   const cohort = req.body;
 
@@ -67,9 +90,9 @@ server.post("/api/cohorts", (req, res) => {
     })
     .catch(err => {
       console.log("error", err);
-      res
-        .status(500)
-        .json({ error: "There was an error saving the cohort to the database." });
+      res.status(500).json({
+        error: "There was an error saving the cohort to the database."
+      });
     });
 });
 
@@ -77,7 +100,7 @@ server.put("/api/cohorts/:id", (req, res) => {
   const changes = req.body;
   const { id } = req.params;
 
-  db("cohorts")
+  db("students")
     .where({ id })
     .update(changes)
     .then(count => {
@@ -106,7 +129,7 @@ server.delete("/api/cohorts/:id", (req, res) => {
     });
 });
 
-//students ENDPOINTS
+//STUDENTS ENDPOINTS
 
 server.get("/api/students", (req, res) => {
   db("students")
@@ -146,9 +169,9 @@ server.post("/api/students", (req, res) => {
     })
     .catch(err => {
       console.log("error", err);
-      res
-        .status(500)
-        .json({ error: "There was an error saving the student to the database." });
+      res.status(500).json({
+        error: "There was an error saving the student to the database."
+      });
     });
 });
 
