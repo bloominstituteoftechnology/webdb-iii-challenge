@@ -185,7 +185,7 @@ router
       .catch(next);
   })
   .delete(function(req, res, next) {
-    db('cohorts')
+    db('students')
       .delete()
       .where({ id: req.params.id })
       .then(data => {
@@ -193,7 +193,7 @@ router
           return sendError(
             res,
             404,
-            'The cohort with the specified ID cannot be found',
+            'The student with the specified ID cannot be found',
           );
 
         res

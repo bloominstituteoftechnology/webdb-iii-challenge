@@ -49,3 +49,6 @@ Content-Type: application/json
   "cohort_id": 2
 }
 ###
+
+DELETE http://localhost:5000/api/students/6 HTTP/1.1
+###
