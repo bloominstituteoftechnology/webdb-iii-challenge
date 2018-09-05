@@ -11,8 +11,8 @@ server.use(morgan('short'))
 server.use(cors())
 
 //use routes 
-
-server.use('/api/cohorts', cohortsRoutes)
+const cohorts = '/api/cohorts'
+server.use(cohorts, cohortsRoutes)
 
 server.get('/', (req, res)=> {
   res.send("API STARTED")
