@@ -3,7 +3,7 @@ const dbConfig = require("../knexfile");
 
 const db = knex(dbConfig.development);
 
-exports.get = async (req, res) => {
+exports.get = async (req, res, next) => {
   try {
     const data = await db.select().table(req.tableName);
     res.status(200).json({
@@ -11,15 +11,11 @@ exports.get = async (req, res) => {
       cohortData: data
     });
   } catch (err) {
-    console.log(err);
-    res.status(500).json({
-      status: false,
-      message: `Not abble to retrive your data`
-    });
+    next(err);
   }
 };
 
-exports.getId = async (req, res) => {
+exports.getId = async (req, res, next) => {
   try {
     const data = await db(req.tableName)
       .where({
@@ -31,7 +27,9 @@ exports.getId = async (req, res) => {
       status: true,
       cohortData: data
     });
-  } catch (err) {}
+  } catch (err) {
+    next(err);
+  }
 };
 
 exports.getStudents = async (req, res) => {
@@ -46,7 +44,9 @@ exports.getStudents = async (req, res) => {
       status: true,
       students: data
     });
-  } catch (err) {}
+  } catch (err) {
+    next(err);
+  }
 };
 
 exports.getStudentId = async (req, res) => {
@@ -61,11 +61,13 @@ exports.getStudentId = async (req, res) => {
       .innerJoin("cohorts", "students.cohort_id", "cohorts.id")
       .where({ "students.id": req.params.id });
 
-      res.status(200).json({
-        status: true,
-        data: data
-      })
-  } catch (err) {}
+    res.status(200).json({
+      status: true,
+      data: data
+    });
+  } catch (err) {
+    next(err);
+  }
 };
 
 exports.post = async (req, res) => {
@@ -78,7 +80,9 @@ exports.post = async (req, res) => {
       status: true,
       id: inserted[0]
     });
-  } catch (err) {}
+  } catch (err) {
+    next(err);
+  }
 };
 
 exports.put = async (req, res) => {
@@ -92,7 +96,9 @@ exports.put = async (req, res) => {
       status: true,
       updateId: updated
     });
-  } catch (err) {}
+  } catch (err) {
+    next(err);
+  }
 };
 
 exports.del = async (req, res) => {
@@ -106,5 +112,7 @@ exports.del = async (req, res) => {
       status: true,
       deletedID: deletedID
     });
-  } catch (err) {}
+  } catch (err) {
+    next(err);
+  }
 };
