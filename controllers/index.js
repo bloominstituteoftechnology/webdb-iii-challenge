@@ -32,7 +32,7 @@ exports.getId = async (req, res, next) => {
   }
 };
 
-exports.getStudents = async (req, res) => {
+exports.getStudents = async (req, res, next) => {
   try {
     const data = await db(`students`)
       .where({
@@ -49,7 +49,7 @@ exports.getStudents = async (req, res) => {
   }
 };
 
-exports.getStudentId = async (req, res) => {
+exports.getStudentId = async (req, res, next) => {
   try {
     const data = await db
       .select(
@@ -70,7 +70,7 @@ exports.getStudentId = async (req, res) => {
   }
 };
 
-exports.post = async (req, res) => {
+exports.post = async (req, res, next) => {
   try {
     const inserted = await db(req.tableName).insert({
       name: req.body.name
@@ -85,7 +85,7 @@ exports.post = async (req, res) => {
   }
 };
 
-exports.put = async (req, res) => {
+exports.put = async (req, res, next) => {
   try {
     const updated = await db(req.tableName)
       .where({
@@ -101,7 +101,7 @@ exports.put = async (req, res) => {
   }
 };
 
-exports.del = async (req, res) => {
+exports.del = async (req, res, next) => {
   try {
     const deletedID = await db(req.tableName)
       .where({
