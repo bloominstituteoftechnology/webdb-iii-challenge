@@ -66,6 +66,24 @@ router
           .json({ message: 'Record updated successfully', count: data });
       })
       .catch(next);
+  })
+  .delete(function(req, res, next) {
+    db('cohorts')
+      .delete()
+      .where({ id: req.params.id })
+      .then(data => {
+        if (!data)
+          return sendError(
+            res,
+            404,
+            'The cohort with the specified ID cannot be found',
+          );
+
+        res
+          .status(200)
+          .json({ message: 'Record deleted successfully', count: data });
+      })
+      .catch(next);
   });
 
 module.exports = router;
