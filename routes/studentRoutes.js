@@ -18,6 +18,7 @@ router
 			const id = await db('students').insert(student);
 			res.status(201).json(id);
 		} catch(err){
+			console.log(err);
 			res.status(500).json({ error: 'The request could not be fulfilled.' });
 		}
 	})
