@@ -7,15 +7,15 @@ const db = knex(dbConfig.development);
 router.use(express.json());
 
 router.post("/", async (req, res) => {
-    const cohort = req.body;
-    if (!cohort.name) {
+    const student = req.body;
+    if (!student.name) {
         res.status(400).json({
-            message: "Cohort name is required."
+            message: "student name is required."
         })
     } else {
         try {
-            const postCohort = await db.insert(cohort).into('cohorts');
-            res.status(201).json( postCohort );
+            const postStudent = await db.insert(student).into('students');
+            res.status(201).json( postStudent );
         }
         catch( err ) {
             res.status(500).json(err)
@@ -25,8 +25,8 @@ router.post("/", async (req, res) => {
 
 router.get("/", async (req, res) => {
     try {
-        const cohorts = await db('cohorts');
-        res.status(200).json(cohorts);
+        const students = await db('students');
+        res.status(200).json(students);
     }
     catch ( err ) {
         res.status(500).json(err)
@@ -36,19 +36,8 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
     const { id } = req.params;
     try {
-        const cohort =  await db('cohorts').where({ id : id });
-        res.status(200).json(cohort);
-    }
-    catch ( err ) {
-        res.status(500).json(err);
-    };
-});
-
-router.get("/:id/students", async (req, res) => {
-    const { id } = req.params;
-    try {
-        const students = await db('students').where({ cohort_id : id })
-        res.status(200).json(students);
+        const student =  await db('students').where({ id });
+        res.status(200).json(student);
     }
     catch ( err ) {
         res.status(500).json(err);
@@ -60,11 +49,11 @@ router.put("/:id", async (req, res) => {
     const { id } = req.params;
     if (!updated.name) {
         res.status(400).json({
-            message: "Cohort name is required."
+            message: "Student name is required."
         })
     } else {
         try {
-            const update = await db('cohorts').where({ id }).update(updated);
+            const update = await db('students').where({ id }).update(updated);
             res.status(200).json(update);
         }
         catch ( err ) {
@@ -76,7 +65,7 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
     const { id } = req.params;
     try { 
-        const deleted = await db('cohorts').where({ id }).del();
+        const deleted = await db('students').where({ id }).del();
         res.status(200).json(deleted);
     }
     catch ( err ) {
