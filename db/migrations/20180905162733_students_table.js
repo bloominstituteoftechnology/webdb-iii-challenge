@@ -7,7 +7,7 @@ exports.up = function(knex, Promise) {
         .notNullable()
         .unique('student_name');
 
-        // foreing key
+        // foreign key
         tbl.integer('cohort_id')
         .unsigned()
         .notNullable()
