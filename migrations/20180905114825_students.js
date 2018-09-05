@@ -10,7 +10,7 @@ exports.up = function (knex, Promise) {
             .notNullable()
             .references('id')
             .inTable('cohorts');
-    })
+    });
 };
 
 exports.down = function (knex, Promise) {
