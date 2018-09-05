@@ -136,7 +136,7 @@ server.get("/api/students/:id", (req, res) => {
     });
 });
 
-server.post("/api/students", upperName, (req, res) => {
+server.post("/api/students", (req, res) => {
   const student = req.body;
 
   db.insert(student)
