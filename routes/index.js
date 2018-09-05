@@ -1,11 +1,11 @@
 const express = require('express');
 
-const courseRoutes = require('./courseRoutes.js');
-const studentRoutes = require('./studentRoutes.js');
+const cohortRoutes = require('./cohortRoutes.js');
+// const studentRoutes = require('./studentRoutes.js');
 
 const router = express.Router();
 
-router.use('/zoos', courseRoutes);
-router.use('/bears', studentRoutes);
+router.use('/cohorts', cohortRoutes);
+// router.use('/students', studentRoutes);
 
 module.exports = router;
