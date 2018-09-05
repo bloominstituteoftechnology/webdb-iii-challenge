@@ -35,4 +35,28 @@ server.get("/api/cohorts", (req, res) => {
     });
 });
 
+server.get("/api/cohorts/:id", (req, res) => {
+    const { id } = req.params;
+    db('cohorts')
+    .where({ id })
+    .then( cohort => {
+        res.status(200).json(cohort);
+    })
+    .catch( err => {
+        res.status(500).json(err);
+    });
+});
+
+server.get("/api/cohorts/:id/students", (req, res) => {
+    const { id } = req.params;
+    db('students')
+    .where({ cohort_id : id })
+    .then( student => {
+        res.status(200).json(student);
+    })
+    .catch( err => {
+        res.status(500).json(err);
+    });
+});
+
 server.listen(8000, () => console.log('===Listening on port 8000.==='))
