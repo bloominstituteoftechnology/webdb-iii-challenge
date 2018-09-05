@@ -11,7 +11,19 @@ const server = express();
 server.use(helmet());
 server.use(express.json());
 
+//middleware
+function checkIfCohortExists (req, res, next) {
+    const {id} = req.params;
+    db('cohorts').where({ id: id })
+    .then(cohort => {
+        if (cohort.length === 0) {
+        res.status(404).json({ message: "The cohort with the specified ID does not exist." });
+        } else next();
+    })
+    .catch(err => res.status(500).json(err));
+}
 
+//endpoints
 server.post('/api/cohorts', (req, res) => {
     const cohort = req.body;
     if (!cohort.name) {
@@ -41,6 +53,21 @@ server.get('/api/cohorts/:id', (req, res) => {
         res.status(404).json({ message: "The cohort with the specified ID does not exist." });
         } else 
         res.status(200).json(cohort);
+    })
+    .catch(err => res.status(500).json(err));
+})
+
+server.get('/api/cohorts/:id/students', checkIfCohortExists, (req, res) => {
+    const {id} = req.params;
+    db('students')
+      .join('cohorts', 'cohorts.id', 'students.cohort_id')
+      .select('students.id', 'students.name', 'cohorts.name as Cohort')
+      .where('students.cohort_id', id)
+    .then(students => {
+        if (students.length === 0) {
+        res.status(404).json({ message: "This cohort does not have any students." });
+        } else 
+        res.status(200).json(students);
     })
     .catch(err => res.status(500).json(err));
 })
