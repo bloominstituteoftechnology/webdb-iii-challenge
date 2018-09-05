@@ -1,0 +1,23 @@
+{
+  "name": "rdbms-api-full",
+  "version": "1.0.0",
+  "description": "- Databases\r - Relational Databases\r - Knex mirations.\r - Seeding data.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MKerbleski/RDBMS-API-Full.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MKerbleski/RDBMS-API-Full/issues"
+  },
+  "homepage": "https://github.com/MKerbleski/RDBMS-API-Full#readme",
+  "dependencies": {
+    "knex": "^0.15.2",
+    "sqlite3": "^4.0.2"
+  }
+}
