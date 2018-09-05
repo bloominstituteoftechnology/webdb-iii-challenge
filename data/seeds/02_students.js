@@ -1,13 +1,21 @@
-
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
-  return knex('table_name').del()
-    .then(function () {
+  return knex('students')
+    .del()
+    .then(function() {
       // Inserts seed entries
-      return knex('table_name').insert([
-        {id: 1, colName: 'rowValue1'},
-        {id: 2, colName: 'rowValue2'},
-        {id: 3, colName: 'rowValue3'}
+      return knex('students').insert([
+        { name: 'Lauren', cohort: 1 },
+        { name: 'Liz', cohort: 2 },
+        { name: 'Trevor', cohort: 3 },
+        { name: 'Ashwin', cohort: 1 },
+        { name: 'Luis', cohort: 1 },
+        { name: 'Nathan', cohort: 2 },
+        { name: 'Hagrid', cohort: 3 },
+        { name: 'Hermoine', cohort: 3 },
+        { name: 'Harry', cohort: 1 },
+        { name: 'Ron', cohort: 2 },
+        { name: 'Hedwig', cohort: 2 },
       ]);
     });
 };
