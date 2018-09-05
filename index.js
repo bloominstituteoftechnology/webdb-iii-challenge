@@ -8,8 +8,10 @@ const server = express()
 server.use(helmet())
 server.use(express.json())
 server.use(morgan('dev'))
+server.use(require('./middleware').assignTable)
 
-server.use('/api/cohorts/', require('./routes/cohortRoute'))
+server.use('/api/cohorts', require('./routes/cohortRoute'))
+server.use('/api/students', require('./routes/studentRoute'))
 
 server.get('/', (req, res) => res.send('Running'))
 

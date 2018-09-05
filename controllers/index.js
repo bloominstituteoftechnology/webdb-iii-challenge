@@ -5,7 +5,7 @@ const db = knex(dbConfig.development);
 
 exports.get = async (req, res) => {
   try {
-    const data = await db.select().table(`cohorts`);
+    const data = await db.select().table(req.tableName);
     res.status(200).json({
       status: true,
       cohortData: data
@@ -21,7 +21,7 @@ exports.get = async (req, res) => {
 
 exports.getId = async (req, res) => {
   try {
-    const data = await db(`cohorts`)
+    const data = await db(req.tableName)
       .where({
         id: req.params.id
       })
@@ -49,9 +49,28 @@ exports.getStudents = async (req, res) => {
   } catch (err) {}
 };
 
+exports.getStudentId = async (req, res) => {
+  try {
+    const data = await db
+      .select(
+        "students.id as id",
+        "students.name as name",
+        "cohorts.name as cohort"
+      )
+      .from("students")
+      .innerJoin("cohorts", "students.cohort_id", "cohorts.id")
+      .where({ "students.id": req.params.id });
+
+      res.status(200).json({
+        status: true,
+        data: data
+      })
+  } catch (err) {}
+};
+
 exports.post = async (req, res) => {
   try {
-    const inserted = await db(`cohorts`).insert({
+    const inserted = await db(req.tableName).insert({
       name: req.body.name
     });
 
@@ -64,7 +83,7 @@ exports.post = async (req, res) => {
 
 exports.put = async (req, res) => {
   try {
-    const updated = await db(`cohorts`)
+    const updated = await db(req.tableName)
       .where({
         id: req.params.id
       })
@@ -78,7 +97,7 @@ exports.put = async (req, res) => {
 
 exports.del = async (req, res) => {
   try {
-    const deletedID = await db(`cohorts`)
+    const deletedID = await db(req.tableName)
       .where({
         id: req.params.id
       })
