@@ -19,7 +19,7 @@ function checkForResource(req, res, resource) {
   } else {
     res
       .status(404)
-      .json({ message: "The resource with that id does not exist" });
+      .json({ message: "The resource does not exist or is currently empty" });
   }
 }
 
@@ -34,7 +34,7 @@ server.get("/", (req, res) => {
 server.get("/api/cohorts", (req, res) => {
   db("cohorts")
     .then(cohorts => {
-      res.status(200).json(cohorts);
+      checkForResource(req, res, cohorts);
     })
     .catch(err => {
       console.log("error", err);
