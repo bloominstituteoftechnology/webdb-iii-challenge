@@ -4,7 +4,7 @@
 
 - Databases
 - Relational Databases
-- Knex mirations.
+- Knex migrations.
 - Seeding data.
 
 ## Assignment
