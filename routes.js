@@ -154,18 +154,28 @@ router
       .catch(next);
   })
   .put(function(req, res, next) {
-    if (!req.body.name)
-      return sendError(res, 400, 'You need to provide a name to update');
+    const { name, cohort_id } = req.body;
+    if (!name && !cohort_id)
+      return sendError(
+        res,
+        400,
+        'You need to provide a name or cohort_id to update',
+      );
 
-    db('cohorts')
-      .update({ name: req.body.name })
+    const updatedObj = {};
+
+    if (name) updatedObj.name = name;
+    if (cohort_id) updatedObj.cohort_id = cohort_id;
+
+    db('students')
+      .update(updatedObj)
       .where({ id: req.params.id })
       .then(data => {
         if (!data)
           return sendError(
             res,
             404,
-            'The cohort with the specified ID cannot be found',
+            'The student with the specified ID cannot be found',
           );
 
         res
