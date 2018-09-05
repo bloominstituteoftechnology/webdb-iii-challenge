@@ -8,14 +8,6 @@ exports.up = function(knex, Promise) {
       .string("name", 128)
       .notNullable()
       .unique("uq_name");
-
-    // foreign key
-    table
-      .integer("cohort_id")
-      .unsigned()
-      .notNullable()
-      .references("id")
-      .inTable("cohorts");
   });
 };
 
