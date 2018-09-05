@@ -22,6 +22,16 @@ server.get('/cohorts/:id', async (req, res) => {
   }
 })
 
+server.get('/cohorts/:id/students', async (req, res) => {
+  const studentInThisCohort = await db.select().table('students').where('cohort_id', req.params.id)
+
+  if (studentInThisCohort.length === 0) {
+    res.status(500).json({ message: `cohort ${req.params.id} is not found in database` })  
+  } else {
+    res.status(200).json(studentInThisCohort)
+  }
+})
+
 server.post('/cohorts', (req, res) => {
   db.insert(req.body)
     .into('cohorts')
