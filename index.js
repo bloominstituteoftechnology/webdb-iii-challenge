@@ -145,3 +145,5 @@ server.delete('/api/students/:id', (req, res) => {
         res.status(500).json(err);
     })
 })
+
+server.listen(4300, console.log('\n===Server listening on port 4300.===\n'))
