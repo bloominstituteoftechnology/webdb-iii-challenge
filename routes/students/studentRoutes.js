@@ -28,7 +28,7 @@ router.get("/:id", (req, res) => {
 
 router.post("/", (req, res) => {
   const student = req.body;
-  if (!students) {
+  if (!student) {
     res.status(400).json({ message: "Please provide a student name." });
   }
   db.insert(student)

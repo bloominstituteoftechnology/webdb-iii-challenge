@@ -37,7 +37,7 @@ router.get("/:cohort_id/students", (req, res) => {
 
 router.post("/", (req, res) => {
   const cohort = req.body;
-  if (!cohorts) {
+  if (!cohort) {
     res.status(400).json({ message: "Please provide a cohort name." });
   }
   db.insert(cohort)
