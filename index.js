@@ -19,7 +19,7 @@ function checkForResource(req, res, resource) {
   } else {
     res
       .status(404)
-      .json({ message: "The resource does not exist or is currently empty" });
+      .json({ message: "The resource does not exist or is currently empty." });
   }
 }
 
@@ -66,11 +66,7 @@ server.get("/api/cohorts/:id/students", (req, res) => {
     .select("students.id", "students.name", "cohorts.name as cohort")
     .where("students.cohort_id", id)
     .then(students => {
-      if (students.length > 0) {
-        res.status(200).json(students);
-      } else {
-        res.status(404).json({ message: "The cohort has no students." });
-      }
+      checkForResource(req, res, students);
     })
     .catch(err => {
       console.log("error", err);
