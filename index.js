@@ -44,6 +44,20 @@ server.get("/api/cohorts/:id", (req, res) => {
       res.status(500).json({ error: "The cohort could not be retrieved." });
     });
 });
+
+// last get working when you pass name of class as id
+// instead of id (id range keeps changing)
+server.get("/api/cohorts/:id/students", (req, res) => {
+  const { id } = req.params;
+  db("students")
+    .where("cohort_id", id)
+    .then(students => {
+      res.status(200).json(students);
+    })
+    .catch(err => {
+      res.status(500).json({ error: "The students could not be retrieved." });
+    });
+});
 // end get
 
 // start POST
