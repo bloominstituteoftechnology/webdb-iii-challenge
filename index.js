@@ -50,6 +50,71 @@ server.get("/api/cohorts/:cohortID/students", async (req, res) => {
   }
 });
 
+server.delete("/api/:whichtable/:cohortID", async (req, res) => {
+  let table = "cohorts";
+  // if(req.params.whichtable ==="b"){
+  //   table = "bears";
+  // }
+  if (!Number(req.params.cohortID)) {
+    res.status(400).json({ errorMessage: "ID not a number" });
+  }
+  
+  try {
+    const results = await dbhelpers.delete(req.params.cohortID, table);
+    if (results) {
+      res.status(200).json({ message: "Success" });
+    } else {
+      res.status(500).json({ errorMessage: "Invalid ID for removal" });
+    }
+  } catch (err) {
+    
+    res.status(500).json(err);
+  }
+});
+
+server.post("/api/:whichtable", async (req, res) => {
+  let table = "cohorts";
+  // if(req.params.whichtable ==="b"){
+  //   table = "bears";
+  // }
+  if (
+    !req.body.name
+  ) {
+    res.status(400).json({ errorMessage: "Invalid body" });
+  }
+  try {
+    const results = await dbhelpers.insert(req.body,table);
+    res.status(200).json({ results });
+  } catch (err) {
+    
+    res.status(500).json(err);
+  }
+});
+
+server.put("/api/:whichtable/:cohortID", async (req, res) => {
+  let table = "cohorts";
+  // if(req.params.whichtable ==="b"){
+  //   table = "bears";
+  // }
+  if (
+    !req.body.name
+  ) {
+    res.status(400).json({ errorMessage: "Invalid body" });
+    return;
+  }
+  if (!Number(req.params.cohortID)) {
+    res.status(400).json({ errorMessage: "ID not a number" });
+    return;
+  }
+  try {
+    const results = await dbhelpers.edit(req.params.cohortID,req.body,table);
+    res.status(200).json({ results });
+  } catch (err) {
+    
+    res.status(500).json(err);
+  }
+
+});
 
 server.use("/", (req, res) =>
   res
