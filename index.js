@@ -44,8 +44,8 @@ server.get('/api/cohorts/:id',  (req, res) => {
 server.get('/api/cohorts/:id/students',  (req, res) => {
   const { id } =req.params;
 
-  db('cohorts')
-    .where({ id })
+  db('students')
+    .where({ cohort_id: id })
     .then(cohorts=>{
       res.status(200).json(cohorts)
     })
