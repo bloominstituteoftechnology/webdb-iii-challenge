@@ -16,7 +16,9 @@ module.exports = {
         });
     } else {
       return db(which)
-        .then(rows => {
+      .join('cohorts', 'cohorts.id', 'students.cohort_id')  
+         .then(rows => {
+           console.log(rows);
           return rows;
         })
         .catch(function(error) {
