@@ -5,7 +5,7 @@ exports.up = function (knex, Promise) {
         tbl.string('name')
             .notNullable()
             .unique('name');
-    })
+    });
 };
 
 exports.down = function (knex, Promise) {
