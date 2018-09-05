@@ -112,7 +112,7 @@ server.get('/api/students/:id', (req, res) => {
     db('students')
     .where({id})
     .then(student => {
-        res.status(200).json(student, query);
+        res.status(200).json(student);
     })
     .catch(err => {
         res.status(500).json(err);
