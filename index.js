@@ -17,7 +17,7 @@ server.use(express.json());
 
 // cohorts//////////////////////
 // GET
-server.get("/cohorts", (req, res) => {
+server.get("/api/cohorts", (req, res) => {
   db("cohorts")
     .then(cohorts => {
       res.status(200).json(cohorts);
@@ -26,6 +26,28 @@ server.get("/cohorts", (req, res) => {
       res.status(500).json({ error: "The cohorts could not be retrieved." });
     });
 });
+
+server.get("/api/cohorts/:id", (req, res) => {
+  const { id } = req.params;
+  db("cohorts")
+    .where({ id })
+    .then(cohort => {
+      if (cohort.length === 0) {
+        res
+          .status(404)
+          .json({
+            message: "The cohort with the specified ID does not exist.",
+          });
+      } else {
+        return res.status(200).json({ cohort });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ error: "The cohort could not be retrieved." });
+    });
+});
+// end get
+
 // end cohorts//////////////////////
 
 // students//////////////////////
