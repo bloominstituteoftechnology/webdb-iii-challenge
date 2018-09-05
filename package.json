@@ -4,7 +4,7 @@
   "description": "- Databases\r - Relational Databases\r - Knex mirations.\r - Seeding data.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/MKerbleski/RDBMS-API-Full#readme",
   "dependencies": {
+    "express": "^4.16.3",
+    "helmet": "^3.13.0",
     "knex": "^0.15.2",
     "sqlite3": "^4.0.2"
   }
