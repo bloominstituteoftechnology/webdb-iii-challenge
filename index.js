@@ -3,7 +3,7 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 
 const cohortsRoutes = require("./routes/cohortsRoutes");
-// const studentsRoutes = require("./routes/studentsRoutes");
+const studentsRoutes = require("./routes/studentsRoutes");
 
 const server = express();
 
@@ -12,7 +12,7 @@ server.use(helmet());
 server.use(morgan("dev"));
 
 server.use("/api/cohorts", cohortsRoutes);
-// server.use("/api/students", studentsRoutes);
+server.use("/api/students", studentsRoutes);
 
 const port = 8000;
 server.listen(port, function() {

@@ -5,7 +5,9 @@ const db = require("../dbConfig");
 router.post("/", (req, res) => {
 	const cohort = req.body;
 	if (!cohort.name) {
-		return res.status(400).json({ message: "Pleas provide a cohort name" });
+		return res
+			.status(400)
+			.json({ message: "Please provide a cohort name" });
 	}
 	db.insert(cohort)
 		.into("cohorts")
