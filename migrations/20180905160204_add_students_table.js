@@ -5,7 +5,8 @@ exports.up = function(knex, Promise) {
     tbl
       .integer("cohort_id")
       .references("id")
-      .inTable("cohorts");
+      .inTable("cohorts")
+      .onDelete('CASCADE');
   });
 };
 
