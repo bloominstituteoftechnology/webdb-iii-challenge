@@ -86,4 +86,26 @@ router
       .catch(next);
   });
 
+router.route('/cohorts/:id/students').get(function(req, res, next) {
+  db.select({
+    id: 'students.id',
+    student_name: 'students.name',
+    cohort_name: 'cohorts.name',
+  })
+    .from('cohorts')
+    .innerJoin('students', 'students.cohort_id', 'cohorts.id')
+    .where('cohorts.id', req.params.id)
+    .then(data => {
+      if (!data)
+        return sendError(
+          res,
+          404,
+          'The cohort with the specified ID cannot be found',
+        );
+
+      res.status(200).json(data);
+    })
+    .catch(next);
+});
+
 module.exports = router;

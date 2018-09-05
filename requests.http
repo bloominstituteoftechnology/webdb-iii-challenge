@@ -22,3 +22,6 @@ Content-Type: application/json
 
 DELETE http://localhost:5000/api/cohorts/4 HTTP/1.1
 ###
+
+GET http://localhost:5000/api/cohorts/2/students HTTP/1.1
+###
