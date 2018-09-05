@@ -3,6 +3,10 @@ const cohortsRouter = express.Router()
 
 const cohortDB = require('../db/dbConfig');
 
+//middleware below 
+const bodyChecker = require('../middleware/bodyChecker')
+//middleware above
+
 cohortsRouter.get('/', (req, res ) => {
   cohortDB("cohorts")
     .then(cohorts => {
@@ -36,7 +40,7 @@ cohortsRouter.get('/:id/students', (req,res) => {
     })
 })
 
-cohortsRouter.post('/', (req,res) => {
+cohortsRouter.post('/', bodyChecker, (req,res) => {
   cohortDB("cohorts")
   .insert(req.body)
   .then(cohortId => {
@@ -47,7 +51,7 @@ cohortsRouter.post('/', (req,res) => {
   })
 })
 
-cohortsRouter.put('/:id', (req, res) => {
+cohortsRouter.put('/:id', bodyChecker, (req, res) => {
   const { id } = req.params; 
   cohortDB("cohorts")
     .update(req.body)
