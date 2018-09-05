@@ -40,7 +40,8 @@ server.get('/api/students',(req,res)=>{
     db('students').then(students=>res.status(200).json(students)).catch(err=>res.status(500).json(err));
 })
 server.get('/api/students/:id',(req,res)=>{
-    db('students').where({'id':req.params.id}).then(row=>res.status(200).json(row)).catch(err=>res.status(500).json(err));
+    db('students').join('cohorts',{'cohorts.id':'students.cohort_id'}).select('students.id','students.name','cohorts.name')
+    .where({'students.id':req.params.id}).then(row=>res.status(200).json(row)).catch(err=>res.status(500).json(err));
 })
 server.delete('/api/students/:id',(req,res)=>{
     db('students').where({'id':req.params.id}).del().then(count=>res.status(200).json(count)).catch(err=>res.status(500).json(err));
