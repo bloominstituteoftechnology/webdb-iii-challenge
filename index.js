@@ -11,8 +11,19 @@ const server = express();
 server.use(helmet());
 server.use(express.json());
 
+// server.get("/", (req, res) => {
+//   res.send("API Running...");
+// });
+
+// GET
 server.get("/", (req, res) => {
-  res.send("API Running...");
+  db("cohorts")
+    .then(cohorts => {
+      res.status(200).json(cohorts);
+    })
+    .catch(err => {
+      res.status(500).json({ error: "The cohorts could not be retrieved." });
+    });
 });
 
 const port = 3300;
