@@ -138,16 +138,16 @@ router
   });
 
 router
-  .route('/cohorts/:id')
+  .route('/students/:id')
   .get(function(req, res, next) {
-    db('cohorts')
+    db('students')
       .where({ id: req.params.id })
       .then(data => {
         if (!data)
           return sendError(
             res,
             404,
-            'The cohort with specified ID cannot be found',
+            'The student with specified ID cannot be found',
           );
         res.status(200).json(data);
       })

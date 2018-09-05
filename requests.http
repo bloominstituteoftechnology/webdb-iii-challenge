@@ -37,3 +37,6 @@ Content-Type: application/json
   "cohort_id": 4
 }
 ###
+
+GET http://localhost:5000/api/students/4 HTTP/1.1
+###
