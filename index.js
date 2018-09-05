@@ -59,4 +59,37 @@ server.get("/api/cohorts/:id/students", (req, res) => {
     });
 });
 
+server.put("/api/cohorts/:id", (req, res) => {
+    const updated = req.body;
+    const { id } = req.params;
+    if (!updated.name) {
+        res.status(400).json({
+            message: "Cohort name is required."
+        })
+    } else {
+        db('cohorts')
+        .where({ id })
+        .update(updated)
+        .then( update => {
+            res.status(200).json(update)
+        })
+        .catch( err => {
+            res.status(500).json(err)
+        });
+    };
+});
+
+server.delete("/api/cohorts/:id", (req, res) => {
+    const { id } = req.params;
+    db('cohorts')
+    .where({ id })
+    .del()
+    .then( cohorts => {
+        res.status(200).json(cohorts);
+    })
+    .catch( err => {
+        res.status(500).json(err);
+    });
+});
+
 server.listen(8000, () => console.log('===Listening on port 8000.==='))
