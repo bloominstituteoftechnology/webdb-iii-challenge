@@ -121,12 +121,18 @@ router
     if (!req.body.name)
       return sendError(res, 400, 'You need to provide a name');
 
+    const newStudent = {
+      name: req.body.name,
+    };
+
+    if (req.body.cohort_id) newStudent.cohort_id = req.body.cohort_id;
+
     db('students')
-      .insert({ name: req.body.name })
+      .insert(newStudent)
       .then(data => {
         res
           .status(201)
-          .json({ message: 'Cohort created successfully', id: data });
+          .json({ message: 'Student created successfully', id: data });
       })
       .catch(next);
   });
