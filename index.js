@@ -27,41 +27,41 @@ server.get("/", (req, res) => {
   res.send("API running....");
 });
 
-//ZOOS ENDPOINTS
+//COHORTS ENDPOINTS
 
-server.get("/api/zoos", (req, res) => {
-  db("zoos")
-    .then(zoos => {
-      res.status(200).json(zoos);
+server.get("/api/cohorts", (req, res) => {
+  db("cohorts")
+    .then(cohorts => {
+      res.status(200).json(cohorts);
     })
     .catch(err => {
       console.log("error", err);
       res
         .status(500)
-        .json({ error: "The zoos information could not be retrieved." });
+        .json({ error: "The cohorts information could not be retrieved." });
     });
 });
 
-server.get("/api/zoos/:id", (req, res) => {
+server.get("/api/cohorts/:id", (req, res) => {
   const { id } = req.params;
-  db("zoos")
+  db("cohorts")
     .where({ id })
-    .then(zoo => {
-      checkForResource(req, res, zoo);
+    .then(cohort => {
+      checkForResource(req, res, cohort);
     })
     .catch(err => {
       console.log("error", err);
       res
         .status(500)
-        .json({ error: "The zoo information could not be retrieved" });
+        .json({ error: "The cohort information could not be retrieved" });
     });
 });
 
-server.post("/api/zoos", (req, res) => {
-  const zoo = req.body;
+server.post("/api/cohorts", (req, res) => {
+  const cohort = req.body;
 
-  db.insert(zoo)
-    .into("zoos")
+  db.insert(cohort)
+    .into("cohorts")
     .then(id => {
       res.status(201).json(id);
     })
@@ -69,15 +69,15 @@ server.post("/api/zoos", (req, res) => {
       console.log("error", err);
       res
         .status(500)
-        .json({ error: "There was an error saving the zoo to the database." });
+        .json({ error: "There was an error saving the cohort to the database." });
     });
 });
 
-server.put("/api/zoos/:id", (req, res) => {
+server.put("/api/cohorts/:id", (req, res) => {
   const changes = req.body;
   const { id } = req.params;
 
-  db("zoos")
+  db("cohorts")
     .where({ id })
     .update(changes)
     .then(count => {
@@ -87,14 +87,14 @@ server.put("/api/zoos/:id", (req, res) => {
       console.log("error", err);
       res
         .status(500)
-        .json({ error: "The zoo information could not be updated" });
+        .json({ error: "The cohort information could not be updated" });
     });
 });
 
-server.delete("/api/zoos/:id", (req, res) => {
+server.delete("/api/cohorts/:id", (req, res) => {
   const { id } = req.params;
 
-  db("zoos")
+  db("cohorts")
     .where({ id })
     .del()
     .then(count => {
@@ -102,45 +102,45 @@ server.delete("/api/zoos/:id", (req, res) => {
     })
     .catch(err => {
       console.log("error", err);
-      res.status(500).json({ error: "The zoo could not be deleted" });
+      res.status(500).json({ error: "The cohort could not be deleted" });
     });
 });
 
-//BEARS ENDPOINTS
+//students ENDPOINTS
 
-server.get("/api/bears", (req, res) => {
-  db("bears")
-    .then(bears => {
-      res.status(200).json(bears);
+server.get("/api/students", (req, res) => {
+  db("students")
+    .then(students => {
+      res.status(200).json(students);
     })
     .catch(err => {
       console.log("error", err);
       res
         .status(500)
-        .json({ error: "The bears information could not be retrieved" });
+        .json({ error: "The students information could not be retrieved" });
     });
 });
 
-server.get("/api/bears/:id", (req, res) => {
+server.get("/api/students/:id", (req, res) => {
   const { id } = req.params;
-  db("bears")
+  db("students")
     .where({ id })
-    .then(bear => {
-      checkForResource(req, res, bear);
+    .then(student => {
+      checkForResource(req, res, student);
     })
     .catch(err => {
       console.log("error", err);
       res
         .status(500)
-        .json({ error: "The bear information could not be retrieved" });
+        .json({ error: "The student information could not be retrieved" });
     });
 });
 
-server.post("/api/bears", upperName, (req, res) => {
-  const bear = req.body;
+server.post("/api/students", upperName, (req, res) => {
+  const student = req.body;
 
-  db.insert(bear)
-    .into("bears")
+  db.insert(student)
+    .into("students")
     .then(id => {
       res.status(201).json(id);
     })
@@ -148,15 +148,15 @@ server.post("/api/bears", upperName, (req, res) => {
       console.log("error", err);
       res
         .status(500)
-        .json({ error: "There was an error saving the bear to the database." });
+        .json({ error: "There was an error saving the student to the database." });
     });
 });
 
-server.put("/api/bears/:id", (req, res) => {
+server.put("/api/students/:id", (req, res) => {
   const changes = req.body;
   const { id } = req.params;
 
-  db("bears")
+  db("students")
     .where({ id })
     .update(changes)
     .then(count => {
@@ -166,14 +166,14 @@ server.put("/api/bears/:id", (req, res) => {
       console.log("error", err);
       res
         .status(500)
-        .json({ error: "The bear information could not be updated" });
+        .json({ error: "The student information could not be updated" });
     });
 });
 
-server.delete("/api/bears/:id", (req, res) => {
+server.delete("/api/students/:id", (req, res) => {
   const { id } = req.params;
 
-  db("bears")
+  db("students")
     .where({ id })
     .del()
     .then(count => {
@@ -181,7 +181,7 @@ server.delete("/api/bears/:id", (req, res) => {
     })
     .catch(err => {
       console.log("error", err);
-      res.status(500).json({ error: "The bear could not be deleted" });
+      res.status(500).json({ error: "The student could not be deleted" });
     });
 });
 
