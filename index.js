@@ -34,14 +34,14 @@ server.post('/api/cohorts', (req, res) => {
   
   server.get('/api/cohorts/:id', (req, res) => {
     db('cohorts')
-      .then(cohorts => {
-        let cohort = cohorts.find(eachCohort => {
-            if (req.params.id === eachCohort.id) {
-                return eachCohort;
-            }
+      .then(allCohorts => {
+        console.log('then')
+        let cohort = allCohorts.find(eachCohort => {
+          console.log("find",req.params.id, eachCohort.cohort_id)
+             return req.params.id === eachCohort.cohort_id
         })
-        // console.log(cohort)
-        res.status(200).json(cohort);
+        console.log(cohort, "cohort")
+        res.status(200).json({cohort});
       })
       .catch(err => res.status(500).json(err));
   });
