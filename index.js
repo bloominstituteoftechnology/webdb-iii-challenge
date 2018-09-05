@@ -110,7 +110,9 @@ server.get('/api/students', (req, res) => {
 server.get('/api/students/:id', (req, res) => {
     const { id } = req.params;
     db('students')
-    .where({id})
+    .join('cohorts', {'cohorts.id': 'students.cohort_id'})
+    .select('students.id', 'students.student_name', 'cohorts.name')
+    .where({'students.id': id})
     .then(student => {
         res.status(200).json(student);
     })
