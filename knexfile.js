@@ -8,7 +8,10 @@ module.exports = {
       filename: './dev.sqlite3'
     }
   },
-
+  useNullAsDefault: true,
+  migration: {
+    directory: './migrations',
+  },
   staging: {
     client: 'postgresql',
     connection: {
