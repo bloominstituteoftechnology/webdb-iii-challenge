@@ -5,17 +5,17 @@ exports.seed = function(knex, Promise) {
     .then(function() {
       // Inserts seed entries
       return knex('students').insert([
-        { name: 'Lauren', cohort: 1 },
-        { name: 'Liz', cohort: 2 },
-        { name: 'Trevor', cohort: 3 },
-        { name: 'Ashwin', cohort: 1 },
-        { name: 'Luis', cohort: 1 },
-        { name: 'Nathan', cohort: 2 },
-        { name: 'Hagrid', cohort: 3 },
-        { name: 'Hermoine', cohort: 3 },
-        { name: 'Harry', cohort: 1 },
-        { name: 'Ron', cohort: 2 },
-        { name: 'Hedwig', cohort: 2 },
+        { name: 'Lauren', cohort_id: 1 },
+        { name: 'Liz', cohort_id: 2 },
+        { name: 'Trevor', cohort_id: 3 },
+        { name: 'Ashwin', cohort_id: 1 },
+        { name: 'Luis', cohort_id: 1 },
+        { name: 'Nathan', cohort_id: 2 },
+        { name: 'Hagrid', cohort_id: 3 },
+        { name: 'Hermoine', cohort_id: 3 },
+        { name: 'Harry', cohort_id: 2 },
+        { name: 'Ron', cohort_id: 2 },
+        { name: 'Hedwig', cohort_id: 1 },
       ]);
     });
 };

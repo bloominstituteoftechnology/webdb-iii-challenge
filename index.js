@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const cohortRoutes = require('./routes/cohortRoutes');
 const studentRoutes = require('./routes/studentRoutes');
 const server = express();
+const mw = require('./middleware');
 
 server.use(express.json());
 server.use(helmet());
@@ -12,6 +13,8 @@ server.use(morgan('dev'));
 
 server.use('/api/cohorts', cohortRoutes);
 server.use('/api/students', studentRoutes);
+
+server.use(mw.errorHandler);
 
 server.get('/', (req, res) => {
   res.send('It works mon');
