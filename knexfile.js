@@ -8,5 +8,11 @@ module.exports = {
       filename: './data/lambda.sqlite3'
     },
     useNullAsDefault: true,
+    migrations: {
+      directory: './data/migrations',
+    },
+    seeds: {
+      directory: './data/seeds',
+    }
   },
 };
