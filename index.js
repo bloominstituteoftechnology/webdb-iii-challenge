@@ -33,17 +33,39 @@ server.post('/api/cohorts', (req, res) => {
   });
   
   server.get('/api/cohorts/:id', (req, res) => {
-    db('cohorts')
-      .then(allCohorts => {
-        console.log('then')
-        let cohort = allCohorts.find(eachCohort => {
-          console.log("find",req.params.id, eachCohort.cohort_id)
-             return req.params.id === eachCohort.cohort_id
-        })
-        console.log(cohort, "cohort")
-        res.status(200).json({cohort});
+    const {idReq} = req.params
+    db('cohorts').where('cohort_id', {idReq}).select(cohort)
+      .then(cohort => {
+        // console.log('then')
+        // let cohort = allCohorts.find(eachCohort => {
+        //   console.log("find",req.params.id, eachCohort.cohort_id)
+        //      return req.params.id == eachCohort.cohort_id
+        // })
+        // console.log(cohort, "cohort")
+        res.status(200).json(cohort);
       })
       .catch(err => res.status(500).json(err));
   });
+
+//   Key, Value:
+
+// knex('users').where('id', 1)
+// Outputs:
+// select * from `users` where `id` = 1
+
+server.get('/api/cohorts/:id/students', (req, res) => {
+  const {idReq} = req.params
+  db('students').where('cohort_id', {idReq}).select(student)
+    .then(student => {
+      // console.log('then')
+      // let cohort = allCohorts.find(eachCohort => {
+      //   console.log("find",req.params.id, eachCohort.cohort_id)
+      //      return req.params.id == eachCohort.cohort_id
+      // })
+      // console.log(cohort, "cohort")
+      res.status(200).json(student);
+    })
+    .catch(err => res.status(500).json(err));
+});
   
   server.listen(8000);
