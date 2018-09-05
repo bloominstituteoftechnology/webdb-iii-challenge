@@ -9,7 +9,7 @@ const db = knex(dbConfig.development);
 const server = express();
 
 server.use(helmet());
-server.use(express.json);
+server.use(express.json());
 
 //start up the API
 server.get('/', (req,res) => {
