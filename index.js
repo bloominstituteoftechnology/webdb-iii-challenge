@@ -58,6 +58,21 @@ server.put('/cohorts/:id', (req, res) => {
     .catch(error => res.status(500).json(error))
 })
 
+server.get('/students/:id', async (req, res) => {
+  const student = await db.select().table('students').where('id', req.params.id)
+  const cohortName = await db.select('name').table('cohorts').where('id', student[0]['cohort_id'])
+
+  if (student === 0) {
+    res.status(500).json({ message: `student ${req.params.id} is not found in database` })  
+  } else {
+    res.status(200).json({
+      id: student[0].id,
+      name: student[0].name,
+      cohort: cohortName[0].name
+    })
+  }
+})
+
 server.listen('3300', () => {
   console.log(`\n=== Web API Listening on http://localhost:3300 ===\n`)
 })
