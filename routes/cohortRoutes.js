@@ -23,8 +23,14 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.get('/:id/students', (req, res, next) => {
-  db('students')
-    .where({ cohort_id: req.params.id })
+  db('cohorts')
+    .leftJoin('students', 'cohorts.id', 'students.cohort_id')
+    .where('cohorts.id', req.params.id)
+    .select({
+      id: 'students.id',
+      name: 'students.name',
+      cohort: 'cohorts.name',
+    })
     .then(cohorts => {
       if (cohorts.length < 1) {
         return next({ code: 404 });
