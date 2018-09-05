@@ -6,7 +6,7 @@ exports.up = function(knex, Promise) {
       .notNullable()
       .unique("unq_student_name");
     tbl
-      .integer("student_id")
+      .integer("cohort_id")
       .unsigned()
       .notNullable()
       .references("id")
