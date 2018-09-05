@@ -16,7 +16,7 @@ server.get('/', (req,res) => {
 res.send('API is Running');
 });
 
-// add a course
+//POST request to add a cohort
 server.post('/api/cohorts', (req, res) => {
     const cohort = req.body;
     // console.log(cohort);
@@ -28,7 +28,59 @@ server.post('/api/cohorts', (req, res) => {
       .catch(err => res.status(500).json(err));
   });
 
+//GET all cohorts
+  server.get('/api/cohorts', (req, res) => {
+    db('cohorts')
+      // .select('name')
+      .then(cohorts => {
+        res.status(200).json(cohorts);
+      })
+      .catch(err => res.status(500).json(err));
+  });
 
+//DELETE a cohort
+server.delete('/api/cohorts/:id', (req, res) => {
+    const id = req.params.id;
+    db('cohorts')
+      .where('id', '=', id)
+      .del()
+      .then(count => {
+        // count === number of records deleted
+        res.status(200).json(count);
+      })
+      .catch(err => {
+        res.status(500).json(err);
+      });
+  });
+
+  //GET Request for individual record 
+server.get('/api/cohorts/:id', (req,res) => {
+    const id = req.params.id;
+    db('cohorts')
+    .where('id', '=', id)
+    .then(cohort => {
+      if (cohort.length == 0) {
+        res.status(404).json({message: "Cannot find corresponding record "})
+      }
+      res.status(200).json(cohort);
+    })
+    .catch(err => res.status(500).json({message: "There was an error looking for the specified record"}));
+  })
+
+  //PUT Request
+server.put('/api/cohorts/:id', (req,res) => {
+    const changes = req.body;
+    const id = req.params.id;
+    db('cohorts')
+    .where('id', '=', id)
+    .update(changes)
+    .then(count => { //tells the number of records updated
+      res.status(200).json(count);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
+  });
 
 const port = 3300;
 server.listen(port, function() {
