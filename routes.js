@@ -30,4 +30,19 @@ router
       .catch(next);
   });
 
+router.route('/cohorts/:id').get(function(req, res, next) {
+  db('cohorts')
+    .where({ id: req.params.id })
+    .then(data => {
+      if (!data)
+        return sendError(
+          res,
+          404,
+          'The cohort with specified ID cannot be found',
+        );
+      res.status(200).json(data);
+    })
+    .catch(next);
+});
+
 module.exports = router;
