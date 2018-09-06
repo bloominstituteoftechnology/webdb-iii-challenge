@@ -16,6 +16,7 @@ server.get('/', (req, res) => {
   res.send('API Running?');
 });
 
+// cohort endpoints -----------------------------------------
 // add a cohort
 server.post('/api/cohorts', (req, res) => {
     const cohort = req.body;
@@ -37,6 +38,32 @@ server.get('/api/cohorts', (req, res) => {
       // .select('name')
       .then(cohorts => {
         res.status(200).json(cohorts);
+      })
+      .catch(err => res.status(500).json(err));
+});
+
+// student endpoints -----------------------------------------
+// add a student
+server.post('/api/students', (req, res) => {
+    const student = req.body;
+  
+    // console.log(student);
+  
+    // insert into students () values ()
+    // db('students').insert(student).then().catch()
+    db.insert(student)
+      .into('students')
+      .then(ids => {
+        res.status(201).json(ids);
+      })
+      .catch(err => res.status(500).json(err));
+});
+  
+server.get('/api/students', (req, res) => {
+    db('students')
+      // .select('name')
+      .then(students => {
+        res.status(200).json(students);
       })
       .catch(err => res.status(500).json(err));
 });
