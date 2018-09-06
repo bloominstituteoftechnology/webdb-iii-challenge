@@ -66,6 +66,28 @@ server.get('/api/cohorts/:id', (req, res) => {
     })
 });
 
+// get a specific cohorts students
+server.get('/api/cohorts/:id/students', (req, res) => {
+    const { id } = req.params;
+  
+    db('students')
+        .join('cohorts', 'cohorts.id', 'students.cohort_id')
+        .select('students.id', 'students.name', 'cohorts.name as cohortOf')
+        .where('students.cohort_id', id)
+    .then(cohort => {
+        // console.log(cohort);
+        if (!cohort) {
+            res.status(404).json({ message: 'The cohort with the specified ID does not exist.' });
+            return;
+        }
+        res.status(200).json(cohort);
+    })
+    .catch(err => {
+        console.error('error', err);
+        res.status(500).json({ error: 'The cohort information could not be retrieved.'})
+    })
+});
+
 // delete a cohort
 server.delete('/api/cohorts/:id', (req, res) => {
     const { id } = req.params;
@@ -119,7 +141,8 @@ server.post('/api/students', (req, res) => {
       })
       .catch(err => res.status(500).json(err));
 });
-  
+
+// get all students
 server.get('/api/students', (req, res) => {
     db('students')
       // .select('name')
@@ -127,6 +150,43 @@ server.get('/api/students', (req, res) => {
         res.status(200).json(students);
       })
       .catch(err => res.status(500).json(err));
+});
+
+// get a specific student
+server.get('/api/students/:id', (req, res) => {
+    const { id } = req.params;
+  
+    db('students')
+      .where('id', '=', id)
+      .then(student => {
+          // console.log(cohort);
+          if (!student) {
+              res.status(404).json({ message: 'The student with the specified ID does not exist.' });
+              return;
+          }
+          res.status(200).json(student);
+      })
+      .catch(err => {
+          console.error('error', err);
+          res.status(500).json({ error: 'The student information could not be retrieved.'})
+    })
+});
+
+// update a student's name
+server.put('/api/students/:id', (req, res) => {
+    const changes = req.body;
+    const { id } = req.params;
+
+    db('students')
+        .where('id', '=', id) // or .where({ id: id })
+        .update(changes)
+        .then(count => {
+        // count === number of records updated
+        res.status(200).json(count);
+        })
+        .catch(err => {
+        res.status(500).json(err);
+    });
 });
 
 const port = 3400;
