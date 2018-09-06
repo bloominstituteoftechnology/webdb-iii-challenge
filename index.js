@@ -189,6 +189,22 @@ server.put('/api/students/:id', (req, res) => {
     });
 });
 
+// delete a student
+server.delete('/api/students/:id', (req, res) => {
+    const { id } = req.params;
+  
+    db('students')
+      .where({ id }) // or .where(id, '=', id)
+      .del()
+      .then(count => {
+        // count === number of records deleted
+        res.status(200).json(count);
+      })
+      .catch(err => {
+        res.status(500).json(err);
+      });
+});
+
 const port = 3400;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
