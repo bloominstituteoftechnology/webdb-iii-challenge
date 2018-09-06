@@ -34,7 +34,7 @@ server.post('/api/cohorts', (req, res) => {
   
   server.get('/api/cohorts/:cohort_name', (req, res) => {
     const {cohort_name} = req.params
-    db('cohorts').where('cohort_name', {cohort_name}).select(cohort)
+    db('cohorts').where({cohort_name})
       .then(cohort => {
         console.log(cohort)
         // console.log('then')
