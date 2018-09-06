@@ -54,3 +54,30 @@ Have the student returned by the `[GET] /students/:id` endpoint include the coho
   cohort: 'Full Stack Web Infinity'
 }
 ```
+
+exports.up = function(knex, Promise) {
+    return 
+    knex.schema.createTable('cohorts', function(tbl) {
+        tbl.increments('cohort_id');
+        tbl.string('cohort_name', 256)//this creates a new column 
+          .notNullable()
+          .unique('uq_cohort_name')
+    })
+    knex.schema.createTable('students', function(tbl) {
+        tbl.increments();
+        tbl
+           .string('student_name', 256)//this creates a new column 
+           .notNullable();
+        tbl
+            .string('cohort_name')
+            .notNullable()
+            .references('cohort_id')
+            .inTable('courses');
+    });
+};
+
+exports.down = function(knex, Promise) {
+    return 
+        knex.schema.dropTableIfExists('cohorts');
+        knex.schema.dropTableIfExists('students');
+};
