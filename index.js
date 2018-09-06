@@ -66,6 +66,40 @@ server.get('/api/cohorts/:id', (req, res) => {
     })
 });
 
+// delete a cohort
+server.delete('/api/cohorts/:id', (req, res) => {
+    const { id } = req.params;
+  
+    db('cohorts')
+      .where({ id }) // or .where(id, '=', id)
+      .del()
+      .then(count => {
+        // count === number of records deleted
+        res.status(200).json(count);
+      })
+      .catch(err => {
+        res.status(500).json(err);
+      });
+});
+  
+  // update a cohort's name
+server.put('/api/cohorts/:id', (req, res) => {
+    const changes = req.body;
+    const { id } = req.params;
+
+    db('cohorts')
+        .where('id', '=', id) // or .where({ id: id })
+        .update(changes)
+        .then(count => {
+        // count === number of records updated
+        res.status(200).json(count);
+        })
+        .catch(err => {
+        res.status(500).json(err);
+        });
+});
+
+
 // student endpoints -----------------------------------------
 // add a student
 server.post('/api/students', (req, res) => {
