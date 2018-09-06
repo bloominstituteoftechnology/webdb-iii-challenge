@@ -20,9 +20,12 @@ server.get('/', (req, res) => {
 // add a cohort
 server.post('/api/cohorts', (req, res) => {
     const cohort = req.body;
-  
-    // console.log(cohort);
-  
+    const { name } = req.body;
+    if (!name) {
+        res.status(400).json({ errorMessage: 'The cohort name is required, please enter the name and try again.' });
+        return;
+    }
+
     // insert into cohorts () values ()
     // db('cohorts').insert(cohort).then().catch()
     db.insert(cohort)
@@ -33,6 +36,7 @@ server.post('/api/cohorts', (req, res) => {
       .catch(err => res.status(500).json(err));
 });
   
+// get all the cohorts
 server.get('/api/cohorts', (req, res) => {
     db('cohorts')
       // .select('name')
@@ -42,12 +46,35 @@ server.get('/api/cohorts', (req, res) => {
       .catch(err => res.status(500).json(err));
 });
 
+// get a specific cohort
+server.get('/api/cohorts/:id', (req, res) => {
+    const { id } = req.params;
+  
+    db('cohorts')
+      .where('id', '=', id)
+      .then(cohort => {
+          // console.log(cohort);
+          if (!cohort) {
+              res.status(404).json({ message: 'The cohort with the specified ID does not exist.' });
+              return;
+          }
+          res.status(200).json(cohort);
+      })
+      .catch(err => {
+          console.error('error', err);
+          res.status(500).json({ error: 'The cohort information could not be retrieved.'})
+    })
+});
+
 // student endpoints -----------------------------------------
 // add a student
 server.post('/api/students', (req, res) => {
     const student = req.body;
-  
-    // console.log(student);
+    const { name } = req.body;
+    if (!name) {
+        res.status(400).json({ errorMessage: 'The student name is required, please enter the name and try again.' });
+        return;
+    }
   
     // insert into students () values ()
     // db('students').insert(student).then().catch()
