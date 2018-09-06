@@ -82,6 +82,19 @@ server.get("/students/:id", (req, res)=>{
     .then(student => res.status(200).json(student))
     .catch(err => res.status(500).json(err)); 
 })
+
+server.get("/cohorts/:id/students", (req, res)=>{
+  const {id} = req.params; 
+  db("cohorts")
+    .where({id}, "cohorts.id")
+    .innerJoin('students', 'cohorts.id', 'students.cohort_id')
+    .select({name: 'students.name', cohort: 'cohorts.name'})
+    .then(group =>{
+      if(group) res.status(200).json(group)
+      else res.status(404).json({message:"id not found"})
+    })
+    .catch(err => res.status(500).json(err))
+})
 server.listen(4000, function() {
   console.log("//======Server 4k=========//");
 });
