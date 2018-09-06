@@ -5,12 +5,12 @@ exports.seed = function(knex, Promise) {
     .then(function () {
       // Inserts seed entries
       return knex('cohorts').insert([
-        {name: 'CS1'},
-        {name: 'CS2'},
-        {name: 'CS3'},
-        {name: 'CS4'},
-        {name: 'CS5'},
-        {name: 'CS6'},
+        {cohort_name: 'CS1'},
+        {cohort_name: 'CS2'},
+        {cohort_name: 'CS3'},
+        {cohort_name: 'CS4'},
+        {cohort_name: 'CS5'},
+        {cohort_name: 'CS6'},
       ]);
     });
 };

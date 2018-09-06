@@ -6,8 +6,7 @@ exports.up = function(knex, Promise) {
            .string('student_name', 256)//this creates a new column 
            .notNullable();
         tbl
-            .integer('cohort_id')
-            .unsigned()
+            .string('cohort_name')
             .notNullable()
             .references('cohort_id')
             .inTable('courses');
