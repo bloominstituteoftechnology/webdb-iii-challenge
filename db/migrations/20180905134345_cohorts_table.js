@@ -8,7 +8,7 @@ exports.up = function(knex, Promise) {
     tbl
       .string('name', 128)
       .notNullable()
-      .unique('name');
+      .unique('cohorts_name');
   });
 };
 
