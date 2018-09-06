@@ -36,7 +36,7 @@ server.post('/api/cohorts', (req, res) => {
     const {cohort_name} = req.params
     db('cohorts').where({cohort_name})
       .then(cohort => {
-        console.log(cohort)
+        // console.log(cohort)
         // console.log('then')
         // let cohort = allCohorts.find(eachCohort => {
         //   console.log("find",req.params.id, eachCohort.cohort_id)
@@ -56,9 +56,35 @@ server.post('/api/cohorts', (req, res) => {
 
 server.get('/api/cohorts/:cohort_name/students', (req, res) => {
   const {cohort_name} = req.params
-  db('students').where({cohort_name})
+  db('students')
+    .where({cohort_name})
     .then(student => {
       res.status(200).json(student);
+    })
+    .catch(err => res.status(500).json(err));
+});
+
+server.put('/api/cohorts/:cohort_nameId/', (req, res) => {
+  const {cohort_nameId} = req.params
+  const {cohort_name} = req.body
+  console.log(cohort_name)
+  db('cohorts')
+    .where({cohort_nameId})
+    .update({cohort_name:{ cohort_name}})
+    .then(count => {
+      res.status(200).json(count);
+    })
+    .catch(err => res.status(500).json(err));
+});
+
+server.delete('/api/cohorts/:cohort_name/', (req, res) => {
+  const {cohort_name} = req.params
+  console.log(cohort_name)
+  db('cohorts')
+    .where({cohort_name})
+    .del()
+    .then(count => {
+      res.status(200).json(count);
     })
     .catch(err => res.status(500).json(err));
 });
