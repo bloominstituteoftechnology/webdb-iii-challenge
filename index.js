@@ -110,16 +110,21 @@ server.get('/api/cohorts', (req, res) => {
   server.get('/api/students/:id', (req, res) => {
     const {id} = req.params;
     // Using knex
-    db('students')
-      .select()
-      .where('id', id)
+    db('students as stu')
+      .leftJoin('cohorts as coh', {
+          'coh.id': 'stu.cohort_id'
+      })
+      .select('stu.id', 'stu.name', 'coh.name as cohort')
+      .then(students => students.find(student => student.id === +id))
       .then(students => {
-        res.status(200).json(students);
+        if (students) res.status(200).json(students);
+        else res.status(404)
+            .json({ error: 'The student with the specified ID wasn\'t found.' });
       })
       .catch(error => {
         res.status(500).json(error)
       })
-  })
+  });
   
   server.post('/api/students', (req, res) => {
     const student = req.body;
