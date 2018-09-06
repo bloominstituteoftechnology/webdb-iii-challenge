@@ -56,7 +56,7 @@ server.post('/api/cohorts', (req, res) => {
 
 server.get('/api/cohorts/:cohort_name/students', (req, res) => {
   const {cohort_name} = req.params
-  db('students').where('cohort_name', {cohort_name} ).select()
+  db('students').where({cohort_name})
     .then(student => {
       res.status(200).json(student);
     })
