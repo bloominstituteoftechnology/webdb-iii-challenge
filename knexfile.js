@@ -6,6 +6,9 @@ module.exports = {
     connection: {
       filename: "./data/lambda.slqlite3"
     },
+    seeds: {
+      directory: "./seeds/"
+    },
     useNullAsDefault: true
   }
 };
