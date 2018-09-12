@@ -9,8 +9,12 @@ module.exports = {
     },
     useNullAsDefault: true, //add this line
     migrations: {
+      //add this line
       directory: './db/migrations',
-
+    },
+    seeds: {
+    //add this line
+    directory: './db/seeds'
     }
   },
 
