@@ -6,8 +6,14 @@ exports.up = function(knex, Promise) {
       .string("name", 128)
       .notNullable()
       .unique("uq_student_name");
+    tbl
+      .integer('cohort_id')
+      .unsigned()
+      .notNullable()
+      .references('id')
+      .inTable('cohorts');
 
-    tbl.foreign("cohort_id").reference("id");
+    // tbl.foreign("cohort_id").reference("id");
   });
 };
 
