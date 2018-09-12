@@ -61,15 +61,29 @@ server.get(`/cohorts/:id`, (req,res) => {
 // [GET] /api/cohorts/:id/students returns all students for the cohort with the specified id.
 
 
-// server.put(`/cohort/:id`, (req, res) => {
+// server.put(`/cohorts/:id`, (req, res) => {
 //     db('cohort').where({ id:req.params.id }).update(req.body).then((item) => {
 //         res.status(201).json(item);
 //     })
 //     .catch((fail) => {
 //         console.log(fail);
-//         res.status(400).json({ message: "The cohort didn't add"})
+//         res.status(400).json({ message: "The cohort didn't update"})
 //     })
 // })
+
+server.put(`/cohorts/:id`, (req, res) => {
+
+    db('cohort').where({ id:req.params.id } ).update(req.body)
+    .then((item) => {
+        res.status(201).json(item);
+    })
+    .catch((fail) => {
+        console.log(fail);
+        res.status(404).json({ message: "The zoo with the specified ID does not exist."});
+    });
+  
+  
+  })
 
 
 server.delete('/cohorts/:id', (req, res) => {
