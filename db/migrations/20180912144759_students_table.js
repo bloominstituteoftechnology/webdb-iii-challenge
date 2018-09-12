@@ -1,16 +1,16 @@
+
 exports.up = function(knex, Promise) {
-  // implement the change we want in our db
-  return knex.schema.createTable('cohorts', function(tbl) {
+  return knex.schema.createTable('students', function(tbl) {
     tbl.increments(); // generates a primary key called id and makes it autoincrement
     tbl.string('name', 128).notNullable().unique('name');
+    // cohort_id references the id in the cohorts table
   });
 };
 
 exports.down = function(knex, Promise) {
-  // we undo the changes made to the db // rollback
-  return knex.schema.dropTable('cohorts');
+    return knex.schema.dropTable('students');
 };
 
-// knex migrate:make cohorts_table
+// knex migrate:make students_table
 // knex migrate:latest
 // knex migrate:rollback
