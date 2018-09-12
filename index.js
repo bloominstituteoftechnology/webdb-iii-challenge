@@ -33,7 +33,7 @@ server.post("/api/cohorts", (req, res) => {
   server.get("/api/cohorts", (req, res) => {
   
     db("cohorts")
-      .select("name")
+    //   .select("name")
       .then(cohorts => {
         res.status(200).json(cohorts);
       })

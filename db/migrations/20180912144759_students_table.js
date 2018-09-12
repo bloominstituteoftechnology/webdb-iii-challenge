@@ -4,6 +4,7 @@ exports.up = function(knex, Promise) {
     tbl.increments(); // generates a primary key called id and makes it autoincrement
     tbl.string('name', 128).notNullable().unique('name');
     // cohort_id references the id in the cohorts table
+    tbl.integer("cohort_id").unsigned().notNullable().references("id").inTable("cohorts");
   });
 };
 
