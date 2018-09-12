@@ -6,19 +6,26 @@ exports.up = function(knex, Promise) {
         notice this is the exports **UP** portion not **DOWN**
         https://knexjs.org/#Schema
   */
-  return knex.schema.createTable('cohorts', function(table) {
+  return knex.schema.createTable('students', function(table) {
     //to generate a primary id key and auto increment per object passed into db
     //you can pass a string to rename it as anything other than id, id is default
     table.increments()
+    // cohort id reference
+    table
+    .integer('cohort_id')
+    .notNullable()
+    .references('id')
+    .inTable('cohorts');
     //string value for name, making it required, not provided upon default and 128 character limit because whynot.
     table
     .string('name', 128)
     .notNullable()
-    .defaultTo('not provided')
+    .unique('student_name_index')
+    .defaultTo('not provided');
   })
 };
 
 exports.down = function(knex, Promise) {
   //here we can undo the changes so we can clean up after ourselves according to Luis:
-  return knex.schema.dropTableIfExists('cohorts');
+  return knex.schema.dropTableIfExists('students');
 };
