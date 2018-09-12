@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "knex": "^0.15.2",
+    "sqlite3": "^4.0.2"
+  },
+  "name": "RDBMS-API-Full",
+  "description": "## Topics",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jocafrin/RDBMS-API-Full.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jocafrin/RDBMS-API-Full/issues"
+  },
+  "homepage": "https://github.com/jocafrin/RDBMS-API-Full#readme"
+}
