@@ -5,8 +5,7 @@ exports.up = function(knex, Promise) {
     tbl
       .string("name", 32)
       .notNullable()
-      .unique("cohort_name")
-      .isRequired();
+      .unique("cohort_name");
   });
 };
 
