@@ -16,7 +16,8 @@ exports.up = function(knex, Promise) {
     .notNullable()
     .references('id')
     .inTable('cohorts');
-    //string value for name, making it required, not provided upon default and 128 character limit because whynot.
+    /*string value for name, making it required, not provided upon default and 128 character limit because
+    whynot, and make it unique because again, whynot? */
     table
     .string('name', 128)
     .notNullable()
