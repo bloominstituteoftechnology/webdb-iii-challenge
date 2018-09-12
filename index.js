@@ -46,7 +46,12 @@ server.get("/api/cohorts/:id", (req, res) => {
     });
 });
 
-server.get('/api/cohorts/:id/students')
+server.get('/api/cohorts/:id/students', (req, res) => {
+    const { id } = req.params;
+    const students = 
+    
+    db()
+})
 
 server.post("/api/cohorts/", (req, res) => {
   const body = req.body;
