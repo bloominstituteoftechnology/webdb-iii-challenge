@@ -1,6 +1,6 @@
 
 exports.up = function(knex, Promise) {
-    return knex.schema.createTable('students', function(tbl) {
+    return knex.schema.createTable('student', function(tbl) {
         tbl.increments();
          tbl
           .string('name', 128)
@@ -10,7 +10,7 @@ exports.up = function(knex, Promise) {
           .unsigned()
           .notNullable()
           .references('id')
-          .inTable('cohorts');
+          .inTable('cohort');
     })
   };
    exports.down = function(knex, Promise) {
