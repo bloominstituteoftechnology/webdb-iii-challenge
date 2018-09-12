@@ -33,31 +33,12 @@ server.post('/cohorts', (req, res) => {
 });
 
 
-
-server.post('/students', (req, res) => {
-    const item = req.body;
-
-    db('students').insert(item)
-        .then((ids)=> { 
-          res.status(201).json(ids);
-        })
-                .catch((fail) => {
-                    console.log(fail);
-                    res.status(500).json({ error: "There was an error while saving the student to the database." });
-                });
-});
-
-server.get('/students', (req, res) => {
-    db('students').then(item => {
-        res.status(200).json(item)
-    })
-})
-
-
-
 server.get('/cohorts', (req, res) => {
     db('cohort').then(item => {
         res.status(200).json(item)
+    }).catch((fail) => {
+        console.log(fail);
+        res.status(500).json({ error: "There was an error while receiving the cohort" });
     })
 })
 
@@ -82,6 +63,24 @@ server.get(`/cohorts/:id`, (req,res) => {
 })
 
 // [GET] /api/cohorts/:id/students returns all students for the cohort with the specified id.
+
+server.get(`/cohorts/:id/students`, (req,res) => {
+
+
+    db('students').where({ cohort_id:req.params.id })
+        .then((id) => {
+            res.json(id);
+        })
+        .catch((fail) => {
+            console.log(fail);
+            res.status(404).json({message: "The students with the specified ID do not exist."});
+        })
+
+    .catch((fail) => {
+        console.log(fail)
+        res.status(500).json({error: "The student/cohort information could not be retrieved."});
+    })
+})
 
 
 
@@ -108,6 +107,32 @@ server.delete('/cohorts/:id', (req, res) => {
             res.status(404).json({ message: "The zoo with the specified ID didn't delete."});
             });
 });
+
+//Students
+
+server.post('/students', (req, res) => {
+    const item = req.body;
+
+    db('students').insert(item)
+        .then((ids)=> { 
+          res.status(201).json(ids);
+        })
+                .catch((fail) => {
+                    console.log(fail);
+                    res.status(500).json({ error: "There was an error while saving the student to the database." });
+                });
+});
+
+
+server.get('/students', (req, res) => {
+    db('students').then(item => {
+        res.status(200).json(item)
+    })
+    .catch((fail) => {
+        console.log(fail);
+        res.status(500).json({ error: "There was an error while retrieving the students." });
+    })
+})
 
 
 
