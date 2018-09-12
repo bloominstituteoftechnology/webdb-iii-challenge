@@ -30,6 +30,7 @@ server.get("/api/cohorts", (req, res) => {
 
 server.get("/api/cohorts/:id", (req, res) => {
   const { id } = req.params;
+
   db("cohorts")
     .where({ id })
     .then(id => {
@@ -44,6 +45,8 @@ server.get("/api/cohorts/:id", (req, res) => {
       });
     });
 });
+
+server.get('/api/cohorts/:id/students')
 
 server.post("/api/cohorts/", (req, res) => {
   const body = req.body;
@@ -62,6 +65,46 @@ server.post("/api/cohorts/", (req, res) => {
       });
     });
 });
+
+server.put("/api/cohorts/:id", (req, res) => {
+  const { id } = req.params;
+  const body = req.body;
+
+  db("cohorts")
+    .where({ id })
+    .update(body)
+    .then(id => {
+      res.status(200).json(id);
+    })
+    .catch(err => {
+      console.error(
+        `There was an error in your PUT function: \n === ${err} ===`
+      );
+      res.status(500).json({
+        errMsg: "Unable to modify target data"
+      });
+    });
+});
+
+server.delete("/api/cohorts/:id", (req, res) => {
+  const { id } = req.params;
+
+  db("cohorts")
+    .del()
+    .where({ id })
+    .then(count => {
+      res.status(200).json(count);
+    })
+    .catch(err => {
+      console.error(
+        `There was an error in your delete function: \n === ${err} ===`
+      );
+      res.status(500).json({
+        errMsg: "Unable to delete requested cohort"
+      });
+    });
+});
+
 
 const port = 9000;
 server.listen(port, () => {
