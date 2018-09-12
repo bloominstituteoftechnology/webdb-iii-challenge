@@ -32,6 +32,29 @@ server.post('/cohorts', (req, res) => {
                 });
 });
 
+
+
+server.post('/students', (req, res) => {
+    const item = req.body;
+
+    db('students').insert(item)
+        .then((ids)=> { 
+          res.status(201).json(ids);
+        })
+                .catch((fail) => {
+                    console.log(fail);
+                    res.status(500).json({ error: "There was an error while saving the student to the database." });
+                });
+});
+
+server.get('/students', (req, res) => {
+    db('students').then(item => {
+        res.status(200).json(item)
+    })
+})
+
+
+
 server.get('/cohorts', (req, res) => {
     db('cohort').then(item => {
         res.status(200).json(item)
@@ -61,15 +84,6 @@ server.get(`/cohorts/:id`, (req,res) => {
 // [GET] /api/cohorts/:id/students returns all students for the cohort with the specified id.
 
 
-// server.put(`/cohorts/:id`, (req, res) => {
-//     db('cohort').where({ id:req.params.id }).update(req.body).then((item) => {
-//         res.status(201).json(item);
-//     })
-//     .catch((fail) => {
-//         console.log(fail);
-//         res.status(400).json({ message: "The cohort didn't update"})
-//     })
-// })
 
 server.put(`/cohorts/:id`, (req, res) => {
 
@@ -81,9 +95,7 @@ server.put(`/cohorts/:id`, (req, res) => {
         console.log(fail);
         res.status(404).json({ message: "The zoo with the specified ID does not exist."});
     });
-  
-  
-  })
+})
 
 
 server.delete('/cohorts/:id', (req, res) => {
