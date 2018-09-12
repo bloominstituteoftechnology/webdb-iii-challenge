@@ -40,36 +40,36 @@ server.get('/cohorts', (req, res) => {
 
 
 
-  server.get(`/api/zoos/:id`, (req,res) => {
-  
+server.get(`/cohorts/:id`, (req,res) => {
 
-    db('zoos').where({ id:req.params.id })
+
+    db('cohort').where({ id:req.params.id })
         .then((id) => {
             res.json(id);
         })
         .catch((fail) => {
             console.log(fail);
-            res.status(404).json({message: "The zoo with the specified ID does not exist."});
+            res.status(404).json({message: "The cohort with the specified ID does not exist."});
         })
 
     .catch((fail) => {
         console.log(fail)
-        res.status(500).json({error: "The zoo's information could not be retrieved."});
+        res.status(500).json({error: "The cohort's information could not be retrieved."});
     })
 })
 
 // [GET] /api/cohorts/:id/students returns all students for the cohort with the specified id.
 
 
-server.put(`/cohort/:id`, (req, res) => {
-    db('cohort').where({ id:req.params.id }).update(req.body).then((item) => {
-        res.status(201).json(item);
-    })
-    .catch((fail) => {
-        console.log(fail);
-        res.status(400).json({ message: "The cohort didn't add"})
-    })
-})
+// server.put(`/cohort/:id`, (req, res) => {
+//     db('cohort').where({ id:req.params.id }).update(req.body).then((item) => {
+//         res.status(201).json(item);
+//     })
+//     .catch((fail) => {
+//         console.log(fail);
+//         res.status(400).json({ message: "The cohort didn't add"})
+//     })
+// })
 
 
 server.delete('/cohorts/:id', (req, res) => {
