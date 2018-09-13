@@ -103,15 +103,15 @@ server.post('/api/cohorts', (req, res) => {
       });
   });
 
-  server.get('/:cohort_id/students', (req,res) => {
+  server.get('/cohorts/:id/students', (req,res) => {
     db('students')
-    .where({ cohort_id: req.params.cohort_id })
+    .where({ cohort_id: req.params.id })
     .then(cohorts => {
         res.status(200).json(cohorts);
     })
     .catch(err => res.status(500).json(err))
   });
-  
+
 server.get('/api/students', (req, res) => {
     
       db('students').then(students => {
