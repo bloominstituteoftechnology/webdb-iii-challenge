@@ -40,6 +40,34 @@ server.get("/api/cohorts", (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+server.get("/api/cohorts/:id", (req, res) => {
+  const { id } = req.params;
+  db("cohorts")
+    .where({ id })
+    .then(cohort => {
+      res.status(200).json(cohort);
+    })
+    .catch(err => res.status(500).json(err));
+});
+
+server.get("/api/cohorts/:id/students", (req, res) => {
+  const { id } = req.params;
+  db("students")
+    .where({ cohort_id: id })
+    .select("name")
+    .then(students => {
+      res.status(200).json(students);
+    })
+    .catch(err => {
+      console.error(
+        `There was an error in your Get function: \n === ${err} ===`
+      );
+      res.status(500).json({
+        errMsg: "Unable to fetch the Data you were looking for"
+      });
+    });
+});
+
 server.post("/api/cohorts", (req, res) => {
   const cohort = req.body;
   if (cohort.name) {
@@ -63,7 +91,6 @@ server.post("/api/cohorts", (req, res) => {
 server.put("/api/cohorts/:id", (req, res) => {
   const cohort = req.body;
   const { id } = req.params;
-
   db("cohorts")
     .where("id", "=", id)
     .update(cohort)
