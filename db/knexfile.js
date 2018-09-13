@@ -7,6 +7,9 @@ module.exports = {
     useNullAsDefault: true, // new configuration for SQLite
     migrations: {
       directory: './db/migrations',
+    },
+    seeds: {
+      directory: './seeds',
     }
   },
 };
