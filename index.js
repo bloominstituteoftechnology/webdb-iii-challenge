@@ -45,3 +45,29 @@ server.get('/api/cohorts/:id/students', (req, res) => {
         .catch(err => res.status(500).json({ errorMessage: `Student information for cohort ${id} not received` }));
 });
 
+server.put('/api/cohorts/:id', (req, res) => {
+    const edit = req.body;
+    const { id } = req.params;
+    db('cohorts')
+        .where('id', '=', id)
+        .update(edit)
+        .then(count => {
+            res.status(200).json({ message: `${count} record(s) successfully updated.` })
+        })
+        .catch(err => {
+            res.status(500).json({ errorMessage: 'Error updating record.' })
+        });
+});
+
+server.delete('/api/cohorts/:id', (req, res) => {
+    const { id } = req.params;
+    db('cohorts')
+        .where({ id })
+        .del()
+        .then(count => {
+            res.status(200).json({ message: `${count} record(s) successfully deleted.` })
+        })
+        .catch(err => {
+            res.status(500).json({ errorMessage: 'Error deleting record.' })
+        });
+});
