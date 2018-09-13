@@ -10,22 +10,18 @@ const knexConfig = require('./knexfile');
 
 const db = knex(knexConfig.development);
 
-// const db = knex({
-//   client: 'sqlite3',
-//   connection: {
-//     filename: './data.sqlite3',
-//   },
-//   useNullAsDefault: true,
-// });
+
 
 
 server.use(helmet())
 server.use(express.json())
 
-// server.get('/',(req,res)  => {
-//     res.send('API Up & Running');
-// });
+//initial connect test
+server.get('/',(req,res)  => {
+    res.send('API Up & Running');
+});
 
+//try to use a sql string
 server.get('/api/cohorts', async (req, res, next) => {
     try {
       const cohort = await db(`SELECT * FROM cohorts`); // <=
@@ -107,6 +103,15 @@ server.post('/api/cohorts', (req, res) => {
       });
   });
 
+  server.get('/:cohort_id/students', (req,res) => {
+    db('students')
+    .where({ cohort_id: req.params.cohort_id })
+    .then(cohorts => {
+        res.status(200).json(cohorts);
+    })
+    .catch(err => res.status(500).json(err))
+  });
+  
 server.get('/api/students', (req, res) => {
     
       db('students').then(students => {
@@ -178,11 +183,6 @@ server.post('/api/students', (req, res) => {
         res.status(500).json(err);
       });
   });
-
-
-
-
-
 
 
 server.listen(port, () => console.log(`== Server Running on Port ${port} ==`))
