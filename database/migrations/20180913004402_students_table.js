@@ -6,7 +6,7 @@ exports.up = function(knex, Promise) {
         .string('name')
         .notNullable()
         .defaultTo('not provided')
-        
+        .integer('cohort_id')
   });
 };
 
