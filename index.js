@@ -9,26 +9,26 @@ const server = express();
 server.use(express.json());
 server.use(helmet());
 
+server.use(function(err, req, res, next) {
+  res.status(500).json({ msg: "try again" });
+});
+
+// errorHandler(res, status, msg) {
+//     return res.status(status).json({ msg }
+
 server.get("/", (req, res) => {
   res.send("API RUNNING!");
 });
 
-server.get("/api/cohorts", (req, res) => {
+server.get("/api/cohorts", (req, res, next) => {
   db("cohorts")
     .then(cohorts => {
       res.status(200).json(cohorts);
     })
-    .catch(err => {
-      console.error(
-        `There was an error in your Get function: \n === ${err} ===`
-      );
-      res.status(500).json({
-        errMsg: "Unable to fetch the Data you were looking for"
-      });
-    });
+    .catch(next);
 });
 
-server.get("/api/cohorts/:id", (req, res) => {
+server.get("/api/cohorts/:id", (req, res, next) => {
   const { id } = req.params;
 
   db("cohorts")
@@ -36,6 +36,20 @@ server.get("/api/cohorts/:id", (req, res) => {
     .then(id => {
       res.status(200).json(id);
     })
+    .catch(next)
+    console.log(next)
+    });
+
+
+server.get("/api/cohorts/:id/students", (req, res) => {
+  const { id } = req.params;
+
+  db("students")
+    .where({ cohort_id: id })
+    .select("name")
+    .then(students => {
+      res.status(200).json(students);
+    })
     .catch(err => {
       console.error(
         `There was an error in your Get function: \n === ${err} ===`
@@ -45,13 +59,6 @@ server.get("/api/cohorts/:id", (req, res) => {
       });
     });
 });
-
-server.get('/api/cohorts/:id/students', (req, res) => {
-    const { id } = req.params;
-    const students = 
-    
-    db()
-})
 
 server.post("/api/cohorts/", (req, res) => {
   const body = req.body;
@@ -110,6 +117,20 @@ server.delete("/api/cohorts/:id", (req, res) => {
     });
 });
 
+server.get("/api/students", (req, res) => {
+  db("students")
+    .then(students => {
+      res.status(200).json(students);
+    })
+    .catch(err => {
+      console.error(
+        `There was an error in your delete function: \n === ${err} ===`
+      );
+      res.status(500).json({
+        errMsg: "Unable to fetch student data"
+      });
+    });
+});
 
 const port = 9000;
 server.listen(port, () => {
