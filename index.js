@@ -25,3 +25,23 @@ server.post('/api/cohorts', (req, res) => {
         .catch(err => res.status(500).json({ errorMessage: 'Error saving to database' }));
 });
 
+server.get('/api/cohorts/:id', (req, res) => {
+    const { id } = req.params;
+    db('cohorts')
+        .where({ id })
+        .then(cohorts => {
+            res.status(200).json(cohorts);
+        })
+        .catch(err => res.status(500).json({ errorMessage: `Information for cohort ${id} not received` }));
+});
+
+server.get('/api/cohorts/:id/students', (req, res) => {
+    const { id } = req.params;
+    db('cohorts')
+        .where('id', '=', id)
+        .then(cohorts => {
+            res.status(200).json(cohorts);
+        })
+        .catch(err => res.status(500).json({ errorMessage: `Student information for cohort ${id} not received` }));
+});
+
