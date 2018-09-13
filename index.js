@@ -52,6 +52,16 @@ server.post("/api/cohorts", (req, res) => {
       .catch(err => res.status(500).json(err));
   });
   
+  // get all students for the cohort with the specified id.
+  server.get('/api/cohorts/:id/students', (req,res) => {
+    db('students')
+    .where({ cohort_id: req.params.id })
+    .then(cohorts => {
+        res.status(200).json(cohorts);
+    })
+    .catch(err => res.status(500).json(err))
+})
+
   // put
   server.put("/api/cohorts/:id", (req, res) => {
     const changes = req.body;
