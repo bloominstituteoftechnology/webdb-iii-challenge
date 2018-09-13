@@ -7,13 +7,11 @@ exports.up = function(knex, Promise) {
       .notNullable()
       .unique("uq_student_name");
     tbl
-      .integer('cohort_id')
+      .integer("cohort_id")
       .unsigned()
       .notNullable()
-      .references('id')
-      .inTable('cohorts');
-
-    // tbl.foreign("cohort_id").reference("id");
+      .references("id")
+      .inTable("cohorts");
   });
 };
 

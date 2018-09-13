@@ -6,6 +6,14 @@ exports.up = function(knex, Promise) {
       .string("name", 128)
       .notNullable()
       .unique("name");
+
+    //foreign key
+    tbl
+      .integer("cohort_id")
+      .unsigned()
+      .notNullable()
+      .reference("id")
+      .inTable("cohorts");
   });
 };
 
