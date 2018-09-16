@@ -76,7 +76,11 @@ server.put("/api/cohorts/:id", (req, res) => {
     .where({ id }) // .where('id', '=', id)
     .update(changes)
     .then(count => {
-      res.status(200).json(count);
+      if (count === 0) {
+        res.status(404).json({ Error: "Cohorts needs name" });
+      } else {
+        res.status(200).json(count);
+      }
     })
     .catch(err => {
       res.status(500).json(err);
