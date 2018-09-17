@@ -2,6 +2,8 @@
 
 ## Topics
 
+
+
 - Databases
 - Relational Databases
 - Knex mirations.
