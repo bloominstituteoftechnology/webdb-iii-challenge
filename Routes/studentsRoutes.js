@@ -38,11 +38,30 @@ router.get('', (req, res) => {
 
 //get a specific student
 router.get('/:id', (req, res) => {
+
 	const { id } = req.params;
+
 	db('students')
+	//first I look up the student so that I can get there cohort id
 	.where({id})
 	.then(student => {
-		res.status(200).json(student)
+		const lookup = student[0].cohort_id
+
+	// now that I have the cohort id,
+	// I use it to get the name of the cohort
+	db('cohorts')
+	.where({id: lookup})
+	.then(response => {
+		const cohortName = (response[0].name)
+
+			// I then build my response object and pass in the fields I want
+			db('students')
+			.where({id})
+			.then(student => {
+				res.status(200).json({id: student[0].id, name: student[0].name, cohort: cohortName })
+			})
+		})
+
 	})
 	.catch(error => res.status(500).json(error))
 })
