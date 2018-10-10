@@ -8,13 +8,9 @@ server.use(helmet());
 
 // ENDPOINTS HERE
 
-server.get('/', (req, res) => {
-  res.json('Server is up and running!');
-});
+server.get('/', (req, res) => res.json('Server is up and running!'));
 
 // SERVER PORT
 
 const port = 6000;
-server.listen(port, () => {
-  console.log(`API is listening on port ${port}.`);
-});
+server.listen(port, () => console.log(`API is listening on port ${port}.`));

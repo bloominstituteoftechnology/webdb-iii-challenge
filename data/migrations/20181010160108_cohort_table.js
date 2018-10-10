@@ -1,13 +1,10 @@
-exports.up = function(knex, Promise) {
-  return knex.schema.createTable('cohorts', function(table) {
+exports.up = (knex, Promise) =>
+  knex.schema.createTable('cohorts', table => {
     table.increments();
     table
       .string('name', 128)
       .notNullable()
       .unique('name');
   });
-};
 
-exports.down = function(knex, Promise) {
-  return knex.schema.dropTable('cohorts');
-};
+exports.down = (knex, Promise) => knex.schema.dropTable('cohorts');
