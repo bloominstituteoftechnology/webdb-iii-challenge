@@ -12,6 +12,11 @@ exports.seed = function (knex, Promise) {
           name: 'Green Bean Jean',
           cohort_id: '2',
           student_id: '2'
+        },
+        {
+          name: 'Tester Mc Testerman',
+          cohort_id: '1',
+          student_id: '3'
         }
       ]);
     });

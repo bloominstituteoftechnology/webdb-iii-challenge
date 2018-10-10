@@ -78,7 +78,7 @@ router.get('/:cohort_id/students', async (req, res) => {
   try {
     const { cohort_id } = req.params;
     console.log({ cohort_id })
-    const cohort = await cohorts.findStudentByCohortId(id);
+    const cohort = await cohorts.findStudentByCohortId(cohort_id);
     if (cohort) {
       res.status(200).json(cohort);
     } else {
