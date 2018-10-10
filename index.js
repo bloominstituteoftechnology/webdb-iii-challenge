@@ -30,7 +30,7 @@ server.get('/api/cohorts', (req, res) => {
 // get specific cohort data
 
 server.get('api/cohorts/:id', (Req, res) => {
-  const { id } = req.params
+  const { id } = req.params;
   db('cohorts')
     .where({id})
     .first()
