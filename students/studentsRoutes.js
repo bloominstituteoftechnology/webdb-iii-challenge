@@ -46,5 +46,20 @@ router.post('/', (req, res) => {
 });
 
 // update student with matching id
+router.put('/:id', (req, res) => {
+    const { id } = req.params;
+    const changes = req.body;
+  
+    students
+      .update(id, changes)
+      .then(count => {
+        if (!count || count < 1) {
+          res.status(404).json({ message: 'No student found to update' });
+        } else {
+          res.status(200).json(count);
+        }
+      })
+      .catch(err => res.status(500).json(err));
+  });
 
 // delete student with matching id
