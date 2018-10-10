@@ -87,5 +87,33 @@ server.post('/api/students/', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+server.put('/api/students/:id', (req, res) => {
+  const { id } = req.params;
+  const { name, cohort_id } = req.body;
+  const student = {name, cohort_id};
+  if(name && cohort_id) {
+    db('students')
+      .where({id})
+      .update(student)
+      .then(bool => res.status(200).json(bool))
+      .catch(err => res.status(500).json(err));
+  } else {
+    res.json({message: "Please provide name and cohort_id."});
+  }
+});
+
+server.delete('/api/students/:id', (req, res) => {
+  const { id } = req.params;
+  if(id && id > 0) {
+    db('students')
+      .where({id})
+      .del()
+      .then(bool => res.status(200).json(bool))
+      .catch(err => res.status(500).json(err));
+  } else {
+    res.json({message: "No id was found at " + id + " please try a different id."});
+  }
+});
+
 // init server listener
 server.listen(9000, () => console.log(`API running on port 9000`));
