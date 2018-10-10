@@ -45,3 +45,14 @@ router.get("/:id", (req, res) => {
     })
     .catch(err => res.status(500).json(err));
 });
+
+// get all students of a cohort using id (cross table get using id and subroute of students) - get all students from cohort endpoint
+router.get("/:id/students", (req, res) => {
+  const { id } = req.params;
+  db("students")
+    .where({ cohort_id: id })
+    .then(currentStudents => {
+      res.status(200).json(currentStudents);
+    })
+    .catch(err => res.status(500).json(err));
+});
