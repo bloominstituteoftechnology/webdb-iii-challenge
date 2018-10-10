@@ -32,6 +32,18 @@ router.get('/:id', async (req, res) => {
 });
 
 // add new student to database
+router.post('/', (req, res) => {
+    const student = req.body;
+
+    students
+        .add(student)
+        .then(ids => {
+            res.status(201).json(ids[0]);
+        })
+        .catch(err => {
+            res.status(500).json(err);
+        });
+});
 
 // update student with matching id
 
