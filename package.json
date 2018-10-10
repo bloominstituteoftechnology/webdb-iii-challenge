@@ -1,0 +1,20 @@
+{
+  "dependencies": {
+    "express": "^4.16.3",
+    "helmet": "^3.14.0",
+    "knex": "^0.15.2",
+    "sqlite3": "^4.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  },
+  "name": "RDBMS-API-Full",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon"
+  },
+  "repository": "https://github.com/ThomasKisner/RDBMS-API-Full.git",
+  "author": "Your Name <tjkisner@gmail.com>",
+  "license": "MIT"
+}
