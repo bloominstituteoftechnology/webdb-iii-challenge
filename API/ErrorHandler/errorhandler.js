@@ -26,7 +26,7 @@ const errorHandler = (err, req, res, next) => {
     
     if(!errors.hasOwnProperty(err[1])) throw `Uncaught Exception! Please review:\n${err}`;
 
-    console.error('Error:\n', err[1]);
+    if(err[0] === 'h500') console.error('Error:\n', err[1]);
 
     const error = errors[err[0]];
     res.status(error.httpStatus).json(error);
