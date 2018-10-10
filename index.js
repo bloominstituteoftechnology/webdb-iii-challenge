@@ -61,7 +61,7 @@ server.get('/api/cohorts/:id', (request, response) => {
     db('cohorts')
     .where({ id })
     .then( cohort => {
-        if (!cohort) {
+        if (cohort.length < 1) {
             return response.status(404).json({errorMessage: "The cohort with the provided id could not be found."})
         }
         response.status(200).send(cohort);
@@ -91,7 +91,7 @@ server.get('/api/cohorts/:cohort_id/students', (request, response) => {
 /// ----- UPDATE Cohort Endpoint -----
 server.put('/api/cohorts/:id', (request, response) => {
 
-    // Extract URL Parameters
+    // Extract Request URL Parameters
     const { id } = request.params;
   
     // Deconstruct Request Body
@@ -103,13 +103,31 @@ server.put('/api/cohorts/:id', (request, response) => {
     .update({ name })
     .then(updated => {
     if (!updated || updated < 1) {
-        return response.status(400).send({errorMessage:`Unable to update the name of the cohort with the provided id.`})
+        return response.status(400).send({errorMessage:`Unable to update the information of the cohort with the provided id.`})
     }
     response.status(200).json(updated)
   })
     .catch(error => response.status(500).send(error))
   })
   
+    /// ----- DELETE Cohort Endpoint -----
+    server.delete('/api/cohorts/:id', (request, response) => {
+  
+        // Extract Request URL Parameters
+        const { id } = request.params;
+      
+        // Database Promise Functions
+        db('cohorts')
+        .where({ id })
+        .del()
+        .then(deleted => {
+          if (!deleted || deleted < 1) {
+            return response.status(400).send({errorMessage:`Unable to delete the cohort with the provided id.`})
+          }
+          response.status(200).json(deleted)
+      })
+        .catch(error => response.status(500).send(error))
+      })
 
 
 const port = 9999;
