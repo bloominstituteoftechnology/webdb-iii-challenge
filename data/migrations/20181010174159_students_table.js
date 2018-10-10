@@ -4,12 +4,6 @@ exports.up = function(knex, Promise) {
     table.increments();
     table.string('name', 128).notNullable();
     table.unique('name');
-    table
-      .integer('cohort_id')
-      .unsigned()
-      .reference('id')
-      .inTable('cohorts')
-
   });
 };
 
