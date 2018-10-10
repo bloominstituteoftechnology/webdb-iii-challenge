@@ -35,6 +35,14 @@ router.get('/:id', async (req, res) => {
 router.get('/:id/students', async (req, res) => {
     try {
         const { id } = req.params;
+
+        const students = await cohorts.getAllStudents(id);
+
+        if (students) {
+            res.status(200).json(students);
+        } else {
+            res.status(404).json({ message: 'Students not found' });
+        }
     } catch (error) {
         res.status(500).json(error);
     }
