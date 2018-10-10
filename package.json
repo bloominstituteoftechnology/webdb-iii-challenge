@@ -1,0 +1,20 @@
+{
+  "name": "rdbms-api-full",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/eeevvaaa/RDBMS-API-Full.git",
+  "author": "Eva Li <evalee904@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "server": "nodemon index.js"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  },
+  "dependencies": {
+    "express": "^4.16.3",
+    "helmet": "^3.14.0",
+    "knex": "^0.15.2",
+    "sqlite3": "^4.0.2"
+  }
+}
