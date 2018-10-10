@@ -177,7 +177,16 @@ server.get('/api/students/:id', (request, response) => {
         if (student.length < 1) {
             return response.status(404).json({errorMessage: "The student with the provided id could not be found."})
         }
-        response.status(200).send(student);
+        db('cohorts')
+        .where({ id })
+        .then( cohort => {
+            if (cohort.length < 1) {
+                return response.status(404).json({errorMessage: "The cohort with the provided id could not be found."})
+            }
+
+            response.status(200).send({id: student[0].id, name: student[0].name, cohort: cohort[0].name});
+    })
+    .catch(error => {response.status(500).json(error)})
     })
     .catch(error => {response.status(500).json(error)})
 });
