@@ -54,6 +54,23 @@ server.get('api/cohorts/:id/students', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+// edit a cohort inventory
+
+server.put('/api/cohorts/:id', (req, res) => {
+  const { id } = req.params;
+  const { name } = req.body;
+  const cohort = { name };
+  db('cohorts')
+    .where({id})
+    .update(cohort)
+    .then(bool => res.status(200).json(bool))
+    .catch(err => res.status(500).json(err));
+});
+
+
+
+
+
 // instantiate server
 
 const port = 8000;
