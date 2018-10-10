@@ -10,4 +10,11 @@ module.exports = {
 		}
 		return query;
 	},
+	insert: function(newCohort) {
+		let query = db('cohorts as c');
+		return query
+			.select()
+			.insert(newCohort)
+			.then(id => ({ id: id }));
+	},
 };
