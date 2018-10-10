@@ -5,7 +5,8 @@ module.exports = {
 		let query = db('students as s')
 		if (id) {
 			return query
-				.select()
+				.select('s.id', 's.name', 'c.name as cohort')
+				.innerJoin('cohorts as c', 'c.id', 's.cohort_id')
 				.where('s.id', id);
 		}
 		return query;
