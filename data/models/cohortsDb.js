@@ -30,4 +30,8 @@ const remove = id => {
     .del();
 };
 
-module.exports = { find, findById, insert, update, remove };
+const getStudents = id => {
+  return db("students").where({ cohort_id: id });
+};
+
+module.exports = { find, findById, insert, update, remove, getStudents };

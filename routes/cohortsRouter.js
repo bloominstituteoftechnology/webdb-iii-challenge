@@ -79,4 +79,20 @@ router.delete("/:id", (req, res) => {
     .catch(err => json.stauts(500).json(err));
 });
 
+router.get("/:id/students", (req, res) => {
+  const id = req.params.id;
+  if (!id) {
+    res.status(400).json({ error: "There was an error with the request" });
+  }
+
+  cohortsDb
+    .getStudents(id)
+    .then(students => {
+      if (!students) {
+        res.status(404).json({ message: "No students were found" });
+      } else res.status(200).json(students);
+    })
+    .catch(err => res.status(500).json(err));
+});
+
 module.exports = router;
