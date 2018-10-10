@@ -17,4 +17,11 @@ module.exports = {
 			.insert(newCohort)
 			.then(id => ({ id: id }));
 	},
+	update: function(id, updatedCohort) {
+		let query = db('cohorts as c');
+		return query
+			.select()
+			.where('c.id', id)
+			.update(updatedCohort);
+	},
 };

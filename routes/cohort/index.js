@@ -32,4 +32,16 @@ router.post('/', (req, res) => {
 		.catch(err => res.status(500).json({ error: `Server could not post cohort: ${ err }` }));
 });
 
+router.put('/:id', (req, res) => {
+	const { id } = req.params;
+	const updatedCohort = req.body;
+	cohortDb
+		.update(id, updatedCohort)
+		.then(updateBool => {
+			if (updateBool) return res.status(200).json({ message: `Cohort with ID ${ id } updated successfully.` });
+			return res.status(404).json({ error: `Cohort with ID ${ id } does not exist.` });
+		})
+		.catch(err => res.status(500).json({ error: `Server could not put cohort with ID ${ id }: ${ err }` }));
+});
+
 module.exports = router;
