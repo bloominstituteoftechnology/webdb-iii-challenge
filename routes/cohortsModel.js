@@ -5,6 +5,7 @@ const db = knex(knexConfig.development);
 module.exports = {
   find,
   findById,
+  findStudentByCohortId,
   add,
   update,
   remove,
@@ -36,4 +37,9 @@ function remove(id) {
   return db('cohorts')
     .where({ id })
     .del();
+}
+
+function findStudentByCohortId(cohort_id) {
+  return db('students')
+    .where({ cohort_id })
 }

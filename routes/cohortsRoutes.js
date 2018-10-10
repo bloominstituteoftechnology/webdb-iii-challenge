@@ -73,4 +73,20 @@ router.delete('/:id', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+// get a student by cohort id
+router.get('/:cohort_id/students', async (req, res) => {
+  try {
+    const { cohort_id } = req.params;
+    console.log({ cohort_id })
+    const cohort = await cohorts.findStudentByCohortId(id);
+    if (cohort) {
+      res.status(200).json(cohort);
+    } else {
+      res.status(404).json({ message: 'cohort not found' });
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 module.exports = router;
