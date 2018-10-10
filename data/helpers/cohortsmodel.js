@@ -13,31 +13,28 @@ const find = (id) => {
     }
 };
 
-const findStudentsByCohort = (id) => {
-    // return db('students')
-    //     .where({id})
-    return db.from('students')
-        .innerJoin('cohorts', 'students.cohort_id', 'cohorts.id')
-        .where({id});
+const findStudentsByCohort = (cohort_id) => {
+    return db('students')
+        .where({cohort_id});
 };
 
 const add = (newCohort) => {
     return db('cohorts')
         .insert(newCohort)
         .into('cohorts');
-}
+};
   
 const update = (id, changes) => {
     return db('cohorts')
         .where({id})
         .update(changes);
-}
+};
   
 const remove = (id) => {
     return db('cohorts')
         .where({id})
         .del();
-}
+};
 
 module.exports = {
     find, 
