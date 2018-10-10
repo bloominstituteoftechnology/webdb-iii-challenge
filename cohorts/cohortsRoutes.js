@@ -15,6 +15,21 @@ router.get('/', (req, res) => {
   });
 
 // get a cohort by id
+router.get('/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+  
+      const cohort = await cohorts.findById(id);
+  
+      if (cohort) {
+        res.status(200).json(cohort);
+      } else {
+        res.status(404).json({ message: 'Cohort not found' });
+      }
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  });
 
 // get list of all students in given cohort
 
