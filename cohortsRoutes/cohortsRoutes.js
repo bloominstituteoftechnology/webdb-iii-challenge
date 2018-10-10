@@ -54,4 +54,16 @@ router.route('/:id')
       .catch(err => res.status(500).json({ error: 'The specified cohort could not be deleted.' }))
   })
 
+router.route('/:id/students')
+  .get((req, res) => {
+    const { id } = req.params
+    db('students')
+      .where('cohort_id', id)
+      .then(cohort => {
+        if (!cohort || cohort < 1) return res.status(404).json({ error: 'Could not retrived students of that cohort and ID.' })
+        return res.status(200).json(cohort);
+      })
+      .catch(err => res.status(500).json({ error: 'Could not retrieve the specified student.' }))
+  })
+
 module.exports = router
