@@ -1,0 +1,17 @@
+{
+  "name": "RDBMS-API-Full",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/bennyo27/RDBMS-API-Full",
+  "author": "Benny Oseguera <oseguerabenny27@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.3",
+    "knex": "^0.15.2",
+    "nodemon": "^1.18.4",
+    "sqlite3": "^4.0.2"
+  },
+  "scripts": {
+    "start": "nodemon index.js"
+  }
+}
