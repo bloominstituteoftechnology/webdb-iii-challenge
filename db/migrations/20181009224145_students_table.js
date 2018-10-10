@@ -1,10 +1,7 @@
 exports.up = function(knex, Promise) {
   return knex.schema.createTable("students", tbl => {
     tbl.increments(); // id
-    tbl
-      .string("student_name")
-      .notNullable()
-      .unique("student_name");
+    tbl.string("student_name").notNullable();
     tbl
       .integer("cohort_id")
       .references("id")
