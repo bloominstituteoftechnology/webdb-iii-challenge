@@ -38,6 +38,22 @@ server.get("/api/cohorts/:id", (req, res) => {
     .catch(err => res.status(500).json({ error: "Could not retrieve data" }));
 });
 
+server.get("/api/cohorts/:id/students", (req, res) => {
+  const { id } = req.params;
+  db("students")
+    .get(id)
+    .then(ids => {
+      if (ids) {
+        res.status(200).json(ids);
+      } else {
+        res
+          .status(404)
+          .json({ error: `Cohort with id of ${id} could not be found` });
+      }
+    })
+    .catch(err => res.status(500).json({ error: "Could not retrieve data" }));
+});
+
 server.put("/api/cohorts/:id", (req, res) => {
   const { id } = req.params;
   const changes = req.body;
