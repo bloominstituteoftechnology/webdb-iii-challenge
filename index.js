@@ -90,7 +90,6 @@ server.get('/api/cohorts/:cohort_id/students', (request, response) => {
     .catch(error => {response.status(500).json(error)})
 });
 
-
 /// ----- UPDATE Cohort Endpoint -----
 server.put('/api/cohorts/:id', (request, response) => {
 
@@ -113,24 +112,24 @@ server.put('/api/cohorts/:id', (request, response) => {
     .catch(error => response.status(500).send(error))
   });
   
-    /// ----- DELETE Cohort Endpoint -----
-    server.delete('/api/cohorts/:id', (request, response) => {
-  
-        // Extract Request URL Parameters
-        const { id } = request.params;
-      
-        // Database Promise Functions
-        db('cohorts')
-        .where({ id })
-        .del()
-        .then(deleted => {
-          if (!deleted || deleted < 1) {
-            return response.status(400).send({errorMessage:`Unable to delete the cohort with the provided id.`})
-          }
-          response.status(200).json(deleted)
-      })
-        .catch(error => response.status(500).send(error))
-      });
+/// ----- DELETE Cohort Endpoint -----
+server.delete('/api/cohorts/:id', (request, response) => {
+
+    // Extract Request URL Parameters
+    const { id } = request.params;
+    
+    // Database Promise Functions
+    db('cohorts')
+    .where({ id })
+    .del()
+    .then(deleted => {
+        if (!deleted || deleted < 1) {
+        return response.status(400).send({errorMessage:`Unable to delete the cohort with the provided id.`})
+        }
+        response.status(200).json(deleted)
+    })
+    .catch(error => response.status(500).send(error))
+    });
 
 
 //// ----- Student Table Endpoints -----
@@ -183,7 +182,6 @@ server.get('/api/students/:id', (request, response) => {
     .catch(error => {response.status(500).json(error)})
 });
 
-
 /// ----- UPDATE Student Endpoint -----
 server.put('/api/students/:id', (request, response) => {
 
@@ -205,6 +203,25 @@ server.put('/api/students/:id', (request, response) => {
   })
     .catch(error => response.status(500).send(error))
   })
+
+  /// ----- DELETE Student Endpoint -----
+server.delete('/api/students/:id', (request, response) => {
+
+    // Extract Request URL Parameters
+    const { id } = request.params;
+    
+    // Database Promise Functions
+    db('students')
+    .where({ id })
+    .del()
+    .then(deleted => {
+        if (!deleted || deleted < 1) {
+        return response.status(400).send({errorMessage:`Unable to delete the student with the provided id.`})
+        }
+        response.status(200).json(deleted)
+    })
+    .catch(error => response.status(500).send(error))
+    });
 
 
 
