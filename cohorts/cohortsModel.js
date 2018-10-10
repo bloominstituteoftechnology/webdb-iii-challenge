@@ -23,7 +23,10 @@ function findById(id) {
 }
 
 function findStudents(id) {
-  return db('students').where({ cohort_id: id });
+  return db('students')
+    .join('cohorts', 'students.cohort_id', '=', 'cohorts.id')
+    .select('students.id', 'students.name', 'cohorts.name as cohort')
+    .where({ cohort_id: id });
 }
 
 function add(cohort) {
