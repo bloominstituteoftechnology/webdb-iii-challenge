@@ -71,3 +71,19 @@ router.put("/:id", (req, res) => {
     })
     .catch(err => res.status(500).json(err));
 });
+
+// delete a cohort
+router.delete("/:id", (req, res) => {
+  const { id } = req.params;
+
+  cohorts
+    .remove(id)
+    .then(cohort => {
+      if (!cohort) {
+        res.status(404).json({ message: "No cohorts found to delete" });
+      } else {
+        res.status(200).json(cohort);
+      }
+    })
+    .catch(err => res.status(500).json(err));
+});
