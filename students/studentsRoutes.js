@@ -33,4 +33,24 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// Add a student
+router.post("/", (req, res) => {
+  const { name, cohort_id } = req.body;
+  const student = { name, cohort_id };
+
+  if (!name || !cohort_id) {
+    return res.status(400).json({
+      error: "Please provide a name and a cohort ID for your student."
+    });
+  }
+  students
+    .add(student)
+    .then(ids => {
+      res.status(201).json(ids[0]);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
+});
+
 module.exports = router;
