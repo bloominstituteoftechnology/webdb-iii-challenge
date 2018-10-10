@@ -1,8 +1,9 @@
-exports.seed = function(knex, Promise) {
-    return knex('cohorts')
-      .del()
-      .then(function() {
-        return knex('cohorts')
-        .insert([{ name: 'FSW13' }, { name: 'FSW14' }]);
-      });
-  };
+exports.seed = (knex, Promise) =>
+  knex('cohorts')
+    .truncate()
+    .then(() => {
+      return knex('cohorts').insert([
+        { name: 'FSW13', id: 1 },
+        { name: 'FSW14', id: 2 }
+      ]);
+    });
