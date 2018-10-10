@@ -1,27 +1,20 @@
 const express = require("express");
 const helmet = require("helmet");
 const server = express();
-const knex = require("knex");
 
+const cohortsRoutes = require("./routes/cohortsRouter.js");
 // middleware
 server.use(helmet());
 server.use(express.json());
+server.use("/api/cohorts/", cohortsRoutes);
 
 //connect to db
-const knexConfig = require("./knexfile.js");
-const db = knex(knexConfig.development);
-
-console.log(db("cohorts"));
+// const knexConfig = require("./knexfile.js");
+// const db = knex(knexConfig.development);
 
 //Routers
 server.get("/", (req, res) => {
   res.send("API is working");
-});
-
-server.get("/api/cohorts", (req, res) => {
-  db("cohorts")
-    .then(cohorts => res.json(cohorts))
-    .catch(err => res.json(err));
 });
 
 server.listen(9000, () => {

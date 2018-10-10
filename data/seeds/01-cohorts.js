@@ -6,8 +6,8 @@ exports.seed = function(knex, Promise) {
       // Inserts seed entries
       return knex("cohorts").insert([
         { name: "FSW-13" },
-        { name: "FSW10" },
-        { name: "UX-Design-1" }
+        { name: "FSW-10" },
+        { name: "UX-Design" }
       ]);
     });
 };
