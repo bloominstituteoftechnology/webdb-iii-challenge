@@ -63,3 +63,19 @@ router.put('/:id', (req, res) => {
   });
 
 // delete student with matching id
+router.delete('/:id', (req, res) => {
+    const { id } = req.params;
+  
+    cohorts
+      .remove(id)
+      .then(count => {
+        if (!count || count < 1) {
+          res.status(404).json({ message: 'No cohort found to delete' });
+        } else {
+          res.status(200).json(count);
+        }
+      })
+      .catch(err => res.status(500).json(err));
+  });
+
+  module.exports = router;
