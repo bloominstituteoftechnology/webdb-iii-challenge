@@ -31,6 +31,20 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// get students by a cohort id
+router.get('/:id/students', async (req, res) => {
+  console.log('hi')
+    const { id } = req.params;
+    const students = await cohorts.findStudentsById(id);
+
+    if(students) { 
+      res.status(200).json(students)
+    } else {
+      res.status(404).json({ message: 'students not found in specified cohort or cohort does not exist'});
+    } 
+
+})
+
 // create cohorts
 router.post('/', (req, res) => {
   const cohort = req.body;
