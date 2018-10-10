@@ -138,6 +138,107 @@ server.delete('/api/cohorts/:id', (req, res) => {
     .catch(err => res.status(500).json(err));
 })
 
+/*
+WORK IN PROGRESS:
+- [POST] /students This route should save a new student to the database.
+- [PUT] /students/:id This route will update the student with the matching id using information sent in the body of the request.
+- [DELETE] /students/:id This route should delete the specified student.
+*/
+
+/*
+DONE:
+- [GET] /students This route will return an array of all students.
+- [GET] /students/:id This route will return the student with the matching id.
+*/
+
+
+server.get('/api/students', (req, res) => {
+  db('students')
+    .then(students => {
+      
+      if (!students || students.length < 1) {
+        res.status(404).json({ missingError: 'Hmm... It Seems All the students are on Vacation! Come back soon or try again!' });
+      } else {
+        res.status(200).json(students);
+      }
+
+    })
+    .catch(err => res.status(500).json(err));
+});
+
+
+server.get('/api/students/:id', (req, res) => {
+  const { id } = req.params;
+
+  db('students').where({ id }).first()
+    .then(student => {
+
+      if (student) {
+        res.status(200).json(student);
+      } else if (!student || student.length < 1) {
+        res.status(404).json({ missingError: 'Invalid ID, or the specified zoo no longer exists ;-;' });
+      };
+
+    })
+    .catch(err => res.status(500).json(err));
+});
+
+server.post('/api/students', (req, res) => {
+  const student = req.body;
+
+  db.insert(student)
+    .into('students')
+    .then(ids => {
+      res.status(201).json(ids);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
+});
+
+
+
+
+server.put('/api/students/:id', (req, res) => {
+  const { id } = req.params;
+  const changes = req.body;
+
+  db('students').where({ id }).update(changes)
+  .then(countOfRecordsChanged => {
+
+
+    if (countOfRecordsChanged < 1 || !countOfRecordsChanged) {
+      res.status(404).json({ missingError: 'Could Not Find Given ID' });
+    } else {
+      res.status(200).json(countOfRecordsChanged);
+    }
+
+  })
+  .catch(err => res.status(500).json(err));
+});
+
+
+
+
+server.delete('/api/students/:id', (req, res) => {
+  const { id } = req.params;
+
+  db('students').where({ id }).del()
+    .then(countOfRecordsChanged => {
+
+
+      if (countOfRecordsChanged < 1 || !countOfRecordsChanged) {
+        res.status(404).json({ missingError: 'Could Not Find Given ID' });
+      } else {
+        res.status(200).json(countOfRecordsChanged);
+      }
+
+    })
+    .catch(err => res.status(500).json(err));
+});
+
+
+
 
 
 
