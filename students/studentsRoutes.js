@@ -66,7 +66,7 @@ router.put("/:id", (req, res) => {
 router.delete("/:id", (req, res) => {
   const { id } = req.params;
 
-  student
+  students
     .remove(id)
     .then(count => {
       if (!count || count < 1) {

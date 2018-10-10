@@ -66,7 +66,7 @@ router.put("/:id", (req, res) => {
 router.delete("/:id", (req, res) => {
   const { id } = req.params;
 
-  cohort
+  cohorts
     .remove(id)
     .then(count => {
       if (!count || count < 1) {
