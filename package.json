@@ -5,8 +5,8 @@
   "repository": "https://github.com/jeanfern5/RDBMS-API-Full.git",
   "author": "JeanetteFernandez <jeanfern555@gmail.com>",
   "license": "MIT",
-  "script": {
-    "server": "nodemon index.js"
+  "scripts": {
+    "start": "nodemon index.js"
   },
   "dependencies": {
     "express": "^4.16.3",
