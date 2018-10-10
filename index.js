@@ -102,6 +102,25 @@ server.delete('/api/cohorts/:id', (req, res) => {
     })
 })
 
+server.get('/api/cohorts/:id/students', (req, res) => {
+    const {cohort_id} = {
+        cohort_id: req.params.id
+    }
+
+    db('students').where({cohort_id})
+    .then(students => {
+        if(!students || students < 1){
+            res.status(404).json({error: `Could not find any students in cohort ${req.params.id}.`})
+        } else {
+        res.status(200).json(students);
+        }
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    })
+})
+
 // [POST] /api/cohorts This route should save a new cohort to the database.
 // [GET] /api/cohorts This route will return an array of all cohorts.
 // [GET] /api/cohorts/:id This route will return the cohort with the matching id.
