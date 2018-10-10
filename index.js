@@ -132,6 +132,7 @@ server.put('/api/cohorts/:id', (request, response) => {
         .catch(error => response.status(500).send(error))
       })
 
+
 //// ----- Student Table Endpoints -----
 
 /// ----- CREATE Student Endpoint ----- 
@@ -148,6 +149,22 @@ server.post('/api/students', (request, response) => {
     })
     .catch(error => response.status(500).json(error))
 });
+
+
+/// ----- READ All Students Endpoint ----- 
+server.get('/api/students', (request, response) => {
+
+    // Database Promise Functions
+    db('students')
+    .then(students => {
+        if (students.length < 1) {
+            return response.status(404).json({errorMessage: "No students were found."})
+        }
+        response.status(200).json(students)
+    })
+    .catch(error => response.status(500).json(error))
+});
+
 
 const port = 9999;
 server.listen(port, () => {console.log(`#### Server active on port ${port} ####\n`)});
