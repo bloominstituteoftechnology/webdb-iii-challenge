@@ -9,7 +9,13 @@ module.exports = {
   add,
   update,
   remove,
+  getAllStudents
 };
+
+function getAllStudents(cohort_id) {
+    return db('students')
+    .where({ cohort_id })
+}
 
 function find() {
   return db('cohorts');
