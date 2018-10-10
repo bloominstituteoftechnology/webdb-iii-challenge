@@ -4,7 +4,7 @@ const helmet = require('helmet');
 
 const logger = require('morgan');
 
-///const cohortsRoutes = require('./cohorts.cohortsRoutes');
+const cohortsRoutes = require('./cohorts/cohortsRoutes');
 
 const server = express();
 
@@ -24,7 +24,7 @@ server.get('/', (req, res) => {
     res.send("Last Chance");
   });
 
-///server.use('/api/cohorts', cohortsRoutes);
+server.use('/api/cohorts', cohortsRoutes);
 
     const port = 8300;
 server.listen(port, function() {
