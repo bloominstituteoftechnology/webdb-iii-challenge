@@ -38,6 +38,22 @@ server.get('api/cohorts/:id', (Req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+// get specific student from cohort
+
+server.get('api/cohorts/:id/students', (req, res) => {
+  const { id } = req.params;
+  db('cohorts')
+    .where({id})
+    .first()
+    .then(cohort => {
+      db('students')
+        .where({ cohort_id: id })
+        .then(students => res.status(200).json(students))
+        .catch(err => res.status(500).json(err));
+    })
+    .catch(err => res.status(500).json(err));
+});
+
 // instantiate server
 
 const port = 8000;
