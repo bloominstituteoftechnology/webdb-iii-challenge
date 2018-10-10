@@ -14,10 +14,14 @@ server.use(express.json());
 
 const port = 9000;
 
+//============COHORTS ENDPOINTS=============
+
+//TEST
 server.get('/', (req, res)=> {
     res.send('Hello :)');
 });
 
+//POST NEW
 server.post('/api/cohorts', (req, res)=> {
     const cohort = req.body;
     db.insert(cohort)
@@ -33,6 +37,7 @@ server.post('/api/cohorts', (req, res)=> {
         })
 });
 
+//GET ALL
 server.get('/api/cohorts', (req, res)=> {
     db('cohorts')
     .then(cohorts=> {
@@ -46,6 +51,7 @@ server.get('/api/cohorts', (req, res)=> {
     })
 });
 
+//GET BY ID
 server.get('/api/cohorts/:id', async (req, res)=> {
     try {
         const {id} = req.params;
@@ -62,6 +68,7 @@ server.get('/api/cohorts/:id', async (req, res)=> {
     }
 });
 
+//GET STUDENTS IN A COHORT BY ID
 server.get('/api/cohorts/:cohort_id/students', (req, res)=> {
     const {cohort_id} = req.params;
     db('students')
@@ -78,6 +85,7 @@ server.get('/api/cohorts/:cohort_id/students', (req, res)=> {
         })
 });
 
+//UPDATE EXISTING
 server.put('/api/cohorts/:id', (req, res)=> {
     const {id} = req.params;
     const changes = req.body;
@@ -96,6 +104,8 @@ server.put('/api/cohorts/:id', (req, res)=> {
         })
 });
 
+
+//DELETE
 server.delete('/api/cohorts/:id', (req, res)=> {
     const {id} = req.params;
     db('cohorts')
