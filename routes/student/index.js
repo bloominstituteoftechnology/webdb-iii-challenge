@@ -11,17 +11,17 @@ router.get('/', (req, res) => {
 		.catch(err => res.status(500).json({ error: `Server could not get student information: ${ err }` }));
 });
 
-// // get cohort with given ID
-// router.get('/:id', (req, res) => {
-// 	const { id } = req.params;
-// 	cohortDb
-// 		.get(id)
-// 		.then(cohorts => {
-// 			if (cohorts.length) return res.status(200).json(cohorts);
-// 			return res.status(404).json({ error: `Cohort with ID ${ id } does not exist.` });
-// 		})
-// 		.catch(err => res.status(500).json({ error: `Server could not get information for cohort with ID ${ id }: ${ err }` }));
-// });
+// get student with given ID
+router.get('/:id', (req, res) => {
+	const { id } = req.params;
+	studentDb
+		.get(id)
+		.then(student => {
+			if (student.length) return res.status(200).json(student);
+			return res.status(404).json({ error: `Student with ID ${ id } does not exist.` });
+		})
+		.catch(err => res.status(500).json({ error: `Server could not get information for student with ID ${ id }: ${ err }` }));
+});
 
 // // get all students in the cohort with the given cohort ID
 // router.get('/:id/students', (req, res) => {
