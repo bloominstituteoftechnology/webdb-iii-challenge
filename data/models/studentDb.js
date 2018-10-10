@@ -23,10 +23,10 @@ module.exports = {
 			.where('s.id', id)
 			.update(updatedStudent);
 	},
-	// delete: function(id) {
-	// 	let query = db('cohorts as c');
-	// 	return query
-	// 		.where('c.id', id)
-	// 		.del();
-	// },
+	delete: function(id) {
+		let query = db('students as s');
+		return query
+			.where('s.id', id)
+			.del();
+	},
 };
