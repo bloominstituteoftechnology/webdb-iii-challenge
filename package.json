@@ -1,16 +1,16 @@
 {
     "name": "RDBMS-API-Full",
     "version": "1.0.0",
+    "description": "RDBMS API Full",
     "main": "index.js",
     "scripts": {
-      "start": "nodemon"
+      "start": "nodemon index.js"
     },
-    "repository": "https://github.com/keirankozlowski/RDBMS-API-Full",
-    "author": "keirankozlowski <keirankozlowski@gmail.com>",
-    "license": "MIT",
+    "author": "Lambda School",
+    "license": "ISC",
     "dependencies": {
       "express": "^4.16.3",
-      "helmet": "^3.14.0",
+      "helmet": "^3.13.0",
       "knex": "^0.15.2",
       "sqlite3": "^4.0.2"
     },
