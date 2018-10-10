@@ -34,3 +34,14 @@ router.get("/", (req, res) => {
     })
     .catch(err => res.status(500).json(err));
 });
+
+// get single cohort based upon id - get single cohort endpiont
+router.get("/:id", (req, res) => {
+  const { id } = req.params;
+  db("cohorts")
+    .where({ id })
+    .then(cohort => {
+      res.status(200).json(cohort);
+    })
+    .catch(err => res.status(500).json(err));
+});
