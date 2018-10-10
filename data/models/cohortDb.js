@@ -10,6 +10,12 @@ module.exports = {
 		}
 		return query;
 	},
+	getStudents: function(id) {
+		let query = db('students as s');
+		return query
+			.select()
+			.where('s.cohort_id', id);
+	},
 	insert: function(newCohort) {
 		let query = db('cohorts as c');
 		return query
