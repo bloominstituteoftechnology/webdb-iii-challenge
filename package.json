@@ -1,0 +1,14 @@
+{
+  "name": "RDBMS-API-Full",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/ecarlstrom/RDBMS-API-Full",
+  "author": "Evan Carlstrom <evan.carlstrom@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.3",
+    "helmet": "^3.14.0",
+    "knex": "^0.15.2",
+    "sqlite3": "^4.0.2"
+  }
+}
