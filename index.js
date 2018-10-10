@@ -74,7 +74,13 @@ server.get("/api/students/:id", (req, res) => {
   db("students")
     .where({ id })
     .first()
-    .then(student => res.status(200).json(student))
+    .then(student => {
+      db('cohorts')
+        .where({id: student.cohort_id})
+        .first()
+        .then(cohort => res.status(200).json({id: id, name: student.name, cohort: cohort.name}))
+        .catch(err => res.status(500).json(err));
+    })
     .catch(err => res.status(500).json(err));
 });
 
@@ -88,7 +94,7 @@ server.post('/api/students/', (req, res) => {
 });
 
 server.put('/api/students/:id', (req, res) => {
-  const { id } = req.params;
+  const { id } = req.parms;
   const { name, cohort_id } = req.body;
   const student = {name, cohort_id};
   if(name && cohort_id) {
