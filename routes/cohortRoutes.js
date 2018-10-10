@@ -17,7 +17,7 @@ router.get("/", (req, res) => {
       });
   });
   
-  router.get("/:id", (req, res) => {
+router.get("/:id", (req, res) => {
     cohorts('cohorts')
     .where({id: req.params.id})
       .then(cohort => {
@@ -31,6 +31,20 @@ router.get("/", (req, res) => {
       });
   });
   
+router.get("/:cohort_id/students", (req, res) =>{
+    cohorts('students')
+    .where({ cohort_id: req.params.cohort_id })
+    .then(cohorts => {
+        res.status(200).json(cohorts);
+    })
+    .catch(err => {
+        console.error("error", err);
+        res
+          .status(500)
+          .json({ error: "The cohorts information regarding students could not be retreived" });
+      });
+  });
+
   router.post("/", (req, res) => {
     if (req.body.name.length < 128) {
       cohorts.insert(req.body)
