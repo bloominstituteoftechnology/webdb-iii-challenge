@@ -54,7 +54,7 @@ server.get('api/cohorts/:id/students', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
-// edit a cohort inventory
+// edit a cohort entry
 
 server.put('/api/cohorts/:id', (req, res) => {
   const { id } = req.params;
@@ -67,9 +67,16 @@ server.put('/api/cohorts/:id', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+// remove a cohort entry
 
-
-
+server.delete('api/cohorts/:id', (req, res) => {
+    const { id } = req.params;
+    db('cohorts')
+      .where({id})
+      .del()
+      .then(bool => res.status(200).json(bool))
+      .catch(err => res.status(500).json(err));
+});
 
 // instantiate server
 
