@@ -1,6 +1,7 @@
 const express = require("express");
 
 const cohorts = require("./cohortsModel.js");
+const students = require("./cohortsModel.js");
 
 const router = express.Router();
 
@@ -33,7 +34,24 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-module.exports = router;
+//Get students of a specific cohort
+router.get("/:id/students", (req, res) => {
+  students
+    .findByCohort(req.params.id)
+    .then(student => {
+      if (student.length > 0) {
+        res.json(student);
+      } else
+        res.status(404).json({
+          message: "The student with the specified ID does not exist."
+        });
+    })
+    .catch(err =>
+      res
+        .status(500)
+        .json({ error: "The student information could not be retrieved." })
+    );
+});
 
 // Add a cohort
 router.post("/", (req, res) => {
@@ -87,3 +105,5 @@ router.delete("/:id", (req, res) => {
     })
     .catch(err => res.status(500).json(err));
 });
+
+module.exports = router;
