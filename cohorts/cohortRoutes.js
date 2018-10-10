@@ -30,6 +30,22 @@ router.get('/:id', (req, res) => {
 		.catch(err => res.status(500).json(err));
 });
 
+// get students by cohort id
+router.get('/:id/students', (req, res) => {
+	const { id } = req.params;
+
+	cohortModel
+		.findStudentsById(id)
+		.then(students => {
+			if (students[0]) {
+				res.status(200).json(students);
+			} else {
+				res.status(404).json({ error: 'No students in that cohort' });
+			}
+		})
+		.catch(err => res.status(500).json(err));
+});
+
 // add cohort
 router.post('/', (req, res) => {
 	const cohort = req.body;
