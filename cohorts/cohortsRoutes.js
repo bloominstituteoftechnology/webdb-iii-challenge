@@ -54,3 +54,20 @@ router.post("/", (req, res) => {
       res.status(500).json(err);
     });
 });
+
+// update a cohort
+router.put("/:id", (req, res) => {
+  const { id } = req.params;
+  const changes = req.body;
+
+  cohorts
+    .update(id, changes)
+    .then(cohort => {
+      if (!cohort) {
+        res.status(404).json({ message: "No cohort found to update" });
+      } else {
+        res.status(200).json(cohort);
+      }
+    })
+    .catch(err => res.status(500).json(err));
+});
