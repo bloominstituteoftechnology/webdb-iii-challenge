@@ -53,4 +53,21 @@ router.post("/", (req, res) => {
     });
 });
 
+// update a student
+router.put("/:id", (req, res) => {
+  const { id } = req.params;
+  const changes = req.body;
+
+  students
+    .update(id, changes)
+    .then(student => {
+      if (!student) {
+        res.status(404).json({ message: "No student found to update" });
+      } else {
+        res.status(200).json(student);
+      }
+    })
+    .catch(err => res.status(500).json(err));
+});
+
 module.exports = router;
