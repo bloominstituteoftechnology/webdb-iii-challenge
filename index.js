@@ -99,4 +99,28 @@ server.put('/api/cohorts/:id', async (req, res) => {
     .catch(err => res.status(500).json(err));
   });
 
+  // ==============================STUDENTS ENDPOINTS=====================================
+
+// Add GET ROUTE HANDLER to get all students who are in a specified cohort by id
+server.get('/api/cohorts/:id/students', (req, res) => {
+  
+    const { id } = req.params;
+    
+    db('students')
+      .where({cohort_id: id})
+      .then(student => {
+        res.status(200).json(student);
+      })
+      .catch(error => {
+            console.log(error);
+            return 
+            res
+              .status(500)
+              .json({
+                msg: `Student with an id of ${id} does not exist in database`
+              });
+  });
+
+});
+
 server.listen(8800, () => console.log('\n===API running on 8800===\n'));
