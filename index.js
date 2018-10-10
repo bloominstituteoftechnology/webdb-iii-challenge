@@ -16,6 +16,9 @@ server.use(helmet(), express.json());
 
 ///// ---------- CRUD ENDPOINTS ----------
 
+
+//// ----- Cohort Table Endpoints -----
+
 /// ----- Root Server READ Endpoint -----
 server.get('/', (request, response) => {
     response.send("Dance magic, dance.")
@@ -129,6 +132,22 @@ server.put('/api/cohorts/:id', (request, response) => {
         .catch(error => response.status(500).send(error))
       })
 
+//// ----- Student Table Endpoints -----
+
+/// ----- CREATE Student Endpoint ----- 
+server.post('/api/students', (request, response) => {
+    
+    // Deconstruct Request Body
+    const { name, cohort_id } = request.body;
+
+    // Database Promise Functions
+    db.insert({ name, cohort_id })
+    .into('students')
+    .then( ids => {
+        response.status(201).json(ids)
+    })
+    .catch(error => response.status(500).json(error))
+});
 
 const port = 9999;
 server.listen(port, () => {console.log(`#### Server active on port ${port} ####\n`)});
