@@ -1,3 +1,4 @@
 const cohortDb = require('./cohortDb.js');
+const studentDb = require('./studentDb.js');
 
-module.exports = { cohortDb };
+module.exports = { cohortDb, studentDb };
