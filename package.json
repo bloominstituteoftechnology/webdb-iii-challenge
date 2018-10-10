@@ -1,0 +1,8 @@
+{
+  "name": "RDBMS-API-Full",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Kevnien/RDBMS-API-Full.git",
+  "author": "<kevinn858@gmail.com>",
+  "license": "MIT"
+}
