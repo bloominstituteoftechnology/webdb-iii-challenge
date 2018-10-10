@@ -59,7 +59,7 @@ server.put("/api/cohorts/:id", (req, res) => {
   db("cohorts")
     .where({ id })
     .update(cohort)
-    .then(bool => res.status(200).json(bool))
+    .then(response => res.status(200).json(response))
     .catch(err => res.status(500).json(err));
 });
 /////////
@@ -70,7 +70,7 @@ server.delete('/api/cohorts/:id', (req, res) => {
   db('cohorts')
     .where({id})
     .del()
-    .then(bool => res.status(200).json(bool))
+    .then(response => res.status(200).json(response))
     .catch(err => res.status(200).json(err));
 })
 ///////////
