@@ -109,17 +109,13 @@ server.get('/api/cohorts/:id/students', (req, res) => {
     db('students')
       .where({cohort_id: id})
       .then(student => {
-        res.status(200).json(student);
-      })
-      .catch(error => {
-            console.log(error);
-            return 
-            res
-              .status(500)
-              .json({
-                msg: `Student with an id of ${id} does not exist in database`
-              });
-  });
+        if(!student || student.length < 1){
+          res.status(404).json({error: `Could not find any students in this cohort.`})
+      } else {
+      res.status(200).json(student);
+      }
+    })
+      .catch(error => {res.status(500).json(error)});
 
 });
 
