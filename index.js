@@ -62,16 +62,20 @@ server.get('/api/cohorts/:id', async (req, res)=> {
     }
 });
 
-server.get('/api/cohorts/:cohort_id/students', (req, res)=> {
-    const {cohort_id} = req.params;
+server.get('/api/cohorts/:id/students', (req, res)=> {
+    const {id} = req.params;
     db('cohorts')
-        .where({cohort_id})
+        .where({id})
         .first()
         .then(cohortStudents=> {
-           if (cohortStudents === 0) {
-               res.status(404).json({message: "Nothing to display"});
-           } 
-           res.status(200).json(cohortStudents);
+            const {cohort_id} = req.params;
+            db('students')
+                .where({cohort_id})
+                .then(cohortStudents=> {
+                    if ({cohort_id} === {id}) {
+                        res.status(200).json(cohortStudents);
+                    }
+                 })
         })
         .catch(err=> {
             res.status(500).json({error: "This information could not be retrieved from the database"});
