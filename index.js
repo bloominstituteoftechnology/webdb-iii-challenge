@@ -111,7 +111,7 @@ server.put('/api/cohorts/:id', (request, response) => {
     response.status(200).json(updated)
   })
     .catch(error => response.status(500).send(error))
-  })
+  });
   
     /// ----- DELETE Cohort Endpoint -----
     server.delete('/api/cohorts/:id', (request, response) => {
@@ -130,7 +130,7 @@ server.put('/api/cohorts/:id', (request, response) => {
           response.status(200).json(deleted)
       })
         .catch(error => response.status(500).send(error))
-      })
+      });
 
 
 //// ----- Student Table Endpoints -----
@@ -182,6 +182,29 @@ server.get('/api/students/:id', (request, response) => {
     })
     .catch(error => {response.status(500).json(error)})
 });
+
+
+/// ----- UPDATE Student Endpoint -----
+server.put('/api/students/:id', (request, response) => {
+
+    // Extract Request URL Parameters
+    const { id } = request.params;
+  
+    // Deconstruct Request Body
+    const { name } = request.body;
+  
+    // Database Promise Functions
+    db('students')
+    .where({ id })
+    .update({ name })
+    .then(updated => {
+    if (!updated || updated < 1) {
+        return response.status(400).send({errorMessage:`Unable to update the information of the student with the provided id.`})
+    }
+    response.status(200).json(updated)
+  })
+    .catch(error => response.status(500).send(error))
+  })
 
 
 
