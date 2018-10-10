@@ -16,6 +16,23 @@ router.get("/", (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+// get a cohort by id
+router.get("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const cohort = await cohorts.findById(id);
+
+    if (cohort) {
+      res.status(200).json(cohort);
+    } else {
+      res.status(404).json({ message: "Cohort not found" });
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
 module.exports = router;
 
 // Add a cohort

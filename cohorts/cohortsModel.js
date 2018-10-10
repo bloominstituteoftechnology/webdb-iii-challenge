@@ -16,7 +16,7 @@ function find() {
   return db("cohorts");
 }
 
-function findById() {
+function findById(id) {
   return db("cohorts")
     .where({ id })
     .first();
