@@ -1,14 +1,13 @@
 const express = require('express');
 const helmet = require('helmet');
+const cohortsRoutes = require('./cohortsRoutes/cohortsRoutes.js');
 
 const server = express();
 
 server.use(express.json());
 server.use(helmet());
 
-// ENDPOINTS HERE
-
-server.get('/', (req, res) => res.json('Server is up and running!'));
+server.use('/api/cohorts', cohortsRoutes);
 
 // SERVER PORT
 
