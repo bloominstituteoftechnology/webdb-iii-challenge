@@ -56,3 +56,24 @@ router.get("/:id/students", (req, res) => {
     })
     .catch(err => res.status(500).json(err));
 });
+
+// put endpoint for cohort to update a cohort based upon id
+router.put("/:id", (req, res) => {
+  const { id } = req.params;
+  const updates = req.body;
+
+  //Require Name
+  if (!req.body.name) {
+    return res.status(400).json({ msg: "you must provide a name" });
+  }
+
+  db("cohorts")
+    .where({ id: id })
+    .update(updates)
+    .then(currentCohort => {
+      res.status(200).json(currentCohort);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
+});
