@@ -1,6 +1,6 @@
 const express = require('express');
 const helmet = require('helmet');
-const routes = require('./routes')
+const cohortsRoutes = require('./routes/cohortRoutes');
 
 
 
@@ -12,6 +12,7 @@ const server = express();
 server.use(express.json());
 server.use(helmet());
 
+server.use('/api/cohorts', cohortsRoutes);
 
 
 server.get('/', (req, res) =>{
