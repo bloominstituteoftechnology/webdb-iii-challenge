@@ -5,7 +5,7 @@ module.exports = {
   development: {
     client: 'sqlite3',
     connection: {
-      filename: './dev.sqlite3'
+      filename: './db/lambda.sqlite3'
     },
     useNullAsDefault: true,
     migrations: {
@@ -15,7 +15,7 @@ module.exports = {
       directory: './db/seeds'
     }
   }, 
-    },
+    
 
   staging: {
     client: 'postgresql',
