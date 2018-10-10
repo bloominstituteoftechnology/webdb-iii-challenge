@@ -148,8 +148,19 @@ server.get('/students/:id', async (req, res) => {
         const {id} = req.params;
 
         const student = await db('students').where({id}).first();
+        const cohort_id = {
+            id: student.cohort_id
+        }
+        const cohort = await db('cohorts').where(cohort_id).first()
+
+        pureStudent = {
+            id: student.id,
+            name: student.name,
+            cohort: cohort.name
+        }
+
         if(student){
-            res.status(200).json(student);
+            res.status(200).json(pureStudent);
         } else {
             res.status(404).json({error: `Could not find student with ID ${id}.\n`})
         }
