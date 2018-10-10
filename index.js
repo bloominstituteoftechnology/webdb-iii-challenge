@@ -8,7 +8,7 @@ const knex = require('knex');
 const server = express();
 
 /// ----- Initialize Database -----
-const db = knex(knexConfig.development)
+const db = knex(knexConfig.development);
 
 /// ----- Connect Middleware to Server -----
 server.use(helmet(), express.json());
@@ -19,7 +19,7 @@ server.use(helmet(), express.json());
 /// ----- Root Server READ Endpoint -----
 server.get('/', (request, response) => {
     response.send("Dance magic, dance.")
-})
+});
 
 
 /// ----- CREATE Cohort Endpoint ----- 
@@ -35,9 +35,9 @@ server.post('/api/cohorts', (request, response) => {
         response.status(201).json(ids)
     })
     .catch(error => response.status(500).json(error))
-})
+});
 
-/// ----- READ All Cohort Endpoint ----- 
+/// ----- READ All Cohorts Endpoint ----- 
 server.get('/api/cohorts', (request, response) => {
     db('cohorts')
     .then(cohorts => {
@@ -48,7 +48,24 @@ server.get('/api/cohorts', (request, response) => {
         response.status(200).json(cohorts)
     })
     .catch(error => response.status(500).json(error))
-})
+});
+
+/// ----- READ Inidivudal Cohort Enpoint -----
+server.get('/api/cohorts/:id', (request, response) => {
+
+    // Extract Request URL Parameters
+    const { id } = request.params;
+
+    db('cohorts')
+    .where({ id })
+    .then( cohort => {
+        if (!cohort) {
+            return response.status(404).json({errorMessage: "The cohort with the provided id could not be found."})
+        }
+        response.status(200).send(cohort);
+    })
+    .catch(error => {response.status(500).json(error)})
+});
 
 const port = 9999;
-server.listen(port, () => {console.log(`#### Server active on port ${port} ####\n`)})
+server.listen(port, () => {console.log(`#### Server active on port ${port} ####\n`)});
