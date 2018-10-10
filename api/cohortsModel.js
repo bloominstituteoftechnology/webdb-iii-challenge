@@ -77,3 +77,16 @@ router.put("/:id", (req, res) => {
       res.status(500).json(err);
     });
 });
+// delete a cohort based upon id - delete cohort endpoint
+router.delete("/:id", (req, res) => {
+  const { id } = req.params;
+  db("cohorts")
+    .where({ id: id })
+    .del()
+    .then(response => {
+      res.status(200).json(response);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
+});
