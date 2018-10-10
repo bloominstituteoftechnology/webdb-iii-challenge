@@ -34,7 +34,20 @@ server.post('/api/cohorts', (request, response) => {
     .then( ids => {
         response.status(201).json(ids)
     })
-    .catch(error => response.json(error))
+    .catch(error => response.status(500).json(error))
+})
+
+/// ----- READ All Cohort Endpoint ----- 
+server.get('/api/cohorts', (request, response) => {
+    db('cohorts')
+    .then(cohorts => {
+        if (cohorts.length < 1) {
+            return response.status(404).json({errorMessage: "No cohorts were found."})
+        }
+
+        response.status(200).json(cohorts)
+    })
+    .catch(error => response.status(500).json(error))
 })
 
 const port = 9999;
