@@ -70,4 +70,20 @@ router.put("/:id", (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+// delete a student
+router.delete("/:id", (req, res) => {
+  const { id } = req.params;
+
+  students
+    .remove(id)
+    .then(student => {
+      if (!student) {
+        res.status(404).json({ message: "No students found to delete" });
+      } else {
+        res.status(200).json(student);
+      }
+    })
+    .catch(err => res.status(500).json(err));
+});
+
 module.exports = router;
