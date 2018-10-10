@@ -165,6 +165,25 @@ server.get('/api/students', (request, response) => {
     .catch(error => response.status(500).json(error))
 });
 
+/// ----- READ Inidivudal Student Endpoint -----
+server.get('/api/students/:id', (request, response) => {
+
+    // Extract Request URL Parameters
+    const { id } = request.params;
+
+    // Database Promise Functions
+    db('students')
+    .where({ id })
+    .then( student => {
+        if (student.length < 1) {
+            return response.status(404).json({errorMessage: "The student with the provided id could not be found."})
+        }
+        response.status(200).send(student);
+    })
+    .catch(error => {response.status(500).json(error)})
+});
+
+
 
 const port = 9999;
 server.listen(port, () => {console.log(`#### Server active on port ${port} ####\n`)});
