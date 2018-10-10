@@ -1,0 +1,20 @@
+{
+  "name": "lsw12iii-rdbmsApiFull",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/timh1203/lsw12iii-rdbmsApiFull.git",
+  "author": "Timothy Hoang <timh1203@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^4.16.3",
+    "helmet": "^3.14.0",
+    "knex": "^0.15.2",
+    "sqlite3": "^4.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  }
+}
