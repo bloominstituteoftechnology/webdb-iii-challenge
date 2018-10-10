@@ -13,9 +13,17 @@ const find = (id) => {
     }
 };
 
-const add = (cohort) => {
+const findStudentsByCohort = (id) => {
+    // return db('students')
+    //     .where({id})
+    return db.from('students')
+        .innerJoin('cohorts', 'students.cohort_id', 'cohorts.id')
+        .where({id});
+};
+
+const add = (newCohort) => {
     return db('cohorts')
-        .insert(cohort)
+        .insert(newCohort)
         .into('cohorts');
 }
   
@@ -33,6 +41,7 @@ const remove = (id) => {
 
 module.exports = {
     find, 
+    findStudentsByCohort, 
     add, 
     update, 
     remove

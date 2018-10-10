@@ -13,9 +13,9 @@ const find = (id) => {
     }
 };
 
-const add = (student) => {
+const add = (newStudent) => {
     return db('students')
-        .insert(student)
+        .insert(newStudent)
         .into('students');
 }
   
