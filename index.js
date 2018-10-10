@@ -140,15 +140,15 @@ server.delete('/api/cohorts/:id', (req, res) => {
 
 /*
 WORK IN PROGRESS:
-- [POST] /students This route should save a new student to the database.
-- [PUT] /students/:id This route will update the student with the matching id using information sent in the body of the request.
-- [DELETE] /students/:id This route should delete the specified student.
 */
 
 /*
 DONE:
 - [GET] /students This route will return an array of all students.
 - [GET] /students/:id This route will return the student with the matching id.
+- [POST] /students This route should save a new student to the database.
+- [PUT] /students/:id This route will update the student with the matching id using information sent in the body of the request.
+- [DELETE] /students/:id This route should delete the specified student.
 */
 
 
