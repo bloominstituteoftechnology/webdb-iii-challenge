@@ -5,8 +5,8 @@ CREATE TABLE IF NOT EXISTS `students` (
 	`cohort_id`	integer NOT NULL,
 	FOREIGN KEY(`cohort_id`) REFERENCES `cohorts`(`id`)
 );
-INSERT INTO `students` VALUES (1,'Kevin Sooter',1);
-INSERT INTO `students` VALUES (2,'Jason Sooter',2);
+INSERT INTO `students` VALUES (1,'Lucas Beemer',1);
+INSERT INTO `students` VALUES (2,'Sayra Soriano',2);
 CREATE TABLE IF NOT EXISTS `knex_migrations_lock` (
 	`index`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`is_locked`	integer
