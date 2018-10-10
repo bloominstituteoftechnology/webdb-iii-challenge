@@ -32,6 +32,7 @@ router.post('/', (req, res) => {
 		.catch(err => res.status(500).json({ error: `Server could not post cohort: ${ err }` }));
 });
 
+// update a cohort with given ID
 router.put('/:id', (req, res) => {
 	const { id } = req.params;
 	const updatedCohort = req.body;
@@ -42,6 +43,18 @@ router.put('/:id', (req, res) => {
 			return res.status(404).json({ error: `Cohort with ID ${ id } does not exist.` });
 		})
 		.catch(err => res.status(500).json({ error: `Server could not put cohort with ID ${ id }: ${ err }` }));
+});
+
+// delete a cohort with given ID
+router.delete('/:id', (req, res) => {
+	const { id } = req.params;
+	cohortDb
+		.delete(id)
+		.then(deleteBool => {
+			if (deleteBool) return res.status(200).json({ message: `Cohort with ID ${ id } successfully deleted.` });
+			return res.status(404).json({ error: `Cohort with ID ${ id } does not exist.` });
+		})
+		.catch(err => res.status(500).json({ error: `Server could not delete cohort with ID ${ id }: ${ err }` }));
 });
 
 module.exports = router;

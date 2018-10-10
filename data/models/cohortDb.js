@@ -13,7 +13,6 @@ module.exports = {
 	insert: function(newCohort) {
 		let query = db('cohorts as c');
 		return query
-			.select()
 			.insert(newCohort)
 			.then(id => ({ id: id }));
 	},
@@ -23,5 +22,11 @@ module.exports = {
 			.select()
 			.where('c.id', id)
 			.update(updatedCohort);
+	},
+	delete: function(id) {
+		let query = db('cohorts as c');
+		return query
+			.where('c.id', id)
+			.del();
 	},
 };
