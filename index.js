@@ -11,7 +11,7 @@ server.post("/api/cohorts", (req, res) => {
   const cohort = req.body;
   db.insert(cohort)
     .into("cohorts")
-    .then(ids => res.status(201).json(ids[0]))
+    .then(ids => res.status(201).json(ids))
     .catch(err => res.status(500).json(err));
 });
 
@@ -25,7 +25,7 @@ server.get("/api/cohorts", (req, res) => {
 server.get("/api/cohorts/:id", (req, res) => {
   const { id } = req.params;
   db("cohorts")
-    .get(id)
+    .where({ id })
     .then(ids => {
       if (ids) {
         res.status(200).json(ids);
@@ -41,7 +41,7 @@ server.get("/api/cohorts/:id", (req, res) => {
 server.get("/api/cohorts/:id/students", (req, res) => {
   const { id } = req.params;
   db("students")
-    .get(id)
+    .where({ id })
     .then(ids => {
       if (ids) {
         res.status(200).json(ids);
