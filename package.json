@@ -2,6 +2,9 @@
   "name": "RDBMS-API-Full",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
   "repository": "https://github.com/Tbarnett20/RDBMS-API-Full.git",
   "author": "Terrance Danckert <tbarnett2020@gmail.com>",
   "license": "MIT",
