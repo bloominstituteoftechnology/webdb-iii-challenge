@@ -20,7 +20,7 @@ server.get("/api/cohorts", (req, res) => {
 server.get("/api/cohorts/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const cohort = await db("zoos").where({ id });
+    const cohort = await db("cohorts").where({ id });
     if (cohort) {
       res.status(200).json(cohort);
     } else {
