@@ -1,51 +1,37 @@
 const express = require('express');
-const cohorts = require('./cohortsModel');
-const students = require('../students/studentsModel');
+const students = require('./studentsModel');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  cohorts
+  students
     .get()
-    .then(cohorts => {
-      res.status(200).json(cohorts);
+    .then(students => {
+      res.status(200).json(students);
     })
     .catch(err => res.status(500).json(err));
 });
 
-// get a cohort by id
+// get a student by id
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-
-    const cohort = await cohorts.getById(id);
-
-    if (cohort) {
-      res.status(200).json(cohort);
+    const student = await students.getById(id);
+    if (student) {
+      res.status(200).json(student);
     } else {
-      res.status(404).json({ message: 'Cohort not found' });
+      res.status(404).json({ message: 'Student not found' });
     }
   } catch (error) {
     res.status(500).json(error);
   }
 });
 
-// get students in a cohort
-router.get('/:id/students', (req, res) => {
-  const { id } = req.params;
-  students
-    .get()
-    .where({cohort_id: id})
-    .then(students => {
-      res.status(200).json(students);
-    });
-});
-
-// create cohorts
+// create students
 router.post('/', (req, res) => {
-  const cohort = req.body;
+  const student = req.body;
 
-  cohorts
-    .insert(cohort)
+  students
+    .insert(student)
     .then(ids => {
       res.status(201).json(ids[0]);
     })
@@ -54,12 +40,12 @@ router.post('/', (req, res) => {
     });
 });
 
-// update cohorts
+// update students
 router.put('/:id', (req, res) => {
   const { id } = req.params;
   const changes = req.body;
 
-  cohorts
+  students
     .update(id, changes)
     .then(count => {
       if (!count || count < 1) {
@@ -71,11 +57,11 @@ router.put('/:id', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
-// delete cohorts
+// delete students
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
 
-  cohorts
+  students
     .remove(id)
     .then(count => {
       if (!count || count < 1) {
