@@ -18,20 +18,29 @@ server.get('/api/cohorts', (req, res) => {
       .catch(err => res.status(404).json({error: `Server error --> ${err}`}))
 });
 
+//Gets the cohort with specific id
 server.get('/api/cohorts/:id', (req, res) => {
   const { id } = req.params;
 
   db('cohorts')
     .where({id})
     	.then(response => {
-        if(response.length) {
-          res.status(200).json(response)
-        } else {
-          res.status(404).json({ error: "No cohort with that id." })
-        }
-        
+        response.length ? res.status(200).json(response) : res.status(404).json({ error: "No cohort with that id." })        
       })
       .catch(err => res.status(500).json({ error: `Server error --> ${err}`}))
+});
+
+// Getting the students from the cohort
+server.get('/api/cohorts/:id/students', (req, res) => {
+  const { id } = req.params;
+
+  db('students')
+    .select('*')
+    .where({ cohort_id: id })
+      .then(response => {
+        response.length ? res.status(200).json(response) : res.status(404).json({ error: "No students in this cohort." })
+      })
+      .catch(err => console.log(err))
 });
 
 server.post('/api/cohorts', (req, res) => {
