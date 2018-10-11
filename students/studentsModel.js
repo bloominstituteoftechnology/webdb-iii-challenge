@@ -8,7 +8,8 @@ module.exports = {
   findById,
   add,
   update,
-  remove
+  remove,
+  getStretch
 };
 
 function find() {
@@ -37,4 +38,13 @@ function remove(id) {
   return db('students')
     .where({ id })
     .del();
+}
+
+function getStretch(id) {
+   // const cohort = db('cohorts').select('name');
+    return db('students')
+    .join('cohorts', 'students.cohort_id', '=', 'cohorts.id')
+    .where('students.id', id)
+    .select('students.name', 'cohorts.name as cohort')
+    
 }

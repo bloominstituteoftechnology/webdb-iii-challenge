@@ -18,8 +18,7 @@ router.get('/', (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params;
-
-        const student = await students.findById(id);
+        const student = await students.getStretch(id);
 
         if (student) {
             res.status(200).json(student);
@@ -29,6 +28,7 @@ router.get('/:id', async (req, res) => {
     } catch (error) {
         res.status(500).json(error);
     }
+    
 });
 
 // add new student to database
