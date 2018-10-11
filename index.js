@@ -105,7 +105,7 @@ server.put('/api/cohorts/:id', async (req, res) => {
 server.get('/api/cohorts/:id/students', (req, res) => {
   
     const { id } = req.params;
-    
+
     db('students')
       .where({cohort_id: id})
       .then(student => {

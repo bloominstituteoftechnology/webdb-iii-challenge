@@ -10,7 +10,7 @@ exports.up = function(knex, Promise) {
       .integer('cohort_id')
       .unsigned()
       .references('id')
-      .inTable('students');
+      .inTable('cohorts');
   });
 };
 
