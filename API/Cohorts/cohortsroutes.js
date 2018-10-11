@@ -53,7 +53,7 @@ router.post('/', (req, res, next) => {
     if(name) {
         cohortsTable.add({ name })
             .then((postId) => {
-                res.status(201).json({"postId": postId[0]});
+                res.status(201).json({"cohortId": postId[0]});
             })
             .catch((err) => {
                 next(["h500", err]);
