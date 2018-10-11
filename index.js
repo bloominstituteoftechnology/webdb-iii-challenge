@@ -49,6 +49,23 @@ server.get('/api/cohorts', (req, res) => {
 
 })
 
+//get student
+server.get("/api/cohorts/:id/students", (req, res) => {
+    const { id } = req.params;
+    db("students")
+      .where({ id })
+      .then(ids => {
+        if (ids) {
+          res.status(200).json(ids);
+        } else {
+          res
+            .status(404)
+            .json({ error: `Cohort with id of ${id} could not be found `});
+        }
+      })
+      .catch(err => res.status(500).json({ error: "Could not retrieve data" }));
+  });
+
 // get cohort id 
 server.get('/api/cohorts/:id', async (req, res) => {
 
@@ -101,6 +118,8 @@ server.delete('/api/cohorts/:id', (req,res)=>{
         res.status(500).json(err)
     })
 })
+
+
 
 
 server.listen(9000, () => console.log('api running on 9000'))

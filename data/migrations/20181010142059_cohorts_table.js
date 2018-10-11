@@ -1,27 +1,14 @@
-
 exports.up = function(knex, Promise) {
 
+  return knex.schema.createTable("cohorts", tbl => {
 
-  return knex.schema.createTable('cohorts', function(tbl){
-      // primary key called id
-      tbl.increments();
+    tbl.increments(); 
 
-      tbl.string('name', 255).notNullable();
-      
-      tbl.integer('student_id')
-      .unsigned()
-      .references('id')
-      .inTable('students');
-      
-  })
+    tbl.string("name",128).notNullable();
 
-
+  });
 };
-
-
-exports.down = function(knex, Promise) {
-    //rollback
-  
- return knex.chema.dropTableifExists('cohorts');
-
+ exports.down = function(knex, Promise) {
+   
+  return knex.schema.dropTableIfExists("cohorts");
 };
