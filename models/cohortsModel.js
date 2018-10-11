@@ -7,7 +7,8 @@ module.exports = {
     getAll,
     getById,
     put,
-    del
+    del,
+    findStudentsByCohort
 };
 
 function post(cohort){
@@ -28,4 +29,8 @@ function put(id, changes){
 
 function del(id){
     return db('cohorts').where({id}).del();
+};
+
+function findStudentsByCohort(cohortId){
+    return db('students').where('cohort_id', cohortId);
 };

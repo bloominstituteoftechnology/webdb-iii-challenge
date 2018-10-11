@@ -60,6 +60,21 @@ router.delete('/:id', (req, res)=>{
             }
         })
         .catch(err => res.status(500).json(err));
+});
+
+router.get('/:id/students', (req, res)=>{
+    const {id} = req.params;
+    cohorts.findStudentsByCohort(id)
+    .then(students =>{
+        if(students.length<1){
+            res.status(404).json('Cohort has no students.');
+        }else if(students){
+            res.status(200).json(students);
+        }else{
+            res.status(404).json('No cohort with that ID found.');
+        }
+    })
+    .catch(err => res.status(500).json(err));
 })
 
 module.exports = router;
