@@ -18,6 +18,22 @@ server.get('/api/cohorts', (req, res) => {
       .catch(err => res.status(404).json({error: `Server error --> ${err}`}))
 });
 
+server.get('/api/cohorts/:id', (req, res) => {
+  const { id } = req.params;
+
+  db('cohorts')
+    .where({id})
+    	.then(response => {
+        if(response.length) {
+          res.status(200).json(response)
+        } else {
+          res.status(404).json({ error: "No cohort with that id." })
+        }
+        
+      })
+      .catch(err => res.status(500).json({ error: `Server error --> ${err}`}))
+});
+
 server.post('/api/cohorts', (req, res) => {
   const addCohort = req.body;
 
@@ -27,6 +43,33 @@ server.post('/api/cohorts', (req, res) => {
     	.then(id => res.status(201).json({ id : id[0] }))
       .catch(err => res.status(500).json({ error: `Server error --> ${err}`}))
 });
+
+server.put('/api/cohorts/:id', (req, res) => {
+  const { id } = req.params;
+  const upCohort = req.body;
+
+  db('cohorts')
+    .where({id})
+    .update(upCohort)
+    	.then(response => {
+        response ? res.status(200).json({ message: "Cohort Updated"}) : res.status(404).json({ error: "No cohort with that id." })
+      })
+      .catch(err => res.status(500).json({ error: `Server error --> ${err}`}))
+});
+
+server.delete('/api/cohorts/:id', (req, res) => {
+  const { id } = req.params;
+
+  db('cohorts')
+    .where({id})
+    .del()
+    	.then(response => {
+        response ? res.status(200).json({ message: "Cohort Deleted"}) : res.status(404).json({ error: "No cohort with that id." })
+      })
+      .catch(err => res.status(500).json({ error: `Server error --> ${err}`}))
+});
+
+
 
 const port = 8000;
 server.listen(port, () => console.log(`Sever running on ${port} port.`))
