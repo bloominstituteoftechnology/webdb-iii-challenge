@@ -17,8 +17,9 @@ function find() {
 
 function findById(id) {
   return db("students")
-    .where({ id })
-    .first();
+    .join("cohorts", "cohorts.id", "students.cohort_id")
+    .select("students.id", "students.name", { cohort: "cohorts.name" })
+    .where("students.cohort_id", id);
 }
 
 function add(student) {

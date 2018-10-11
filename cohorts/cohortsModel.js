@@ -41,8 +41,5 @@ function remove(id) {
 }
 
 function findByCohort(cohort_id) {
-  return db("students")
-    .join("cohorts", "cohorts.id", "students.cohort_id")
-    .select("students.id", "students.name", "cohorts.name")
-    .where("students.cohort_id", cohort_id);
+  return db("students").where({ cohort_id });
 }
