@@ -4,6 +4,12 @@ exports.up = function(knex, Promise) {
     tbl.increments();
 
     tbl.string('name', 100).notNullable();
+
+    tbl
+      .integer('cohort_id')
+      .unsigned()
+      .references('id')
+      .inTable('cohorts')
   });
 };
 
