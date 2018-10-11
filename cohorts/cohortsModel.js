@@ -21,9 +21,9 @@ function getById(id) {
     .first();
 }
 
-function insert(course) {
+function insert(cohort) {
   return db('cohorts')
-    .insert(course)
+    .insert(cohort)
     .into('cohorts');
 }
 
