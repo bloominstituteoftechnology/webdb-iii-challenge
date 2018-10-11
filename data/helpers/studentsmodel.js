@@ -17,7 +17,7 @@ const findWithCohort = (id) => {
     return db('students')
         .select('students.id', 'students.name', {cohort: 'cohorts.name'})
         .innerJoin('cohorts', 'students.cohort_id', 'cohorts.id')
-        .where('students.cohort_id', id);
+        .where('students.id', id);
 };
 
 const add = (newStudent) => {
