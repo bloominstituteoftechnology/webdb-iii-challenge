@@ -12,6 +12,6 @@ server.get('/', (req, res) => {
     res.send('Tom was here');
 })
 
-server.use('/lambda', lambdaRoutes)
+server.use('/api/cohorts', lambdaRoutes)
 
-server.listen(9000, () => console.log(`\n server is alive on 9000 \n`))
+server.listen(8000, () => console.log(`\n server is alive on 8000 \n`))
