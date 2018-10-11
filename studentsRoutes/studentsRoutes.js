@@ -24,9 +24,8 @@ router.route('/:id')
     const { id } = req.params
     db('students')
       .select('students.id', 'students.name', 'cohorts.name as cohort')
-      .join('cohorts')
+      .join('cohorts', 'students.cohort_id', 'cohorts.id')
       .where('students.id', id)
-      .first()
       .then(student => {
         if (!student || student < 1) return res.status(404).json({ error: 'The specified student could not be found.'})
         return res.status(200).json(student)
