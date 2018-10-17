@@ -1,8 +1,15 @@
 {
-  "name": "RDBMS-API",
+  "name": "lb",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "repository": "https://github.com/Xarfo/RDBMS-API-Full.git",
+  "keywords": [],
   "author": "Abdul Ahmad",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "server": "nodemon server.js"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  }
 }
