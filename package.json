@@ -1,0 +1,26 @@
+{
+  "name": "rdbms-api-full",
+  "version": "1.0.0",
+  "description": "SQL day 3",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/duckets615/RDBMS-API-Full.git"
+  },
+  "author": "Chris Reilly",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/duckets615/RDBMS-API-Full/issues"
+  },
+  "homepage": "https://github.com/duckets615/RDBMS-API-Full#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "helmet": "^3.14.0",
+    "knex": "^0.15.2",
+    "nodemon": "^1.18.4",
+    "sqlite": "^3.0.0"
+  }
+}
