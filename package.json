@@ -5,6 +5,9 @@
   "repository": "https://github.com/Mokagbue/RDBMS-API-Full.git",
   "author": "MichelleOk <umbralcompendium@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
   "dependencies": {
     "cors": "^2.8.4",
     "express": "^4.16.4",
