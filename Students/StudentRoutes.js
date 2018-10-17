@@ -1,42 +1,42 @@
 const express = require('express');
 
-const courses = require('./coursesModel.js');
+const students = require('./StudentModel.js');
 
 const router = express.Router();
 
-// get a list of courses
+// get a list of students
 router.get('/', (req, res) => {
-  courses
+    students
     .find()
-    .then(courses => {
-      res.status(200).json(courses);
+    .then(students => {
+      res.status(200).json(students);
     })
     .catch(err => res.status(500).json(err));
 });
 
-// get a course by id
+// get students by id
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
-    const course = await courses.findById(id);
+    const student = await students.findById(id);
 
-    if (course) {
-      res.status(200).json(course);
+    if (student) {
+      res.status(200).json(student);
     } else {
-      res.status(404).json({ message: 'Course not found' });
+      res.status(404).json({ message: 'Student not found' });
     }
   } catch (error) {
     res.status(500).json(error);
   }
 });
 
-// create courses
+// create student
 router.post('/', (req, res) => {
-  const course = req.body;
+  const student = req.body;
 
-  courses
-    .add(course)
+  students
+    .add(student)
     .then(ids => {
       res.status(201).json(ids[0]);
     })
@@ -45,12 +45,12 @@ router.post('/', (req, res) => {
     });
 });
 
-// update courses
+// update student
 router.put('/:id', (req, res) => {
   const { id } = req.params;
   const changes = req.body;
 
-  courses
+  students
     .update(id, changes)
     .then(count => {
       if (!count || count < 1) {
@@ -62,11 +62,11 @@ router.put('/:id', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
-// delete courses
+// delete student
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
 
-  courses
+  students
     .remove(id)
     .then(count => {
       if (!count || count < 1) {
