@@ -1,0 +1,8 @@
+{
+  "name": "RDBMS-API",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Xarfo/RDBMS-API-Full.git",
+  "author": "Abdul Ahmad",
+  "license": "MIT"
+}
