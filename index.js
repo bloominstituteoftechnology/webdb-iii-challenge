@@ -27,6 +27,22 @@ server.get('/api/cohorts', (req, res) => {
     })
 });
 
+// read cohorts by id
+server.get('/api/cohorts/:id', (req, res) => {
+  const id = req.params.id;
+  db('cohorts').where({ id })
+    .then(cohort => {
+      if (cohort) {
+        res.status(200).json(cohort[0]);
+      } else {
+        res.status(404).json({ message: 'cohort not found' });
+      }
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    })
+});
+
 // listening port
 const port = 3300;
 server.listen(port, function() {
