@@ -15,10 +15,10 @@ const db = knex(knexConfig.development);
 //express.json returns json objects of the response
 //All global middlewares that will be used across enpoints must also be plugged into the app
 //cors and helmet middlewares are not used
-app.use(express.json(), logger('combined'), cors(), helmet());
+appServ.use(express.json(), logger('combined'), cors(), helmet());
 
 //Root Request/Route Handler
-app.get('/', (req, res) => {
+appServ.get('/', (req, res) => {
     res.send('Test for root endpoint!')
 });
 
