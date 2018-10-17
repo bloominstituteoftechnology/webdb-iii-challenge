@@ -42,7 +42,19 @@ server.delete('/api/cohorts/:id', (request, response) => {
     .catch(error => response.status(500).send(error))
   });
 
-//GET cohort ep
+// GET cohorts ep;
+  server.get('/api/cohorts', (request, response) => {
+    db('cohorts')
+    .then(cohorts => {
+        if (cohorts.length < 1) {
+            return response.status(404).json({errorMessage: `${noFind} cohort`})
+        }
+        response.status(200).json(cohorts)
+    })
+    .catch(error => response.status(500).json(error))
+});
+
+//GET cohort id ep
   server.get('/api/cohorts/:id', (request, response) => {
     const { id } = request.params;
     db('cohorts')
@@ -52,6 +64,20 @@ server.delete('/api/cohorts/:id', (request, response) => {
             return response.status(404).json({errorMessage: `${noFind} cohort` })
         }
         response.status(200).send(cohort);
+    })
+    .catch(error => {response.status(500).json(error)})
+});
+
+//GET cohort id stud;
+server.get('/api/cohorts/:cohort_id/students', (request, response) => {
+    const { cohort_id } = request.params;
+    db('students')
+    .where({ cohort_id })
+    .then( students => {
+        if (students.length < 1) {
+            return response.status(404).json({message: `${noFind} any students in cohort`})
+        }
+        response.status(200).send(students);
     })
     .catch(error => {response.status(500).json(error)})
 });
@@ -70,8 +96,7 @@ server.put('/api/cohorts/:id', (request, response) => {
     response.status(200).json(updated)
   })
     .catch(error => response.status(500).send(error))
-  })
-
+  });
 
 
 
