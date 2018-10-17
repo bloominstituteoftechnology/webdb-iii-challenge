@@ -43,6 +43,19 @@ server.get('/api/cohorts/:id', (req, res) => {
     })
 });
 
+// create cohorts
+server.post('/api/cohorts', (req, res) => {
+  const cohort = req.body;
+  db.insert(cohort)
+    .into('cohorts')
+    .then(id => {
+      res.status(201).json(id);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    })
+});
+
 // listening port
 const port = 3300;
 server.listen(port, function() {
