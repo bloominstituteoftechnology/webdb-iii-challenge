@@ -12,31 +12,30 @@ module.exports = {
 };
 
 function find() {
-  return db('courses');
+  return db('cohorts');
 }
 
 function findById(id) {
-  return db('courses')
+  return db('cohorts')
     .where({ id })
     .first();
 }
 
-function add(course) {
-  return db('courses')
-    .insert(course)
-    .into('courses');
+function add(cohort) {
+  return db('cohorts')
+    .insert(cohort)
+    .into('cohorts');
 }
 
 function update(id, changes) {
-  return db('courses')
+  return db('cohorts')
     .where({ id })
     .update(changes);
 }
 
 function remove(id) {
-  return db('courses')
+  return db('cohorts')
     .where({ id })
     .del();
 }
 
-// repository pattern for data access
