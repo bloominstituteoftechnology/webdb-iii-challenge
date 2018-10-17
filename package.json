@@ -1,0 +1,23 @@
+{
+	"name": "RDBMS-API-Full",
+	"version": "1.0.0",
+	"description": "Exploring the wonderful world of relational data",
+	"main": "index.js",
+	"scripts": {
+		"start": "nodemon index.js"
+	},
+	"repository": {
+		"url": "https://github.com/blokboy/RDBMS-API-Full"
+	},
+	"author": "Jordan Marsaw, a 3rd generation Blokboy <jordan@bloklabs.org>",
+	"license": "MIT",
+	"devDependencies": {
+		"nodemon": "^1.18.4"
+	},
+	"dependencies": {
+		"express": "^4.16.4",
+		"helmet": "^3.14.0",
+		"knex": "^0.15.2",
+		"sqlite3": "^4.0.2"
+	}
+}
