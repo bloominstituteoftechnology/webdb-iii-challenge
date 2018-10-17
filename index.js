@@ -22,5 +22,5 @@ server.get('/', (req, res) => {
   });
   
   const port = 9000;
-  server.listen(port, () => console.log(`API running away fast on port ${port}`));
+  server.listen(port, () => console.log(`API is raining on port ${port}`));
   
