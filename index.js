@@ -56,6 +56,25 @@ server.post('/api/cohorts', (req, res) => {
     })
 });
 
+// update cohorts
+server.put('/api/cohorts/:id', (req, res) => {
+  const { id } = req.params;
+  const newCohort = req.body;
+  db('cohorts')
+    .where({ id })
+    .update(newCohort)
+    .then(cohort => {
+      if (!cohort || cohort < 1) {
+        res.status(404).json({ message: 'No records found to update' });
+      } else {
+        res.status(200).json(cohort);
+      }
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    })
+});
+
 // listening port
 const port = 3300;
 server.listen(port, function() {
