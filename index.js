@@ -35,7 +35,6 @@ server.get('/api/cohorts/:id/students', (req, res) => {
   const { id } = req.params;
 
   db('students')
-    .select('*')
     .where({ cohort_id: id })
       .then(response => {
         response.length ? res.status(200).json(response) : res.status(404).json({ error: "No students in this cohort." })
