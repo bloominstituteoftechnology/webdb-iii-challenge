@@ -18,3 +18,27 @@ router.route('/')
       .then(cohort => res.status(201).json(cohort))
       .catch(err => res.status(500).json({ error: 'The cohort could not be added.' }))
   })
+
+  router.route('/:id')
+  .get((req, res) => {
+    const { id } = req.params
+    db('cohorts')
+      .where({ id })
+      .then(cohort => {
+        if (!cohort || cohort < 1) return res.status(404).json({ error: 'The specified cohort could not be found.'})
+        return res.status(200).json(cohort)
+      })
+      .catch(err => res.status(500).json({ error: 'Could not get the specified cohort.' }))
+  })
+  .put((req, res) => {
+    const { id } = req.params
+    const changedCohort = req.body
+    db('cohorts')
+      .where({ id })
+      .update(changedCohort)
+      .then(updatedCohort => {
+        if (!updatedCohort || updatedCohort < 1) return res.status(404).json({ error: 'The specific cohort could not be found.' })
+        return res.status(200).json(updatedCohort)
+      })
+      .catch(err => res.status(500).json({ error: 'The specified cohort could not be updated.' }))
+  })
