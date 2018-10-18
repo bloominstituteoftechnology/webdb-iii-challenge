@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
   .catch(err => res.status(500).json(err));
 });
 
-//knex create
+//create
 router.post('/', (req, res) => {
   const cohort = req.body;
   db.insert(cohort)
@@ -26,7 +26,7 @@ router.post('/', (req, res) => {
   });
 });
 
-//knex return by id, need the async so we can use await
+// return by id, need the async so we can use await
 router.get('/:id', async (req, res) => {
   //try/catch for error catching
   try {
@@ -45,7 +45,22 @@ const cohorts = await db('cohorts').where({ id }).first();
 //and it will give the individual objs w/out putting them in an array by 
 //themselves
 
-//knex delete
+
+
+//get cohort student by id
+router.get('/:id/students', (req, res) => {
+  const { id } = req.params;
+  db('cohorts')
+  .join('students', 'cohorts.id', '=', 'students.cohort_id')
+  .select('cohorts.name', 'students.name')
+  .where('students.cohort_id', id)
+  .then(response => {
+    console.log(response)
+    res.status(200).json(response)
+  });
+});
+
+// delete
 router.delete('/:id', (req,res) => {
   const { id } = req.params;
   db('cohorts')
@@ -63,7 +78,7 @@ router.delete('/:id', (req,res) => {
 
 }); 
 
-//knex update 
+// update 
 router.put('/:id', (req, res) => {
   const { id } = req.params;
   const changes = req.body;
