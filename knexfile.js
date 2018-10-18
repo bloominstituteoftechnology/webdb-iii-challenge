@@ -5,11 +5,14 @@ module.exports = {
   development: {
     client: 'sqlite3',
     connection: {
-      filename: '.data/lambschool.sqlite3'
+      filename: './data/lambschool.sqlite3'
     },
     useNullAsDefault: true,
     migrations:{
       directory: './data/migrations'
+    },
+    seeds:{
+      directory: './data/seeds'
     }
   }
 };
