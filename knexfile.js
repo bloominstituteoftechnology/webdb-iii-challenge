@@ -10,8 +10,14 @@ module.exports = {
     useNullAsDefault: true,
     migrations: {
       directory: './data/migrations'
-    }
+    },
+    seeds: {
+      directory: './data/seeds'
   }
 
   
+}
+
 };
+
+
