@@ -52,7 +52,7 @@ router.get('/:id/students', (req, res) => {
   const { id } = req.params;
   db('cohorts')
   .join('students', 'cohorts.id', '=', 'students.cohort_id')
-  .select('cohorts.name', 'students.name')
+  .select('cohorts.name as cohort', 'students.name')
   .where('students.cohort_id', id)
   .then(response => {
     console.log(response)
