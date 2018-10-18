@@ -68,7 +68,58 @@ appServ.get('/api/cohorts/:id', (req, res) => {
 
 });
 
+//cohorts/:id/students returns all students for the cohort with the specified id.
 
+// //Get Students by Specified Id
+appServ.get('/api/students/:cohort_id', (req, res) => {
+    //Save data by id
+    const {cohort_id} = req.params;
+    console.log(cohort_id);
+    db('students')
+        .where({cohort_id})
+            .then(cohort => {
+                res.status(200).json(cohort);
+            })
+                .catch(err => {
+                    res.status(500).json(err);
+            });
+
+});
+
+
+//Update Cohorts
+appServ.put('/api/cohorts/:id', (req, res) => {
+    //Grab data from body
+    const {id} = req.params;
+    const {name} = req.body;
+    const updatedCohort = {name};
+    console.log(updatedCohort);
+    //Update  data of the body
+    db('cohorts')
+        .where({id})
+            .update(updatedCohort)
+                .then(updatedCohort => {
+                    res.status(201).json(updatedCohort);
+            })
+                        .catch(err => {
+                            res.status(500).json(err);
+            });
+
+});
+
+//Delete Cohorts 
+appServ.delete('/api/cohorts/:id', (req, res) => {
+    const {id} = req.params;
+    db('cohorts')
+        .where({id})
+            .delete()
+               .then(count  =>
+                  res.status(200).json(count)
+      )
+                      .catch(err => {
+                         console.error(`${err}: Cannot DELETE`);
+      });
+  }); 
 
 
 
