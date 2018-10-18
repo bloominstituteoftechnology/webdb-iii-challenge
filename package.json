@@ -5,6 +5,9 @@
   "repository": "https://github.com/verydecent/RDBMS-API-Full.git",
   "author": "verydecent <wnjhwng@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
   "dependencies": {
     "express": "^4.16.4",
     "helmet": "^3.14.0",
