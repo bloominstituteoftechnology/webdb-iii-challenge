@@ -22,6 +22,36 @@ appServ.get('/', (req, res) => {
     res.send('Test for root endpoint!')
 });
 
+//Create Cohorts Endpoint
+appServ.post('/api/cohorts', (req, res) => {
+    //Grab data from body
+    const course = req.body;
+    console.log(req.body);
+    //Save data from body
+    db.insert(course)
+        .into('cohorts')
+            .then(ids => {
+                res.status(201).json(ids);
+            })
+                .catch(err => {
+                    res.status(500).json(err);
+            });
+
+});
+
+//Get courses
+appServ.get('/api/cohorts', (req, res) => {
+    //Get data
+    db('cohorts')
+            .then(cohorts => {
+                res.status(200).json(cohorts);
+            })
+                .catch(err => {
+                    res.status(500).json(err);
+            });
+
+});
+
 
 
 
