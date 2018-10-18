@@ -25,13 +25,13 @@ appServ.get('/', (req, res) => {
 //Create Cohorts Endpoint
 appServ.post('/api/cohorts', (req, res) => {
     //Grab data from body
-    const course = req.body;
+    const cohort = req.body;
     console.log(req.body);
     //Save data from body
-    db.insert(course)
+    db.insert(cohort)
         .into('cohorts')
-            .then(ids => {
-                res.status(201).json(ids);
+            .then(cohort => {
+                res.status(201).json(cohort);
             })
                 .catch(err => {
                     res.status(500).json(err);
@@ -39,12 +39,28 @@ appServ.post('/api/cohorts', (req, res) => {
 
 });
 
-//Get courses
+//Get Cohorts Endpoint
 appServ.get('/api/cohorts', (req, res) => {
     //Get data
     db('cohorts')
             .then(cohorts => {
                 res.status(200).json(cohorts);
+            })
+                .catch(err => {
+                    res.status(500).json(err);
+            });
+
+});
+
+//Get Cohorts by Id
+appServ.get('/api/cohorts/:id', (req, res) => {
+    //Save data by id
+    const {id} = req.params;
+    console.log(id);
+    db('cohorts')
+        .where({id})
+            .then(cohort => {
+                res.status(200).json(cohort);
             })
                 .catch(err => {
                     res.status(500).json(err);
