@@ -47,4 +47,33 @@ router.post('/', (req, res) => {
             })
 });
 
+// DELETE
+router.delete('/:id', (req, res) => {
+    const { id } = req.params;
+    cohortModel
+        .remove(id)
+            .then(res => {
+                console.log('working?')
+                res.status(200).json({ message: `Cohort with id ${id} was removed` });
+            })
+            .catch(err => {
+                res.status(500).json({ error: `id ${id} was not found`});
+            })
+});
+
+// UPDATE
+
+router.put('/:id', (req, res) => {
+    const { id } = req.params;
+    const newCohort = req.body;
+    cohortModel
+        .update(id, newCohort)
+            .then(res => {
+                res.status(200).json(res)
+            })
+            .catch(err => {
+                res.status(500).json(err)
+            })
+});
+
 module.exports = router;
