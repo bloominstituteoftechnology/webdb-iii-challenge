@@ -9,6 +9,7 @@ const cohortModel = require('./cohortModels.js');
 // rather than mixing up routes in the server
 const router = express.Router();
 
+// GET
 router.get('/', (req, res) => {
     cohortModel
         .find()
@@ -17,6 +18,32 @@ router.get('/', (req, res) => {
             })
             .catch(err => {
                 res.status(500).json({err});
+            })
+});
+
+// GET ID
+router.get('/:id', (req, res) => {
+    const { id } = req.params;
+    cohortModel
+        .findById(id)
+            .then(cohort => {
+                res.status(200).json(cohort)
+            })
+            .catch(err => {
+                res.status(500).json(err)
+            })
+})
+
+// POST
+router.post('/', (req, res) => {
+    const cohort = req.body;
+    cohortModel
+        .add(cohort)
+            .then(id => {
+                res.status(200).json(res);
+            })
+            .catch(err => {
+                res.status(500).json(err);
             })
 });
 
