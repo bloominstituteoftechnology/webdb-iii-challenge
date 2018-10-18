@@ -4,7 +4,7 @@ const students = require('./StudentModel.js');
 
 const router = express.Router();
 
-// get a list of students
+// get a list of students *
 router.get('/', (req, res) => {
     students
     .find()
@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
-// get students by id
+// get students by id *
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -31,7 +31,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// create student
+// create student *
 router.post('/', (req, res) => {
   const student = req.body;
 
@@ -45,7 +45,7 @@ router.post('/', (req, res) => {
     });
 });
 
-// update student
+// update student *
 router.put('/:id', (req, res) => {
   const { id } = req.params;
   const changes = req.body;
@@ -62,7 +62,7 @@ router.put('/:id', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
-// delete student
+// delete student *
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
 

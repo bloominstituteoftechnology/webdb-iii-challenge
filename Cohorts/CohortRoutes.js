@@ -4,7 +4,7 @@ const cohorts = require('./CohortModel.js');
 
 const router = express.Router();
 
-// get a list of cohorts
+// get a list of cohorts *
 router.get('/', (req, res) => {
     cohorts
     .find()
@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
-// get a cohort by id
+// get a cohort by id *
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -31,7 +31,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// create cohorts
+// create cohorts *
 router.post('/', (req, res) => {
   const cohort = req.body;
 
@@ -45,7 +45,7 @@ router.post('/', (req, res) => {
     });
 });
 
-// update cohorts
+// update cohorts  *
 router.put('/:id', (req, res) => {
   const { id } = req.params;
   const changes = req.body;
@@ -62,7 +62,7 @@ router.put('/:id', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
-// delete cohorts
+// delete cohorts *
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
 
