@@ -42,3 +42,14 @@ router.route('/')
       })
       .catch(err => res.status(500).json({ error: 'The specified cohort could not be updated.' }))
   })
+  .delete((req, res) => {
+    const { id } = req.params
+    db('cohorts')
+      .where({ id })
+      .delete(id)
+      .then(deletedCohort => {
+        if (!deletedCohort || deletedCohort < 1) return res.status(404).json({ error: 'The specified cohort could not be found.' })
+        return res.status(202).json(deletedCohort)
+      })
+      .catch(err => res.status(500).json({ error: 'The specified cohort could not be deleted.' }))
+  })
