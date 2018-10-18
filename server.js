@@ -87,6 +87,24 @@ appServ.get('/api/students/:cohort_id', (req, res) => {
 });
 
 
+//cohorts/:id/students returns all students for the cohort with the specified id.
+appServ.get('/api/cohorts/:id/students', (req, res) => {
+    const {id} = req.params;
+
+    db('cohorts')
+        .join('students', 'cohort_id', '=', 'students.cohort_id')
+            .select('cohorts.name', 'students.name')
+                .where('students.cohort_id', id)
+                    .then(response => {
+                        console.log(response);
+                        res.status(200).json(response)
+                    })
+                    .catch(err => {
+                        res.status(500).json(err);
+                });
+});
+
+
 //Update Cohorts
 appServ.put('/api/cohorts/:id', (req, res) => {
     //Grab data from body
