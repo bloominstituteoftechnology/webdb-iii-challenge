@@ -43,6 +43,34 @@ server.get('/api/cohorts/:id', (req, res) => {
     })
 });
 
+// get all students by cohort
+server.get('/api/cohorts/:id/students', (req, res) => {
+  const { id } = req.params;
+  db('students')
+    .where({ cohort_id: id })
+    .then(students => {
+      res.status(200).json(students);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    })
+});
+
+// server.get('/api/cohorts/:id/students', (req, res) => {
+//   const { id } = req.params.id;
+//   db('students').where({ cohort_id: id })
+//     .then(students => {
+//       if (students) {
+//         res.status(200).json(students);
+//       } else {
+//         res.status(404).json({ message: 'No students found in this cohort' });
+//       }
+//     })
+//     .catch(err => {
+//       res.status(500).json(err);
+//     })
+// });
+
 // create cohorts
 server.post('/api/cohorts', (req, res) => {
   const cohort = req.body;
