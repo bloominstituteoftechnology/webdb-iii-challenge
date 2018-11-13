@@ -66,4 +66,18 @@ server.put('/api/cohorts/:id', (req, res) => {
       });
   });
 
+  server.delete('/api/cohorts/:id', (req, res) => {
+    db('cohorts')
+      .where({ id: req.params.id })
+      .del()
+      .then(count => {
+        if (count) {
+          res.status(204).end();
+        } else {
+          res.status(404).json({ message: "No cohort associated with this ID" });
+        }
+      })
+      .catch(err => res.status(500).json(err));
+  });
+
 server.listen(7000, () => console.log('\n Party at part 7k '))
