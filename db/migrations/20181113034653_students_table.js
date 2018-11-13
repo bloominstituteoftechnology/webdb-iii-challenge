@@ -5,7 +5,10 @@ exports.up = function(knex, Promise) {
     table
       .integer('course_id')
       .notNullable()
-      .defaultTo(1);
+      .unsigned()
+      .defaultTo(1)
+      .references('id')
+      .inTable('courses');
   });
 };
 
