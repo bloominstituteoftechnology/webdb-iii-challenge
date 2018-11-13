@@ -37,6 +37,33 @@ server.post('/api/cohorts', (req, res) => {
     res.status(500).json(err)
   });
 })
-  
+
+server.get('/api/cohorts/:id', (req, res) => {
+    db('cohorts')
+      .where({ id: req.params.id })
+      .first()
+      .then(cohorts => {
+        res.status(200).json(cohorts);
+      })
+      .catch(err => 
+      res.status(500).json(err));
+  });
+
+server.put('/api/cohorts/:id', (req, res) => {
+    const cohort = req.body;
+    db('cohorts')
+      .where({ id: req.params.id })
+      .update(cohort)
+      .then(cohort => {
+        if (cohort) {
+          res.status(200).json({ message: "Successfully Updated." });
+        } else {
+          res.status(404).json({ message: "No cohort associated with this ID" });
+        }
+      })
+      .catch(err => {
+        res.status(500).json({ message: "Sorry, we could not update this cohort." });
+      });
+  });
 
 server.listen(7000, () => console.log('\n Party at part 7k '))
