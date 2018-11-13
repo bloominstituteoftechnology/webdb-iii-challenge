@@ -12,7 +12,7 @@ exports.up = function(knex, Promise) {
         .unsigned() // specifies an integer as unsigned
         .notNullable()
         .references('id') // sets the column that the current column references as a foreign key
-        inTable('cohorts'); // sets the "table" where the foreign key column is located after calling references
+        .inTable('cohorts'); // sets the "table" where the foreign key column is located after calling references
     })
  
   
