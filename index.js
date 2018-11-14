@@ -26,6 +26,16 @@ server.get('/api/cohorts/:id', (req, res) => {
     .catch(error => res.status(500).json({ message: "No cohort by that ID found"}))
 })
 
+server.get('/api/cohorts/:id/students', (req, res) => {
+    const { id } = req.params;
+    db('cohorts as c')
+    .join('students as s','c.id', 's.cohort_id')
+    .select('s.name', 'c.name as cohort')
+    .where('s.cohort_id', id)
+    .then(students => res.status(200).json(students))
+    .catch(error => res.status(500).json({ message: `failed to get students in cohort ${id}` }))
+})
+
 server.post('/api/cohorts', (req, res) => {
     const name = req.body;
     db('cohorts')
