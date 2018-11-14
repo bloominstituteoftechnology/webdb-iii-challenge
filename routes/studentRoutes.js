@@ -24,7 +24,7 @@ route.get('/:id', (req, res) => {
     route.post('/', (req, res) => {
        const {cohort_id, name} = req.body
        if (!cohort_id || !name) {
-        return res.status(400).json({Error: 'Please provide userId and text to add a new post.'})
+        return res.status(400).json({Error: 'Please provide cohort_id and name to add a new post.'})
     }
         studentDb.insert({cohort_id, name})
         .then(student => {
