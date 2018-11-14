@@ -11,4 +11,12 @@ server.get('/', (req, res) => {
     res.json({ api: 'running properly' });
 });
 
+// GET Requests
+
+server.get('/api/cohorts', (req,res) => {
+    db('cohorts')
+    .then(cohort => res.status(200).json(cohort))
+    .catch(err => res.status(500).json(err));
+})
+
 server.listen(port, () => {console.log(`Server Running on Port ${port}`)})
