@@ -56,6 +56,39 @@ server.get('/cohorts', (req, res) => {
         res.status(500).json(err)
       })
 })
+
+server.get('/cohorts/:id', (req, res) => {
+
+    const { id } = req.params
+
+    db('cohorts')
+    .where({id})
+    .then(cohorts => {
+        res.status(200).json(cohorts)
+    })
+    .catch(err => {
+        res.status(500).json(err)
+      })
+})
+
+server.get('/cohorts/:id/students', (req, res) => {
+
+    const { id } = req.params
+
+    db('cohorts')
+    .where({id})
+    .then(cohorts => {
+        res.status(200).json(cohorts)
+    })
+    .then(students => {
+        res.status(200).json(students)
+    })
+    .catch(err => {
+        res.status(500).json(err)
+      })
+})
+
+
 server.post('/cohorts', (req, res) => {
     const cohort = req.body
     db('cohorts')
@@ -68,6 +101,20 @@ server.post('/cohorts', (req, res) => {
     })
 })
 
+server.put('/cohorts/:id', (req, res) => {
+    const { id } = req.params;
+    const changes = req.body;
+
+    db('cohorts')
+    .where({id})
+    .update(changes)
+    .then(count => {
+        res.status(200).json(count)
+        .catch(err => {
+            res.status(500).json(err)
+        })
+    })
+})
 
 
 
