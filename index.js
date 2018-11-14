@@ -16,7 +16,7 @@ server.get('/api/cohorts', (req, res) => {
     .then(cohorts => res.status(200).json(cohorts))
     .catch(err =>
       res.status(500).json({
-        message: 'The requested cohort could not be retrieved.',
+        message: 'The cohorts could not be retrieved.',
         error: err
       })
     );
@@ -112,6 +112,82 @@ server.put('/api/cohorts/:id', (req, res) => {
       res
         .status(500)
         .json({ message: 'Your cohort could not be udpated.', error: err })
+    );
+});
+
+//GET students
+server.get('/api/students', (req, res) => {
+  db('students')
+    .then(students => res.status(200).json(students))
+    .catch(err =>
+      res.status(500).json({
+        message: 'The students could not be retrieved.',
+        error: err
+      })
+    );
+});
+
+//GET students by id
+server.get('/api/students/:id', (req, res) => {
+  const { id } = req.params;
+  db('students')
+    .where({ id })
+    .then(student => {
+      if (student) {
+        res.status(200).json(student);
+      } else {
+        res.status(404).json({
+          message: 'The student with the specified ID does not exist.',
+          error: err
+        });
+      }
+    });
+});
+
+//POST add a student
+server.post('/api/students', (req, res) => {
+  const student = req.body;
+  db('students')
+    .insert(student)
+    .returning('id')
+    .then(id => res.status(201).json(id))
+    .catch(err =>
+      res
+        .status(500)
+        .json({ message: 'The student could not be added.', error: err })
+    );
+});
+
+//DELETE a student
+server.delete('/api/students/:id', (req, res) => {
+  const { id } = req.params;
+  db('students')
+    .where({ id })
+    .del()
+    .then(count => {
+      res.status(200).json({ count });
+    })
+    .catch(err =>
+      res
+        .status(500)
+        .json({ message: 'The student could not be deleted.', error: err })
+    );
+});
+
+//PUT update a student
+server.put('/api/students/:id', (req, res) => {
+  const changes = req.body;
+  const { id } = req.params;
+  db('students')
+    .where({ id })
+    .update(changes)
+    .then(count => {
+      res.status(200).json({ count });
+    })
+    .catch(err =>
+      res
+        .status(500)
+        .json({ message: 'The student could not be updated.', error: err })
     );
 });
 
