@@ -8,5 +8,6 @@ const server = express();
 configureMiddleware(server);
 
 routers.cohortRouters(server);
+routers.studentRouters(server);
 
 module.exports = server;
