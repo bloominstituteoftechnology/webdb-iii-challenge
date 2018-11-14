@@ -23,7 +23,6 @@ server.get('/api/cohorts', async (req, res) => {
 
 server.get('/api/cohorts/:cohortId', async (req, res) => {
   const { cohortId } = req.params;
-  console.log('the cohortID is: ', cohortId);
 
   try {
     const cohort = await db('cohorts').where({ id: cohortId });
@@ -38,62 +37,81 @@ server.get('/api/cohorts/:cohortId', async (req, res) => {
   }
 });
 
-// server.post('/api/zoos', async (req, res) => {
-//   const zooData = req.body;
-//   if (!zooData.name) {
-//     res.status(400).json({ errorMessage: 'Please provide a name for your zoo' });
-//   } else {
-//     try {
-//       const newZooId = await db('zoos').insert(zooData);
-//       res.status(201).json(newZooId);
-//     } catch (error) {
-//       res.status(500).json({ message: 'Error inserting', error });
-//     }
-//   }
-// });
+//:variable needs to match const { variable } = req.params
+server.get('/api/cohorts/:id/students', async (req, res) => {
+  const { id } = req.params;
+  console.log('the cohortID is: ', id);
 
-// server.delete('/api/zoos/:zooId', async (req, res) => {
-//   const { zooId } = req.params;
+  try {
+    const cohortStudents = await db('students').where({ cohort_id: id });
+    {
+      cohortStudents[0]
+        ? res.status(200).json({ cohortStudents })
+        : res.status(404).json({ error: 'The cohort with that ID does not exist.' });
+    }
+  } catch (error) {
+    console.log('The error is: ', error);
+    res.status(500).json(error);
+  }
+});
 
-//   try {
-//     const deletedZooCount = await db('zoos')
-//       .where({ id: zooId })
-//       .del();
-//     {
-//       deletedZooCount === 0
-//         ? res.status(404).json({ message: 'The zoo with the specified ID does not exist.' })
-//         : res.status(200).json({ deletedZooCount });
-//     }
-//   } catch (error) {
-//     res.status(500).json(error);
-//   }
-// });
+server.post('/api/cohorts', async (req, res) => {
+  const cohortData = req.body;
+  if (!cohortData.name) {
+    res.status(400).json({ errorMessage: 'Please provide a name for your cohort' });
+  } else {
+    try {
+      const newCohortId = await db('cohorts').insert(cohortData);
+      res.status(201).json(newCohortId);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: 'Error inserting cohort', error });
+    }
+  }
+});
 
-// server.put('/api/zoos/:zooId', async (req, res) => {
-//   const changes = req.body;
-//   const { zooId } = req.params;
+server.delete('/api/cohorts/:cohortId', async (req, res) => {
+  const { cohortId } = req.params;
 
-//   if (!changes.name) {
-//     res.status(400).json({ errorMessage: 'Please provide a name for the zoo.' });
-//   }
+  try {
+    const deletedCohortCount = await db('cohorts')
+      .where({ id: cohortId })
+      .del();
+    {
+      deletedCohortCount === 0
+        ? res.status(404).json({ message: 'The cohort with the specified ID does not exist.' })
+        : res.status(200).json({ deletedCohortCount });
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
 
-//   try {
-//     const updatedZooCount = await db('zoos')
-//       .where({ id: zooId })
-//       .update(changes);
-//     {
-//       updatedZooCount === 0
-//         ? res.status(404).json({ message: 'The zoo with the specified ID does not exist.' })
-//         : res.status(200).json({ updatedZooCount });
-//     }
-//   } catch (error) {
-//     res.status(500).json(error);
-//   }
-// });
+server.put('/api/cohorts/:cohortId', async (req, res) => {
+  const changes = req.body;
+  const { cohortId } = req.params;
 
-// server.get('/', (req, res) => {
-//   res.json({ api: 'up' });
-// });
+  if (!changes.name) {
+    res.status(400).json({ errorMessage: 'Please provide a name for the cohort.' });
+  }
+
+  try {
+    const updatedCohortCount = await db('cohorts')
+      .where({ id: cohortId })
+      .update(changes);
+    {
+      updatedCohortCount === 0
+        ? res.status(404).json({ message: 'The cohort with the specified ID does not exist.' })
+        : res.status(200).json({ updatedCohortCount });
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+server.get('/', (req, res) => {
+  res.json({ api: 'up' });
+});
 
 const port = 3300;
 server.listen(port, function() {
