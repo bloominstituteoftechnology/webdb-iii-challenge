@@ -26,6 +26,28 @@ server.get('/api/cohorts/:id', (req, res) => {
     .catch(error => res.status(500).json({ message: "No cohort by that ID found"}))
 })
 
+server.post('/api/cohorts', (req, res) => {
+    const name = req.body;
+    db('cohorts')
+    .insert(name)
+    .then(ids => {
+        res.status(201).json(ids);
+    })
+    .catch(error => res.status(500).json({ message: "failed to post new cohort" }))
+})
+
+server.put('/api/cohorts/:id', (req, res) => {
+    const changes = req.body;
+    const { id } = req.params;
+    db('cohorts')
+    .where({ id: id })
+    .update(changes)
+    .then(count => {
+        res.status(200).json({ count });
+    })
+    .catch(error => res.status(500).json({ message: "Failed to update data"}))
+})
+
 
 
 
