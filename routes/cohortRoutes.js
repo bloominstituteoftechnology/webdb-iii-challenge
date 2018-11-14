@@ -27,4 +27,16 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.post('/', async (req, res) => {
+  if (req.body.name) {
+    try {
+      const addedCohort = await cohortDb.insert(req.body);
+      const cohort = await cohortDb.get(addedCohort.id);
+      res.status(201).json(cohort);
+    } catch {
+      res.status(500).json({ error: 'There was an error saving the cohort to the database.' });
+    }
+  } else res.status(400).json({ error: 'Please provide a name for the cohort.' });
+});
+
 module.exports = router;
