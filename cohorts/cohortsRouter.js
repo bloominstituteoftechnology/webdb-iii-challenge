@@ -22,14 +22,26 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
   db("cohorts")
     .where({ id: req.params.id })
-    .then(cohort => res.status(200).json(cohort))
+    .then(cohort =>
+      cohort
+        ? res.status(200).json(cohort)
+        : res.status(404).json({
+            message: "The cohort with the specified id does not exist."
+          })
+    )
     .catch(err => res.status(500).json(err));
 });
 
 router.get("/:id/students", (req, res) => {
   db("students")
     .where({ cohort_id: req.params.id })
-    .then(students => res.status(200).json(students))
+    .then(students =>
+      students
+        ? res.status(200).json(students)
+        : res.status(404).json({
+            message: "The cohort with the specified id does not exist."
+          })
+    )
     .catch(err => res.status(500).json(err));
 });
 
@@ -37,7 +49,13 @@ router.put("/:id", (req, res) => {
   db("cohorts")
     .where("id", "=", req.params.id)
     .update(req.body)
-    .then(count => res.status(200).json(count))
+    .then(count =>
+      count
+        ? res.status(200).json(count)
+        : res.status(404).json({
+            message: "The cohort with the specified id does not exist."
+          })
+    )
     .catch(err => res.status(500).json(err));
 });
 
@@ -45,7 +63,13 @@ router.delete("/:id", (req, res) => {
   db("cohorts")
     .where({ id: req.params.id })
     .del()
-    .then(count => res.status(200).json(count))
+    .then(count =>
+      count
+        ? res.status(200).json(count)
+        : res.status(404).json({
+            message: "The cohort with the specified id does not exist."
+          })
+    )
     .catch(err => res.status(500).json(err));
 });
 
