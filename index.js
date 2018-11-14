@@ -46,6 +46,24 @@ server.get('/api/cohorts/:id', (req, res) => {
         })
 });
 
+// get cohort student for cohorbs
+server.get('/api/cohorts/:id/students', (req, res) => {
+    const { id } = req.params;
+
+    db('students')
+        .where({cohort_id: id})
+        .then(students => {
+            if(students[0] === '' || students[0] === undefined) {
+                res.status(400).json({message: 'No Student in this cohort'})
+            } else {
+                res.status(200).json(students)
+            }
+        })
+        .catch(err => {
+            res.status(500).json({message: err})
+        })
+});
+
 // add new cohort to database
 server.post('/api/cohorts', (req, res) => {
     const changes = req.body;
