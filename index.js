@@ -26,6 +26,16 @@ server.post('/api/cohorts', (req, res) => {
     }
 });
 
+server.get('/api/cohorts', (req, res) => {
+    db('cohorts')
+        .then(cohorts => {
+            res.status(200).json(cohorts);
+        })
+        .catch(err => {
+            res.status(500).json({ error: 'Error fetching cohorts.', err });
+        });
+});
+
 const port = 3300;
 server.listen(port, function() {
     console.log(`\n---- Lambda API Listening on http://localhost:${port} ----\n`);
