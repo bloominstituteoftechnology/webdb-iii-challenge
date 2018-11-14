@@ -91,6 +91,78 @@ server.put('/api/cohorts/:id', (req, res) => {
     })
 })
 
+server.get('/api/students', (req, res) => {
+    db('students')
+    .then(student => {
+        if(student) {
+            res.status(201).json(student)
+        } else {
+            res.status(401).json({message: 'error no students'})
+        }
+    }).catch(err => {
+        res.status(500).json({message: 'error', err})
+    })
+})
+
+server.get('/api/students/:id', (req, res) => {
+    const id = req.params;
+    db('students')
+    .where(id)
+    .then(student => {
+        if(student.length > 0) {
+            res.status(201).json(student)
+        } else {
+            res.status(404).json({message: 'error no matching id'})
+        }
+    }).catch(err =>{
+        res.status(500).json({message:'err', err})
+    })
+})
+
+server.post('/api/students', (req, res) => {
+    const body = req.body
+    db('students')
+    .insert(body)
+    .then(student => {
+        res.status(201).json(student)
+    })
+    .catch(err => {
+        res.status(500).json({message: 'error'})
+    })
+})
+
+server.put('/api/students/:id', (req, res) => {
+    const { id } = req.params;
+    const changes = req.body;
+    db('students')
+    .where({id: id})
+    .update(changes)
+    .then(student => {
+        if(student){
+            res.status(201).json(student)
+        } else {
+            res.status(400).json({message: 'error'})
+        }
+    }).catch(err => {
+        res.status(500).json({message: 'error'})
+    })
+})
+
+server.delete('/api/students/:id', (req, res) => {
+    const id = req.params;
+    db('students')
+    .where(id)
+    .del()
+    .then(student => {
+        if(student) {
+            res.status(201).json(student)
+        } else {
+            res.status(404).json({message: 'error'})
+        }
+    }).catch(err => {
+        res.status(500).json({message: 'error'})
+    })
+})
 
 const port = 5001;
 server.listen(port, ()=> {
