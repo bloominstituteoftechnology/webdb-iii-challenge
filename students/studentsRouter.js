@@ -11,13 +11,6 @@ router.get('/', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
-router.get('/:studentid', (req, res) => {
-  const { studentid } = req.params;
-  db('students')
-    .then(student => res.status(200).json(student))
-    .catch(err => res.status(500).json(err));
-});
-
 router.post('/', (req, res) => {
   const student = req.body;
 
@@ -31,23 +24,24 @@ router.post('/', (req, res) => {
     });
 });
 
-router.get('/:studentid', (req, res) => {
-  const { studentid } = req.params;
+router.get('/:id', (req, res) => {
+  const { id } = req.params;
 
   db('students')
-    .where({ id: studentid })
+    .where({ id: id })
     .then(student => {
       res.status(201).json({ student });
     })
     .catch(err => res.status(500).json(err));
 });
 
-router.put('/:studentid', (req, res) => {
+
+router.put('/:id', (req, res) => {
   const changes = req.body;
-  const { studentid } = req.params;
+  const { id } = req.params;
 
   db('students')
-    .where({ id: studentid })
+    .where({ id: id })
     .update(changes)
     .then(count => {
       res.status(200).json({ count });
@@ -56,11 +50,11 @@ router.put('/:studentid', (req, res) => {
 });
 
 
-router.delete('/:studentid', (req, res) => {
-  const { studentid } = req.params;
+router.delete('/:id', (req, res) => {
+  const { id } = req.params;
 
   db('students')
-    .where({ id: studentid })
+    .where({ id: id })
     .del()
     .then(count => {
       res.status(200).json({ count });

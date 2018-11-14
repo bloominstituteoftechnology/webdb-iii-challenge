@@ -27,13 +27,13 @@ router.post('/', (req, res) => {
     });
 });
 
-router.get('/:cohortId', (req, res) => {
+router.get('/:id', (req, res) => {
   const {
-    cohortId
+    id
   } = req.params;
 
   db('cohorts')
-    .where({ id: cohortId })
+    .where({ id: id })
     .then(cohort => {
       res.status(201).json({
         cohort
@@ -42,15 +42,27 @@ router.get('/:cohortId', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
-router.put('/:cohortId', (req, res) => {
+router.get('/:id/students', (req, res) => {
+  const { id } = req.params;
+  
+  db('students')
+    .where({cohort_id: id })
+    .then(students => {
+      res.status(201).json({ students });
+    })
+    .catch(err => res.status(500).json(err));
+});
+
+
+router.put('/:id', (req, res) => {
   const changes = req.body;
   const {
-    cohortId
+    id
   } = req.params;
 
   db('cohorts')
     .where({
-      id: cohortId
+      id: id
     })
     .update(changes)
     .then(count => {
@@ -62,14 +74,14 @@ router.put('/:cohortId', (req, res) => {
 });
 
 
-router.delete('/:cohortId', (req, res) => {
+router.delete('/:id', (req, res) => {
   const {
-    cohortId
+    id
   } = req.params;
 
   db('cohorts')
     .where({
-      id: cohortId
+      id: id
     })
     .del()
     .then(count => {
