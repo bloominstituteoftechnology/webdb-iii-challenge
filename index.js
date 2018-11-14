@@ -51,6 +51,26 @@ server.get('/api/cohorts/:id/students', async (req, res) => {
     }
 });
 
+// server.put('/api/cohorts/:id', async (req, res) => {
+//     const cohort_id = req.params.id;
+//     const updates = req.body;
+//     try {
+//         const test = await db('cohorts').where({ cohort_id: cohort_id }).update(updates);
+//         res.status(200).json(test);
+//     } catch(err) {
+//         res.status(500).json(err);
+//     }
+// });
+
+server.delete('/api/cohorts/:id', async (req, res) => {
+    const cohort_id = req.params.id;
+    try {
+        const test = await db('cohorts').where({ cohort_id: cohort_id }).del();
+        res.status(200).json(test);
+    } catch(err) {
+        res.status(500).json(err);
+    }
+});
 
 const port = 7000;
 server.listen(port, () => console.log(`\nServer up on port ${port}\n`));
