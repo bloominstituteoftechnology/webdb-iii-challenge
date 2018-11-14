@@ -3,7 +3,7 @@ exports.up = function(knex, Promise) {
   
       //primary key
       tbl.increments();
-      tbl.string("name", 255);
+      tbl.string("name", 255).notNullable();
     })
   };
   
