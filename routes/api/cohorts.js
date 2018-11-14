@@ -60,4 +60,31 @@ router.post('/', async (req, res) => {
   }
 });
 
+// PUT update cohort
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const changes = req.body;
+  try {
+    const count = await db('cohorts')
+      .where({ id })
+      .update(changes);
+    res.status(200).json(count);
+  } catch (error) {
+    res.status(500).json({ error: 'There was an error updating that cohort.' });
+  }
+});
+
+// DELETE cohort
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const count = await db('cohorts')
+      .where({ id })
+      .del();
+    res.status(200).json(count);
+  } catch (error) {
+    res.status(500).json({ error: 'There was an error deleting that cohort.' });
+  }
+});
+
 module.exports = router;
