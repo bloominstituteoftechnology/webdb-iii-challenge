@@ -34,10 +34,11 @@ server.get('/api/cohorts/:id', (req, res) => {
     db('cohorts')
         .where({id})
         .then(cohort => {
-            if (cohort) {
-                res.status(200).json(cohort)
+            if (cohort[0] === '' || cohort[0] === undefined) {
+                res.status(400).json({message: 'Cohort ID Not found'})
             } else {
-                res.status(404).json({message: 'Cohort ID Not found'})
+                //console.log(cohort)
+                res.status(200).json(cohort)
             }
         })
         .catch(err => {
@@ -57,6 +58,45 @@ server.post('/api/cohorts', (req, res) => {
         .insert(changes)
         .then(id => {
             res.status(200).json(changes)
+        })
+        .catch(err => {
+            res.status(500).json({message: err })
+        })
+});
+
+// update cohort
+server.put('/api/cohorts/:id', (req, res) => {
+    const changes = req.body;
+    const { id } = req.params;
+
+    if (changes.name === '' || changes.name === undefined) {
+        return res.status(400).json({message: 'Cohorts name is require'})
+    }
+
+    db('cohorts')
+        .where({id})
+        .update(changes)
+        .then(count => {
+            res.status(200).json({message: `${count} cohort is updated`})
+        })
+        .catch(err => {
+            res.status(500).json({message: err})
+        })
+});
+
+// delete cohort
+server.delete('/api/cohorts/:id', (req, res) => {
+    const { id } = req.params;
+
+    db('cohorts')
+        .where({id})
+        .del()
+        .then(count => {
+            if(count === '' || count === undefined) {
+                return res.status(400).json({message: 'Cohorts id do not exists'})
+            } else {
+                res.status(200).json({message: `${count} cohort is delete`})
+            }
         })
         .catch(err => {
             res.status(500).json({message: err })
