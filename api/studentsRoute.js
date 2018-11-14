@@ -31,21 +31,32 @@ router.get('/', (req, res) => {
         });
 });
 
-router.get('/:studentid', (req, res) => {
+router.get('/:studentid', async (req, res) => {
     const { studentid } = req.params;
 
-    db('students')
-        .where({ id: studentid })
-        .then(student => {
-            if (student.length === 0) {
-                res.status(404).json({ error: 'No student with that ID found.' });
-            } else {
-                res.status(200).json(student);
-            }
-        })
-        .catch(err => {
-            res.status(500).json({ error: 'There was an error fetching the cohort.', err });
-        });
+    // db('students')
+    //     .where({ id: studentid })
+    //     .then(student => {
+    //         if (student.length === 0) {
+    //             res.status(404).json({ error: 'No student with that ID found.' });
+    //         } else {
+    //             res.status(200).json(student);
+    //         }
+    //     })
+    //     .catch(err => {
+    //         res.status(500).json({ error: 'There was an error fetching the cohort.', err });
+    //     });
+
+    try {
+        let student = await db.select('id', 'name').from('students').where('id', studentid);
+        let cohort_id = await db.select('cohort_id').from('students').where('id', studentid);
+        let cohort = await db.select('name').from('cohorts').where('id', cohort_id);
+        
+
+        res.status(200).json({ student, cohort });
+    } catch (err) {
+        res.status(500).json({ error: 'There was an error fetching the student.', err });
+    }
 });
 
 router.put('/:studentid', (req, res) => {
