@@ -1,0 +1,23 @@
+{
+    "name": "RDBMS-API-Full",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "start": "nodemon index.js"
+    },
+    "repository": "https://github.com/swon8/RDBMS-API-Full.git",
+    "author": "swon8 <seanwon8@gmail.com>",
+    "license": "MIT",
+    "dependencies": {
+        "express": "^4.16.4",
+        "helmet": "^3.15.0",
+        "knex": "^0.15.2",
+        "morgan": "^1.9.1",
+        "script": "^0.1.4",
+        "sqlite3": "^4.0.4",
+        "start": "^5.1.0"
+    },
+    "devDependencies": {
+        "nodemon": "^1.18.6"
+    }
+}
