@@ -54,6 +54,7 @@ route.get('/:id', (req, res) => {
         .catch
         (err => {res.status(500).json({message: `Sorry, something went wrong on our end, see details: ${err}`})})
     })
+
     // Edit a single cohort
     route.put('/:id', (req, res) => {
         const {id} = req.params

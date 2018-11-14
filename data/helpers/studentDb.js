@@ -4,7 +4,11 @@ module.exports = {
     get: id => {
         let query = db('students');
         if (id) {
-            query.where('id', Number(id)).first()
+            query
+            .join('cohorts', 'cohorts.id', 'students.cohort_id')
+            .select('students.id', 'students.name', 'cohorts.name as cohort')
+            .where('students.id', id)
+            
         }
         return query
     },

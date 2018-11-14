@@ -11,13 +11,22 @@ route.get('/', (req, res) => {
 })
 
 // Get student by ID
-route.get('/:id', (req, res) => {
-    const {id} = req.params
-    studentDb.get(id)
-    .then(student => {
-        res.status(200).json(student)
-    })
-    .catch(err => {res.status(500).json({message: `Sorry, something went wrong on our end, see details: ${err}`})})
+    route.get('/:id', (req, res) => {
+        const {id} = req.params
+        studentDb.get(id)
+        .then(students => { 
+            const trueStudent = students.filter(student => {
+                return student.id == id
+             })
+            if (trueStudent.length == 0) {
+                return res.status(404).json({error: 'Student with specified ID does not exist.'})
+            } else {
+                return res.status(200).json(trueStudent[0])
+            }
+        })
+        .catch(err => {
+            res.status(500).json({message: `Something went wrong!: ${err}`})
+        })
     })
     
     // Add student
