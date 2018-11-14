@@ -12,10 +12,10 @@ server.use(express.json());
 
 // ___________ POST Cohort_______________
 //[POST] /api/cohorts This route should save a new cohort to the database.
-server.post('/api/zoos', (req, res) => {
-  const zoo = req.body;
-  db('zoos')
-    .insert(zoo)
+server.post('/api/cohorts', (req, res) => {
+  const cohort = req.body;
+  db('cohorts_table')
+    .insert(cohort)
     //.returning('id')
     .then(ids => {
       res.status(201).json(ids);
@@ -32,9 +32,9 @@ server.post('/api/zoos', (req, res) => {
 //[GET] /api/cohorts/:id This route will return the cohort with the matching id.
 //[GET] /api/cohorts/:id/students returns all students for the cohort with the specified id.
 
-server.get('/api/zoos', (req, res) => {
-  db('zoos')
-    .then(zoos => res.status(200).json(zoos))
+server.get('/api/cohorts', (req, res) => {
+  db('cohorts_table')
+    .then(cohorts => res.status(200).json(cohorts))
     .catch(err => res.status(500).json(err));
 });
 
