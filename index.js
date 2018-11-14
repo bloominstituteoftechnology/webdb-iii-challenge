@@ -31,6 +31,17 @@ server.get("/api/cohorts/:id", (req, res) => {
         .catch(err => res.status(500).json({error: err}))
 })
 
+server.get("/api/cohorts/:id/students", (req, res) => {
+    const {id} = req.params;
+
+    db("students")
+        .where({cohort_id: id})
+        .then(students => students[0] === undefined ? 
+            res.status(400).json({error: "Please enter a valid id"}) : 
+            res.status(200).json(students))
+        .catch(err => res.status(500).json({error: err}))
+})
+
 server.post("/api/cohorts", (req, res) => {
     const changes = req.body;
 
