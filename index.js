@@ -34,7 +34,6 @@ server.get("/api/cohorts/:id/students", (req, res) => {
   const { id } = req.params;
   db("students")
     .where({ cohort_id: id })
-    .first()
     .then(students => res.status(200).json(students))
     .catch(err => res.status(500).json({ error: err }));
 });
