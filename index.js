@@ -31,4 +31,20 @@ server.get('/api/cohorts/:id', (req, res) => {
             })
 })
 
+server.post('/api/cohorts', (req, res) => {
+    cohort = req.body
+    if(!cohort.name || cohort.name.length === 0) {
+        res.status(404).json({ message: 'Please enter a cohort name, can not be empty' })
+    } else {
+        db('cohorts').insert(cohort)
+            .then(id => {
+                res.status(201).json({ id: id, cohort })
+            })
+            .catch(err => {
+                res.status(500).json({ message: 'error adding to database' })
+            })
+
+    }
+})
+
 server.listen(9000, () => console.log('running'))
