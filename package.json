@@ -1,0 +1,13 @@
+{ "scripts": {
+  "server": "nodemon"
+},
+  "dependencies": {
+    "3": "^2.1.0",
+    "express": "^4.16.4",
+    "knex": "^0.15.2",
+    "sqlite": "^3.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.6"
+  }
+}
