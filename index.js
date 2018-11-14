@@ -57,6 +57,18 @@ server.put('/api/cohorts/:id', (req,res) => {
     .catch(err => res.status(500).json(err));
 })
 
+// DELETE Requests
+
+server.delete('/api/cohorts/:id', (req,res) => {
+    const { id } = req.params;
+    
+    db('cohorts')
+    .where({ id : id})
+    .del()
+    .then(deletedCohort => res.status(200).json({itemsDeleted : deletedCohort}))
+    .catch(err => res.status(500).json(err));
+})
+
 
 
 server.listen(port, () => {console.log(`Server Running on Port ${port}`)})
