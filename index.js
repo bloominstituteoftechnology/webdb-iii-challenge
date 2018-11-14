@@ -9,6 +9,16 @@ const db = knex(knexConfig.development)
 server.use(express.json());
 server.use(helmet());
 
+server.get('/students', (req, res) => {
+    db('students')
+    .then(students => {
+        res.status(200).json(students)
+    })
+    .catch(err => {
+        res.status(500).json(err)
+      })
+})
+
 
 const port = 4300;
 server.listen(port, function() {
