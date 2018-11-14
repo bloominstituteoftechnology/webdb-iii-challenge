@@ -36,7 +36,24 @@ server.get('/api/cohorts', (req, res) => {
         });
 });
 
+server.get('/api/cohorts/:cohortid', (req, res) => {
+    const { cohortid } = req.params;
+
+    db('cohorts')
+        .where({ id: cohortid })
+        .then(cohort => {
+            if (!cohort) {
+                res.status(404).json({ error: 'No cohort with that ID found.' });
+            } else {
+                res.status(200).json(cohort);
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ error: 'There was an error fetching the cohort.', err });
+        });
+});
+
 const port = 3300;
 server.listen(port, function() {
     console.log(`\n---- Lambda API Listening on http://localhost:${port} ----\n`);
-})
+});
