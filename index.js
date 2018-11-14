@@ -65,4 +65,35 @@ server.get('/api/cohorts/:id/students', (req, res) => {
     });
 });
 
+server.put('/api/cohorts/:id', (req, res) => {
+  const { id } = req.params;
+  const changes = req.body;
+  db('cohorts')
+    .where({ id })
+    .update(changes)
+    .then((count) => {
+      if (count) {
+        res.status(200).json({ count });
+      } else {
+        res.status(404).json({ message: 'could not find cohort with that id' });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({ message: 'could not update cohort', err });
+    });
+});
+
+server.delete('/api/cohorts/:id', (req, res) => {
+  const { id } = req.params;
+  db('cohorts')
+    .where({ id })
+    .del()
+    .then(count => {
+      res.status(200).json({ count })
+    })
+    .catch(err => {
+      res.status(500).json({ message: 'could not delete cohort', err })
+    });
+});
+
 server.listen(9000, () => console.log('\n== Listening on Port 9000 ==\n'));
