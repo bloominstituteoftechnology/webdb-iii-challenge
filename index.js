@@ -5,7 +5,7 @@ const knex = require('knex')
 const knexConfig = require('./knexfile.js')
 const db = knex(knexConfig.development)
 
-express.use(express.json())
+server.use(express.json())
 
 server.get('/', (req, res) => {
   res.status(200).json({ api: 'ok' })
