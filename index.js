@@ -27,4 +27,21 @@ server.get('/api/cohorts', (req, res) => {
         })
 });
 
+server.post('/api/cohorts', (req, res) => {
+    const changes = req.body;
+
+    if (changes.name === '' || changes.name === undefined) {
+        return res.status(400).json({message: 'Cohorts name is require'})
+    }
+
+    db('cohorts')
+        .insert(changes)
+        .then(id => {
+            res.status(200).json(changes)
+        })
+        .catch(err => {
+            res.status(500).json({message: err })
+        })
+});
+
 server.listen(9000, () => console.log('\n== Port 9k ==\n'));
