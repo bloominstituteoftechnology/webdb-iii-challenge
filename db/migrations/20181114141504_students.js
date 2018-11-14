@@ -1,10 +1,10 @@
-
 exports.up = function(knex, Promise) {
 	return new Promise((resolve, reject) => {
 		resolve(
-			knex.schema.createTable('cohorts', function(table) {
+			knex.schema.createTable('students', function(table) {
 				table.increments('id')
 				table.string('name').notNullable()
+				table.integer('cohort_id').references('cohorts.id')
 				table.timestamp('createdAt').defaultTo(knex.fn.now())
 			}),
 		),
@@ -13,7 +13,7 @@ exports.up = function(knex, Promise) {
 }
  exports.down = function(knex, Promise) {
 	return new Promise((resolve, reject) => {
-		resolve(knex.schema.dropTableIfExists('cohorts'))
+		resolve(knex.schema.dropTableIfExists('students'))
 		reject(e => console.log(e))
 	})
 }
