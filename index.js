@@ -46,6 +46,27 @@ server.get('/api/cohorts/:id', (req, res) => {
 });
 
 //GET students by cohort id
+server.get('/api/cohorts/:id/students', (req, res) => {
+  const { id } = req.params;
+  db('students')
+    .where({ cohort_id: id })
+    .then(cohort => {
+      if (cohort) {
+        res.status(200).json(cohort);
+      } else {
+        res.status(404).json({
+          message: 'The student information could not be retrieved.',
+          error: err
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: 'The student information could not be retrieved.',
+        error: err
+      });
+    });
+});
 
 //POST add a cohort
 server.post('/api/cohorts', (req, res) => {
@@ -78,6 +99,21 @@ server.delete('/api/cohorts/:id', (req, res) => {
 });
 
 //PUT update the cohort
+server.put('/api/cohorts/:id', (req, res) => {
+  const changes = req.body;
+  const { id } = req.params;
+  db('cohorts')
+    .where({ id })
+    .update(changes)
+    .then(count => {
+      res.status(200).json({ count });
+    })
+    .catch(err =>
+      res
+        .status(500)
+        .json({ message: 'Your cohort could not be udpated.', error: err })
+    );
+});
 
 const port = 8000;
 server.listen(port, function() {
