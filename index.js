@@ -15,4 +15,20 @@ server.get('/api/cohorts', (req, res) => {
         })
 })
 
+server.get('/api/cohorts/:id', (req, res) => {
+    const id = req.params
+        db('cohorts')
+            .where(id)
+            .then(cohort => {
+                if(cohort.length === 0) {
+                    res.status(404).json({ message: 'cohort by id could not be found' })
+                } else {
+                    res.status(200).json(cohort)
+                }
+            })
+            .catch(err => {
+                res.status(500).json({ message: 'error processing your request' })
+            })
+})
+
 server.listen(9000, () => console.log('running'))
