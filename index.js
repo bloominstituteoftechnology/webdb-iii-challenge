@@ -38,22 +38,32 @@ server.get('/api/cohorts', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
-server.get('/api/zoos/:id', (req, res) => {
+server.get('/api/cohorts/:id', (req, res) => {
   const { id } = req.params;
-  db('zoos')
+  db('cohorts_table')
   .where({ id:id })
-  .then(zoos => res.status(200).json(zoos))
+  .then(cohorts => res.status(200).json(cohorts))
   .catch(err => res.status(500).json(err));
 });
+
+server.get('/api/cohorts/:id/students', (req, res) => {
+    //COME BACK AND FIX ME PLEASE 
+    const { id } = req.params;
+    db('cohorts_table')
+    .where({ id:id })
+    .then(cohorts => res.status(200).json(cohorts))
+    .catch(err => res.status(500).json(err));
+  });
+
 // ___________ PUT Cohort______________
 //[PUT] /api/cohorts/:id This route will update the cohort with the matching id
         // using information sent in the body of the request.
 
-server.put('/api/zoos/:id', (req, res) => {
+server.put('/api/cohorts/:id', (req, res) => {
   const changes = req.body;
   const { id } = req.params;
   
-  db('zoos')
+  db('cohorts_table')
     .where({ id:id })
     .update(changes)
     .then(count => {
