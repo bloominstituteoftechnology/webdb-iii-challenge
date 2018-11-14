@@ -21,6 +21,27 @@ router.get('/:id', (req, res) => {
     .catch(err => res.status(500).json(err))
 })
 
+/* ----  EDIT STUDENT  ---- */
+router.put('/:id', (req, res) => {
+  const { id } = req.params
+  const changes = req.body
+  db('students')
+    .where({ id: id })
+    .update(changes)
+    .then(count => res.status(201).json(count))
+    .catch(err => res.status(500).json(err))
+})
+
+/* ----  DELETE STUDENT  ---- */
+router.delete('/:id', (req, res) => {
+  const { id } = req.params
+
+  db('students')
+    .where({ id: id })
+    .del()
+    .then(count => res.status(201).json(count))
+    .catch(err => res.status(500).json(err))
+})
 
 
 module.exports = router;
