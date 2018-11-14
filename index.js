@@ -44,6 +44,23 @@ server.post("/api/cohorts", (req, res) => {
         .catch(err => res.status(500).json({error: err}))
 })
 
+server.put("/api/cohorts/:id", (req, res) => {
+    const changes = req.body;
+    const {id} = req.params;
+
+    if (changes.name === "" || changes.name === undefined) {
+        return res.status(400).json({error: "Please make sure the cohort name is indexed."})
+    }
+
+    db("cohorts")
+        .where({id})
+        .update(changes)
+        .then(count => count === 1 ?
+            res.status(201).json(count) :
+            res.status(400).json({error: "Please enter a valid id"}))
+        .catch(err => res.status(500).json({error: err}))
+})
+
 const port = 9001;
 
 server.listen(port, function() {
