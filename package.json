@@ -4,7 +4,7 @@
   "description": "## Topics",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,7 @@
   "homepage": "https://github.com/MichaelCheco/RDBMS-API-Full#readme",
   "dependencies": {
     "express": "^4.16.4",
+    "helmet": "^3.15.0",
     "knex": "^0.15.2",
     "sqlite3": "^4.0.4"
   },
