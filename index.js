@@ -13,7 +13,9 @@ server.get('/', (req,res)=>{
     res.send('<h1>built by Ryan Clausen</h1>')
 })
 
+
 server.use('/api/cohorts', routeMaker(db, 'cohorts'))
+
 server.use('/api/students', routeMaker(db, 'students'))
 
 server.listen(port, ()=> console.log(`we hear you ${port}`))

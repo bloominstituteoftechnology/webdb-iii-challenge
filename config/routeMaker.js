@@ -17,7 +17,9 @@ module.exports = (db, resource) => {
   route.get("/:id", async (req, res) => {
     try {
       const { id } = req.params;
+      
       const item = await db(resource).where({id});
+
       if (item.length){
       res.status(200).json(item);
       return
@@ -27,7 +29,8 @@ module.exports = (db, resource) => {
         sendError(404, `no ${resource} found at that id.`,res)
     }
   });
-  if (resource='cohorts') {
+
+  if (resource==='cohorts') {
       route.get('/:id/students', async (req,res) =>{
           try {
               const {id}= req.params;
