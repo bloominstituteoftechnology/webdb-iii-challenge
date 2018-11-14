@@ -47,4 +47,40 @@ server.post('/api/cohorts', (req, res) => {
     }
 })
 
+server.put('/api/cohorts/:id', (req, res) => {
+    const id = req.params 
+
+    db('cohorts')
+        .where(id)
+        .update(req.body)
+        .then(count => {
+            if(count === 0) {
+                res.status(404).json({ message: 'cohort by id can not be updated' })
+            } else {
+                res.status(200).json(req.body)
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ message: 'error updating cohort' })
+        })
+})
+
+server.delete('/api/cohorts/:id', (req, res) => {
+    const id = req.params
+
+    db('cohorts')
+        .where(id)
+        .del()
+        .then(count => {
+            if(count === 0) {
+                res.status(404).json({ message: 'Can not delete by this id' })
+            } else {
+                res.status(200).json({ message: `succesfully deleted`, count })
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ message: 'error deleting cohort' })
+        })
+})
+
 server.listen(9000, () => console.log('running'))
