@@ -19,6 +19,18 @@ server.get('/students', (req, res) => {
       })
 })
 
+server.post('/students', (req, res) => {
+    const student = req.body
+    db('students')
+    .insert(student)
+    .then(ids => {
+        res.status(201).json(ids)
+        .catch(err => {
+            res.status(500).json(err)
+          })
+    })
+})
+
 
 const port = 4300;
 server.listen(port, function() {
