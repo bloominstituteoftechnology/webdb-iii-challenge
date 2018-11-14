@@ -9,7 +9,14 @@ module.exports = {
 
 function get(id) {
   let query = db('students');
-  if (id) return query.where({ id: Number(id) }).first();
+
+  if (id) {
+    return db('students as s')
+      .join('cohorts as c', 'c.id', 's.cohort_id')
+      .select('s.id', 's.name', 'c.name as cohort')
+      .where({ 's.id': id });
+  }
+
   return query;
 }
 
