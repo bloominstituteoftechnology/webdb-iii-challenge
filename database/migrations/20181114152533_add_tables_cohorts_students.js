@@ -19,8 +19,9 @@ exports.up = function(knex, Promise) {
         knex.schema.createTable(TABLE_STUDENTS, table => {
             table.increments('id').primary();
             table.string('name').notNullable();
+            table.integer('cohort_id');
             table.foreign('cohort_id').references(`${TABLE_COHORTS}.id`);
-        }),
+        })
     ]);
 };
 exports.down = function(knex, Promise) {
