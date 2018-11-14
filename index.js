@@ -45,6 +45,18 @@ server.post('/api/cohorts', (req,res) => {
     .catch(err => res.status(500).json(err));
 })
 
+// PUT Requests
+
+server.put('/api/cohorts/:id', (req,res) => {
+    const { id } = req.params;
+    const edits = req.body;
+    db('cohorts')
+    .where({ id : id})
+    .update(edits)
+    .then(editedCohort => res.status(200).json({editsMade : editedCohort}))
+    .catch(err => res.status(500).json(err));
+})
+
 
 
 server.listen(port, () => {console.log(`Server Running on Port ${port}`)})
