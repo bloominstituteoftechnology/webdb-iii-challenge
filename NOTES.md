@@ -52,4 +52,8 @@ Steps
 - knex migrate:latest to run all new migrations
 - knex migrate:rollback to undo the last batch of migrations
 
+## Seeds
+- Use number to order seeds, e.g.: knex seed:make 001-cohorts
+- Change del() to truncate()
+
 A Foreign Key Constraint is a column that points to or references the Primary Key on another table.
