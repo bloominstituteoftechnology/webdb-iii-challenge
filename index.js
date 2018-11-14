@@ -80,4 +80,16 @@ server.put('/api/cohorts/:id', (req, res) => {
       .catch(err => res.status(500).json(err));
   });
 
+
+  server.get('/api/students', (req, res) => {
+    db('studentstwo')
+    .then(names => {
+      console.log(names)
+      res.status(200).json(names)
+    })
+    .catch(err => {
+      res.status(500).json(err)
+    });
+  });
+
 server.listen(7000, () => console.log('\n Party at part 7k '))
