@@ -92,4 +92,16 @@ server.put('/api/cohorts/:id', (req, res) => {
     });
   });
 
+
+  server.get('/api/students/:id', (req, res) => {
+    db('studentstwo')
+      .where({ id: req.params.id })
+      .first()
+      .then(students => {
+        res.status(200).json(students);
+      })
+      .catch(err => 
+      res.status(500).json(err));
+  });
+
 server.listen(7000, () => console.log('\n Party at part 7k '))
