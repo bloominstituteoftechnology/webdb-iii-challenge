@@ -11,12 +11,11 @@ server.use(express.json());
 
 // get all student and their cohort info
 server.get('/api/cohorts/all', (req, res) => {
-	db
-		.select('*')
-		.from('students')
-		.leftJoin('cohorts', 'students.cohort_id', 'cohort.id')
-		.then((data) => {
-			res.status(200).json({ data });
+	db('students')
+		.join('cohorts', { 'students.cohort_id': 'cohorts.id' })
+		.select('students.id', 'students.name', 'cohorts.name as cohort')
+		.then((students) => {
+			res.status(200).json({ students });
 		})
 		.catch((err) => {
 			res.status(500).json({ err });
@@ -36,6 +35,31 @@ server.get('/api/cohorts', (req, res) => {
 // get all student info
 server.get('/api/students', (req, res) => {
 	db('students')
+		.then((students) => {
+			res.status(200).json(students);
+		})
+		.catch((err) => {
+			res.status(500).json(err);
+		});
+});
+
+// get a single cohort info
+server.get('/api/cohorts/:id', (req, res) => {
+	const { id } = req.params;
+	db('cohorts')
+		.where({ id })
+		.then((cohort) => {
+			res.status(200).json({ cohort });
+		})
+		.catch((err) => {
+			res.status(500).json(err);
+		});
+});
+// get a single student info
+server.get('/api/students/:id', (req, res) => {
+	const { id } = req.params;
+	db('students')
+		.where({ id })
 		.then((students) => {
 			res.status(200).json(students);
 		})
