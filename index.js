@@ -38,4 +38,52 @@ server.get('/api/cohorts/:id', (req,res) => {
 
 server.get('/api/cohorts/:id/students', (req,res) => {
     const {id} = req.params;
+    db('students')
+    .where({cohort_ID: id})
+    .then(students => {
+        res.status(200).json(students)
+    })
+    .catch(err => {
+        res.status(500).json(err)
+    })
+})
+
+server.post('/api/cohorts', (req,res) => {
+    const cohort = req.body;
+    db('cohort')
+    .insert([cohort])
+    .returning('cohortID')
+    .then(newID => {
+        res.status(201).json(newID)
+    })
+    .catch(err => {
+        res.status(200).json(err)
+    })
+})
+
+server.put('/api/cohorts/:id', (req,res) => {
+    const updates = req.body;
+    const {id} = req.params;
+    db('cohort')
+    .where({cohortID: id})
+    .update(updates)
+    .then(count => {
+        res.status(200).json(count)
+    })
+    .catch(err => {
+        res.status(500).json(err)
+    })
+})
+
+server.delete('/api/cohorts/:id', (req,res) => {
+    const {id} = req.params;
+    db('cohort')
+    .where({cohortID: id})
+    .del()
+    .then(count => {
+        res.status(200).json(count)
+    })
+    .catch(err => {
+        res.status(500).json(err)
+    })
 })
