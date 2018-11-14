@@ -47,10 +47,9 @@ server.get('/api/cohorts/:id', (req, res) => {
 });
 
 server.get('/api/cohorts/:id/students', (req, res) => {
-    //COME BACK AND FIX ME PLEASE 
     const { id } = req.params;
-    db('cohorts_table')
-    .where({ id:id })
+    db('students_table')
+    .where({ cohort_id:id })
     .then(cohorts => res.status(200).json(cohorts))
     .catch(err => res.status(500).json(err));
   });
