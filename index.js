@@ -57,12 +57,29 @@ const remove = tbl => {
             .catch(err => res.status(500).json(err))
     })
 }
-  
+
+server.get('/api/cohorts/:id/students', (req, res) => {
+    const { id } = req.params
+    db("cohorts as c")
+        .join("students as s", "c.id", "s.cohort_id")
+        .where("c.id", id)
+        .then(students => res.status(200).json(students))
+        .catch(err => res.status(500).json(err))
+})
+
+server.get('/api/students/:id', (req, res) => {
+    const { id } = req.params
+    db("students as s")
+        .join("cohorts as c", "c.id", "s.cohort_id")
+        .where("s.id", id)
+        .select("s.id", "s.name", "c.name as cohort")
+        .then(student => res.status(200).json(student))
+        .catch(err => res.status(500).json(err))
+})
 
 get('cohorts')
 get('students')
 getById('cohorts')
-getById('students')
 add('cohorts')
 add('students')
 update('cohorts')
