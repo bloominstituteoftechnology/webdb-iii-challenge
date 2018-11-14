@@ -19,7 +19,7 @@ server.use(helmet());
 // ROUTES
 // ==============================================
 server.use('/api/cohorts', cohortRouter);
-server.use('/api/students', studentRouter);
+server.use('/students', studentRouter);
 
 // START THE SERVER
 // ==============================================
