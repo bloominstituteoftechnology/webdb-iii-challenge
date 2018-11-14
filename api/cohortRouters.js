@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const db = require('../data/cohortsDb');
+const db = require('../data/cohortsModel');
 
 // error helper
 const errorHelper = (res, code, errMessage, err = 'ERROR') => {
