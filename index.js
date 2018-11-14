@@ -1,5 +1,10 @@
 const express = require('express');
+const cohorts = require('./routes/api/cohorts');
+
 const server = express();
+
+server.use(express.json());
+server.use('/api/cohorts', cohorts);
 
 server.get('/', (req, res) => {
   res.send('helloooo');
