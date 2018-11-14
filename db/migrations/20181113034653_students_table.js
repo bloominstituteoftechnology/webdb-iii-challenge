@@ -1,14 +1,13 @@
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('students', function(table) {
     table.increments();
-    table.string('name', 128);
+    table.string('name', 128).unique('students_name');
     table
-      .integer('course_id')
+      .integer('cohort_id')
       .notNullable()
-      .unsigned()
       .defaultTo(1)
       .references('id')
-      .inTable('courses');
+      .inTable('cohorts');
   });
 };
 
