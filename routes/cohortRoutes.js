@@ -16,4 +16,15 @@ router.get('/', async (_, res) => {
   }
 });
 
+router.get('/:id', async (req, res) => {
+  try {
+    const cohort = await cohortDb.get(req.params.id);
+    cohort
+      ? res.status(200).json(cohort)
+      : res.status(404).json({ error: 'The cohort with the specified ID does not exist.' });
+  } catch {
+    res.status(500).json({ error: "There was an error retrieving the cohort's information!" });
+  }
+});
+
 module.exports = router;
