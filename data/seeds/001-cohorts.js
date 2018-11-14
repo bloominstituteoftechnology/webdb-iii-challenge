@@ -6,7 +6,7 @@ exports.seed = function(knex, Promise) {
       // Inserts seed entries
       return knex('cohorts').insert([
         { name: 'FSW14' }, // rowValue1
-        { name: 'FSW15' }, // rowValue2
+        { name: 'FSW14-PMs' }, // rowValue2
         { name: 'FSW15' }  // rowValue3
       ]);
     });
