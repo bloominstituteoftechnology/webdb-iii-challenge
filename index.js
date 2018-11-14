@@ -35,6 +35,16 @@ server.get('/api/cohorts/:id/students', (req,res) => {
     .catch(err => res.status(500).json(err));
 })
 
+// POST Requests
+
+server.post('/api/cohorts', (req,res) => {
+    const addedCohort = req.body;
+    db('cohorts')
+    .insert(addedCohort)
+    .then(cohortID => res.status(200).json(cohortID))
+    .catch(err => res.status(500).json(err));
+})
+
 
 
 server.listen(port, () => {console.log(`Server Running on Port ${port}`)})
