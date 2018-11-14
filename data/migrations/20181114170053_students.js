@@ -4,7 +4,7 @@ exports.up = function(knex, Promise) {
         table.increments()
         table.string('name', 255)
         table
-          .integer('student_id')
+          .integer('student_id') // should be related to Cohort table.
           .unsigned()
           .references('id')
           .inTable('cohorts')

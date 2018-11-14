@@ -7,7 +7,7 @@ const server = express();
 
 server.use(express.json());
 
-// endpoints here
+// COHORTS....endpoints here
 //GET..
 server.get('/', (request, response) => {
     response.send('ACTIVE...');
@@ -60,6 +60,56 @@ server.delete('/api/cohorts/:id', (request, response) => {
         .where({ id : request.params.id })
         .del()
         .then(cohort => response.status(200).json(cohort))
+        .catch(error => response.status(500).json(error));
+})
+
+/************************************** STUDENTS *********************************************** */
+
+// STUDENTS...endpoints here
+//GET..
+server.get('/', (request, response) => {
+    response.send('ACTIVE...');
+    //response.json('ACTIVE...');
+})
+
+//GET../api/cohorts
+server.get('/students', (request, response) => {
+    db('students')
+            .then(students => response.status(200).json(students))
+            .catch(error => response.status(500).json(error));
+})
+
+//GET../api/students/:id
+server.get('/students/:id', (request, response) => {
+    db('students')
+            .where({ id : request.params.id })
+            .then(student => response.status(200).json(students))
+            .catch(error => response.status(500).json(error));
+})
+
+//POST ../api/students
+server.post('/students', (request, response) => {
+          db.insert(request.body)
+            .into('students')
+            .then(students => response.status(200).json(students))
+            .catch(error => response.status(500).json(error));
+})
+
+//PUT 
+server.put('/students/:id', (request, response) => {
+  db('students')
+        .where({ id : request.params.id })
+        .update(request.body)
+        .then(student => response.status(200).json(student))
+        .catch(error => response.status(500).json(error));
+})
+
+//DELETE 
+server.delete('/students/:id', (request, response) => {
+  db('students')
+        .where({ id : request.params.id })
+        .del()
+        .then(student => response.status(200).json(student))
         .catch(error => response.status(500).json(error));
 })
 
