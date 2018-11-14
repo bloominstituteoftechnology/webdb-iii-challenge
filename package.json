@@ -3,7 +3,7 @@
   "version": "1",
   "main": "index.js",
   "license": "MIT",
-  "script": {
+  "scripts": {
     "server": "nodemon index.js"
   },
   "dependencies": {
