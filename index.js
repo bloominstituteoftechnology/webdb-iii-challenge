@@ -45,6 +45,29 @@ server.post('/students', (req, res) => {
     })
 })
 
+// =============================================
+
+server.get('/cohorts', (req, res) => {
+    db('cohorts')
+    .then(cohorts => {
+        res.status(200).json(cohorts)
+    })
+    .catch(err => {
+        res.status(500).json(err)
+      })
+})
+server.post('/cohorts', (req, res) => {
+    const cohort = req.body
+    db('cohorts')
+    .insert(cohort)
+    .then(ids => {
+        res.status(201).json(ids)
+        .catch(err => {
+            res.status(500).json(err)
+          })
+    })
+})
+
 
 
 
