@@ -65,7 +65,7 @@ server.delete('/api/cohorts/:id', (req,res) => {
     db('cohorts')
     .where({ id : id})
     .del()
-    .then(deletedCohort => res.status(200).json({itemsDeleted : deletedCohort}))
+    .then(count => res.status(200).json({itemsDeleted : count}))
     .catch(err => res.status(500).json(err));
 })
 
