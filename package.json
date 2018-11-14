@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "server": "nodemon"
-  } 
+  },
   "dependencies": {
     "express": "^4.16.4",
     "knex": "^0.15.2",
