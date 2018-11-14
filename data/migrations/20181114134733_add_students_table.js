@@ -9,13 +9,13 @@ exports.up = function(knex, Promise) {
     // other fields
     tbl.string('name', 255).notNullable();
 
+    tbl.timestamps(true, true);
+
     tbl
       .integer('cohort_id')
       .unsigned()
       .references('id')
       .inTable('cohorts');
-
-    tbl.timestamps(true, true);
   });
 };
 
