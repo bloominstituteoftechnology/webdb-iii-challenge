@@ -1,0 +1,19 @@
+{
+  "name": "RDBMS-API-Full",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/koennecker/RDBMS-API-Full",
+  "author": "koennecker <koenneckerb@gmail.com>",
+  "scripts": {
+    "server": "nodemon"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4",
+    "knex": "^0.15.2",
+    "sqlite3": "^4.0.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.6"
+  }
+}
