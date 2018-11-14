@@ -35,6 +35,22 @@ server.get('/api/cohorts/:id', (req, res) => {
         })
 });
 
+server.get('/api/cohorts/:id/students', (req, res) => {
+    const { id } = req.params;
+    db('students')
+        .where({ cohort_id: id })
+        .then(cohort => {
+            if (!cohort[0]) {
+                res.status(404).json({ Message: 'id not found' })
+            } else {
+                res.status(200).json(cohort)
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ Message: 'id not found', err })
+        })
+});
+
 // add new cohort (post)
 
 server.post('/api/cohorts', (req, res) => {
