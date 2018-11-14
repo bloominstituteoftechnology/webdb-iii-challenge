@@ -28,6 +28,24 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// GET students
+router.get('/:id/students', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const students = await db
+      .select('*')
+      .from('cohorts')
+      .where({ 'cohorts.id': id })
+      .join('students', { 'cohorts.id': 'students.cohort_id' });
+
+    res.status(200).json(students);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: 'There was an error getting that cohort student name.' });
+  }
+});
+
 // POST new cohort
 router.post('/', async (req, res) => {
   const newCohort = req.body;
