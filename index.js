@@ -19,6 +19,20 @@ server.get('/students', (req, res) => {
       })
 })
 
+server.get('/students/:id', (req, res) => {
+
+    const { id } = req.params
+
+    db('students')
+    .where({id})
+    .then(students => {
+        res.status(200).json(students)
+    })
+    .catch(err => {
+        res.status(500).json(err)
+      })
+})
+
 server.post('/students', (req, res) => {
     const student = req.body
     db('students')
@@ -30,6 +44,8 @@ server.post('/students', (req, res) => {
           })
     })
 })
+
+
 
 
 const port = 4300;
