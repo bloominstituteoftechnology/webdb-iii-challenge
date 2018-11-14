@@ -62,6 +62,7 @@ server.get('/api/cohorts/:id/students', (req, res) => {
       .catch(error => res.status(500).json(error));
 })
 
+// change cohort by id
 server.put('/api/cohorts/:id', (req, res) => {
     const changes = req.body;
     const { id } = req.params;
@@ -88,6 +89,72 @@ server.delete('/api/cohorts/:id', (req, res) => {
       .catch(error => res.status(500).json(error));
 })
 
+
+// Students
+
+// add a new student
+server.post('/api/students', (req, res) => {
+    const student = req.body;
+  
+    db('students')
+      .insert(student)
+      .then(id => {
+        res.status(201).json(id);
+      })
+      .catch(err => {
+        console.log(err)
+        res.status(500).json({ error: "Cannot post a new student" });
+      });
+});
+
+// get all students
+server.get('/api/students', (req, res) => {
+    db('students')
+      .then(student => res.status(200).json(student))
+      .catch(err => res.status(500).json(err));
+});
+
+//get student by id
+server.get('/api/students/:id', (req, res) => {
+    const { id } = req.params;
+
+    db('students').where({ id }).then(student => {
+      if (student.length !== 0) {
+        res.status(200).json(student)
+      } else {
+        res.status(404).json({ message: "The student with the specified id does not exist." });
+      }
+    }).catch(error => {
+      res.status(500).json({ error: "Cant get student data." });
+    });
+});
+
+// change student by id
+server.put('/api/students/:id', (req, res) => {
+    const changes = req.body;
+    const { id } = req.params;
+  
+    db('students')
+      .where({ id })
+      .update(changes)
+      .then(student => {
+        res.status(200).json({ student })
+      })
+      .catch(error => res.status(500).json(error));
+})
+
+// delete student by id
+server.delete('/api/students/:id', (req, res) => {
+    const { id } = req.params;
+  
+    db('students')
+      .where({ id })
+      .del()
+      .then(student => {
+        res.status(200).json({ student })
+      })
+      .catch(error => res.status(500).json(error));
+})
 
 const port = 3300;
 server.listen(port, function() {
