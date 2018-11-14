@@ -16,3 +16,5 @@ server.get('/', async (req, res) => {
 
 
 })
+
+server.listen(8888, () => console.log(`Server listening on Port 8888`))
