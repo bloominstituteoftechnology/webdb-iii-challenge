@@ -39,4 +39,29 @@ router.post('/', async (req, res) => {
   } else res.status(400).json({ error: 'Please provide a name for the cohort.' });
 });
 
+router.delete('/:id', async (req, res) => {
+  try {
+    const count = await cohortDb.remove(req.params.id);
+    count
+      ? res.status(200).json({ message: 'Successfully deleted cohort.' })
+      : res.status(404).json({ error: 'The cohort with the specified ID does not exist.' });
+  } catch {
+    res.status(500).json({ error: 'There was an error deleting the cohort in the database.' });
+  }
+});
+
+router.put('/:id', async (req, res) => {
+  if (req.body.name) {
+    try {
+      const count = await cohortDb.update(req.params.id, req.body);
+      if (count) {
+        const cohort = await cohortDb.get(req.params.id);
+        res.status(200).json(cohort);
+      } else res.status(404).json({ error: 'The cohort with the specified ID does not exist.' });
+    } catch {
+      res.status(500).json({ error: 'There was an error updating the cohort in the database.' });
+    }
+  } else res.status(400).json({ error: 'Please provide a name for the cohort.' });
+});
+
 module.exports = router;
