@@ -52,17 +52,6 @@ router.get('/:id/students', async (req, res) => {
 		res.status(500).json({ error: 'The students could not be retrieved from the database.' })
 	}
 })
-router.delete('/:id', async (req, res) => {
-	const { id } = req.params
-	try {
-		let count = await db('cohorts').where('id', id).del()
-
-		count > 0 ? res.status(200).json(count) : res.status(404).json({ message: 'ID not found' })
-	} catch (e) {
-		console.log(e)
-		res.status(500).json({ error: 'The cohort could not be deleted.' })
-	}
-})
 
 router.put('/:id', (req, res) => {
 	if (!req.body.name) {
