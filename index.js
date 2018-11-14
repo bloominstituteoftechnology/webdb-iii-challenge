@@ -156,6 +156,19 @@ server.delete('/api/students/:id', (req, res) => {
       .catch(error => res.status(500).json(error));
 })
 
+// get students by cohort id & student id
+server.get('/api/cohorts/:cohortid/students/:studentid', (req, res) => {
+    const { cohortid } = req.params;
+    const { studentid } = req.params;
+    
+    db('students')
+      .where({ cohort_id: cohortid, id: studentid })
+      .then(student => {
+            res.status(200).json(student)
+      })
+      .catch(error => res.status(500).json(error));
+})
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
