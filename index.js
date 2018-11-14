@@ -82,4 +82,72 @@ server.delete("/api/cohorts/:id", (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+/*
+[POST] /students This route should save a new student to the database.
+[GET] /students This route will return an array of all students.
+[GET] /students/:id This route will return the student with the matching id.
+[PUT] /students/:id This route will update the student with the matching id using information sent in the body of the request.
+[DELETE] /students/:id This route should delete the specified student.
+*/
+
+server.post("/api/students", (req, res) => {
+  const student = req.body;
+
+  db("students")
+    .insert(student)
+    .returning("id")
+    .then(ids => {
+      res.status(201).json(ids);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
+});
+
+server.get("/api/students", (req, res) => {
+  db("students")
+    .then(students => res.status(200).json(students))
+    .catch(err => res.status(500).json(err));
+});
+
+server.get("/api/students/:id", (req, res) => {
+  const { id } = req.params;
+
+  db("students")
+    .where({ id: id })
+    .then(student => {
+      res.status(200).json({
+        id: student[0].id,
+        name: student[0].name,
+        cohort_id: student[0].cohort_id
+      });
+    })
+    .catch(err => res.status(500).json(err));
+});
+
+server.put("/api/students/:id", (req, res) => {
+  const changes = req.body;
+  const { id } = req.params;
+
+  db("students")
+    .where({ id: id })
+    .update(changes)
+    .then(count => {
+      res.status(200).json(count);
+    })
+    .catch(err => res.status(500).json(err));
+});
+
+server.delete("/api/students/:id", (req, res) => {
+  const { id } = req.params;
+
+  db("students")
+    .where({ id: id })
+    .del()
+    .then(count => {
+      res.status(200).json(count);
+    })
+    .catch(err => res.status(500).json(err));
+});
+
 server.listen(9000, () => console.log("server running on port 9000"));
