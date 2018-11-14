@@ -88,11 +88,34 @@ server.delete('/api/cohorts/:id', (req, res) => {
   db('cohorts')
     .where({ id })
     .del()
-    .then(count => {
-      res.status(200).json({ count })
+    .then((count) => {
+      res.status(200).json({ count });
+    })
+    .catch((err) => {
+      res.status(500).json({ message: 'could not delete cohort', err });
+    });
+});
+
+server.post('/api/students', (req, res) => {
+  const student = req.body;
+  db('students')
+    .insert(student)
+    .returning('id')
+    .then(id => {
+      res.status(201).json(id);
     })
     .catch(err => {
-      res.status(500).json({ message: 'could not delete cohort', err })
+      res.status(500).json({ message: 'error adding a student' })
+    });
+});
+
+server.get('/api/students', (req, res) => {
+  db('students')
+    .then((students) => {
+      res.status(200).json(students);
+    })
+    .catch((err) => {
+      res.status(500).json({ message: 'could not get students', err });
     });
 });
 
