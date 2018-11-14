@@ -1,0 +1,13 @@
+{
+  "name": "RDBMS-API-Full",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Drewsup123/RDBMS-API-Full.git",
+  "author": "Drewsup123c <drewsup123c@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4",
+    "knex": "^0.15.2",
+    "sqlite3": "^4.0.4"
+  }
+}
