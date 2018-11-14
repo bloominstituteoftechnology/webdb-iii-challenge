@@ -26,7 +26,9 @@ router.get('/:id', (req, res) => {
   const { id } = req.params
 
   db('students')
-    .where({ id })
+    .join('cohorts', { 'students.cohort_id': 'cohorts.id' })
+    .select('students.id', 'students.name', 'cohorts.name as cohort')
+    .where({ 'students.id': id })
     .then(student => res.status(200).json(student))
     .catch(err => res.status(500).json({ message: 'Error' }))
 })
