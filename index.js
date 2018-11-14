@@ -116,6 +116,20 @@ server.put('/cohorts/:id', (req, res) => {
     })
 })
 
+server.delete('/cohorts/:id', (req, res) => {
+    const { id } = req.params;
+    db('cohorts')
+    .where({id})
+    .del()
+    .then(count => {
+        res.status(200).json(count)
+        .catch(err => {
+            res.status(500).json(err)
+        })
+    })
+})
+
+
 
 
 const port = 4300;
