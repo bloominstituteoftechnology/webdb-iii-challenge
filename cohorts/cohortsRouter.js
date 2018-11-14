@@ -33,4 +33,20 @@ router.get("/:id/students", (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+router.put("/:id", (req, res) => {
+  db("cohorts")
+    .where("id", "=", req.params.id)
+    .update(req.body)
+    .then(count => res.status(200).json(count))
+    .catch(err => res.status(500).json(err));
+});
+
+router.delete("/:id", (req, res) => {
+  db("cohorts")
+    .where({ id: req.params.id })
+    .del()
+    .then(count => res.status(200).json(count))
+    .catch(err => res.status(500).json(err));
+});
+
 module.exports = router;
