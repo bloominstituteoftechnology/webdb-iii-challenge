@@ -42,7 +42,7 @@ server.get('/api/cohorts/:cohortid', (req, res) => {
     db('cohorts')
         .where({ id: cohortid })
         .then(cohort => {
-            if (!cohort) {
+            if (cohort.length === 0) {
                 res.status(404).json({ error: 'No cohort with that ID found.' });
             } else {
                 res.status(200).json(cohort);
@@ -59,7 +59,7 @@ server.get('/api/cohorts/:cohortid/students', (req, res) => {
     db('students')
         .where({ cohort_id: cohortid })
         .then(students => {
-            if (!students) {
+            if (students.length === 0) {
                 res.status(404).json({ error: 'ID not found.' });
             } else {
                 res.status(200).json(students);
@@ -91,6 +91,24 @@ server.put('/api/cohorts/:cohortid', (req, res) => {
                 res.status(500).json({ error: 'There was an error updating the cohort.', err });
             });
     }
+});
+
+server.delete('/api/cohorts/:cohortid', (req, res) => {
+    const { cohortid } = req.params;
+
+    db('cohorts')
+        .where({ id: cohortid })
+        .del()
+        .then(count => {
+            if (count === 0) {
+                res.status(404).json({ error: 'Cohort with that ID not found.' });
+            } else {
+                res.status(200).json(count);
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ error: 'There was an error deleting the cohort.', err });
+        });
 });
 
 const port = 3300;
