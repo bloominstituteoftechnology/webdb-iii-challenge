@@ -46,7 +46,7 @@ server.post('/api/cohorts', (req, res) => {
             res.status(201).json(ids)
         })
         .catch(err => {
-            res.status(500).json({ Message: 'Error adding Cohort', err})
+            res.status(500).json({ Message: 'Error adding Cohort', err })
         })
 });
 
@@ -56,13 +56,13 @@ server.put('/api/cohorts/:id', (req, res) => {
     const changes = req.body;
     const { id } = req.params;
     db('cohorts')
-        .where({id})
+        .where({ id })
         .update(changes)
         .then(count => {
             res.status(200).json(count)
         })
-        .catch(err =>{
-            res.status(500).json({ Message: 'Error updating', err})
+        .catch(err => {
+            res.status(500).json({ Message: 'Error updating', err })
         })
 });
 
@@ -73,11 +73,11 @@ server.delete('/api/cohorts/:id', (req, res) => {
     db('cohorts')
         .where({ id })
         .del()
-        .then(count =>{
+        .then(count => {
             res.status(200).json(count)
         })
-        .catch(err =>{
-            res.status(500).json({ Message: 'Error deleting cohort', err})
+        .catch(err => {
+            res.status(500).json({ Message: 'Error deleting cohort', err })
         })
 });
 
