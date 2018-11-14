@@ -61,6 +61,18 @@ server.put("/api/cohorts/:id", (req, res) => {
         .catch(err => res.status(500).json({error: err}))
 })
 
+server.delete("/api/cohorts/:id", (req, res) => {
+    const {id} = req.params;
+
+    db("cohorts")
+        .where({id})
+        .del()
+        .then(count => count === 1 ?
+            res.status(201).json(count) :
+            res.status(400).json({error: "Please enter a valid id"}))
+        .catch(err => res.status(500).json({error: err}))
+})
+
 const port = 9001;
 
 server.listen(port, function() {
