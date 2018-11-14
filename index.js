@@ -48,6 +48,17 @@ server.put('/api/cohorts/:id', (req, res) => {
     .catch(error => res.status(500).json({ message: "Failed to update data"}))
 })
 
+server.delete('/api/cohorts/:id', (req, res) => {
+    const { id } = req.params;
+    db('cohorts')
+    .where({ id: id})
+    .del()
+    .then(count => res.status(200).json(count))
+    .catch(err => {
+        res.status(400).json({ message: "failed to delete cohort"})
+    })
+})
+
 
 
 
