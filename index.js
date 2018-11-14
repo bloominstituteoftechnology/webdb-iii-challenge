@@ -50,6 +50,31 @@ server.get('/api/cohorts/:id', (req, res) => {
     });
 });
 
+// get students by cohort id
+server.get('/api/cohorts/:id/students', (req, res) => {
+    const { id } = req.params;
+    
+    db('students')
+      .where({ cohort_id: id })
+      .then(student => {
+            res.status(200).json(student)
+      })
+      .catch(error => res.status(500).json(error));
+})
+
+server.put('/api/cohorts/:id', (req, res) => {
+    const changes = req.body;
+    const { id } = req.params;
+  
+    db('cohorts')
+      .where({ id })
+      .update(changes)
+      .then(cohort => {
+        res.status(200).json({ cohort })
+      })
+      .catch(error => res.status(500).json(error));
+})
+
 
 const port = 3300;
 server.listen(port, function() {
