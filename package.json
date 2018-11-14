@@ -2,6 +2,9 @@
   "name": "RDBMS-API-Full",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts": {
+    "start" : "nodemon"
+  },
   "repository": "https://github.com/Drewsup123/RDBMS-API-Full.git",
   "author": "Drewsup123c <drewsup123c@gmail.com>",
   "license": "MIT",
