@@ -26,6 +26,13 @@ router.post('/', (req, res) => {
       .then(students => res.status(200).json(students))
       .catch(err => res.status(500).json({ message: 'could not get students', err }));
   });
+
+  router.get('/:id', (req, res) => {
+    db('students')
+      .where({ id: req.params.id })
+      .then(students => res.status(200).json({ id: students.id, name: students.name }))
+      .catch(err => res.status(500).json({ message: 'could not get cohort', err }));
+  });
   
   router.put('/:id', (req, res) => {
     const changes = req.body;
