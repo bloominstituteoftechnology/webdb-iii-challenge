@@ -5,6 +5,7 @@ const helmet = require('helmet');
 
 // FILE IMPORTS, CONSTANTS
 // ==============================================
+const cohortRouter = require('./routes/cohortRoutes.js');
 const port = 3300;
 
 const server = express();
@@ -13,6 +14,10 @@ const server = express();
 // ==============================================
 server.use(express.json());
 server.use(helmet());
+
+// ROUTES
+// ==============================================
+server.use('/api/cohorts', cohortRouter);
 
 // START THE SERVER
 // ==============================================
