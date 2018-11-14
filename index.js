@@ -75,6 +75,19 @@ server.put('/api/cohorts/:id', (req, res) => {
       .catch(error => res.status(500).json(error));
 })
 
+// delete zoo by id
+server.delete('/api/cohorts/:id', (req, res) => {
+    const { id } = req.params;
+  
+    db('cohorts')
+      .where({ id })
+      .del()
+      .then(cohort => {
+        res.status(200).json({ cohort })
+      })
+      .catch(error => res.status(500).json(error));
+})
+
 
 const port = 3300;
 server.listen(port, function() {
