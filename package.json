@@ -1,0 +1,18 @@
+{
+  "name": "RDBMS-API-Full",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/brad-mortensen/RDBMS-API-Full.git",
+  "author": "Brad Mortensen <b.mort86@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "knex": "^0.15.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.6"
+  }
+}
