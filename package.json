@@ -1,0 +1,29 @@
+{
+  "name": "rdbms-api-full",
+  "version": "1.0.0",
+  "description": "practice ",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "start": "node index.js",
+    "server": "nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ceejaay/RDBMS-API-Full.git"
+  },
+  "author": "Chad Jemmett",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ceejaay/RDBMS-API-Full/issues"
+  },
+  "homepage": "https://github.com/ceejaay/RDBMS-API-Full#readme",
+  "devDependencies": {
+    "nodemon": "^1.18.6"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "knex": "^0.15.2",
+    "sqlite3": "^4.0.4"
+  }
+}
