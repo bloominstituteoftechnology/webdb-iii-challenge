@@ -6,7 +6,7 @@
     "server": "nodemon"
   },
   "repository": "https://github.com/brianmgre/RDBMS-API-Full.git",
-  "author": "Brian G <brian.gregorius@gmail.com>",
+  "author": "BG",
   "license": "MIT",
   "dependencies": {
     "express": "^4.16.4",
