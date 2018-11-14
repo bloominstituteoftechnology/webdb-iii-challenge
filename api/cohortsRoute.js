@@ -1,12 +1,13 @@
 const express = require('express')
 const knex = require('knex')
 const knexConfig = require('../knexfile')
-
+const router = express.Router();
 const db = knex(knexConfig.development)
 
-const router = express.Router()
 
 router.use(express.json())
+
+
 
 
 //====GET COHORTS====
@@ -47,6 +48,7 @@ router.post('/', async (req, res) => {
 	}
 })
 
+//====GET STUDENTS WITH COHORT ID====
 router.get('/:id/students', async (req, res) => {
 	const { id } = req.params
 	try {
@@ -59,5 +61,33 @@ router.get('/:id/students', async (req, res) => {
 		res.status(500).json({ error: 'The students could not be retrieved from the database.' })
 	}
 })
+
+//====DELETE BY ID====
+router.delete('/:id', async (req, res) => {
+	const { id } = req.params
+	try {
+		let count = await db('cohorts').where('id', id).del()
+
+		count > 0 ? res.status(200).json(count) : res.status(404).json({ message: 'ID not found' })
+	} catch (e) {
+		console.log(e)
+		res.status(500).json({ error: 'The cohort could not be deleted.' })
+	}
+})
+
+//====UPDATE BY ID====
+router.put('/:id', (req, res) => {
+	if (!req.body.name) {
+		res.status(400).json({ message: 'Please provide a cohort name.' })
+	}
+	db('cohorts')
+		.where('id', req.params.id)
+		.update(req.body)
+		.then(count => {
+			count !== 0 ? res.status(200).json(ids) : res.status(404).json({ errorMessage: 'ID NOT FOUND' })
+		})
+		.catch(e => res.status(500).json(e))
+})
+
 
 module.exports = router
