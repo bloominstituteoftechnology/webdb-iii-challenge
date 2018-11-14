@@ -5,21 +5,22 @@ const knexConfig = require('./knexfile.js');
 const db = knex(knexConfig.development);
 
 const server = express();
+server.use(express.json());
 
 server.get('/', (req, res) => {
     res.status(200).json({ message: 'At /'});
 });
 
-// server.post('/api/cohorts', async (req, res) => {
-//     const newCohort = req.body;
-//     try {
-//         const test = await db('cohorts').insert(newCohort);
-//         console.log('in try');
-//         res.status(201).json(test);
-//     } catch(err) {
-//         res.status(500).json(err);
-//     }
-// });
+server.post('/api/cohorts', async (req, res) => {
+    const newCohort = req.body;
+    try {
+        const test = await db('cohorts').insert(newCohort);
+        console.log('in try');
+        res.status(201).json(test);
+    } catch(err) {
+        res.status(500).json(err);
+    }
+});
 
 server.get('/api/cohorts', async (req, res) => {
     try {
@@ -65,8 +66,8 @@ server.get('/api/cohorts/:id/students', async (req, res) => {
 server.delete('/api/cohorts/:id', async (req, res) => {
     const cohort_id = req.params.id;
     try {
-        const test = await db('cohorts').where({ cohort_id: cohort_id }).del();
-        res.status(200).json(test);
+        const deleteCount = await db('cohorts').where({ cohort_id: cohort_id }).del();
+        res.status(200).json({ message: `Deleted cohort ${cohort_id}`});
     } catch(err) {
         res.status(500).json(err);
     }
