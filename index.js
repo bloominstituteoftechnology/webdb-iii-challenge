@@ -74,10 +74,10 @@ server.put('/api/cohorts/:id', (req, res) => {
 
 // ___________ DELETE Cohort _______________
 //[DELETE] /api/cohorts/:id This route should delete the specified cohort.
-server.delete('/api/zoos/:id', (req, res) => {
+server.delete('/api/cohorts/:id', (req, res) => {
   const { id } = req.params;
 
-  db('zoos')
+  db('cohorts_table')
     .where({ id:id })
     .del()
     .then(count => {
