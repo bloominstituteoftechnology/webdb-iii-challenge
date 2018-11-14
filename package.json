@@ -1,6 +1,19 @@
 {
+  "scripts": {
+    "start": "nodemon index.js"
+  },
   "dependencies": {
+    "express": "^4.16.4",
+    "helmet": "^3.15.0",
     "knex": "^0.15.2",
     "sqlite3": "^4.0.4"
+  },
+  "name": "RDBMS-API-Full",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/lolax/RDBMS-API-Full.git",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^1.18.6"
   }
 }
