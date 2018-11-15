@@ -5,7 +5,7 @@ exports.up = function(knex, Promise) {
         table.string('name').notNullable();
         table.integer('cohortId')
         table.foreign('cohortId').references('cohorts.id')
-        table.timestamps();
+        table.timestamps(true,true);
       })  
 };
 
