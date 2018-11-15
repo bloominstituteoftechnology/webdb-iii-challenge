@@ -28,11 +28,40 @@ router.post('/', (req, res) => {
   });
 
   router.get('/:id', (req, res) => {
+    const { id } = req.params;
     db('students')
-      .where({ id: req.params.id })
-      .then(students => res.status(200).json({ id: students.id, name: students.name }))
-      .catch(err => res.status(500).json({ message: 'could not get cohort', err }));
-  });
+        .join('cohorts', 'cohorts.id', 'students.cohort_id')
+        .select('students.id', 'students.name', 'cohorts.name as cohort')
+        .where('students.id', id)
+        .first()
+        .then(name => {
+            res.status(200).json(name);
+        })
+        .catch(err => {
+            res.status(500).json({ message: 'could not get student id', err });
+        });
+        const {id} = req.params;
+
+    /*
+    Figured out another way to do the stretch
+    db('students').where('id', Number(id)).first()
+    .then(student => {
+        if (student) {
+            db('cohorts').where('id', Number(student.cohort_id)).first()
+            .then(cohort => {
+                if (cohort) {
+                    res.status(200).json({id: student.id, name: student.name, cohort: cohort.name})
+                } else {
+                    res.status(404).json({message: "The cohort with the provided ID does not exist"})
+                }
+            })
+        } else {
+            res.status(404).json({message: "The student with the provided ID does not exist"})
+        }
+    })
+    .catch(err => res.status(500).json({message: "The student information could not be retrieved", err}));
+    */
+    });
   
   router.put('/:id', (req, res) => {
     const changes = req.body;
