@@ -9,7 +9,7 @@ const db = knex(knexConfig.development);
 //init router (Express class)
 const router = express.Router();
 
-// endpoints: all base URI "/" used as "/api/students/"
+// endpoints: all base URL "/" used as "/api/students/"
 //POST new student
 router.post("/", (req, res) => {
   const student = req.body;
@@ -58,31 +58,18 @@ router.get("/", (req, res) => {
     );
 });
 
-//GET student by id
+//GET student by id (stretch: return only student's id, student's name, and the student's cohort's name)
 router.get("/:id", (req, res) => {
   const studentId = req.params.id;
   db("students")
-    .where({ id: studentId })
+    // .join and .select methods in the next couple lines resolve the constraint of the stretch, otherwise will only student info from students table
+    .join("cohorts", "students.cohort_id", "cohorts.id")
+    //necessary to rename cohorts.name because the returned object can only have one 'name' field and it will take the last one
+    .select("students.id", "students.name", "cohorts.name as cohort")
+    .where("students.id", studentId)
     .then(student => {
       if (student) {
-        db("cohorts")
-          .where({ id: student[0].cohort_id })
-          .then(cohort => {
-            const extendedStudent = {
-              id: student[0].id,
-              name: student[0].name,
-              cohort: cohort[0].name
-            };
-            res.status(200).json(extendedStudent);
-          })
-          .catch(err =>
-            res
-              .status(500)
-              .json({
-                error:
-                  "An error occurred while retrieving the name of the student's assoicated cohort."
-              })
-          );
+        res.status(200).json(student);
       } else {
         res
           .status(404)
