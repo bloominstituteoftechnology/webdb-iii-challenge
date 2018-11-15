@@ -72,8 +72,9 @@ router.put('/:id', async (req, res) => {
     const count = await db('cohorts')
       .where({ id })
       .update(changes);
+    const cohort = await db('cohorts').where({ id });
     return count
-      ? res.status(200).json(count)
+      ? res.status(200).json({ ...cohort[0] })
       : res.status(404).json({ message: 'Make sure that id exists.' });
   } catch (error) {
     res.status(500).json({ error: 'There was an error updating that cohort.' });
