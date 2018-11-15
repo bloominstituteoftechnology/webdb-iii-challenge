@@ -22,7 +22,9 @@ router.get('/:id', async (req, res) => {
   const { id } = req.params;
   try {
     const cohort = await db('cohorts').where({ id });
-    res.status(200).json({ ...cohort[0] });
+    return !cohort.length
+      ? res.status(404).json({ message: "That cohort doesn't exist." })
+      : res.status(200).json({ ...cohort[0] });
   } catch (error) {
     res.status(500).json({ error: 'There was an error getting that cohort.' });
   }
@@ -38,7 +40,9 @@ router.get('/:id/students', async (req, res) => {
       .where({ 'cohorts.id': id })
       .join('students', { 'cohorts.id': 'students.cohort_id' });
 
-    res.status(200).json(students);
+    return !students.length
+      ? res.status(404).json({ message: "That cohort doesn't exist" })
+      : res.status(200).json(students);
   } catch (error) {
     res
       .status(500)
@@ -68,7 +72,9 @@ router.put('/:id', async (req, res) => {
     const count = await db('cohorts')
       .where({ id })
       .update(changes);
-    res.status(200).json(count);
+    return count
+      ? res.status(200).json(count)
+      : res.status(404).json({ message: 'Make sure that id exists.' });
   } catch (error) {
     res.status(500).json({ error: 'There was an error updating that cohort.' });
   }
@@ -81,7 +87,9 @@ router.delete('/:id', async (req, res) => {
     const count = await db('cohorts')
       .where({ id })
       .del();
-    res.status(200).json(count);
+    return count
+      ? res.status(200).json(count)
+      : res.status(404).json({ message: 'Not found.' });
   } catch (error) {
     res.status(500).json({ error: 'There was an error deleting that cohort.' });
   }
