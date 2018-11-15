@@ -21,6 +21,7 @@ router.get('/', (req, res) => {
         .json({ message: 'There was an error getting the cohorts.', error });
     });
 });
+
 // GETS specific cohort
 router.get('/:id', (req, res) => {
   const id = req.params.id;
@@ -36,6 +37,7 @@ router.get('/:id', (req, res) => {
         .json({ message: 'There was an error getting the cohort.', error });
     });
 });
+
 // POST adds a cohort
 router.post('/', (req, res) => {
   const newCohort = req.body;
@@ -54,6 +56,7 @@ router.post('/', (req, res) => {
         .json({ message: 'There was an error adding the new cohort.', error });
     });
 });
+
 // DELETE deletes a cohort
 router.delete('/:id', (req, res) => {
   const id = req.params.id;
@@ -71,6 +74,7 @@ router.delete('/:id', (req, res) => {
       });
     });
 });
+
 // PUT updates a cohort
 router.put('/:id', (req, res) => {
   const id = req.params.id;

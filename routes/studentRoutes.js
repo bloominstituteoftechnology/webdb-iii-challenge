@@ -21,12 +21,15 @@ router.get('/', (req, res) => {
         .json({ message: 'There was an error getting the students', error });
     });
 });
+
 // GET gets specific student
 router.get('/:id', (req, res) => {
   const id = req.params.id;
 
   db('students')
-    .where({ id })
+    .where('students.id', id)
+		.join('cohorts', 'cohorts.id', 'students.cohort_id')
+		.select('students.id', 'students.name', 'cohorts.name as cohort')
     .then(student => {
       res.status(200).json(student);
     })
@@ -36,6 +39,7 @@ router.get('/:id', (req, res) => {
         .json({ message: 'There was an error getting the student.', error });
     });
 });
+
 // POST adds a new student
 router.post('/', (req, res) => {
   const newStudent = req.body;
@@ -54,6 +58,7 @@ router.post('/', (req, res) => {
         .json({ message: 'There was an error adding the students.', error });
     });
 });
+
 // DELETE removes a student
 router.delete('/:id', (req, res) => {
   const id = req.params.id;
@@ -70,6 +75,7 @@ router.delete('/:id', (req, res) => {
         .json({ message: 'There was an error removing the student.', error });
     });
 });
+
 // PUT updates a student
 router.put('/:id', (req, res) => {
   const id = req.params.id;
