@@ -22,6 +22,21 @@ server.get('/api/cohorts/all', (req, res) => {
 		});
 });
 
+// get a single student with cohort info
+server.get('/api/students-info/:id', (req, res) => {
+	const { id } = req.params;
+	db('students')
+		.join('cohorts', { 'students.cohort_id': 'cohorts.id' })
+		.select('students.id', 'students.name', 'cohorts.name as cohort')
+		.where({ 'students.id': id })
+		.then((student) => {
+			res.status(200).json({ student });
+		})
+		.catch((err) => {
+			res.status(500).json(err);
+		});
+});
+
 // get all cohort info
 server.get('/api/cohorts', (req, res) => {
 	db('cohorts')
@@ -96,10 +111,10 @@ server.put('/api/cohorts/:student_id', (req, res) => {
 });
 
 // add a new cohort
-server.post('/api/cohorts/create', (req, res) => {
+server.post('/api/cohorts/', (req, res) => {
 	const cohorts = req.body;
 	db('cohorts')
-		.insert(cohort)
+		.insert(cohorts)
 		.returning('id')
 		.then((ids) => {
 			res.status(201).json(ids);
@@ -110,7 +125,7 @@ server.post('/api/cohorts/create', (req, res) => {
 });
 
 // add a new student
-server.post('/api/students/create', (req, res) => {
+server.post('/api/students/', (req, res) => {
 	const student = req.body;
 	db('students')
 		.insert(student)
