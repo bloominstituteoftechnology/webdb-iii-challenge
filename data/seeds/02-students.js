@@ -1,6 +1,6 @@
 exports.seed = function(knex, Promise) {
   return knex('students')
-    .del()
+    .truncate()
     .then(function() {
       return knex('students').insert([{ name: 'Samuel Ko', cohort_id: '2' }]);
     });

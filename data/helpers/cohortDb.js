@@ -6,6 +6,12 @@ module.exports = {
     if (id) query.where('id', Number(id)).first();
     return query;
   },
+  getCohortStudents: function(cohortId) {
+    return db('students as s')
+      .join('cohorts as c', 'c.id', 's.cohort_id')
+      .select('s.id', 's.name')
+      .where('s.cohort_id', cohortId);
+  },
   insert: function(cohort) {
     return db('cohorts')
       .insert(cohort)

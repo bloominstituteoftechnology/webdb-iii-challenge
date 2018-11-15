@@ -27,6 +27,17 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.get('/:id/students', async (req, res) => {
+  try {
+    const students = await cohortDb.getCohortStudents(req.params.id);
+    students > 0
+      ? res.status(200).json(students)
+      : res.status(404).json({ error: 'The cohort with the specified ID does not exist.' });
+  } catch {
+    res.status(500).json({ error: "There was an error retrieving the cohort's information!" });
+  }
+});
+
 router.post('/', async (req, res) => {
   if (req.body.name) {
     try {
