@@ -7,8 +7,10 @@ server.use(express.json());
 server.use(helmet());
 
 const cohortRoute = require('./routes/cohortRoute');
+const studentRoute = require('./routes/studentRoute'); 
 
 server.use('/api/cohorts', cohortRoute);
+server.use('/api/students', studentRoute);
 
 //sanity check endpoint
 server.get('/', (req, res) => {
