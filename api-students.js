@@ -34,7 +34,6 @@ API.get('/:id', async function (request, response, next){
     const studentId = request.params.id;
     // Attempt to find item-data in database
     try{
-        const itemId = request.params.id;
         let studentData = await knexDB(config.TABLE_STUDENTS)
         .select(
             `${C.TABLE_STUDENTS}.${C.FIELD_ID} as ${C.FIELD_ID}`,
