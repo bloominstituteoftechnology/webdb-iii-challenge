@@ -21,6 +21,18 @@ router.get('/:id', (req, res) => {
     .catch(err => res.status(500).json(err))
 })
 
+/* ----  GET STUDENTS IN COHORT  ---- */
+router.get('/:id/students/', (req, res) => {
+  const { id } = req.params
+  db('students')
+
+    .select()
+    .where('cohort_id', req.params.id)
+    .then(cohort => res.status(200).json(cohort))
+    .catch(err => res.status(500).json(err))
+})
+
+
 /* ----  EDIT COHORT ---- */
 router.put('/:id', (req, res) => {
   const { id } = req.params

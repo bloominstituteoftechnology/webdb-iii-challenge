@@ -32,6 +32,17 @@ router.put('/:id', (req, res) => {
     .catch(err => res.status(500).json(err))
 })
 
+/* ----  NEW STUDENT  ---- */
+router.post('/', (req, res) => {
+  const newStudent = req.body
+
+  db('students')
+
+    .insert(newStudent)
+    .then(count => res.status(201).json(count))
+    .catch(err => res.status(500).json(err))
+})
+
 /* ----  DELETE STUDENT  ---- */
 router.delete('/:id', (req, res) => {
   const { id } = req.params

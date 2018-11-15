@@ -4,15 +4,11 @@ exports.seed = function (knex, Promise) {
     .truncate()
     .then(function () {
       // Inserts seed entries
-      return knex('students').insert([{
-          name: "Riley"
-        },
-        {
-          name: "Luis"
-        },
-        {
-          name: "Josh"
-        }
+      return knex('students').insert([
+
+        { name: "Riley", cohort_id: 1 },
+        { name: "Luis", cohort_id: 1 },
+        { name: "Josh", cohort_id: 2 }
 
       ]);
     });
