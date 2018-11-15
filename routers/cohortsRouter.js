@@ -5,6 +5,8 @@ const knex = require("knex");
 const knexConfig = require("../knexfile.js");
 const db = knex(knexConfig.development);
 
+// [POST] '/api/cohorts'
+// This route should save a new cohort to the database.
 router.post("/", (req, res) => {
   const cohort = req.body;
   db("cohorts")
