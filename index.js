@@ -72,21 +72,19 @@ server.get('/cohorts/:id', (req, res) => {
 })
 
 server.get('/cohorts/:id/students', (req, res) => {
-
-    const { id } = req.params
-
-    db('cohorts')
-    .where({id})
-    .then(cohorts => {
-        res.status(200).json(cohorts)
+    const {id} = req.params;
+    db('cohorts').where('id', Number(id)).first()
+    .then(cohort => {
+        if (cohort) {
+            db('students').where('cohort_id', Number(id))
+                .then(students => res.status(200).json(students))
+                .catch(err => res.status(500).json({message: "The students could not be retrieved", err}))
+        } else {
+            res.status(404).json({message: "The cohort with the provided ID does not exist"})
+        }
     })
-    .then(students => {
-        res.status(200).json(students)
-    })
-    .catch(err => {
-        res.status(500).json(err)
-      })
-})
+    .catch(err => res.status(500).json({message: "The cohort information could not be retrieved", err}));
+});
 
 
 server.post('/cohorts', (req, res) => {
