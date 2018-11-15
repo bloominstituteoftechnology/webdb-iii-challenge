@@ -40,10 +40,10 @@ router.post('/', (req, res) => {
         .catch(err => {
             res.status(500).json({ message: 'could not get student id', err });
         });
-        const {id} = req.params;
-
+        
     /*
     Figured out another way to do the stretch
+    const {id} = req.params;
     db('students').where('id', Number(id)).first()
     .then(student => {
         if (student) {
