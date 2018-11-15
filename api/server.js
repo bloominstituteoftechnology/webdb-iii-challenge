@@ -12,9 +12,7 @@ const server = express();
 server.use(express.json());
 
 server.get('/', (req, res) => {
-  res.json({
-    api: 'up'
-  });
+  res.json({ api: 'up' });
 });
 
 // TABLE SCHEMA
@@ -26,12 +24,8 @@ server.get('/', (req, res) => {
 // COHORTS
 // POST: .insert() .into
 server.post('/api/cohorts', nameCheck, (req, res) => {
-  const {
-    name
-  } = req.body;
-  const cohort = {
-    name
-  };
+  const { name } = req.body;
+  const cohort = { name };
 
   db('cohorts')
     .insert(cohort)
@@ -62,9 +56,7 @@ server.get('/api/cohorts', (req, res) => {
 
 // GET BY ID
 server.get('/api/cohorts/:id', (req, res) => {
-  const {
-    id
-  } = req.params;
+  const { id } = req.params;
 
   db('cohorts')
     .where({
@@ -85,14 +77,12 @@ server.get('/api/cohorts/:id', (req, res) => {
 
 // GET cohort.id matches students.cohort_id
 server.get('/api/cohorts/:id/students', (req, res) => {
-  const {
-    id
-  } = req.params;
+  const { id } = req.params;
 
   db('cohorts')
     .join('students', 'cohorts.id', '=', 'students.cohort_id')
     .select('*')
-    .then(students => res.status(200).send(students.filter(student => student.cohort_id === `${id}` / 1)))
+    .then(students => res.status(200).json(students.filter(student => student.cohort_id === `${id}` / 1)))
     .catch(err => res.status(500).json({
       err
     }));
@@ -102,14 +92,10 @@ server.get('/api/cohorts/:id/students', (req, res) => {
 // PUT .where() .update()
 server.put('/api/cohorts/:id', nameCheck, (req, res) => {
   const changes = req.body;
-  const {
-    id
-  } = req.params;
+  const { id } = req.params;
 
   db('cohorts')
-    .where({
-      id: id
-    }) // 
+    .where({ id: id }) // 
     .update(changes)
     .then(count => {
       res.status(200).json({
@@ -124,19 +110,13 @@ server.put('/api/cohorts/:id', nameCheck, (req, res) => {
 // Calling .del() without first filtering the records will result on the removal of all the records in the table, be careful!
 
 server.delete('/api/cohorts/:id', (req, res) => {
-  const {
-    id
-  } = req.params;
+  const { id } = req.params;
 
   db('cohorts')
-    .where({
-      id: id
-    })
+    .where({ id: id })
     .del()
     .then(count => {
-      res.status(200).json({
-        count
-      });
+      res.status(200).json({ count });
     })
     .catch(err => res.status(500).json(err));
 });
@@ -150,9 +130,7 @@ server.post('/api/students', nameCheck, (req, res) => {
     .insert(student)
     // .returning('id')
     .then(ids => {
-      res.status(201).json({
-        id: ids[0]
-      });
+      res.status(201).json({ id: ids[0] });
     })
     .catch(err => {
       res.status(500).json({
@@ -167,34 +145,28 @@ server.get('/api/students', (req, res) => {
 
   db('students')
     .then(students => res.status(200).json(students))
-    .catch(err => res.status(500).json({
-      err
-    }));
+    .catch(err => res.status(500).json({ err }));
 });
 
 // GET BY ID
 server.get('/api/students/:id', (req, res) => {
-  const {
-    id
-  } = req.params;
-
+  const { id } = req.params;
+  console.log( id )
   db('students')
-    .where({
-      id: id
-    })
+    .where({ id: id })
     .then(students =>
-      students[0] ?
-      res.status(200).json(students[0]) //students[0])
-      :
-      res.status(404).json({
-        error: "there is no student with that id",
-        "log": console.log(id)
+      students[0]
+      ? res.status(200).json(students[0])
+      : res.status(404).json({
+          error: "there is no student with that id",
+          "log": console.log(id)
       })
     )
     .catch(err => res.status(500).json({
       err
     }));
 });
+
 
 // PUT .where() .update()
 server.put('/api/students/:id', (req, res) => {
@@ -222,9 +194,7 @@ server.put('/api/students/:id', (req, res) => {
 // Calling .del() without first filtering the records will result on the removal of all the records in the table, be careful!
 
 server.delete('/api/students/:id', (req, res) => {
-  const {
-    id
-  } = req.params;
+  const { id } = req.params;
 
   db('students')
     .where({
@@ -244,8 +214,8 @@ server.delete('/api/students/:id', (req, res) => {
 server.get('/api/cohorts-join-students', (req, res) => {
   return db('cohorts')
     .join('students', 'cohorts.id', '=', 'students.cohort_id')
-    // .select('cohorts.name', 'students.name')
-    .select('*')
+    .select('cohorts.name')
+    // .select('*')
     .then(response => {
       res.status(200).json(response)
     })
