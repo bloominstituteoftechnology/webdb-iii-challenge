@@ -21,7 +21,7 @@ API.get('/:id/students', async function(request, response, next){
     // Select matching students from database
     try {
         let studentArray = await knexDB(config.TABLE_STUDENTS).where({
-            [config.COHORT_ID]: id
+            [config.FIELD_COHORT_ID]: id
         });
         // Handle cases where cohort does not exist
         // Send data to requesting agent

@@ -15,7 +15,7 @@ exports.up = function(knex, Promise) {
             table.string(config.FIELD_NAME).notNullable();
         }),
         // Students Table
-        knex.schema.createTable(TABLE_STUDENTS, table => {
+        knex.schema.createTable(config.TABLE_STUDENTS, table => {
             table.increments(config.FIELD_ID).primary();
             table.string(config.FIELD_NAME).notNullable();
             table.integer(config.FIELD_COHORT_ID);
@@ -27,7 +27,7 @@ exports.up = function(knex, Promise) {
 exports.down = function(knex, Promise) {
     // Destroy all Tables (Cohorts & Students)
     return Promise.add([
-        knex.schema.dropTable(TABLE_COHORTS ),
-        knex.schema.dropTable(TABLE_STUDENTS),
+        knex.schema.dropTable(config.TABLE_COHORTS ),
+        knex.schema.dropTable(config.TABLE_STUDENTS),
     ])
 };
