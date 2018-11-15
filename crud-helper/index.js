@@ -1,23 +1,11 @@
 
 
-//== Knex Database Builder =====================================================
+//== Crud Helper ===============================================================
 
-//-- Dependencies --------------------------------
-const knex       = require('knex'          );
-const knexConfig = require('../knexfile.js');
-
-//-- Configure Knex Database ---------------------
-const knexDB = knex(knexConfig.development);
-
-//-- Export Database Access Builder --------------
-module.exports = function (tableName/*, options*/) {
-    return new DatabaseIntermediary(knexDB, tableName);
-};
-
-
-//== Database Intermediary Class ===============================================
-
-class DatabaseIntermediary {
+module.exports = function(knexDatabase, tableName) {
+    return new CrudHelper(knexDatabase, tableName);
+}
+class CrudHelper {
     constructor(knexDatabase, tableName) {
         this.db    = knexDatabase;
         this.table = tableName   ;

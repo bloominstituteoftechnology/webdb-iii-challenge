@@ -2,25 +2,25 @@
 
 //== Create Tables: Cohorts, Students ==========================================
 
-//-- Constants -----------------------------------
-const TABLE_COHORTS  = 'cohorts' ;
-const TABLE_STUDENTS = 'students';
+//-- Dependencies --------------------------------
+const config = require('../../config.js');
 
 //-- Migration -----------------------------------
 exports.up = function(knex, Promise) {
     // Create all Tables
     return Promise.all([
         // Cohorts Table
-        knex.schema.createTable(TABLE_COHORTS, table => {
-            table.increments('id').primary();
-            table.string('name').notNullable();
+        knex.schema.createTable(config.TABLE_COHORTS, table => {
+            table.increments(config.FIELD_ID).primary();
+            table.string(config.FIELD_NAME).notNullable();
         }),
         // Students Table
         knex.schema.createTable(TABLE_STUDENTS, table => {
-            table.increments('id').primary();
-            table.string('name').notNullable();
-            table.integer('cohort_id');
-            table.foreign('cohort_id').references(`${TABLE_COHORTS}.id`);
+            table.increments(config.FIELD_ID).primary();
+            table.string(config.FIELD_NAME).notNullable();
+            table.integer(config.FIELD_COHORT_ID);
+            table.foreign(config.FIELD_COHORT_ID)
+            .references(`${config.TABLE_COHORTS}.${config.FIELD_ID}`);
         })
     ]);
 };
