@@ -62,7 +62,7 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
   const studentId = req.params.id;
   db("students")
-    // .join and .select methods in the next couple lines resolve the constraint of the stretch, otherwise will only student info from students table
+    // .join and .select methods in the next couple lines resolve the constraint of the stretch, otherwise will only return student info from students table
     .join("cohorts", "students.cohort_id", "cohorts.id")
     //necessary to rename cohorts.name because the returned object can only have one 'name' field and it will take the last one
     .select("students.id", "students.name", "cohorts.name as cohort")
