@@ -15,5 +15,6 @@ module.exports = {
     TABLE_STUDENTS: 'students',
     FIELD_ID       : 'id'       ,
     FIELD_NAME     : 'name'     ,
+    FIELD_COHORT   : 'cohort'   ,
     FIELD_COHORT_ID: 'cohort_id',
 };

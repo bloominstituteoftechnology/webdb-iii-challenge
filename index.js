@@ -5,7 +5,7 @@
 //-- Dependencies --------------------------------
 const express     = require('express'          );
 const apiCohorts  = require('./api-cohorts.js' );
-//const apiStudents = require('./api-students.js');
+const apiStudents = require('./api-students.js');
 const config      = require('./config.js'      );
 
 //-- Create Server and open Port -----------------
@@ -17,4 +17,4 @@ server.listen(config.PORT, function() {
 //-- Configure Server ----------------------------
 server.use(express.json());
 server.use(config.PATH_COHORTS , apiCohorts );
-//server.use(config.PATH_STUDENTS, apiStudents);
+server.use(config.PATH_STUDENTS, apiStudents);

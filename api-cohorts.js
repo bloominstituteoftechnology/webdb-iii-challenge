@@ -24,6 +24,7 @@ API.get('/:id/students', async function(request, response, next){
             [config.FIELD_COHORT_ID]: id
         });
         // Handle cases where cohort does not exist
+            // This should really check if such a cohort exists.
         // Send data to requesting agent
         response.status(200);
         response.json(studentArray);
