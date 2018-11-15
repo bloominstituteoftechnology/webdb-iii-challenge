@@ -51,11 +51,9 @@ server.get('/api/students/:studentId', async (req, res) => {
 
   try {
     const student = await db('students')
-      .select('students.id', 'students.name', 'cohorts.name')
-      .from('students')
-      .innerJoin('cohorts')
-      .on('students.cohort_id', '=', 'cohorts.id')
-      .where({ id: studentId });
+      .select('students.id', 'students.name', 'cohorts.name as cohort')
+      .join('cohorts', 'students.cohort_id', '=', 'cohorts.id')
+      .where({ 'students.id': studentId });
     {
       student[0]
         ? res.status(200).json(student[0])
