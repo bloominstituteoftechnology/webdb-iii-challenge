@@ -50,10 +50,15 @@ server.get('/api/students/:studentId', async (req, res) => {
   const { studentId } = req.params;
 
   try {
-    const student = await db('students').where({ id: studentId });
+    const student = await db('students')
+      .select('students.id', 'students.name', 'cohorts.name')
+      .from('students')
+      .innerJoin('cohorts')
+      .on('students.cohort_id', '=', 'cohorts.id')
+      .where({ id: studentId });
     {
       student[0]
-        ? res.status(200).json({ student })
+        ? res.status(200).json(student[0])
         : res.status(404).json({ error: 'The student with that ID does not exist.' });
     }
   } catch (error) {
