@@ -12,7 +12,10 @@ server.use(helmet());
 
 //call Route
 const cohortRoute = require('./routes/cohortRoute');
+const studentRoute = require('./routes/studentRoute');
+
 server.use('/api/cohorts', cohortRoute);
+server.use('/api/students', studentRoute);
 
 //endpoints
 server.get('/', (req, res) => {
