@@ -42,16 +42,46 @@ server.get('/api/cohorts/:id', (req, res) => {
   const { id } = req.params;
   db('cohorts_table')
   .where({ id:id })
-  .then(cohorts => res.status(200).json(cohorts))
-  .catch(err => res.status(500).json(err));
+  .then(cohort => { 
+    if (!cohort ) { 
+    res.status(404).json({ message: "The cohort with the specified ID does not exist." });
+    return  
+    } else if (!cohort.length) { 
+     res.status(404).json({ message: "The cohort with the specified ID does not have any actions yet." });
+     return  
+     } else if (cohort && cohort.length){ 
+    res.status(200).json(cohort);
+    return  
+    }
+  })
+  .catch(err => {
+    res 
+      .status(500)
+      .json({ error: "The post information could not be retrieved." });
+  });
 });
 
 server.get('/api/cohorts/:id/students', (req, res) => {
     const { id } = req.params;
     db('students_table')
     .where({ cohort_id:id })
-    .then(cohorts => res.status(200).json(cohorts))
-    .catch(err => res.status(500).json(err));
+    .then(cohort => { 
+    if (!cohort ) { 
+      res.status(404).json({ message: "The cohort with the specified ID does not exist." });
+      return  
+      } else if (!cohort.length) { 
+       res.status(404).json({ message: "The cohort with the specified ID does not have any actions yet." });
+       return  
+       } else if (cohort && cohort.length){ 
+      res.status(200).json(cohort);
+      return  
+      }
+    })
+    .catch(err => {
+      res 
+        .status(500)
+        .json({ error: "The post information could not be retrieved." });
+    });
   });
 
 // ___________ PUT Cohort______________
@@ -65,8 +95,17 @@ server.put('/api/cohorts/:id', (req, res) => {
   db('cohorts_table')
     .where({ id:id })
     .update(changes)
-    .then(count => {
-      res.status(200).json(count);
+    .then(cohort => {
+      if (!cohort ) { 
+        res.status(404).json({ message: "The cohort with the specified ID does not exist." });
+        return  
+        } else if (!cohort.length) { 
+         res.status(404).json({ message: "The cohort with the specified ID does not have any actions yet." });
+         return  
+         } else if (cohort && cohort.length){ 
+        res.status(200).json(cohort);
+        return  
+        }
     })
     .catch(err => res.status(500).json(err));
 });
