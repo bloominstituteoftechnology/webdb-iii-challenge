@@ -10,7 +10,7 @@ module.exports = function(db){
     router.get('/:id', getById)
     router.put('/:id', putData)
     router.delete('/:id', deleteData) 
-
+    router.get('/:id/students', getCohortStudents)
     return router;
 }
 
@@ -93,6 +93,19 @@ const deleteData = async (req,res) => {
     try{
         let data = await db(tableName).where({id}).del()
         res.status(200).json({message: 'Data deleted successfully.'})
+    }
+    catch(err){
+        res.status(500).json({message: 'There was an error processing the data.'})
+    }
+}
+
+const getCohortStudents = async (req,res) => {
+    
+
+    let {id} = req.params; 
+    try{
+        let data = await db('students').where({cohort_id: id});
+        res.status(200).json(data)
     }
     catch(err){
         res.status(500).json({message: 'There was an error retrieving the data.'})
