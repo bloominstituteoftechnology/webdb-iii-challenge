@@ -126,36 +126,36 @@ server.delete("/students/:id", (req, res) => {
     .catch(err => res.status(500).json({ error: err }));
 });
 
-// server.get("/students/:id", (req, res) => {
-//   const { id } = req.params;
-//   db('students')
-//     .join("cohorts", "cohorts.id", "students.cohort_id")
-//     .select("students.id", "students.name", "cohorts.name as cohort")
-//     .where("students.id", id)
-//     .first()
-//     .then(name => {
-//       console.log(name);
-//       res.status(200).json(name);
-//     })
-//     .catch(err => res.status(500).json({ error: err }));
-// });
-
-server.get("/api/students/:id", (req, res) => {
+server.get("/students/:id", (req, res) => {
   const { id } = req.params;
   db("students")
-    .where("students.id", id)
     .join("cohorts", "cohorts.id", "students.cohort_id")
     .select("students.id", "students.name", "cohorts.name as cohort")
-    .then(student => {
-      if (student) {
-        res.status(200).json(student);
-      } else {
-        res.status(404).json({
-          message: "The student with the specified ID does not exist.",
-          error: err
-        });
-      }
-    });
+    .where("students.id", id)
+    .first()
+    .then(name => {
+      console.log(name);
+      res.status(200).json(name);
+    })
+    .catch(err => res.status(500).json({ error: err }));
 });
+
+// server.get("/api/students/:id", (req, res) => {
+//   const { id } = req.params;
+//   db("students")
+//     .where("students.id", id)
+//     .join("cohorts", "cohorts.id", "students.cohort_id")
+//     .select("students.id", "students.name", "cohorts.name as cohort")
+//     .then(student => {
+//       if (student) {
+//         res.status(200).json(student);
+//       } else {
+//         res.status(404).json({
+//           message: "The student with the specified ID does not exist.",
+//           error: err
+//         });
+//       }
+//     });
+// });
 
 server.listen(6000, () => console.log("\n== Port 6k ==\n"));
