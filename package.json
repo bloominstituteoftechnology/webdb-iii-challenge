@@ -4,12 +4,12 @@
   "description": "- Databases\r - Relational Databases\r - Knex migrations.\r - Seeding data.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/GannonDetroit/RDBMS-API-Full.git",
-    "server": "nodemone index.js"
+    "url": "git+https://github.com/GannonDetroit/RDBMS-API-Full.git"
   },
   "keywords": [],
   "author": "Gannon",
