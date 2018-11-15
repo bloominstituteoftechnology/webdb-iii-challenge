@@ -7,7 +7,7 @@ exports.seed = function (knex, Promise) {
                 { name: 'FSW15' },
                 { name: 'FSW16' },
                 { name: 'PT2' },
-                { name: 'PT1' },
+                { name: 'PT1' }
             ])
         });
 };

@@ -3,6 +3,7 @@
 const express = require('express');
 const helmet = require('helmet');
 const server = express();
+const knexConfig = require('./knexfile')
 
 //call dependencies
 server.use(express.json());
