@@ -1,18 +1,15 @@
 exports.up = function (knex, Promise) {
-    return knex.schema.createTable('students', tbl => {
+    return knex.schema.createTable("students", function(tbl) {
         tbl.increments()
-        tbl.string('name', 255)
+        tbl.string("name", 250)
         tbl
-            .integer('student_id')
-            .unsigned()
-            .references('id')
-            .inTable('cohorts')
-        tbl.timestamps(true, true)
+        .integer("cohort_id")
+        .unsigned()
+        .references("id")
+        .inTable("cohorts")
     })
 };
 
-
 exports.down = function (knex, Promise) {
-    return knex.schema.dropTableIfExists("students");
+    return knex.schema.dropTableIfExists("students")
 };
-
