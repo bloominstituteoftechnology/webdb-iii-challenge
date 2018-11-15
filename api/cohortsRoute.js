@@ -23,8 +23,16 @@ router.get('/:id', (req, res) => {
   
 })
 
-//adds a new cohort
+// gets students in cohort
+router.get('/:id/students', (req, res) => {
+  db('students')
+    .select()
+    .where('cohort_id', req.params.id)
+    .then(cohort => res.status(200).json(cohort))
+    .catch( error => res.status(500).json(error))
+})
 
+//adds a new cohort
 router.post('/', (req, res) => {
   const cohort = req.body;
   db('cohorts')
@@ -73,8 +81,4 @@ router.delete('/:id', (req, res) => {
 
 module.exports = router;
 
-
-
-
-// - `[GET] /api/cohorts/:id/students` returns all students for the cohort with the specified `id`.
 

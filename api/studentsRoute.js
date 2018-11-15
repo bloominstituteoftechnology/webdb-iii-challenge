@@ -6,7 +6,6 @@ const router = express.Router();
 
 
 //gets all students
-
 router.get('/', (req, res) => {
   db('students')
     .then(students => res.status(200).json(students))
@@ -25,7 +24,6 @@ router.get('/:id', (req, res) => {
 })
 
 //adds a new student
-
 router.post('/', (req, res) => {
   const student = req.body;
   db('students')
