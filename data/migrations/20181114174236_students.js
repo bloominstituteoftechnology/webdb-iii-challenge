@@ -5,6 +5,7 @@ exports.up = function(knex, Promise) {
     tbl.string('name', 150)
        .notNullable();
     tbl.integer('cohort_id')
+       .unsigned()
        .references('id')
        .inTable('cohorts');
   })
