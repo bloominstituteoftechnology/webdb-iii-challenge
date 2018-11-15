@@ -3,7 +3,10 @@ exports.up = function(knex, Promise) {
     //   Primary Key
     tbl.increments();
     // Other Fields
-    tbl.string("name", 128).unique();
+    tbl
+      .string("name", 128)
+      .unique()
+      .notNullable();
   });
 };
 
