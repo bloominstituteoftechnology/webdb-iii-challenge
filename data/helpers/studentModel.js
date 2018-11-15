@@ -8,8 +8,6 @@ module.exports = {
 };
 
 function get(id) {
-  let query = db('students');
-
   if (id) {
     return db('students as s')
       .join('cohorts as c', 'c.id', 's.cohort_id')
@@ -17,7 +15,7 @@ function get(id) {
       .where({ 's.id': id });
   }
 
-  return query;
+  return db('students');
 }
 
 function insert(name) {
