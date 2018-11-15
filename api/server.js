@@ -148,7 +148,7 @@ server.delete('/api/students/:id', (req, res) => {
 // JOIN
 server.get('/api/cohorts-join-students', (req, res) => {
   return db('cohorts')
-    .join('students', 'cohorts.id', '=', 'students.cohorts_id')
+    .join('students', 'cohorts.id', '=', 'students.cohort_id')
     // .select('cohorts.name', 'students.name')
     .select('*')
     .then(response => {
