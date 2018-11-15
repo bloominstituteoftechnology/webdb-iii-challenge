@@ -33,30 +33,14 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// GET students
-router.get('/:id/students', async (req, res) => {
-  const { id } = req.params;
-  try {
-    const students = await db
-      .select('*')
-      .from('students')
-      .where({ 'students.id': id })
-      .join('students', { 'students.id': 'students.student_id' });
-
-    return !students.length
-      ? res.status(404).json({ message: "That student doesn't exist" })
-      : res.status(200).json(students);
-  } catch (error) {
-    res
-      .status(500)
-      .json({ error: 'There was an error getting that student student name.' });
-  }
-});
-
 // POST new student
 router.post('/', async (req, res) => {
   const newstudent = req.body;
   try {
+    const cohort = await db('cohorts').where({ id: newstudent.cohort_id });
+    if (!cohort.length) {
+      return res.status(404).json({ message: 'That cohort does not exist' });
+    }
     const id = await db.insert(newstudent).into('students');
     const student = await db('students').where({ id: id[0] });
     res.status(201).json({ ...student[0] });
@@ -72,6 +56,13 @@ router.put('/:id', async (req, res) => {
   const { id } = req.params;
   const changes = req.body;
   try {
+    // If changes include a cohort id then check to make sure cohort exists
+    if (changes.cohort_id) {
+      const cohort = await db('cohorts').where({ id: changes.cohort_id });
+      if (!cohort.length) {
+        return res.status(404).json({ message: 'That cohort does not exist' });
+      }
+    }
     const count = await db('students')
       .where({ id })
       .update(changes);
