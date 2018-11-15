@@ -3,7 +3,7 @@ exports.up = function(knex, Promise) {
     tbl.increments();
     tbl.string('name', 120).notNullable();
     tbl
-      .string('cohort_id')
+      .integer('cohort_id')
       .unsigned()
       .references('id')
       .inTable('cohorts');
