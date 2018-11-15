@@ -43,7 +43,15 @@ server.get('./api/cohorts/:id', (req, res) => {
 });
 
 server.get('./api/cohorts/:id/students', (req, res) => {
-
+    const { id } = req.params;
+    db('students')
+        .where({ cohort_id: id })
+        .then(students => {
+            res.status(200).json(students);
+        })
+        .catch(err => {
+            res.status(500).json({ message: 'server error', err});
+        })
 });
 
 server.put('./cohorts/:id', (req, res) => {
@@ -85,3 +93,5 @@ server.post('.api/students', (req, res) => {
             res.status(500).json({ message: 'server error', err})
         })
 });
+
+server.listen(8000, () => console.log('API listening on port 8000'));
