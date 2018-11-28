@@ -54,3 +54,9 @@ Have the student returned by the `[GET] /students/:id` endpoint include the coho
   cohort: 'Full Stack Web Infinity'
 }
 ```
+
+
+//yarn add express knex sqlite helmet
+// yarn add --dev nodemon
+// create knex file: knex init
+
