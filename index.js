@@ -9,7 +9,7 @@ const server = express();
 
 server.use(express.json());
 
-// COHORTS
+// -------------COHORTS----------------
 
 // GET
 
@@ -85,7 +85,7 @@ server.delete("/api/cohorts/:id", (req, res) => {
   });
 
 
-// STUDENTS
+// --------------STUDENTS----------------
 
 // GET
 
