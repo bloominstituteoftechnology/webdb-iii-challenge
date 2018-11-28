@@ -1,6 +1,6 @@
 
 exports.up = function(knex, Promise) {
-  return knex.schema.createTable('lambda', function(tbl) {
+  return knex.schema.createTable('cohorts', function(tbl) {
       tbl.increments('id');
       tbl.string('name')
       .notNullable();
@@ -8,5 +8,5 @@ exports.up = function(knex, Promise) {
 };
 
 exports.down = function(knex, Promise) {
-  return knex.schema.dropTableIfExists('lambda');
+  return knex.schema.dropTableIfExists('cohorts');
 };
