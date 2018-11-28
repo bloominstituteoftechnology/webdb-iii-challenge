@@ -56,7 +56,8 @@ Have the student returned by the `[GET] /students/:id` endpoint include the coho
 ```
 
 
-//yarn add express knex sqlite helmet
+//yarn add express knex sqlite3  helmet
 // yarn add --dev nodemon
 // create knex file: knex init
+// node index.js
 
