@@ -6,7 +6,7 @@ exports.up = function(knex, Promise) {
 
     //fields
     tbl.string('name', 128)
-    .notNullable();
+      .notNullable();
 
     tbl
       .integer('cohort_id')
