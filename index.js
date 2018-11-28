@@ -1,10 +1,59 @@
-const express = require('express');
-const knex = require('knex');
+const express = require("express");
+const knex = require("knex");
+const knexConfig = require("./knexfile.js");
 
 const server = express();
-const port = 9000
+const db = knex(knexConfig.development);
+const port = 9000;
 
+server.get("/api/cohorts", (req, res) => {
+  db("cohorts")
+    .then(cohort => {
+      res.json(cohort);
+    })
+    .catch(err => res.status(500).json({ message: err }));
+});
 
+server.get("/api/cohorts/:id", (req, res) => {
+  const { id } = req.params;
+  db("cohorts")
+    .where({ id })
+    .then(cohort => {
+      res.json(cohort);
+    })
+    .catch(err => res.status(500).json({ message: err }));
+});
+
+server.post("/api/cohorts", (req, res) => {
+  const cohort = req.body;
+  db("bears")
+    .insert(cohort)
+    .then(id => {
+      res.status(201).json(id);
+    })
+    .catch(err => res.status(500).json({ message: "Error posting cohort" }));
+});
+server.put("/api/cohorts/:id", (req, res) => {
+  const { id } = req.params;
+  const changes = req.body;
+  db("cohorts")
+    .where({ id })
+    .update(changes)
+    .then(count => {
+      res.json({ count });
+    })
+    .catch(err => res.status(500).json(err));
+});
+
+server.delete("/api/cohorts/:id", (req, res) => {
+  const { id } = req.params;
+  db("cohorts")
+    .where({ id })
+    .del()
+    .then(count => {
+      res.json({ count });
+    })
+    .catch(err => res.status(500).json(err));
+});
 
 server.listen(port, () => console.log(`\n API is running on port ${port} \n`));
-
