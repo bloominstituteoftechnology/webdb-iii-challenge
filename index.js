@@ -21,3 +21,4 @@ server.post('/api/cohorts', (req, res) => {
       res.status(500).json({ message: 'Cannot Insert', err})
     })
 })
+
