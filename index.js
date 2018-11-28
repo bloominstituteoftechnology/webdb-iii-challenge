@@ -41,15 +41,37 @@ server.get('/api/cohorts/:id/students', (req, res) => {
 });
 
 server.post('/api/cohorts', (req, res) => {
-
+    const cohort = req.body
+    db('cohorts').insert(cohort)
+    .then(ids => {
+        res.status(201).json(ids)
+    })
+    .catch(err => res.status(500).json({ message: 'Error Posting New Cohort', err }))
 });
 
 server.put('/api/cohorts/:id', (req, res) => {
+    const changes = req.body;
+    const { id } = req.params;
 
+    db('cohorts')
+    .where({ id })
+    .update(changes)
+    .then(count => {
+        res.status(200).json({ count });
+    })
+    .catch(err => res.status(500).json(err));
 });
 
 server.delete('/api/cohorts/:id', (req, res) => {
+    const { id } = req.params;
 
+    db('students')
+    .where({ id })
+    .del()
+    .then(count => {
+        res.status(200).json({ count });
+    })
+    .catch(err => res.status(500).json(err));
 });
 
 const port = 7777;
