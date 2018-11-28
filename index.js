@@ -9,6 +9,8 @@ const server = express();
 
 server.use(express.json());
 
+// COHORTS
+
 // GET
 
 server.get("/api/cohorts", (req, res) => {
@@ -72,6 +74,82 @@ server.delete("/api/cohorts/:id", (req, res) => {
     const { id } = req.params;
     console.log(id);
     db("cohorts")
+      .where({id:id})
+      .del()
+      .then(ids => {
+          res.status(200).json(ids)
+      })
+      .catch(err => {
+          res.status(500).json({ error: err })
+      });
+  });
+
+
+// STUDENTS
+
+// GET
+
+server.get("/api/students", (req, res) => {
+    db("students")
+      .then(students => {
+          res.status(200).json(students)
+      })
+      .catch(err => {
+          res.status(500).json(err)
+      });
+  });
+
+// GET BY ID
+  
+  server.get("/api/students/:id", (req, res) => {
+    const { id } = req.params;
+    console.log(id);
+    db("students")
+      .where({ id: id })
+      .then(name => {
+          res.status(200).json(name)
+      })
+      .catch(err => {
+          res.status(500).json({ error: err })
+      });
+  });
+
+// POST
+
+server.post("/api/students", (req, res) => {
+    const name = req.body;
+
+    db("students")
+      .insert(name)
+      .then(name => {
+          res.status(201).json(name)
+      })
+      .catch(err => {
+          res.status(500).json({ error: err })
+      });
+  });
+
+// UPDATE
+
+server.put("/api/students/:id", (req, res) => {
+    const changes = req.body;
+    const {id} = req.params;
+    console.log(id);
+    db("students")
+      .where({ id: id })
+      .update(changes)
+      .then(count => {
+          res.status(200).json(count)
+      })
+      .catch(err => res.status(500).json({ error: err }));
+  });
+
+// DELETE
+
+server.delete("/api/students/:id", (req, res) => {
+    const { id } = req.params;
+    console.log(id);
+    db("students")
       .where({id:id})
       .del()
       .then(ids => {
