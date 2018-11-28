@@ -39,3 +39,15 @@ server.get('/api/cohorts/:id', (req, res) => {
     })
     .catch(err => res.status(500).json(err));
 })
+
+server.put('/api/cohorts/:id', (req, res) => {
+  const change = req.body;
+  const { id } = req.params;
+  db('cohorts')
+    .where({ id: id })
+    .update(change)
+    .then(count => {
+      res.status(200).json({ count });
+    })
+    .catch(err => res.status(500).json(err));
+})
