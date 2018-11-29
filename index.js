@@ -5,6 +5,7 @@ const knexConfig = require("./knexfile.js");
 const server = express();
 const db = knex(knexConfig.development);
 const port = 9000;
+server.use(express.json());
 
 server.get("/api/cohorts", (req, res) => {
   db("cohorts")
@@ -26,13 +27,14 @@ server.get("/api/cohorts/:id", (req, res) => {
 
 server.post("/api/cohorts", (req, res) => {
   const cohort = req.body;
-  db("bears")
+  db("cohorts")
     .insert(cohort)
-    .then(id => {
-      res.status(201).json(id);
+    .then(cohort => {
+      res.status(201).json(cohort);
     })
-    .catch(err => res.status(500).json({ message: "Error posting cohort" }));
+    .catch(err => res.status(500).json({ message: err }));
 });
+
 server.put("/api/cohorts/:id", (req, res) => {
   const { id } = req.params;
   const changes = req.body;

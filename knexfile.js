@@ -8,6 +8,7 @@ module.exports = {
       filename: './lambda.sqlite3'
     },
     useNullAsDefault: true,
+    
   },
 
   staging: {
