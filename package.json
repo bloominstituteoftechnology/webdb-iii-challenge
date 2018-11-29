@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ssmodish/RDBMS-API-Full.git"
+    "url": "git+https://github.com/VaderSteve76/RDBMS-API-Full.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ssmodish/RDBMS-API-Full/issues"
+    "url": "https://github.com/VaderSteve76/RDBMS-API-Full/issues"
   },
-  "homepage": "https://github.com/ssmodish/RDBMS-API-Full#readme",
+  "homepage": "https://github.com/VaderSteve76/RDBMS-API-Full#readme",
   "dependencies": {
     "express": "^4.16.4",
     "knex": "^0.15.2",

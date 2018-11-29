@@ -21,4 +21,4 @@ exports.seed = function (knex, Promise) {
         { "name": "Clementine Sacks", "cohort_id": 15 },
         { "name": "Thorn Wadge", "cohort_id": 16 }
         ]);
-    });
+    })}
