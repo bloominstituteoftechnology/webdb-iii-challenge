@@ -16,6 +16,6 @@ exports.up = function(knex, Promise) {
 };
 
 exports.down = function(knex, Promise) {
-  // here we undeo the changes made to the db on knex:migrate rollback
+  // here we undo the changes made to the db on knex:migrate rollback
   return knex.schema.dropTable('courses');
 };
