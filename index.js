@@ -40,6 +40,16 @@ server.get('/api/cohorts/:id/students', (req, res) => {
     .catch(error => res.status(500).json({message: "You done f'd up", error}))
 });
 
+server.get('/cohorts/students', (req, res) => {
+    console.log(req.params.id)
+    db('students')
+    // .where({id})
+    .join('cohorts', 'cohorts.id', '=', 'students.cohort_id')
+    // .where('students.cohort_id', '=', id)
+    .then(student => res.status(200).json(student))
+    .catch(error => res.status(500).json({message: "You done f'd up", error}))
+});
+
 server.post('/api/cohorts', (req, res) => {
     const cohort = req.body
     db('cohorts').insert(cohort)
