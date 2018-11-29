@@ -55,6 +55,7 @@ Have the student returned by the `[GET] /students/:id` endpoint include the coho
 }
 ```
 
+// `knex` in the CLI pulls up the available commands
 
 //yarn add express knex sqlite3  helmet
 // yarn add --dev nodemon
@@ -62,3 +63,5 @@ Have the student returned by the `[GET] /students/:id` endpoint include the coho
 // node index.js
 // knex migrate:make cohorts_table
 // knex migrate:make students_table
+// knex seed:make 01-cohorts
+// knex seed:make 01-students
