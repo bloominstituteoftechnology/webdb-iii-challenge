@@ -2,6 +2,9 @@
   "name": "RDBMS-API-Full",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts": {
+    "server": "nodemon index.js"
+  },
   "repository": "https://github.com/JoeBugajski/RDBMS-API-Full.git",
   "author": "Joe Bugajski",
   "license": "MIT",
@@ -11,5 +14,8 @@
     "knex": "^0.15.2",
     "morgan": "^1.9.1",
     "sqlite3": "^4.0.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.7"
   }
 }

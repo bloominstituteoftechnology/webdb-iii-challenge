@@ -4,7 +4,8 @@ exports.up = function(knex, Promise) {
   // commit
   return knex.schema.createTable('cohorts', function(table) {
     // generates a primary key called id and makes it auto-increment.
-    table.increments('cohort_id');
+    table
+      .increments('id');
 
     table
       .string('name', 128)
