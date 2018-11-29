@@ -63,5 +63,6 @@ Have the student returned by the `[GET] /students/:id` endpoint include the coho
 // node index.js
 // knex migrate:make cohorts_table
 // knex migrate:make students_table
+// knex migrate:latest // to spit out db.file
 // knex seed:make 01-cohorts
 // knex seed:make 01-students
