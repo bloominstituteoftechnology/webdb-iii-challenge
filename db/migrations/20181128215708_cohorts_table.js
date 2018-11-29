@@ -1,10 +1,10 @@
 exports.up = function(knex, Promise) {
     return knex.schema.createTable('cohorts_table', function(tbl) {
-        // creates primary key
+        // creates primary key (id)
         tbl.increments(); 
     
         tbl
-        .string('name', 255)
+        .string('name', 333)
         .notNullable() // sets as required
         .unique('name'); // creates index
         
