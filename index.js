@@ -108,7 +108,7 @@ server.get('/students/:id', (req, res) => {
     .join('cohorts', 'cohorts.id', '=', 'students.cohort_id')
     .where('students.id', '=',  id)
     .then(student => res.status(201).json({student}))
-    .catch(error => res.status(500).json({ message: 'Could not find cohort specified', error }))
+    .catch(error => res.status(500).json({ message: 'Could not find student specified', error }))
 });
 
 server.put('/students/:id', (req, res) => {
