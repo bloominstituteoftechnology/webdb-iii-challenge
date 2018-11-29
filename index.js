@@ -81,10 +81,68 @@ server.delete('/api/cohorts/:cohortid', (req, res) => {
 });
 
 
+//XXXXXXXXXXXXXXXXXXXXXX STUDENTS XXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+//POST add cohort
+server.post('/api/students', (req, res) => {
+  const student = req.body;
+  
+  db('students')
+    .insert(student)
+    .returning('id') //not needed in sqlite3
+    .then(ids => {
+      res.status(201).json(ids);
+    })
+    .catch(err => {
+      res.status(500).json({ message: 'Error inserting', err });
+    });
+});
 
+//GET all cohorts
+server.get('/api/students', (req, res) => {
+  db('students')
+    .then(students => res.status(200).json(students))
+    .catch(err => res.status(500).json(err));
+});
 
-// server endpoint
+//GET cohort by id
+server.get('/api/students/:studentid', (req, res) => {
+  const { studentid } = req.params;
+  
+  db('students')
+  .where({id: studentid})
+  .then(students => res.status(200).json(students))
+  .catch(err => res.status(500).json(err));
+});
+
+//PUT cohort by id
+server.put('/api/students/:studentid', (req, res) => {
+  const changes = req.body;
+  const { studentid } = req.params;
+
+  db('students')
+    .where({ id: studentid })
+    .update(changes)
+    .then(count => {
+      res.status(200).json({ count });
+    })
+    .catch(err => res.status(500).json(err));
+});
+
+//DELETE cohort by id
+server.delete('/api/students/:studentid', (req, res) => {
+  const { studentid } = req.params;
+
+  db('students')
+    .where({ id: studentid })
+    .del()
+    .then(count => {
+      res.status(200).json({ count });
+    })
+    .catch(err => res.status(500).json(err));
+});
+
+// server running endpoint
 server.get('/', (req, res) => {
   res.json({ api: 'up and running!' });
 });
