@@ -111,7 +111,7 @@ server.get('/students/:id', (req, res) => {
     .catch(error => res.status(500).json({ message: 'Could not find cohort specified', error }))
 });
 
-server.put('/student/:id', (req, res) => {
+server.put('/students/:id', (req, res) => {
     const changes = req.body;
     const { id } = req.params;
 
