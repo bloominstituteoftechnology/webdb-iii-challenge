@@ -20,5 +20,5 @@ server.get("/", (req, res) => {
 
 // Start listening
 server.listen(PORT, () =>
-  console.log(`\n=== API Listening on http://localhost:${port} ===\n`)
+  console.log(`\n=== API Listening on http://localhost:${PORT} ===\n`)
 );
