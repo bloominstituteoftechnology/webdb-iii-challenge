@@ -98,6 +98,25 @@ SERVER.put("/api/cohorts/:id", (req, res) => {
 // DELETE A COHORT BY ID
 SERVER.delete("/api/cohorts/:id", (req, res) => {
   const { id } = req.params;
+  DB("cohorts")
+    .where("id", id)
+    .del()
+    .then(result => {
+      if (result) {
+        res.json({ result });
+      } else {
+        res
+          .status(400)
+          .json({ message: "The cohort was not deleted properly." });
+      }
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({
+          message: "Connection issues, please try to delete cohort again."
+        });
+    });
 });
 
 SERVER.listen(PORT, () => {
