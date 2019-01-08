@@ -62,6 +62,18 @@ SERVER.get("/api/cohorts/:id", (req, res) => {
 // GET STUDENTS IN COHORT OF ID
 SERVER.get("/api/cohorts/:id/students", (req, res) => {
   const { id } = req.params;
+  DB("students")
+    .where("cohort_id", id)
+    .then(students => {
+      if (students.length) {
+        res.json({ students });
+      } else {
+        res.status(400).json({ message: "No Students available" });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ message: err.response });
+    });
 });
 
 // UPDATE A COHORT BY ID
