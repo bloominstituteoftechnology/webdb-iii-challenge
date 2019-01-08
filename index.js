@@ -69,6 +69,19 @@ server.put('/cohorts/:id', (req , res) => {
     })
 })
 
+// [DELETE] /api/cohorts/:id This route should delete the specified cohort.
+server.delete('/cohorts/:id', (req , res) => {
+    const {id} = req.params;
+    db('cohorts').where('id', id).del()
+    .then(rowCount => {
+        res.status(201).json(rowCount)
+    })
+    .catch(err => {
+        res.status(500).json({err: "Failed to delete cohort"})
+    });
+})
+
+
 //SERVER LISTEN
 server.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
