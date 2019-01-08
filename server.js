@@ -26,7 +26,21 @@ SERVER.post("/api/cohorts", (req, res) => {
 });
 
 // GET COHORTS
-SERVER.get("/api/cohorts", (req, res) => {});
+SERVER.get("/api/cohorts", (req, res) => {
+  DB("cohorts")
+    .then(cohorts => {
+      if (cohorts.length) {
+        res.json({ cohorts });
+      } else {
+        res
+          .status(400)
+          .json({ message: "Cohorts currently unavailable. Try again later." });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ message: "Connnection problem. try again." });
+    });
+});
 
 // GET COHORT BY ID
 SERVER.get("/api/cohorts/:id", (req, res) => {
