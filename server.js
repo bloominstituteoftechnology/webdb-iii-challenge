@@ -45,6 +45,18 @@ SERVER.get("/api/cohorts", (req, res) => {
 // GET COHORT BY ID
 SERVER.get("/api/cohorts/:id", (req, res) => {
   const { id } = req.params;
+  DB("cohorts")
+    .where("id", id)
+    .then(cohort => {
+      if (cohort.length) {
+        res.json({ cohort });
+      } else {
+        res.status(401).json({ message: "This cohort does not exist" });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ message: "Cannot connect to this user" });
+    });
 });
 
 // GET STUDENTS IN COHORT OF ID
