@@ -81,6 +81,36 @@ server.delete('/cohorts/:id', (req , res) => {
     });
 })
 
+// ************************************** //
+
+//[POST] /students This route should save a new student to the database.
+server.post('/students', (req , res) => {
+    const student = req.body;
+    db('students').insert(student)
+    .then(ids => {
+        res.status(201).json(ids);
+    })
+    .catch(err => {
+        console.log(err)
+        res.status(500).json({err: "Failed to insert student"});
+    });
+});
+
+//[GET] /students This route will return an array of all students.
+server.get('/students', (req , res) => {
+    db('students')
+    .then(rows => {
+        res.json(rows)
+    })
+    .catch(err => {
+        console.log(err)
+        res.status(500).json({err: "Failed to find students"});
+    });
+});
+//[GET] /students/:id This route will return the student with the matching id.
+//[PUT] /students/:id This route will update the student with the matching id using information sent in the body of the request.
+//[DELETE] /students/:id This route should delete the specified student.
+
 
 //SERVER LISTEN
 server.listen(PORT, () => {
