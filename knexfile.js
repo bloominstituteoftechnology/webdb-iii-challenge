@@ -7,7 +7,7 @@ module.exports = {
     },
     useNullAsDefault: true,
     migrations: {
-      directory: './migrations'
+      directory: './lambda.sqlite3/migrations'
     }
   },
 
