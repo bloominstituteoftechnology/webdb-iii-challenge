@@ -1,6 +1,9 @@
 const express = require('express');
+const knex = require('knex');
+const dbConfig = require('./knexfile.js');
 
 const server = express();
+const db = knex(dbConfig.development);
 
 server.use(express.json());
 
