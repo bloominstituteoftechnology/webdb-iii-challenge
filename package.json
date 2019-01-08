@@ -1,16 +1,19 @@
 {
   "dependencies": {
+    "express": "^4.16.4",
     "global": "^4.3.2",
     "knex": "^0.16.3",
     "sqlite3": "^4.0.4"
   },
-  "name": "y",
+  "name": "RDBMS",
   "description": "- Databases\r - Relational Databases\r - Knex migrations.\r - Seeding data.",
   "version": "1.0.0",
   "main": "index.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon"
   },
   "repository": {
     "type": "git",
