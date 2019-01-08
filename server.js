@@ -1,12 +1,28 @@
 const express = require("express");
 const SERVER = express();
 const PORT = process.env.PORT || 3300;
+const DB = require("./data/dbConfig");
 
 SERVER.use(express.json());
 
 // POST COHORTS
 SERVER.post("/api/cohorts", (req, res) => {
-  const cohort = req.body;
+  const { name } = req.body;
+
+  DB("cohorts")
+    .insert({ name })
+    .then(result => {
+      if (typeof result[0] === "number") {
+        res.status(201).json({ message: "Cohort Created!" });
+      } else {
+        res
+          .status(400)
+          .json({ message: "Please try again, cohort not created." });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ error: err.response });
+    });
 });
 
 // GET COHORTS
