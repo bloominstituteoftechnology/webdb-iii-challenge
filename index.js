@@ -11,7 +11,7 @@ const PORT = 5000;
 server.use(express.json());
 
 // Build post for cohorts
-server.post('/cohorts', (req, res) => {
+server.post('/api/cohorts', (req, res) => {
     const Cohort = req.body;
     db('cohorts').insert(Cohort)
     .then(ids => {
