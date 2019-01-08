@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "global": "^4.3.2",
+    "knex": "^0.16.3",
+    "sqlite3": "^4.0.4"
+  },
+  "name": "y",
+  "description": "- Databases\r - Relational Databases\r - Knex migrations.\r - Seeding data.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcusbass323/RDBMS-API-Full.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marcusbass323/RDBMS-API-Full/issues"
+  },
+  "homepage": "https://github.com/marcusbass323/RDBMS-API-Full#readme"
+}
