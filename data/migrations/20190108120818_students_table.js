@@ -4,7 +4,7 @@ exports.up = function(knex, Promise) {
       table.increments()
       table.string('name').notNullable()
       table.interger('cohorts_id')
-        .notNullable()
+        .unsigned()
         .refrences('id')
         .inTable('cohorts');
   })

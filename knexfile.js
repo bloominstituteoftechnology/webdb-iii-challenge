@@ -8,6 +8,9 @@ module.exports = {
       filename: './data/database.db'
     },
     useNullAsDefault: true,
+    migrations : {
+      directory: './data/migrations'
+    }
   },
 
   staging: {
@@ -22,8 +25,7 @@ module.exports = {
       max: 10
     },
     migrations: {
-      
-      directory: './data/migrations'
+      tableName: 'knex_migrations'
     }
   },
 
