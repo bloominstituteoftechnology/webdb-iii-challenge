@@ -12,6 +12,16 @@ server.get('/', (req, res) => {
     res.json({message: "Server up and running!!"})
 });
 
+server.get('/cohorts', (req, res) => {
+    db('cohorts')
+        .then(rows => {
+            res.json(rows);
+        })
+        .catch(err => {
+            res.status(500).json({err: "Failed to find crayons"});
+        })
+});
+
 
 
 
