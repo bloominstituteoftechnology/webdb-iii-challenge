@@ -16,12 +16,12 @@ server.get('/', (req, res) => {
 
 server.get('/api/cohorts', (req, res) => {
     db('cohorts')
-        .then(cohorts => {
-            res.json(cohorts);
-        })
-        .catch(err => {
-            res.status(500).json({err: "Failed to find cohorts"});
-        })
+    .then(cohorts => {
+        res.json(cohorts);
+    })
+    .catch(err => {
+        res.status(500).json({err: "Failed to find cohorts"});
+    })
 });
 
 server.post('/api/cohorts', (req, res) => {
@@ -49,21 +49,26 @@ server.get('/api/cohorts/:id', (req, res) => {
 });
 
 // *** [GET] /api/cohorts/:id/students
-
+server.get('/api/cohorts/:id/students', (req, res) => {
+    const id = req.params.id;
+    db('cohorts').where('id', id)
+    .then()
+    .catch()
+});
 // ***
 
 server.put('/api/cohorts/:id', (req, res) => {
     const { id } = req.params;
     const cohort = req.body;
 
-        db('cohorts').where('id', id) // where comes before the update!
-        .update(cohort)
-        .then(rowCount => {
-            res.json(rowCount);
-        })
-        .catch(err => {
-        res.status(500).json({err: "Failed to update cohort"});
-        })
+    db('cohorts').where('id', id) // where comes before the update!
+    .update(cohort)
+    .then(rowCount => {
+        res.json(rowCount);
+    })
+    .catch(err => {
+    res.status(500).json({err: "Failed to update cohort"});
+    })
 });
 
 server.delete('/api/cohorts/:id', (req, res) => {
@@ -83,12 +88,12 @@ server.delete('/api/cohorts/:id', (req, res) => {
 
 server.get('/api/students', (req, res) => {
     db('students')
-        .then(students => {
-            res.json(students);
-        })
-        .catch(err => {
-            res.status(500).json({err: "Failed to find students"});
-        })
+    .then(students => {
+        res.json(students);
+    })
+    .catch(err => {
+        res.status(500).json({err: "Failed to find students"});
+    })
 });
 
 server.post('/api/students', (req, res) => {
@@ -121,14 +126,14 @@ server.put('/api/students/:id', (req, res) => {
     const { id } = req.params;
     const student = req.body;
 
-        db('students').where('id', id)
-        .update(student)
-        .then(rowCount => {
-            res.json(rowCount);
+    db('students').where('id', id)
+    .update(student)
+    .then(rowCount => {
+        res.json(rowCount);
     })
-        .catch(err => {
-            res.status(500).json({err: "Failed to update student"});
-        })
+    .catch(err => {
+        res.status(500).json({err: "Failed to update student"});
+    })
 });
 
 server.delete('/api/students/:id', (req, res) => {
