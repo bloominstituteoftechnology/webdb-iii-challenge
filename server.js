@@ -79,6 +79,20 @@ SERVER.get("/api/cohorts/:id/students", (req, res) => {
 // UPDATE A COHORT BY ID
 SERVER.put("/api/cohorts/:id", (req, res) => {
   const { id } = req.params;
+  const { cohort } = req.body;
+  DB("cohorts")
+    .where("id", id)
+    .update({ ...cohort })
+    .then(results => {
+      if (results) {
+        res.json({ results });
+      } else {
+        res.status(400).json({ message: "Not updated, try again." });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ message: err.response });
+    });
 });
 
 // DELETE A COHORT BY ID
