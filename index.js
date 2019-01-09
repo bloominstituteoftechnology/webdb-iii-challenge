@@ -49,6 +49,28 @@ server.get('/api/students', (req, res) => {
     })
 })
 
+//GET BY ID ENDPOINTS
+
+server.get('/api/cohorts/:id', (req, res) => {
+    const { id } = req.params;
+    db('cohorts').where('id', id)
+        .then(rows => {
+            res.json(rows);
+        }).catch(err => {
+        res.status(500).json({err: 'Failed to find cohort'})
+    })
+})
+
+server.get('/api/students/:id', (req, res) => {
+    const { id } = req.params;
+    db('students').where('id', id)
+        .then(rows => {
+            res.json(rows);
+        }).catch(err => {
+        res.status(500).json({err: 'Failed to find student'})
+    })
+})
+
 server.listen(PORT, () => {
     console.log(`Listening on ${PORT}`);
 })
