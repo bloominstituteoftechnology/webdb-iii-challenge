@@ -47,6 +47,30 @@ server.get('/api/cohorts', (req, res) => {
         });
 });
 
+// get cohort by id
+
+server.get('/api/cohorts/:id', (req, res) => {
+    const { id } = req.params;
+    db('cohorts')
+        .where('id', id)
+        .then(cohort => {
+            if (cohort.length > 0) {
+                res
+                    .json(cohort);
+            }
+            else {
+                res
+                    .status(404)
+                    .json({message: 'The cohort with the specified ID does not exist.'});
+            }
+        })
+        .catch(err => {
+            res
+                .status(500)
+                .json({message: `The cohort's information could not be retrieved at this time.`});
+        });
+});
+
 const PORT = 4400;
 server.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
