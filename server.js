@@ -118,15 +118,42 @@ SERVER.delete("/api/cohorts/:id", (req, res) => {
 });
 
 // POST STUDENT
-SERVER.post("/api/cohorts/:id/students", (req, res) => {
-  const { id } = req.params;
-  const student = Object.assign({}, req.body, { cohort_id: id });
+SERVER.post("/students", (req, res) => {
+  const { name, cohort_id } = req.body;
+  const student = {
+    name: name.toString().toLowerCase(),
+    cohort_id: cohort_id
+  };
 
   DB("students")
     .insert(student)
     .then(result => {
-      console.log(result);
       res.status(201).json({ result });
+    })
+    .catch(err => {
+      res.status(500).json({ message: err });
+    });
+});
+
+// GET ALL STUDENTS
+SERVER.get("/students", (req, res) => {
+  DB("students")
+    .then(students => {
+      res.status(201).json({ students });
+    })
+    .catch(err => {
+      res.status(500).json({ message: err });
+    });
+});
+
+// GET A STUDENT BY ID
+SERVER.get("/students/:id", (req, res) => {
+  const { id } = req.params;
+
+  DB("students")
+    .where("id", id)
+    .then(student => {
+      res.json({ student });
     });
 });
 
