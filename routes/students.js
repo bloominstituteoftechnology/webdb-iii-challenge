@@ -37,19 +37,6 @@ router.get( '/:id', (req, res) => {
   // end-db
 });
 
-// router.get( '/:id', (req, res) => {
-//   const {id} = req.params;
-
-//   db('students').where('id', id)
-//     .then( (rows) => {
-//       res.json(rows);
-//     })
-//     .catch( (err) => {
-//       res.status(500).json({ error: "Could not get student." });
-//     });
-//   // end-db
-// });
-
 
 /* ---------- POST /api/students ---------- */
 // INSERT INTO students (name) VALUES (body);
