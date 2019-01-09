@@ -20,3 +20,11 @@ server.get('/api/cohorts/:id', (req, res) => {
 server.post('/api/cohorts', (req, res) => {
 
 })
+
+server.put('/api/cohorts/:id', (req, res) => {
+
+})
+
+server.delete('/api/cohorts/:id', (req, res) => {
+
+})
