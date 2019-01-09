@@ -70,15 +70,26 @@ server.get('/api/cohorts/:id', (req, res) => {
 server.put('/api/cohorts/:id', (req, res) => {
     const { id } = req.params;
     const cohort = req.body;
-
-    db('cohorts').where('id', id)
-    .update(cohort)
-    .then(rowCount => {
-        res.json(rowCount);
-    })
-    .catch(err => {
-    res.status(500).json({err: "Failed to update cohort"});
-    })
+    
+    if (cohort.name) {
+        db('cohorts').where('id', id)
+        .update(cohort)
+        .then(rowCount => {
+            if (rowCount) {
+                db('cohorts').where('id', id)
+                .then(cohort => {
+                    res.json(cohort);
+                });
+            } else {
+                res.status(404).json({message: "The cohort with the specified name does not exist."});
+            }
+        })
+        .catch(err => {
+            res.status(500).json({err: "Failed to update cohort"});
+        })
+    } else {
+        res.status(400).json({message: "Provide cohort name."});
+    }
 });
 
 server.delete('/api/cohorts/:id', (req, res) => {
@@ -150,14 +161,25 @@ server.put('/api/students/:id', (req, res) => {
     const { id } = req.params;
     const student = req.body;
 
-    db('students').where('id', id)
-    .update(student)
-    .then(rowCount => {
-        res.json(rowCount);
-    })
-    .catch(err => {
-        res.status(500).json({err: "Failed to update student"});
-    })
+    if (student.name && student.cohort_id) {
+        db('students').where('id', id)
+        .update(student)
+        .then(rowCount => {
+            if (rowCount) {
+                db('students').where('id', id)
+                .then(student => {
+                    res.json(student);
+                });
+            } else {
+                res.status(404).json({message: "The student with the specified name does not exist."})
+            }
+        })
+        .catch(err => {
+            res.status(500).json({err: "Failed to update student"});
+        })
+    } else {
+        res.status(400).json({message: "Provide student name and cohort_id."});
+    }
 });
 
 server.delete('/api/students/:id', (req, res) => {
