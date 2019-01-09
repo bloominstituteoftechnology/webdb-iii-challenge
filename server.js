@@ -184,6 +184,24 @@ SERVER.put("/students/:id", (req, res) => {
     });
 });
 
+// DELETE A STUDENT BY ID
+SERVER.delete("/students/:id", (req, res) => {
+  const { id } = req.params;
+  let deletedStudent;
+
+  DB("students")
+    .where("id", id)
+    .then(student => {
+      deletedStudent = student;
+      DB("students")
+        .where("id", id)
+        .del()
+        .then(count => {
+          res.json({ count });
+        });
+    });
+});
+
 SERVER.listen(PORT, () => {
   console.log(`Listening on PORT:${PORT}`);
 });
