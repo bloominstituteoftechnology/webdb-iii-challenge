@@ -24,10 +24,6 @@ router.get( '/', (req, res) => {
 router.get( '/:id', (req, res) => {
   const {id} = req.params;
 
-  if(!id){
-    res.status(400).json({ error: "No id number found!"});
-  }
-  
   db('cohorts').where('id', id)
     .then( (rows) => {
       res.json(rows);
@@ -44,8 +40,24 @@ router.get( '/:id', (req, res) => {
 
 
 /* ---------- POST /api/cohorts ---------- */
+// INSERT INTO cohorts (name) VALUES (body);
+router.post('/', (req,res) => {
+  const cohortData = req.body;
 
-
+  //Check for empty name:
+  if( !cohortData.name ){
+    res.status(400).json({ error: "Please provide the name of the cohort." });
+  } else {
+    db('cohorts').insert(cohortData)
+      .then( (newId) => {
+        res.status(201).json(newId);
+      })
+      .catch( (err) => {
+        res.status(500).json({ error: "Could not add new cohort." });
+      });
+    // end-db
+  }
+});
 
 /* ---------- PUT /api/cohorts/:id ---------- */
 
