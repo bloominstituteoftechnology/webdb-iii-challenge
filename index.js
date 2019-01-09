@@ -39,6 +39,23 @@ server.get('/api/cohorts/:id', (req, res)=>{
     })
 })
 
+server.get('/api/cohorts/:id/students', (req, res)=>{
+    const {id} = req.params;
+    db('students')
+    .where('cohort_id', id)
+    .then(data=>{
+        if(data.length){
+            res.json(data);
+        }
+        else{
+            res.status(404).json({errorMessage: `No students found in cohort ${id}`});
+        }
+    })
+    .catch(err=>{
+        res.status(500).json({error: 'Failed to retrieve data'});
+    })
+})
+
 server.post('/api/cohorts', (req, res)=>{
     const cohort = req.body;
     if(cohort.name){
@@ -71,6 +88,25 @@ server.delete('/api/cohorts/:id', (req, res)=>{
     })
     .catch(err=>{
         res.status(500).json({error: 'Failed to delete the cohort'});
+    })
+})
+
+server.put('/api/cohorts/:id', (req, res)=>{
+    const {id} = req.params;
+    const body = req.body;
+    db('cohorts')
+    .where('id', id)
+    .update(body)
+    .then(count=>{
+        if(count){
+            res.json({id: id, name: body.name});
+        }
+        else{
+            res.status(404).json({errorMessage: 'Cohort not found'});
+        }
+    })
+    .catch(err=>{
+        res.status(500).json({error: 'Failed to update cohort'});
     })
 })
 
