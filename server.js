@@ -111,11 +111,22 @@ SERVER.delete("/api/cohorts/:id", (req, res) => {
       }
     })
     .catch(err => {
-      res
-        .status(500)
-        .json({
-          message: "Connection issues, please try to delete cohort again."
-        });
+      res.status(500).json({
+        message: "Connection issues, please try to delete cohort again."
+      });
+    });
+});
+
+// POST STUDENT
+SERVER.post("/api/cohorts/:id/students", (req, res) => {
+  const { id } = req.params;
+  const student = Object.assign({}, req.body, { cohort_id: id });
+
+  DB("students")
+    .insert(student)
+    .then(result => {
+      console.log(result);
+      res.status(201).json({ result });
     });
 });
 
