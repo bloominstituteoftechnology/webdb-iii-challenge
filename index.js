@@ -31,16 +31,26 @@ server.get('/cohorts/:id', (req, res) => {
 });
 
 server.get('/cohorts/:id/students', (req, res) => {
-
+    
 });
 
 
 server.get('/students', (req, res) => {
-
+    db('students')
+        .then(response => res.json(response))
+        .catch(err => {res.status(500).json({ message: "Unable to fetch students" })})
 });
 
 server.get('/students/:id', (req, res) => {
-
+    const {id} = req.params;
+    db('students').where('id', id)
+        .then(student => {
+            if(Object.keys(student).length === 0){
+                res.status(404).json({message: "Invalid student ID"})
+            } else {
+                res.json(student)
+            }
+        })
 });
 
 //POST
