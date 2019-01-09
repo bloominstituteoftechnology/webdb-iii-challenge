@@ -134,6 +134,16 @@ server.put('/students/:id', (req, res) => {
 });
 
 // - `[DELETE] /students/:id` This route should delete the specified student.
+server.delete('/students/:id', (req, res) => {
+    const { id } = req.params;
+    db('students').where('id', id).del()
+        .then(rowCount => {
+            res.json(rowCount);
+        })
+        .catch(err => {
+            res.status(500).json({ errorMessage: 'Failed to delete student.' });
+        });
+});
 
 //end of /api/students enpoints
 server.listen(PORT, () => {
