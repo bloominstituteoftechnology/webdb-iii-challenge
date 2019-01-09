@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": ""
+    "start": "nodemon index.js"
   },
   "repository": "https://github.com/kellymanahans/RDBMS-API-Full.git",
   "author": "kammagik <kammagik@yahoo.com>",
