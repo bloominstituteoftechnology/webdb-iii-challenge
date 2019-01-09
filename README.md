@@ -39,11 +39,11 @@ Implement the following endpoints:
 
 Add the following endpoints.
 
-- `[POST] /students` This route should save a new student to the database.
-- `[GET] /students` This route will return an array of all students.
-- `[GET] /students/:id` This route will return the student with the matching `id`.
-- `[PUT] /students/:id` This route will update the student with the matching `id` using information sent in the body of the request.
-- `[DELETE] /students/:id` This route should delete the specified student.
+- [x] `[POST] /students` This route should save a new student to the database.
+- [x] `[GET] /students` This route will return an array of all students.
+- [x] `[GET] /students/:id` This route will return the student with the matching `id`.
+- [x] `[PUT] /students/:id` This route will update the student with the matching `id` using information sent in the body of the request.
+- [x] `[DELETE] /students/:id` This route should delete the specified student.
 
 Have the student returned by the `[GET] /students/:id` endpoint include the cohort name and remove the `cohort_id` fields. The returned object should look like this:
 
