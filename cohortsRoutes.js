@@ -50,4 +50,36 @@ router.get('/:id/students', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+router.put('/:id', (req, res) => {
+  const { id } = req.params;
+  const changes = req.body;
+
+  db('cohort')
+    .where({ id })
+    .update(changes)
+    .then(count => {
+      count
+        ? res.status(201).json(count)
+        : res
+            .status(404)
+            .json({ error: `Cohort with the id of ${id} could not be found` });
+    })
+    .catch(err => res.status(500).json(err));
+});
+
+router.delete('/:id', (req, res) => {
+  const { id } = req.params;
+  db('cohort')
+    .where({ id })
+    .del()
+    .then(count => {
+      count
+        ? res.json(count)
+        : res
+            .status(404)
+            .json({ error: `Cohort with the id of ${id} could not be found` });
+    })
+    .catch(err => res.status(500).json(err));
+});
+
 module.exports = router;
