@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "express": "^4.16.4",
+    "knex": "^0.16.3",
+    "sqlite3": "^4.0.4"
+  },
+  "scripts": {
+    "server": "nodemon"
+  },
+  "name": "RDBMS-API-Full",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/jbrock1981/RDBMS-API-Full.git",
+  "author": "Jonathan Brock <jbrock1981@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  }
+}
