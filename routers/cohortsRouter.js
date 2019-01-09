@@ -39,6 +39,21 @@ router.get('/:id', (req,res) =>{
     })
 })
 
+//**SELECT/GET STUDENTS FOR SPECIFIED COHORT ID */
+router.get('/:id/students', (req, res) =>{
+    const cohortID = req.params.id;
+
+    db('students')
+    .where('id', cohortID)
+    .then(students =>{
+        res.status(200).json(students)
+    })
+    .catch(err =>{
+        res.status(500).json({error: "Unable to retrieve students for specified cohort"})
+    })
+    
+})
+
 //*** INSERT*/
 router.post('/', (req, res) =>{
     const newCohort = req.body;
