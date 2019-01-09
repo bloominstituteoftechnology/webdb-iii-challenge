@@ -26,10 +26,6 @@ server.get('/api/cohorts/:id', (req, res) => {
   })
 })
 
-server.get('/api/cohorts/:id/students', (req, res) => {
-    const {id} = req.params
-})
-
 server.post('/api/cohorts', (req, res) => {
     const content = req.body
     db('cohorts').insert(content).then( id => {
@@ -37,6 +33,27 @@ server.post('/api/cohorts', (req, res) => {
     })
     .catch(err => { res.status(500).json({err: "there was an error"})
   })
+})
+
+server.delete('/api/cohorts/:id', (req, res) => {
+    const {id} = req.params
+    db('cohorts').where({id}).del()
+      .then( id => {
+        res.status(201).json(id)
+      })
+      .catch( err => { res.status(500).json({err: "there was an error"})
+    })
+})
+
+server.put('/api/cohorts/:id', (req, res) => {
+    const {id} = req.params
+    const {body} = req.body
+    db('cohorts').where({id}).update(body)
+      .then( post => {
+          res.status(201).json(post)
+      })
+      .catch(err => { res.status(500).json({err: "there was an error"})
+    })
 })
 
 server.listen(PORT, () => {
