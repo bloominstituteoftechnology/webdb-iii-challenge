@@ -129,6 +129,31 @@ server.put('/api/cohorts/:id', (req, res) => {
     }
 });
 
+// delete specified cohort
+
+server.delete('/api/cohorts/:id', (req, res) => {
+    const { id } = req.params;
+    db('cohorts')
+        .where('id', id)
+        .del()
+        .then(cohort => {
+            if (cohort) {
+                res
+                    .json({message: 'The cohort was deleted.'});
+            }
+            else {
+                res
+                    .status(404)
+                    .json({message: 'The cohort with the specified ID does not exist.'})
+            }
+        })
+        .catch(err => {
+            res
+                .status(500)
+                .json({message: 'The cohort could not be deleted at this time.'})
+        });
+});
+
 const PORT = 4400;
 server.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
