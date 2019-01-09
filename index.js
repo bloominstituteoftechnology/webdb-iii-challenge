@@ -22,6 +22,16 @@ server.post('/api/cohorts', (req, res) => {
     })
 });
 
+server.get('/api/cohorts', (req, res) => {
+  db('cohorts')
+    .then(rows => {
+      res.json(rows);
+    })
+    .catch(err => {
+      res.status(500).json({ errorMessage: 'failed to get cohorts' });
+    });
+});
+
 
 const port = 3300;
 server.listen(port, function() {
