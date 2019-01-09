@@ -1,4 +1,5 @@
 const studentDb = require("../data/helpers/studentDb");
+const cohortDb = require("../data/helpers/cohortDb");
 
 const express = require("express");
 const router = express.Router();
@@ -32,6 +33,31 @@ router.get("/:id", (req, res) => {
     .catch(err => {
       res.status(500).json({ error: "student could not be retrieved." });
     });
+});
+
+router.post("/", (req, res) => {
+  const newStudent = req.body;
+  if (!newStudent.name || newStudent.name === "") {
+    res.status(400).json({ error: "student name is required" });
+  } else if (typeof newStudent.name !== "string") {
+    res.status(400).json({ error: "student name must be a string" });
+  } else if (!newStudent.cohort_id || typeof newStudent.cohort_id !== "number") {
+        res.status(400).json({ error: "cohort id is required and must be a number" });
+  } 
+  else {
+    cohortDb
+    .get(newStudent.cohort_id)
+    .then(cohort => {
+      if (cohort[0]) {
+        studentDb
+        .insert(newStudent)
+      .then(id => res.status(201).json(id))
+      .catch(err => res.status(500).json({ error: "trouble adding student" }));
+      } else {
+        res.status(400).json({error: "cohort id must correspond to an existing cohort"})
+      }
+    })
+  }
 });
 
 module.exports = router
