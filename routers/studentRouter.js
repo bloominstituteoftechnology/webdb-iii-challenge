@@ -111,6 +111,30 @@ router.put("/:id", (req, res) => {
         .json({ error: "cohort_id must correspond to existing cohort" });
     }
   });
+
+  router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+  const deleted = await studentDb.get(id);
+
+  studentDb
+    .get(id)
+    .then(student => {
+      if (student[0]) {
+        studentDb
+          .remove(id)
+          .then(rows => res.status(201).json(deleted))
+          .catch(err =>
+            res.status(500).json({ error: "trouble deleting student" })
+          );
+      } else {
+        res.status(404).json({ error: "student does not exist" });
+      }
+    })
+    .catch(err =>
+      res.status(500).json({ error: "trouble retrieving student to be deleted" })
+    );
+});
+
 });
 
 module.exports = router;
