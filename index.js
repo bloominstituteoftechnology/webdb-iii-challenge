@@ -12,11 +12,22 @@ server.use(express.json());
 //GET
 
 server.get('/cohorts', (req, res) => {
-
+    db('cohorts')
+        .then(response => res.json(response))
+        .catch(err => {res.status(500).json({ message: 'Unable to fetch cohorts' })})
 });
 
 server.get('/cohorts/:id', (req, res) => {
-
+    const {id} = req.params;
+    db('cohorts').where('id', id)
+        .then(cohort => {
+            if(Object.keys(cohort).length === 0){
+                res.status(404).json({ message: "Invalid cohort ID" })
+            } else {
+                res.json(cohort)
+            }
+        })
+        .catch(err => res.status(500).json({ message: "Unable to fetch that specific cohort"}))
 });
 
 server.get('/cohorts/:id/students', (req, res) => {
