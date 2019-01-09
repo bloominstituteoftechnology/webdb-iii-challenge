@@ -28,8 +28,8 @@ router
     .get('/:id/students', function (req, res) {
         let id = req.params.id;
 
-        return knex('cohorts')
-            .where('id', id)
+        return knex('students')
+            .where('cohort_id', id)
             .select()
     })
     .put('/:id', function (req, res) {
