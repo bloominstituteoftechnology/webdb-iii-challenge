@@ -107,7 +107,20 @@ server.get('/students', (req , res) => {
         res.status(500).json({err: "Failed to find students"});
     });
 });
+
 //[GET] /students/:id This route will return the student with the matching id.
+server.get('/students/:id', (req, res) => {
+    const {id} = req.params;
+    db('students').where('id', id)
+    .then(rows => {
+        res.json(rows)
+    })
+    .catch(err => {
+        console.log(err)
+        res.status(500).json({err: "Failed to find specific student"});
+    })
+});
+
 //[PUT] /students/:id This route will update the student with the matching id using information sent in the body of the request.
 //[DELETE] /students/:id This route should delete the specified student.
 
