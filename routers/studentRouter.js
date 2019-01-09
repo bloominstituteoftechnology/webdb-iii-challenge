@@ -10,11 +10,9 @@ router.get("/", (req, res) => {
     .then(students => {
       students[0]
         ? res.json(students)
-        : res
-            .status(400)
-            .json({
-              error: "there are currently no students in our directory"
-            });
+        : res.status(400).json({
+            error: "there are currently no students in our directory"
+          });
     })
     .catch(err => {
       res.status(500).json({ error: "could not retrieve students" });
@@ -69,52 +67,50 @@ router.post("/", (req, res) => {
 });
 
 router.put("/:id", (req, res) => {
-  const newStudent = req.body;
+  const updatedStudent = req.body;
   const { id } = req.params;
-  if (!newStudent.name || newStudent.name === "") {
-    res.status(400).json({ error: "student name is required" });
-  } else if (typeof newStudent.name !== "string") {
-    res.status(400).json({ error: "student name must be a string" });
-  } else if (
-    !newStudent.cohort_id ||
-    typeof newStudent.cohort_id !== "number"
-  ) {
-    res
-      .status(400)
-      .json({ error: "cohort id is required and must be a number" });
-  } else {
-    studentDb.get(id).then(student => {
-      if (student[0]) {
-        cohortDb.get(newStudent.cohort_id).then(cohort => {
+  studentDb.get(id).then(student => {
+    if (student[0]) {
+      cohortDb
+        .get(updatedStudent.cohort_id)
+        .then(cohort => {
           if (cohort[0]) {
-            studentDb
-              .update(id, newStudent)
-              .then(rows => {
-                studentDb
-                  .get(id)
-                  .then(student => res.status(201).json(student))
-                  .catch(err =>
-                    res
-                      .status(500)
-                      .json({ error: "trouble retrieving updated student" })
-                  );
-              })
-              .catch(err =>
-                res.status(500).json({ error: "trouble updating student" })
-              );
+            if (!updatedStudent.name || updatedStudent.name === "") {
+              res.status(400).json({ error: "student name is required" });
+            } else if (typeof updatedStudent.name !== "string") {
+              res.status(400).json({ error: "student name must be a string" });
+            } else {
+              studentDb
+                .update(id, updatedStudent)
+                .then(rows => {
+                  studentDb
+                    .get(id)
+                    .then(student => res.status(201).json(student))
+                    .catch(err =>
+                      res
+                        .status(500)
+                        .json({ error: "trouble retrieving updated student" })
+                    );
+                })
+                .catch(err =>
+                  res.status(500).json({ error: "trouble updating student" })
+                );
+            }
           } else {
-            res
-              .status(400)
-              .json({
-                error: "cohort id must correspond to an existing cohort"
-              });
+            res.status(404).json({ error: "student does not exist" });
           }
-        });
-      } else {
-        res.status(400).json({ error: "student does not exist" });
-      }
-    });
-  }
+        })
+        .catch(err =>
+          res
+            .status(500)
+            .json({ error: "trouble retrieving student to update" })
+        );
+    } else {
+      res
+        .status(400)
+        .json({ error: "cohort_id must correspond to existing cohort" });
+    }
+  });
 });
 
 module.exports = router;
