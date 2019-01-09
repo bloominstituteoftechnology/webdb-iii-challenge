@@ -50,7 +50,6 @@ server.get('/api/students', (req, res) => {
 })
 
 //GET BY ID ENDPOINTS
-
 server.get('/api/cohorts/:id', (req, res) => {
     const { id } = req.params;
     db('cohorts').where('id', id)
@@ -71,6 +70,7 @@ server.get('/api/students/:id', (req, res) => {
     })
 })
 
+//PUT ENDPOINTS
 server.put('/api/students/:id', (req, res) => {
     const { id } = req.params;
     const student = req.body;
@@ -90,6 +90,30 @@ server.put('/api/cohorts/:id', (req, res) => {
         res.json(rowCount)
         }).catch(err => {
         res.status(201).json({err: 'Failed to update cohort'})
+    })
+})
+
+// DELETE ENDPOINTS
+
+server.delete('/api/cohorts/:id', (req, res) => {
+    const { id } = req.params;
+    const cohort = req.body;
+    db('cohorts').where('id', id).delete(cohort)
+        .then(rowCount => {
+            res.json(rowCount);
+        }).catch(err => {
+        res.status(201).json({err: 'Failed to delete'})
+    })
+})
+
+server.delete('/api/students/:id', (req, res) => {
+    const { id } = req.params;
+    const student = req.body;
+    db('students').where('id', id).delete(student)
+        .then(rowCount => {
+            res.json(rowCount);
+        }).catch(err => {
+        res.status(201).json({err: 'Failed to delete'})
     })
 })
 
