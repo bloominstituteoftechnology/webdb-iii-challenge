@@ -43,6 +43,7 @@ server.get('/api/cohorts/:id', (req, res) => {
             res.status(500).json({ errorMessage: 'Failed to find cohort with that id.' });
         });
 });
+
 // - `[GET] /api/cohorts/:id/students` returns all students for the cohort with the specified `id`.
 server.get('/api/cohorts/:id/students', (req, res) => {
     const { id } = req.params;
@@ -97,7 +98,28 @@ server.post('/students', (req, res) => {
 });
 
 // - `[GET] /students` This route will return an array of all students.
+server.get('/students', (req, res) => {
+    db('students')
+        .then(rows => {
+            res.status(200).json(rows);
+        })
+        .catch(err => {
+            res.status(500).json({ errorMessage: 'Failed to find students' });
+        });
+});
+
 // - `[GET] /students/:id` This route will return the student with the matching `id`.
+server.get('/students/:id', (req, res) => {
+    const { id } = req.params;
+    db('students').where('id', id)
+        .then(rows => {
+            res.status(200).json(rows);
+        })
+        .catch(err => {
+            res.status(500).json({ errorMessage: 'Failed to find student with that id.' });
+        });
+});
+
 // - `[PUT] /students/:id` This route will update the student with the matching `id` using information sent in the body of the request.
 // - `[DELETE] /students/:id` This route should delete the specified student.
 
