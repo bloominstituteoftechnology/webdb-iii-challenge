@@ -61,4 +61,19 @@ router.delete('/:id', (req, res) => {
     });
 });
 
+// special endpoint get students in cohort by cohort id
+router.get('/:id/students', (req, res) => {
+    const id = req.params.id;
+    db('students as s')
+        .join('cohorts as c', 'c.id', 's.cohort_id')
+        .select('s.id as ID', 's.name as Name', 'c.name as Cohort')
+        .where('c.id', id)
+    .then(rowCount => {
+        res.status(201).json(rowCount);
+    })
+    .catch(err => {
+        res.status(500).json({error: "Failed to get students from cohort"});
+    });
+});
+
 module.exports = router;
