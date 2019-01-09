@@ -3,7 +3,11 @@ from app import db
 class Cohort(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128), nullable=False)
-    students = db.relationship('Student', backref='student', lazy=dynamic)
+    students = db.relationship('Student', backref='student', lazy='dynamic')
 
-    def __repr__(self)
+    def __repr__(self):
         return f'<Cohort {self.name}>'
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
