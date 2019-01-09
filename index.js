@@ -85,6 +85,17 @@ server.delete('/api/cohorts/:id', (req, res) => {
 //beginning of /api/students endpoints
 
 // - `[POST] /students` This route should save a new student to the database.
+server.post('/students', (req, res) => {
+    const student = req.body;
+    db('students').insert(student)
+        .then(ids => {
+            res.status(201).json(ids);
+        })
+        .catch(err => {
+            res.status(500).json({ errorMessage: 'Failed to insert student' });
+        });
+});
+
 // - `[GET] /students` This route will return an array of all students.
 // - `[GET] /students/:id` This route will return the student with the matching `id`.
 // - `[PUT] /students/:id` This route will update the student with the matching `id` using information sent in the body of the request.
