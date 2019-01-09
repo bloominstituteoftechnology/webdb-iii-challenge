@@ -7,7 +7,7 @@
     "start": "nodemon index.js"
   },
   "author": "Stefan Clem",
-  "license":"ISC",
+  "license": "ISC",
   "dependencies": {
     "express": "^4.16.4",
     "global": "^4.3.2",
@@ -16,6 +16,6 @@
     "sqlite": "^3.0.0"
   },
   "devDependencies": {
-      "nodemon": "^1.18.9"
+    "nodemon": "^1.18.9"
   }
 }
