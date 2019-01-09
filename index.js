@@ -20,8 +20,17 @@ server.post('/dev.sqlite3', (req, res) => {
     });
 });
 
-server.get('/dev.sqlite3', (req, res) => {
-    db('dev.sqlite3').then(rows => {
+//GET REQUESTS
+server.get('/api/cohorts', (req, res) => {
+    db('cohorts').then(rows => {
+        res.json(rows);
+    }).catch(err => {
+        res.status(500).json({err: "Can't get data"})
+    })
+})
+
+server.get('/api/students', (req, res) => {
+    db('students').then(rows => {
         res.json(rows);
     }).catch(err => {
         res.status(500).json({err: "Can't get data"})
