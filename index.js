@@ -7,7 +7,7 @@ const PORT = 4500;
 
 server.use(express.json());
 
-//beginning of endpoints
+//beginning of /api/cohorts endpoints
 
 // - `[POST] /api/cohorts` This route should save a new cohort to the database.
 server.post('/api/cohorts', (req, res) => {
@@ -44,7 +44,10 @@ server.get('/api/cohorts/:id', (req, res) => {
         });
 });
 // - `[GET] /api/cohorts/:id/students` returns all students for the cohort with the specified `id`.
-
+// server.get('/api/cohorts/:id/students', (req, res) => {
+//     const { students } = req.params;
+//     db
+// })
 
 // - `[PUT] /api/cohorts/:id` This route will update the cohort with the matching `id` using information sent in the body of the request.
 server.put('/api/cohorts/:id', (req, res) => {
@@ -60,7 +63,28 @@ server.put('/api/cohorts/:id', (req, res) => {
 });
 
 // - `[DELETE] /api/cohorts/:id` This route should delete the specified cohort.
-//end of endpoints
+server.delete('/api/cohorts/:id', (req, res) => {
+    const { id } = req.params;
+    db('cohorts').where('id', id).del()
+        .then(rowCount => {
+            res.json(rowCount);
+        })
+        .catch(err => {
+            res.status(500).json({ errorMessage: 'Failed to delete cohort.' });
+        });
+});
+
+//end of /api/cohorts endpoints
+
+//beginning of /api/students endpoints
+
+// - `[POST] /students` This route should save a new student to the database.
+// - `[GET] /students` This route will return an array of all students.
+// - `[GET] /students/:id` This route will return the student with the matching `id`.
+// - `[PUT] /students/:id` This route will update the student with the matching `id` using information sent in the body of the request.
+// - `[DELETE] /students/:id` This route should delete the specified student.
+
+//end of /api/students enpoints
 server.listen(PORT, () => {
     console.log(`Listening on Port ${PORT}`);
 })
