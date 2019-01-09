@@ -60,13 +60,20 @@ server.get('/api/cohorts/:id', (req, res) => {
 
 // *** [GET] /api/cohorts/:id/students
 server.get('/api/cohorts/:id/students', (req, res) => {
-    const cohort_id = req.params;
-    db('students').where('cohort_id', cohort_id)
+    const { id } = req.params;
+    // db('cohorts').db('students').where('cohort_id', cohort_id)
+    // .then(students => students.map(students(student => mappers.actionToBody(student)
+    // )))
+    db('students').where('cohort_id', id)
     .then(students => {
-        res.json(students);
+        if (students.length > 0) {
+            res.json(students);
+        } else {
+            res.status(400).json({message: "The cohort with the specified ID does not exist."});
+        }
     })
     .catch(err => {
-        res.status(500).json({ err: `Error obtaining ${cohort_id} cohort`});
+        res.status(500).json({ err: `Error obtaining ${cohort_id} cohort`})
     })
 });
 // ***
