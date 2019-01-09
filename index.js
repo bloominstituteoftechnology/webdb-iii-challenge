@@ -9,10 +9,11 @@ const PORT = 8000;
 
 server.use(express.json());
 
-server.post('/dev.sqlite3', (req, res) => {
-    const cohorts = req.body;
-    console.log('cohorts info', cohorts)
-    db('dev.sqlite3').insert(cohorts)
+//POST ENDPOINTS
+server.post('/api/cohorts', (req, res) => {
+    const cohort = req.body;
+    console.log('cohorts info', cohort)
+    db('cohorts').insert(cohort)
         .then(ids => {
             res.status(201).json(ids);
         }).catch(err => {
@@ -20,7 +21,18 @@ server.post('/dev.sqlite3', (req, res) => {
     });
 });
 
-//GET REQUESTS
+server.post('/api/students', (req, res) => {
+    const student = req.body;
+    console.log('student info', student)
+    db('students').insert(student)
+        .then(ids => {
+            res.status(201).json(ids);
+        }).catch(err => {
+            res.status(500).json({err: 'Failed to insert'})
+    });
+});
+
+//GET ENDPOINTS
 server.get('/api/cohorts', (req, res) => {
     db('cohorts').then(rows => {
         res.json(rows);
