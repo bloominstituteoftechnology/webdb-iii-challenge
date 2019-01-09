@@ -71,44 +71,59 @@ router.put("/:id", (req, res) => {
   const { id } = req.params;
   studentDb.get(id).then(student => {
     if (student[0]) {
-      cohortDb
-        .get(updatedStudent.cohort_id)
-        .then(cohort => {
-          if (cohort[0]) {
-            if (!updatedStudent.name || updatedStudent.name === "") {
-              res.status(400).json({ error: "student name is required" });
-            } else if (typeof updatedStudent.name !== "string") {
-              res.status(400).json({ error: "student name must be a string" });
+      if (
+        !updatedStudent.cohort_id ||
+        typeof updatedStudent.cohort_id !== "number"
+      ) {
+        res
+          .status(400)
+          .json({ error: "cohort id must be included and must be a number" });
+      } else {
+        cohortDb
+          .get(updatedStudent.cohort_id)
+          .then(cohort => {
+            if (cohort[0]) {
+              if (
+                !updatedStudent.name ||
+                typeof updatedStudent.name !== "string"
+              ) {
+                res
+                  .status(400)
+                  .json({
+                    error: "student name must be included and must be a string"
+                  });
+              } else {
+                studentDb
+                  .update(id, updatedStudent)
+                  .then(student =>
+                    studentDb
+                      .getSingle(id)
+                      .then(student => res.status(200).json(student))
+                      .catch(err =>
+                        res
+                          .status(500)
+                          .json({ error: "trouble retrieving updated student" })
+                      )
+                  )
+                  .catch(err =>
+                    res.status(500).json({ error: "trouble updating student" })
+                  );
+              }
             } else {
-              studentDb
-                .update(id, updatedStudent)
-                .then(rows => {
-                  studentDb
-                    .get(id)
-                    .then(student => res.status(201).json(student))
-                    .catch(err =>
-                      res
-                        .status(500)
-                        .json({ error: "trouble retrieving updated student" })
-                    );
-                })
-                .catch(err =>
-                  res.status(500).json({ error: "trouble updating student" })
-                );
+              res
+                .status(400)
+                .json({
+                  error:
+                    "cohort id must be included and match an existing cohort"
+                });
             }
-          } else {
-            res.status(404).json({ error: "student does not exist" });
-          }
-        })
-        .catch(err =>
-          res
-            .status(500)
-            .json({ error: "trouble retrieving student to update" })
-        );
+          })
+          .catch(err =>
+            res.status(500).json({ error: "trouble checking cohort id" })
+          );
+      }
     } else {
-      res
-        .status(400)
-        .json({ error: "cohort_id must correspond to existing cohort" });
+      res.status(400).json({ error: "student does not exist" });
     }
   });
 

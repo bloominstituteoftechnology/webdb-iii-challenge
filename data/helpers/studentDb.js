@@ -24,7 +24,7 @@ module.exports = {
       .then(ids => ({ id: ids[0] }));
   },
   update: function(id, student) {
-    return db("student")
+    return db("students")
       .where("id", id)
       .update(student);
   },
