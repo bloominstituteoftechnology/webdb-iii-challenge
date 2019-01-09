@@ -59,12 +59,16 @@ server.get('/api/cohorts/:id', (req, res) => {
 });
 
 // *** [GET] /api/cohorts/:id/students
-// server.get('/api/cohorts/:id/students', (req, res) => {
-//     const id = req.params.id;
-//     db('cohorts').where('id', id)
-//     .then()
-//     .catch()
-// });
+server.get('/api/cohorts/:id/students', (req, res) => {
+    const cohort_id = req.params;
+    db('students').where('cohort_id', cohort_id)
+    .then(students => {
+        res.json(students);
+    })
+    .catch(err => {
+        res.status(500).json({ err: `Error obtaining ${cohort_id} cohort`});
+    })
+});
 // ***
 
 server.put('/api/cohorts/:id', (req, res) => {
