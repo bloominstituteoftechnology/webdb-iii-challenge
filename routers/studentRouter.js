@@ -22,7 +22,7 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
   const { id } = req.params;
   studentDb
-    .get(id)
+    .getSingle(id)
     .then(student => {
       if (student[0]) {
         res.json(student);
