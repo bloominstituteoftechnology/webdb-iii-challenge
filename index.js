@@ -32,6 +32,21 @@ server.post('/api/cohorts', (req, res) => {
     }
 });
 
+// get array of cohorts
+
+server.get('/api/cohorts', (req, res) => {
+    db('cohorts')
+        .then(cohorts => {
+            res
+                .json(cohorts);
+        })
+        .catch(err => {
+            res
+                .status(500)
+                .json({message: `The cohorts' information could not be retrieved at this time.`});
+        });
+});
+
 const PORT = 4400;
 server.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
