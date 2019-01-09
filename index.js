@@ -71,6 +71,28 @@ server.get('/api/students/:id', (req, res) => {
     })
 })
 
+server.put('/api/students/:id', (req, res) => {
+    const { id } = req.params;
+    const student = req.body;
+    db('students').where('id', id).update(student)
+        .then(rowCount => {
+        res.json(rowCount)
+        }).catch(err => {
+        res.status(500).json({err: 'Failed to update student record'})
+    })
+})
+
+server.put('/api/cohorts/:id', (req, res) => {
+    const { id } = req.params;
+    const cohort = req.body;
+    db('cohorts').where('id', id).update(cohort)
+        .then(rowCount => {
+        res.json(rowCount)
+        }).catch(err => {
+        res.status(201).json({err: 'Failed to update cohort'})
+    })
+})
+
 server.listen(PORT, () => {
     console.log(`Listening on ${PORT}`);
 })
