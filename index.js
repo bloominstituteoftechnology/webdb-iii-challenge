@@ -1,5 +1,6 @@
 const express = require('express');
 const helmet = require('helmet');
+const cohortsRouter = require('./cohortsRoutes');
 
 const server = express();
 
@@ -12,6 +13,8 @@ const PORT = 5050;
 server.get('/', (req, res) => {
   res.json('It is working!');
 });
+
+server.use('/api/cohorts', cohortsRouter);
 
 server.listen(PORT, function() {
   console.log(`Listening on port ${PORT}`);
