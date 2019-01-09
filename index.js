@@ -1,13 +1,16 @@
 const express = require('express');
 const helmet = require('helmet');
-
+const knex = require('knex');
+const dbConfig = require('./knexfile');
+const db = knex(dbConfig.development);
 const server = express();
+
 
 server.use(express.json());
 server.use(helmet());
 
 // INSERT INTO cohorts (color, perc_used) VALUES ('red', .9)
-server.post('/cohorts', (req, res) => {
+server.post('/api/cohorts', (req, res) => {
   const cohorts = req.body;
   db('cohorts').insert(cohort)
   .then(ids => {
@@ -19,7 +22,7 @@ server.post('/cohorts', (req, res) => {
 });
 
 // SELECT * FROM cohorts;
-server.get('/cohorts', (req, res) => {
+server.get('/api/cohorts', (req, res) => {
   db('cohorts').then(rows => {
     res.json(rows);
   }).catch(err => {
@@ -28,7 +31,7 @@ server.get('/cohorts', (req, res) => {
 });
 
 // SELECT * FROM cohorts WHERE id = 1
-server.get('/cohorts/:id', (req, res) => {
+server.get('/api/cohorts/:id', (req, res) => {
   const {id} = req.params;
   db('cohorts').where('id', id)
   .then(rows => {
@@ -38,7 +41,7 @@ server.get('/cohorts/:id', (req, res) => {
   })
 });
 
-server.put('/cohorts/:id', (req, res) => {
+server.put('/api/cohorts/:id', (req, res) => {
   const {id} = req.params;
   const cohort = req.body;
 
@@ -52,7 +55,7 @@ server.put('/cohorts/:id', (req, res) => {
 });
 
 // DELETE FROM cohorts WHERE id = 1
-server.delete('/cohorts/:id', (req, res) => {
+server.delete('/api/cohorts/:id', (req, res) => {
   const {id} = req.params;
   db('cohorts').where('id', id).del()
   .then(rowCount => {
@@ -60,6 +63,16 @@ server.delete('/cohorts/:id', (req, res) => {
   }).catch(err => {
     res.status(500).json({err: 'Failed to delete cohort'});
   });
+});
+
+server.get('/api/students/:id', (req, res) => {
+  const {id} = req.params;
+  db('students').where('id', id)
+  .then(rows => {
+    res.json(rows);
+  }).catch(err => {
+    res.status(500).json({err: 'Failed to find student'});
+  })
 });
 
 
