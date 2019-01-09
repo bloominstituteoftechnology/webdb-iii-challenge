@@ -78,7 +78,18 @@ router.put('/:id', (req,res) => {
 
 
 /* ---------- DELETE /api/students/:id ---------- */
+// DELETE FROM students WHERE id={id};
+router.delete('/:id', (req,res) => {
+  const {id} = req.params;
 
+  db('students').where('id', id).del()
+    .then( (rowCount) => {
+      res.status(201).json(rowCount);
+    })
+    .catch( (err) => {
+      res.status(500).json({ error: "Could not delete student." });
+    });
+});
 
 
 module.exports = router;

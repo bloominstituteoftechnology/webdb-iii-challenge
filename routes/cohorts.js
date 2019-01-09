@@ -75,12 +75,25 @@ router.put('/:id', (req,res) => {
         res.status(500).json({ error: "Could not update cohort." });
       });
     // end-db
+  } else {
+    res.status(400).json({ error: "Please provide the name of the cohort."});
   }
 });
 
 
 /* ---------- DELETE /api/cohorts/:id ---------- */
+// DELETE FROM cohorts WHERE id={id};
+router.delete('/:id', (req,res) => {
+  const {id} = req.params;
 
+  db('cohorts').where('id', id).del()
+    .then( (rowCount) => {
+      res.status(201).json(rowCount);
+    })
+    .catch( (err) => {
+      res.status(500).json({ error: "Could not delete cohort." });
+    });
+});
 
 
 module.exports = router;
