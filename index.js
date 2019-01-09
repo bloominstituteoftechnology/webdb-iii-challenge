@@ -95,6 +95,40 @@ server.get('/api/cohorts/:id/students', (req, res) => {
         });
 });
 
+// update existing cohort
+
+server.put('/api/cohorts/:id', (req, res) => {
+    const { id } = req.params;
+    const cohort = req.body;
+    if (cohort.name) {
+        db('cohorts')
+            .where('id', id)
+            .update(cohort)
+            .then(updatedCohort => {
+                if (updatedCohort) {
+                    res
+                        .status(201)
+                        .json({message: 'The cohort was updated.'});
+                }
+                else {
+                    res
+                        .status(404)
+                        .json({message: 'The cohort with the specified ID does not exist.'})
+                }
+            })
+            .catch(err => {
+                res
+                    .status(500)
+                    .json({message: 'The cohort information could not be updated at this time.'})
+            });
+    }
+    else {
+        res
+            .status(400)
+            .json({message: 'Please include the updated name.'})
+    }
+});
+
 const PORT = 4400;
 server.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
