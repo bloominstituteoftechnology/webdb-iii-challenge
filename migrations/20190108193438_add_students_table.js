@@ -6,18 +6,14 @@ exports.up = function(knex, Promise) {
         table
             .string('name')
             .notNullable();
-    })
+        table
+            .integer('cohort_id')
+            .notNullable()
+            .references('id')
+            .inTable('cohorts');
+    });
 };
 
 exports.down = function(knex, Promise) {
-    table
-        .increments('id');
-    table
-        .string('name')
-        .notNullable();
-    table
-        .integer('cohort_id')
-        .notNullable()
-        .references('id')
-        .inTable('cohorts');
+    knex.schema.dropTable('students');
 };
