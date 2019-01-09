@@ -5,9 +5,9 @@ module.exports = {
     let query = db("students");
     if (id) {
       return db("cohorts as c")
-      .join("students as s", "s.cohort_id", "c.id")
-      .select("s.id", "s.name", "c.name as cohort")
-      .where("s.id", id);
+        .join("students as s", "s.cohort_id", "c.id")
+        .select("s.id", "s.name", "c.name as cohort")
+        .where("s.id", id);
     }
     return query;
   },

@@ -56,15 +56,15 @@ router.get("/:id/students", (req, res) => {
 
 router.post("/", (req, res) => {
   const newCohort = req.body;
-  if(!newCohort.name || newCohort.name === "") {
-    res.status(400).json({error: "cohort name is required"});
+  if (!newCohort.name || newCohort.name === "") {
+    res.status(400).json({ error: "cohort name is required" });
   } else if (typeof newCohort.name !== "string") {
-    releaseEvents.status(400).json({error: "cohort name must be a string"});
+    releaseEvents.status(400).json({ error: "cohort name must be a string" });
   } else {
     cohortDb
-    .insert(newCohort)
-    .then(id => res.status(201).json(id))
-    .catch(err => res.status(500).json({error: "trouble adding cohort"}))
+      .insert(newCohort)
+      .then(id => res.status(201).json(id))
+      .catch(err => res.status(500).json({ error: "trouble adding cohort" }));
   }
 });
 
