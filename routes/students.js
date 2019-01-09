@@ -1,5 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const knex = require('knex');
+
+//const server = express();
+const dbConfig = require('../knexfile');
+const db = knex(dbConfig.development);
 
 /* ---------- GET /api/students---------- */
 
@@ -10,3 +15,5 @@ const router = express.Router();
 /* ---------- PUT /api/students/:id ---------- */
 
 /* ---------- DELETE /api/students/:id ---------- */
+
+module.exports = router;
