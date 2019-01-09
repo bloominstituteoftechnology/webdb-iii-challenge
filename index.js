@@ -45,8 +45,7 @@ server.get("/api/cohorts/:id", (req, res) => {
 
  server.post("/api/cohorts", (req, res) => {
     const name = req.body;
-
-     db("cohorts")
+    db("cohorts")
       .insert(name)
       .then(name => {
           res.status(201).json(name)
@@ -61,7 +60,6 @@ server.get("/api/cohorts/:id", (req, res) => {
  server.put("/api/cohorts/:id", (req, res) => {
     const changes = req.body;
     const {id} = req.params;
-    console.log(id);
     db("cohorts")
       .where({ id: id })
       .update(changes)
@@ -75,9 +73,8 @@ server.get("/api/cohorts/:id", (req, res) => {
 
  server.delete("/api/cohorts/:id", (req, res) => {
     const { id } = req.params;
-    console.log(id);
     db("cohorts")
-      .where({id:id})
+      .where({ id: id })
       .del()
       .then(ids => {
           res.status(200).json(ids)
