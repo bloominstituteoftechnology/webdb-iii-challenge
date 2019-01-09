@@ -15,7 +15,7 @@ server.use(helmet());
 
 server.post('/api/cohorts', (req, res) => {
   const cohort = req.body;
-  console.log(cohort);
+
   db('cohorts').insert(cohort)
     .then(cohortId => {
       res.status(201).json(cohortId);
@@ -41,7 +41,20 @@ server.get('/api/cohorts/:id', (req, res) => {
     .catch(err => {
       res.status(500).json({ errorMessage: 'Failed to get cohort' });
     });
-})
+});
+
+server.put('/api/cohorts/:id', (req, res) => {
+  const { id } = req.params;
+  const cohort = req.body;
+
+  db('cohorts').where('id', id).update(cohort)
+    .then(rowCount => {
+      res.json(rowCount);
+    })
+    .catch(err => {
+      res.status(500).json({ errorMessage: 'Failed to update cohort' });
+    });
+});
 
 
 const port = 3300;
