@@ -159,6 +159,31 @@ SERVER.get("/students/:id", (req, res) => {
     });
 });
 
+// UPDATE A STUDENT BY ID
+SERVER.put("/students/:id", (req, res) => {
+  const { id } = req.params;
+  const student = req.body;
+
+  DB("students")
+    .where("id", id)
+    .update({ ...student })
+    .then(bool => {
+      if (bool) {
+        DB("students")
+          .where("id", id)
+          .then(student => {
+            res.status(201).json(student);
+          })
+          .catch(err => {
+            res.status(500).json({ error: err });
+          });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ error: err });
+    });
+});
+
 SERVER.listen(PORT, () => {
   console.log(`Listening on PORT:${PORT}`);
 });
