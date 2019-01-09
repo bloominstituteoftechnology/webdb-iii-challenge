@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "server": "nodemon"
   },
   "repository": "https://github.com/robsalzberg/RDBMS-API-Full.git",
   "author": "Rob Salzberg <robsalzberg@gmail.com>",
