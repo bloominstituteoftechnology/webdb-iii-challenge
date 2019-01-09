@@ -56,6 +56,18 @@ server.put('/api/cohorts/:id', (req, res) => {
     });
 });
 
+server.delete('/api/cohorts/:id', (req, res) => {
+  const { id } = req.params;
+
+  db('cohorts').where('id', id).del()
+    .then(rowCount => {
+      res.status(201).json(rowCount);
+    })
+    .catch(err => {
+      res.status(500).json({ errorMessage: 'Failed to delete cohort' })
+    });
+});
+
 
 const port = 3300;
 server.listen(port, function() {
