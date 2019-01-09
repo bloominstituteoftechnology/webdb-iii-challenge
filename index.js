@@ -44,10 +44,16 @@ server.get('/api/cohorts/:id', (req, res) => {
         });
 });
 // - `[GET] /api/cohorts/:id/students` returns all students for the cohort with the specified `id`.
-// server.get('/api/cohorts/:id/students', (req, res) => {
-//     const { students } = req.params;
-//     db
-// })
+server.get('/api/cohorts/:id/students', (req, res) => {
+    const { id } = req.params;
+    db('students').where('cohort_id', id)
+        .then(rows => {
+            res.json(rows)
+        })
+        .catch(er => {
+            res.status(500).json({ errorMessage: 'Failed to find student from that cohort' });
+        });
+});
 
 // - `[PUT] /api/cohorts/:id` This route will update the cohort with the matching `id` using information sent in the body of the request.
 server.put('/api/cohorts/:id', (req, res) => {
