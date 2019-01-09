@@ -15,14 +15,14 @@ Use knex migrations to create a database called `lambda.sqlite3` and add the fol
 
 #### cohorts
 
-- `id`: primary key, auto-increments.
-- `name`: text, required.
+- [x] `id`: primary key, auto-increments.
+- [x] `name`: text, required.
 
 #### students
 
-- `id`: primary key, auto-increments.
-- `name`: text, required.
-- `cohort_id`: references the `id` in the cohorts table.
+- [x] `id`: primary key, auto-increments.
+- [x] `name`: text, required.
+- [x] `cohort_id`: references the `id` in the cohorts table.
 
 Use knex seeding feature to add test data to your tables.
 
