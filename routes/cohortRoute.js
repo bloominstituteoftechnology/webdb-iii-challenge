@@ -56,4 +56,17 @@ router.get('/:id/students', (req, res) => {
   .catch(err => res.status(500).json({ message: "Unable to fetch that specific cohort"}))
 });
 
+router.post("/", (req, res) => {
+  const name = req.body;
+
+  db.insert(name)
+    .into("cohorts")
+    .then(cohort => {
+      res.status(201).json(cohort);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
+});
+
 module.exports = router;
