@@ -1,9 +1,13 @@
 {
   "dependencies": {
-    "express": "4.16.4",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
     "knex": "0.16.3",
     "knex-cli": "^1.0.2",
-    "nodemon": "1.18.9",
+    "package.json": "^2.0.1",
     "sqlite3": "4.0.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
   }
 }
