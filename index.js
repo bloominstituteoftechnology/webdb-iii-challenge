@@ -2,7 +2,9 @@ const express = require('express');
 const server = express();
 const PORT = process.env.PORT || 5000;
 server.use(express.json());
-const db = knex(dbconfig.development)
+const knex= require('knex')
+const dbConfig=(require('./knexfile'))
+const db = knex(dbConfig.development)
 
 server.post('/api/cohorts', (req, res) => {
   const student = req.body;
@@ -51,8 +53,9 @@ server.delete('/api/cohorts/:id', (req, res) => {
   db('cohorts').where('id', id)
     .del()
     .then(rowsDeleted => res.status(201).json(rowsDeleted))
+    .catch(err => { res.status(500).json({ message: "unable to delete this cohort" }) })
 })
-  .catch(err => { res.status(500).json({ message: "unable to delete this cohort" }) });
+
 
 
 
