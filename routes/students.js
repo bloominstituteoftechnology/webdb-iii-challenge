@@ -56,9 +56,25 @@ router.post('/', (req,res) => {
 });
 
 
-
 /* ---------- PUT /api/students/:id ---------- */
+// UPDATE students SET name={name} WHERE id={id};
+router.put('/:id', (req,res) => {
+  const {id} = req.params;
+  const studentData = req.body;
 
+  if( studentData.name && studentData.cohort_id ){
+    db('students').where('id', id).update(studentData)
+      .then( (rowCount) => {
+        res.json(rowCount);
+      })
+      .catch( (err) => {
+        res.status(500).json({ error: "Could not update student." });
+      });
+    // end-db
+  } else {
+    res.status(400).json({ error: "Please provide the name & cohort of the student."});
+  }
+});
 
 
 /* ---------- DELETE /api/students/:id ---------- */

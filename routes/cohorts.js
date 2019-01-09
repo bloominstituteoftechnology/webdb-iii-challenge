@@ -59,8 +59,24 @@ router.post('/', (req,res) => {
   }
 });
 
-/* ---------- PUT /api/cohorts/:id ---------- */
 
+/* ---------- PUT /api/cohorts/:id ---------- */
+// UPDATE cohorts SET name={name} WHERE id={id};
+router.put('/:id', (req,res) => {
+  const {id} = req.params;
+  const cohortData = req.body;
+
+  if( cohortData.name ){
+    db('cohorts').where('id', id).update(cohortData)
+      .then( (rowCount) => {
+        res.json(rowCount);
+      })
+      .catch( (err) => {
+        res.status(500).json({ error: "Could not update cohort." });
+      });
+    // end-db
+  }
+});
 
 
 /* ---------- DELETE /api/cohorts/:id ---------- */
