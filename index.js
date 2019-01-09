@@ -1,6 +1,8 @@
 const express = require('express');
 const knex = require('knex');
 
+const dbconfig = require('./knexfile');
+
 const server = express();
 const db = knex(dbconfig.development);
 const PORT = 4000;
