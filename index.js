@@ -4,6 +4,9 @@ const server = express();
 const knex = require('knex');
 const dbConfig = require('./knexfile');
 
+const cohortRouter = require('./routes/cohortRoutes');
+const studentRouter = require('./routes/studentRoutes');
+
 const db = knex(dbConfig.development);
 const PORT = process.env.PORT || 3400;
 
@@ -11,107 +14,9 @@ server.use(express.json());
 
 //GET
 
-server.get('/cohorts', (req, res) => {
-    db('cohorts')
-        .then(response => res.json(response))
-        .catch(err => {res.status(500).json({ message: 'Unable to fetch cohorts' })})
-});
+server.use('/cohorts', cohortRouter);
 
-server.get('/cohorts/:id', (req, res) => {
-    const {id} = req.params;
-    db('cohorts').where('id', id)
-        .then(cohort => {
-            if(Object.keys(cohort).length === 0){
-                res.status(404).json({ message: "Invalid cohort ID" })
-            } else {
-                res.json(cohort)
-            }
-        })
-        .catch(err => res.status(500).json({ message: "Unable to fetch that specific cohort"}))
-});
-
-server.get('/cohorts/:id/students', (req, res) => {
-    const {id} = req.params;
-    db('cohorts').where('id', id)
-        .then(cohort => {
-        if(Object.keys(cohort).length === 0){
-            res.status(404).json({ message: "Invalid cohort ID" })
-        } else {
-            db('students').where('cohort_id', id)
-                .then(students => {
-                    if(Object.keys(students).length === 0){
-                        res.status(404).json({ message: "This cohort doesn't have any students yet"})
-                    } else {
-                        res.json(students)
-                    }
-                })
-                .catch(err => {res.status(500).json({ message: "Unable to fetch those students" })})
-        }
-    })
-    .catch(err => res.status(500).json({ message: "Unable to fetch that specific cohort"}))
-});
-
-
-server.get('/students', (req, res) => {
-    db('students')
-        .then(response => res.json(response))
-        .catch(err => {res.status(500).json({ message: "Unable to fetch students" })})
-});
-
-server.get('/students/:id', (req, res) => {
-    const {id} = req.params;
-    db('students').where('id', id)
-        .then(student => {
-            if(Object.keys(student).length === 0){
-                res.status(404).json({message: "Invalid student ID"})
-            } else {
-                res.json(student)
-            }
-        })
-});
-
-//POST
-
-server.post('/cohorts', (req, res) => {
-    const cohort = req.body;
-    db('cohorts').insert(cohort)
-        .then()
-        .catch(err => {
-            res.status(500).json({message: "Unable to add student"})
-        })
-});
-
-server.post('/students', (req, res) => {
-    const student = req.body;
-    db('students').insert(student)
-        .then()
-        .catch(err => {
-            res.status(500).json({message: "Unable to add student"})
-        })
-});
-
-
-//PUT
-
-server.put('/cohorts/:id', (req, res) => {
-
-});
-
-server.put('/students/:id', (req, res) => {
-
-});
-
-
-//DELETE
-
-server.delete('/cohorts/:id', (req, res) => {
-
-});
-
-
-server.delete('/students/:id', (req, res) => {
-
-});
+server.use('/students', studentRouter);
 
 
 //SERVER
