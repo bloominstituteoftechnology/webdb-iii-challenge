@@ -16,6 +16,7 @@ server.get('/', (req, res) => {
 
 server.get('/api/cohorts', (req, res) => {
     db('cohorts')
+    
     .then(cohorts => {
         res.json(cohorts);
     })
@@ -26,22 +27,31 @@ server.get('/api/cohorts', (req, res) => {
 
 server.post('/api/cohorts', (req, res) => {
     const cohort = req.body;
-    // console.log('crayon info', crayon);
-    db('cohorts').insert(cohort)
-    .then((ids) => {
-        res.status(201).json(ids);
-    })
-    .catch(err => {
-        // console.log(err);
-        res.status(500).json({ err: "Failed to insert cohort"});
-    });
+
+    if (cohort.name) {
+        db('cohorts').insert(cohort)
+        .then((ids) => {
+            res.status(201).json(ids);
+        })
+        .catch(err => {
+            
+            res.status(500).json({ err: "Failed to insert cohort"});
+        });
+    } else {
+        res.status(400).json({message: "Provide cohort name."})
+    }
 });
 
 server.get('/api/cohorts/:id', (req, res) => {
     const id = req.params.id;
     db('cohorts').where('id', id)
     .then(cohort => {
-        res.json(cohort);
+        if (cohort.length > 0) {
+            res.json(cohort);
+        }
+        else {
+            res.status(404).json({error: "The post with the specified ID does not exist."});
+        }
     })
     .catch(err => {
         res.status(500).json({err: "Failed to find cohort"});
@@ -49,19 +59,19 @@ server.get('/api/cohorts/:id', (req, res) => {
 });
 
 // *** [GET] /api/cohorts/:id/students
-server.get('/api/cohorts/:id/students', (req, res) => {
-    const id = req.params.id;
-    db('cohorts').where('id', id)
-    .then()
-    .catch()
-});
+// server.get('/api/cohorts/:id/students', (req, res) => {
+//     const id = req.params.id;
+//     db('cohorts').where('id', id)
+//     .then()
+//     .catch()
+// });
 // ***
 
 server.put('/api/cohorts/:id', (req, res) => {
     const { id } = req.params;
     const cohort = req.body;
 
-    db('cohorts').where('id', id) // where comes before the update!
+    db('cohorts').where('id', id)
     .update(cohort)
     .then(rowCount => {
         res.json(rowCount);
@@ -77,10 +87,14 @@ server.delete('/api/cohorts/:id', (req, res) => {
     db('cohorts').where('id', id)
     .del()
     .then(rowCount => {
-        res.status(201).json(rowCount);
+        if (rowCount) {
+            res.status(201).json(rowCount);
+        } else {
+            res.status(404).json({message: "The cohort with the specified ID does not exist."});
+        }
     })
     .catch(err => {
-        res.status(500).json({err: "Failed to delete cohort"});
+        res.status(500).json({err: "Failed to delete cohort."});
     })
 });
 
@@ -98,15 +112,20 @@ server.get('/api/students', (req, res) => {
 
 server.post('/api/students', (req, res) => {
     const student = req.body;
-    // console.log('crayon info', crayon);
-    db('students').insert(student)
-    .then((ids) => {
-        res.status(201).json(ids);
-    })
-    .catch(err => {
-        // console.log(err);
-        res.status(500).json({ err: "Failed to insert student"});
-    });
+
+    if (student.name && student.cohort_id) {
+        db('students').insert(student)
+        .then((ids) => {
+            res.status(201).json(ids);
+        })
+        .catch(err => {
+    
+            res.status(500).json({ err: "Failed to insert student"});
+        });
+    } else {
+        res.status(400).json({message: "Provide student name and cohort_id."})
+    }
+    
 });
 
 // **** Have the student returned by the [GET] /students/:id endpoint include the cohort name and remove the cohort_id fields.
@@ -114,7 +133,12 @@ server.get('/api/students/:id', (req, res) => {
     const id = req.params.id;
     db('students').where('id', id)
     .then(student => {
-        res.json(student);
+        if (student.length > 0) {
+            res.json(student);
+        }
+        else {
+            res.status(404).json({error: "The student with the specified id does not exist."});
+        }
     })
     .catch(err => {
         res.status(500).json({err: "Failed to find student"});
@@ -142,7 +166,11 @@ server.delete('/api/students/:id', (req, res) => {
     db('students').where('id', id)
     .del()
     .then(rowCount => {
-        res.status(201).json(rowCount);
+        if (rowCount) {
+            res.status(201).json(rowCount);
+        } else {
+            res.status(404).json({message: "The cohort with the specified ID does not exist."});
+        }
     })
     .catch(err => {
         res.status(500).json({err: "Failed to delete student"});
