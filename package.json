@@ -1,25 +1,27 @@
 {
   "name": "rdbms-api-full",
   "version": "1.0.0",
-  "description": "## Topics",
-  "main": "knexfile.js",
-  "module": "main.js",
+  "description": "rdbms and node.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jryel1970/RDBMS-API-Full.git"
   },
-  "author": "",
+  "author": "Joseph Mercado",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/jryel1970/RDBMS-API-Full/issues"
   },
   "homepage": "https://github.com/jryel1970/RDBMS-API-Full#readme",
-  "keywords": [],
   "dependencies": {
-    "esm": "^3.0.84"
+    "express": "^4.16.3",
+    "knex": "^0.15.2",
+    "sqlite3": "^4.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.3"
   }
 }

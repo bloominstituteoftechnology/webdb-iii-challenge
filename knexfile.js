@@ -1,11 +1,11 @@
 // Config Settings
 
-mobile.exports = {
+module.exports = {
 
 	development: {
 		client: 'sqlite3',
 		connection: {
-			filename: 'data/cspt2.sqlite3'
+			filename: './data/cspt2.sqlite3'
 		},
 		useNullAsDefault: true,
 	},
@@ -14,7 +14,7 @@ mobile.exports = {
 		client: 'postgresql',
 		connection: {
 			database: 'my_db',
-			user: 'username',
+			user: 	  'username',
 			password: 'password'
 		},
 
@@ -31,8 +31,8 @@ mobile.exports = {
 	production: {
 		client: 'postgresql',
 		connection: {
-			database: 'my_db'
-			user: 'username',
+			database: 'my_db',
+			user: 	  'username',
 			password: 'password'
 		},
 
