@@ -122,6 +122,20 @@ server.get('/students/:id', (req, res) => {
 });
 
 //[PUT] /students/:id This route will update the student with the matching id using information sent in the body of the request.
+server.put('/students/:id', (req,res) => {
+    const {id} = req.params;
+    const student = req.body;
+
+    db('students').where('id', id).update(student)
+    .then(rowCount => {
+        res.status(200).json(rowCount)
+    })
+    .catch(err => {
+        res.status(500).json({err: "Failed to update student"});
+    })
+})
+
+
 //[DELETE] /students/:id This route should delete the specified student.
 
 
