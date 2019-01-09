@@ -26,6 +26,9 @@ Use knex migrations to create a database called `lambda.sqlite3` and add the fol
 
 Use knex seeding feature to add test data to your tables.
 
+- [x] cohort test data
+- [x] student test data
+
 Implement the following endpoints:
 
 - [x] `[POST] /api/cohorts` This route should save a new cohort to the database.
