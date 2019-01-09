@@ -32,6 +32,17 @@ server.get('/api/cohorts', (req, res) => {
     });
 });
 
+server.get('/api/cohorts/:id', (req, res) => {
+  const { id } = req.params;
+  db('cohorts').where('id', id)
+    .then(rows => {
+      res.json(rows);
+    })
+    .catch(err => {
+      res.status(500).json({ errorMessage: 'Failed to get cohort' });
+    });
+})
+
 
 const port = 3300;
 server.listen(port, function() {
