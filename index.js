@@ -31,7 +31,24 @@ server.get('/cohorts/:id', (req, res) => {
 });
 
 server.get('/cohorts/:id/students', (req, res) => {
-    
+    const {id} = req.params;
+    db('cohorts').where('id', id)
+        .then(cohort => {
+        if(Object.keys(cohort).length === 0){
+            res.status(404).json({ message: "Invalid cohort ID" })
+        } else {
+            db('students').where('cohort_id', id)
+                .then(students => {
+                    if(Object.keys(students).length === 0){
+                        res.status(404).json({ message: "This cohort doesn't have any students yet"})
+                    } else {
+                        res.json(students)
+                    }
+                })
+                .catch(err => {res.status(500).json({ message: "Unable to fetch those students" })})
+        }
+    })
+    .catch(err => res.status(500).json({ message: "Unable to fetch that specific cohort"}))
 });
 
 
