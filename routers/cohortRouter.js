@@ -105,4 +105,27 @@ router.put("/:id", (req, res) => {
     );
 });
 
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+  const deleted = await cohortDb.get(id);
+
+  cohortDb
+    .get(id)
+    .then(cohort => {
+      if (cohort[0]) {
+        cohortDb
+          .remove(id)
+          .then(rows => res.status(201).json(deleted))
+          .catch(err =>
+            res.status(500).json({ error: "trouble deleting cohort" })
+          );
+      } else {
+        res.status(404).json({ error: "cohort does not exist" });
+      }
+    })
+    .catch(err =>
+      res.status(500).json({ error: "trouble retrieving cohort to be deleted" })
+    );
+});
+
 module.exports = router;
