@@ -11,8 +11,8 @@ const PORT = 3000;
 // Middleware
 configureMiddleware(server);
 
-server.use("./api/cohorts", cohortRoute);
-server.use("./api/students", studentRoute);
+server.use("/api/cohorts", cohortRoute);
+server.use("/api/students", studentRoute);
 
 server.get("/", (req, res) => {
   res.send("RDBMS...");

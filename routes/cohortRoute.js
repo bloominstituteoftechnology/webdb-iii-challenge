@@ -3,16 +3,14 @@ const knex = require("knex");
 
 const router = express.Router();
 
-const environment = process.env.NODE_ENV || "development";
-const configuration = require("../knexfile")[environment];
-const db = require("knex")(configuration);
+const knexConfig = require("../knexfile");
+const db = knex(knexConfig.development);
 
 // console.log(db("cohorts"));
 
 // Cohort endpoints
 router.get("/", (req, res) => {
   db("cohorts")
-    .select()
     .then(cohorts => {
       res.status(200).json(cohorts);
     })
@@ -26,7 +24,6 @@ router.get("/:id", (req, res) => {
 
   db("cohorts")
     .where("id", cohortId)
-    .select()
     .then(cohort => {
       if (cohort.length) {
         res.status(200).json(cohort);
@@ -59,7 +56,7 @@ router.put("/:id", (req, res) => {
   const { id } = req.params;
 
   db("cohorts")
-    .where("id", "=", id)
+    .where({ id })
     .update(updates)
     .then(count => {
       res.status(200).json(count);
