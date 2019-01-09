@@ -3,6 +3,7 @@ const db = require('../dbconfig.js');
 module.exports = {
   find,
   findById,
+  findByStudentsbyCohortId,
   insert,
   update,
   remove
@@ -17,7 +18,7 @@ function findById(id) {
 }
 
 function findByStudentsbyCohortId(id) {
-
+  return db('students').where('cohort_id', id)
 }
 
 function insert(cohort) {
