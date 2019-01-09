@@ -39,4 +39,15 @@ router.get('/:id', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+//Get all students in a particular cohort
+router.get('/:id/students', (req, res) => {
+  const { id } = req.params;
+  db('students')
+    .where('cohort_id', id)
+    .then(students => {
+      res.json(students);
+    })
+    .catch(err => res.status(500).json(err));
+});
+
 module.exports = router;
