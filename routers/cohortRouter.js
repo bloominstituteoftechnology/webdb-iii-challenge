@@ -66,6 +66,43 @@ router.post("/", (req, res) => {
     .then(id => res.status(201).json(id))
     .catch(err => res.status(500).json({error: "trouble adding cohort"}))
   }
-})
+});
+
+router.put("/:id", (req, res) => {
+  const updatedCohort = req.body;
+  const { id } = req.params;
+  cohortDb
+    .get(id)
+    .then(cohort => {
+      if (cohort[0]) {
+        if (!updatedCohort.name || updatedCohort.name === "") {
+          res.status(400).json({ error: "cohort name is required" });
+        } else if (typeof updatedCohort.name !== "string") {
+          res.status(400).json({ error: "cohort name must be a string" });
+        } else {
+          cohortDb
+            .update(id, updatedCohort)
+            .then(rows => {
+              cohortDb
+                .get(id)
+                .then(cohort => res.status(201).json(cohort))
+                .catch(err =>
+                  res
+                    .status(500)
+                    .json({ error: "trouble retrieving updated cohort" })
+                );
+            })
+            .catch(err =>
+              res.status(500).json({ error: "trouble updating cohort" })
+            );
+        }
+      } else {
+        res.status(404).json({ error: "cohort does not exist" });
+      }
+    })
+    .catch(err =>
+      res.status(500).json({ error: "trouble retrieving cohort to update" })
+    );
+});
 
 module.exports = router;
