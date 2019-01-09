@@ -20,7 +20,21 @@ server.get('/LambdaCohorts', (req, res)=>{
     })
 })
 
-server.post('/LambdaCohorts', (req, res))
+server.get('/LambdaCohorts/:id', (req, res)=>{
+    const {id} = req.params;
+
+    db('cohorts').where('id', id).then(row=>{
+        
+        row[0]?res.json(row):res.status(404).json({err: "This Cohort doesn't exsist"})
+    })
+    .catch(err=>{
+        res.status(500).json({err: "We are having trouble grabbing the Cohort by ID please try again"})
+    })
+})
+
+server.post('/LambdaCohorts', (req, res)=>{
+    
+})
 
 server.listen(Port, ()=>{
     console.log(`Server is running on Port: ${Port}`)
