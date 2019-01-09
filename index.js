@@ -22,10 +22,32 @@ server.post('/api/cohorts', (req, res) => {
 });
 
 // - `[GET] /api/cohorts` This route will return an array of all cohorts.
+server.get('/api/cohorts', (req, res) => {
+    db('cohorts')
+        .then(rows => {
+            res.status(200).json(rows);
+        })
+        .catch(err => {
+            res.status(500).json({ errorMessage: 'Failed to find cohorts' });
+        });
+});
 
 // - `[GET] /api/cohorts/:id` This route will return the cohort with the matching `id`.
+server.get('/api/cohorts/:id', (req, res) => {
+    const { id } = req.params;
+    db('cohorts').where('id', id)
+        .then(rows => {
+            res.status(200).json(rows);
+        })
+        .catch(err => {
+            res.status(500).json({ errorMessage: 'Failed to find cohort with that id.' });
+        });
+});
 // - `[GET] /api/cohorts/:id/students` returns all students for the cohort with the specified `id`.
+
 // - `[PUT] /api/cohorts/:id` This route will update the cohort with the matching `id` using information sent in the body of the request.
+
+
 // - `[DELETE] /api/cohorts/:id` This route should delete the specified cohort.
 //end of endpoints
 server.listen(PORT, () => {
