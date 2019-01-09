@@ -2,6 +2,11 @@
   "dependencies": {
     "express": "^4.16.4",
     "knex": "^0.16.3",
+    "nodemon": "^1.18.9",
     "sqlite3": "^4.0.4"
+  },
+  "main": "index.js",
+  "scripts":{
+    "server": "nodemon"
   }
 }
