@@ -24,7 +24,10 @@ router.get( '/', (req, res) => {
 router.get( '/:id', (req, res) => {
   const {id} = req.params;
 
-  db('students').where('id', id)
+  db('students as s')
+  .join('cohorts as c', 'c.id', 's.cohort_id')
+  .select('s.id', 's.name', 'c.name as Cohort')
+  .where('s.id', id)
     .then( (rows) => {
       res.json(rows);
     })
@@ -33,6 +36,19 @@ router.get( '/:id', (req, res) => {
     });
   // end-db
 });
+
+// router.get( '/:id', (req, res) => {
+//   const {id} = req.params;
+
+//   db('students').where('id', id)
+//     .then( (rows) => {
+//       res.json(rows);
+//     })
+//     .catch( (err) => {
+//       res.status(500).json({ error: "Could not get student." });
+//     });
+//   // end-db
+// });
 
 
 /* ---------- POST /api/students ---------- */

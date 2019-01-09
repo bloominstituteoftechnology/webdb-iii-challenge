@@ -36,8 +36,19 @@ router.get( '/:id', (req, res) => {
 
 
 /* ---------- GET /api/cohorts/:id/students ---------- */
+// SELECT * FROM students WHERE cohort_id={id};
+router.get( '/:id/students', (req, res) => {
+  const {id} = req.params;
 
-
+  db('students').where('cohort_id', id)
+    .then( (rows) => {
+      res.json(rows);
+    })
+    .catch( (err) => {
+      res.status(500).json({ error: "Could not get students from that cohort." });
+    });
+  // end-db
+});
 
 /* ---------- POST /api/cohorts ---------- */
 // INSERT INTO cohorts (name) VALUES (body);
