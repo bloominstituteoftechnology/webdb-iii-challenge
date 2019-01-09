@@ -15,6 +15,7 @@ server.use(helmet());
 
 server.post('/api/cohorts', (req, res) => {
   const cohort = req.body;
+  console.log(cohort);
   db('cohorts').insert(cohort)
     .then(cohortId => {
       res.status(201).json(cohortId);
