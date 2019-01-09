@@ -1,0 +1,25 @@
+{
+  "name": "rdbms-api-full",
+  "version": "1.0.0",
+  "description": "## Topics",
+  "main": "knexfile.js",
+  "module": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jryel1970/RDBMS-API-Full.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jryel1970/RDBMS-API-Full/issues"
+  },
+  "homepage": "https://github.com/jryel1970/RDBMS-API-Full#readme",
+  "keywords": [],
+  "dependencies": {
+    "esm": "^3.0.84"
+  }
+}
