@@ -61,6 +61,30 @@ router.get('/:id', (req, res) => {
                 })
         })
 })
+router.get('/:id/students', (req, res) => {
+    const { id } = req.params;
+    db('students').where('cohort_id', id)
+        .then(student => {
+            if (student.length) {
+                res
+                    .status(200)
+                    .json(student);
+            } else {
+                res
+                    .status(404)
+                    .json({
+                        error: "The student with the specified ID does not exist."
+                    })
+            }
+        })
+        .catch(err => {
+            res
+                .status(500)
+                .json({
+                    error: err
+                })
+        })
+})
 router.put('/:id', (req, res) => {
     const name = req.body;
     const { id } = req.params;
