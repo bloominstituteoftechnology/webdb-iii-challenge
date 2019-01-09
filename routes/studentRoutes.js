@@ -28,7 +28,7 @@ router.get('/:id', (req, res) => {
 
 //POST
 
-server.post('/', (req, res) => {
+router.post('/', (req, res) => {
     const student = req.body;
     db('students').insert(student)
         .then()
@@ -40,14 +40,14 @@ server.post('/', (req, res) => {
 
 //PUT
 
-server.put('/:id', (req, res) => {
+router.put('/:id', (req, res) => {
 
 });
 
 
 //DELETE
 
-server.delete('/:id', (req, res) => {
+router.delete('/:id', (req, res) => {
 
 });
 

@@ -51,26 +51,34 @@ router.get('/:id/students', (req, res) => {
 
 //POST
 
-server.post('/', (req, res) => {
+router.post('/', (req, res) => {
     const cohort = req.body;
-    db('cohorts').insert(cohort)
-        .then()
-        .catch(err => {
-            res.status(500).json({message: "Unable to add student"})
-        })
+    if(cohort.name){
+        db('cohorts').insert(cohort)
+            .then(response => {
+                const newID = response[0];
+                db('cohorts').where('id', newID)
+                    .then(cohort => res.json(cohort[0]))
+            })
+            .catch(err => {
+                res.status(500).json({ message: "Unable to add new cohort" })
+            })
+    } else {
+        res.status(400).json({ message: "New cohorts require a name" })
+    }
 });
 
 
 //PUT
 
-server.put('/:id', (req, res) => {
+router.put('/:id', (req, res) => {
 
 });
 
 
 //DELETE
 
-server.delete('/:id', (req, res) => {
+router.delete('/:id', (req, res) => {
 
 });
 
