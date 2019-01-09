@@ -1,7 +1,7 @@
 const express = require('express'),
     bodyParser = require('body-parser'),
     students = require('./api/students'),
-    cohorts = require('./cohorts');
+    cohorts = require('./api/cohorts');
 
 const app = express();
 
