@@ -1,4 +1,12 @@
 {
+  "name": "RDBMS-API-FULL",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Lee Lichtsinn <lee.lichtsinn@gmail.com",
+  "license": "MIT",
+  "scripts": {
+    "server": "nodemon"
+  },
   "dependencies": {
     "express": "^4.16.4",
     "helmet": "^3.15.0",
