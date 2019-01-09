@@ -10,6 +10,8 @@ server.use(helmet());
 //Grab route handlers/endpoints
 const cohortsRoutes = require('./routers/cohortsRouter');
 server.use('/api/cohorts', cohortsRoutes);
+const studentsRoutes = require('./routers/studentsRouter');
+server.use('/api/students', studentsRoutes);
 
 
 //Listener
