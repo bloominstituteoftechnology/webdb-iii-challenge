@@ -157,12 +157,14 @@ server.get('/api/students', (req, res) => {
 
 server.get("/api/students/:id", (req, res) => {
     const { id } = req.params;
-    db("students")
-        .where({ id: id })
-        .then(name => {
+    db('students')
+        .join('cohorts as c', 'c.id', 's.cohort_id')
+        .select('s.id', 's.name', 'c.name as Cohort')
+        .where('s.id', id)
+        .then( (rows) => {
             res
                 .status(200)
-                .json(name);
+                .json(rows);
         })
         .catch(err => {
             res
