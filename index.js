@@ -1,9 +1,9 @@
 const express = require("express");
 const knex = require("knex");
 
-const knexConfig = require("./knexfile.js");
+const dbConfig = require("./knexfile.js");
 
-const db = knex(knexConfig.development);
+const db = knex(dbConfig.development);
 const PORT = 5000;
 const server = express();
 
@@ -12,7 +12,9 @@ server.use(express.json());
 
 
 server.get("/api/cohorts", (req, res) => {
+    const newCohort = req.body;
     db("cohorts")
+    .insert(newCohort)
       .then(cohorts => {
           res.status(200).json(cohorts)
       })
@@ -86,7 +88,9 @@ server.delete("/api/cohorts/:id", (req, res) => {
 
 
 server.get("/api/students", (req, res) => {
+    const newStudent = req.body;
     db("students")
+    .insert(newStudent)
       .then(students => {
           res.status(200).json(students)
       })
