@@ -10,7 +10,7 @@ module.exports = {
       directory: './lambda.sqlite3/migrations'
     },
     seeds: {
-        directory: './lambda.sqlite3/seeds'
+      directory: './lambda.sqlite3/seeds'
       }
   },
 

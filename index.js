@@ -9,10 +9,10 @@ const PORT = 8000;
 
 server.use(express.json());
 
-server.post('/dev.sqlite3/cohorts', (req, res) => {
+server.post('/dev.sqlite3', (req, res) => {
     const cohorts = req.body;
     console.log('cohorts info', cohorts)
-    db('dev.sqlite3/cohorts').insert(cohorts)
+    db('dev.sqlite3').insert(cohorts)
         .then(ids => {
             res.status(201).json(ids);
         }).catch(err => {
