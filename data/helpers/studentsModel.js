@@ -6,7 +6,7 @@ const db = knex(knexConfig.development)
 // Data Access Layer
 
 module.exports = {
-    find
+    find,
     // findById,
     // add,
     // update,

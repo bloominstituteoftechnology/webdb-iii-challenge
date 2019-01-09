@@ -41,21 +41,48 @@ router.post("/", (req, res) => {
     });
 });
 
-router.delete('/:id', (req, res) => {
-    const { id } = req.params
+router.put("/:id", (req, res) => {
+  const { id } = req.params;
+  const changes = req.body;
 
-    db.remove(id)
-        .then(count => {
-            if (!count || count < 1) {
-                res.status(404).json({message: 'No records found to delete'})
-            } else {
-                res.status(200).json(count)
-            }
-        }
-        )
+  db.update(id, changes)
+    .then(count => {
+      if (!count || count < 1) {
+        res.statu(404).json({ message: "No records found to update" });
+      } else {
+        res.status(200).json(count);
+      }
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
+});
+
+router.delete("/:id", (req, res) => {
+  const { id } = req.params;
+
+  db.remove(id)
+    .then(count => {
+      if (!count || count < 1) {
+        res.status(404).json({ message: "No records found to delete" });
+      } else {
+        res.status(200).json(count);
+      }
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
+});
+
+router.get("/:id/students", (req, res) => {
+  const { id } = req.params;
+    db.student(id)
+        .then(list => {
+            res.status(200).json(list)
+        })
         .catch(err => {
             res.status(500).json(err)
         })
-})
+});
 
 module.exports = router;
