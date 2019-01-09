@@ -13,6 +13,14 @@ server.use(helmet());
 
 // endpoints here
 
+server.post('/api/cohorts', (req, res) => {
+  const cohort = req.body;
+  db('cohorts').insert(cohort)
+    .then(cohortId => {
+      res.status(201).json(cohortId);
+    })
+});
+
 
 const port = 3300;
 server.listen(port, function() {
