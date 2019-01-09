@@ -8,7 +8,10 @@ module.exports = {
     useNullAsDefault: true,
     migrations: {
       directory: './lambda.sqlite3/migrations'
-    }
+    },
+    seeds: {
+        directory: './lambda.sqlite3/seeds'
+      }
   },
 
   staging: {
