@@ -5,10 +5,10 @@ const server = express();
 
 //configure database and port
 const dbConfig = require("./knexfile.js");
-const PORT = 5000;
+const PORT = 6000;
 const db = knex(dbConfig.development);
 
-server.use(express.json);
+server.use(express.json());
 
 //save new cohort to database
 server.post("/api/cohorts", (req, res) => {
@@ -51,7 +51,6 @@ server.put("/api/cohorts/:id", (req, res) => {
 });
 
 //delete cohort
-
 server.delete("/api/cohorts/:id", (req, res) => {
    const id = req.params;
    db("cohorts").where("id", id)
@@ -61,4 +60,4 @@ server.delete("/api/cohorts/:id", (req, res) => {
 
 server.listen(PORT, () => {
    console.log(`server running on port ${PORT}`)
-})
+});
