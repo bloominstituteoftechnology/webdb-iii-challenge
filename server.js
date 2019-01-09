@@ -151,7 +151,9 @@ SERVER.get("/students/:id", (req, res) => {
   const { id } = req.params;
 
   DB("students")
-    .where("id", id)
+    .join("cohorts", "students.cohort_id", "cohorts.id")
+    .select("students.id", "students.name", "cohorts.name as cohort")
+    .where("students.id", "=", id)
     .then(student => {
       res.json({ student });
     });
