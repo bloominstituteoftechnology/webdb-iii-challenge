@@ -71,6 +71,30 @@ server.get('/api/cohorts/:id', (req, res) => {
         });
 });
 
+// get students by cohort id
+
+server.get('/api/cohorts/:id/students', (req, res) => {
+    const { id } = req.params;
+    db('students')
+        .where('cohort_id', id)
+        .then(students => {
+            if (students.length > 0) {
+                res
+                    .json(students);
+            }
+            else {
+                res
+                    .status(404)
+                    .json({message: 'The students with the specified cohort ID do not exist.'});
+            }
+        })
+        .catch(err => {
+            res
+                .status(500)
+                .json({message: `The students' information could not be retrieved at this time.`});
+        });
+});
+
 const PORT = 4400;
 server.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
