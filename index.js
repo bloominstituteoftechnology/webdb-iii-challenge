@@ -53,6 +53,19 @@ server.get('/cohorts/:id', (req , res) => {
 });
 
 //  [GET] /api/cohorts/:id/students returns all students for the cohort with the specified id.
+// DIFFERENT END POINT FROM THE REST
+server.get('/cohorts/:id/students', (req, res) => {
+    const {id} = req.params;
+    db('students').where('cohort_id', id)
+    .then(rows => {
+        res.json(rows)
+    })
+    .catch(err => {
+        res.status(500).json({err: "Failed to find specific students for this particular cohort"})
+    })
+})
+
+
 
 // [PUT] /api/cohorts/:id This route will update the cohort with the matching id using information sent in the body of the request.
 // UPDATE cohorts SET name = 'fullstack1' WHERE id = 2
@@ -120,6 +133,9 @@ server.get('/students/:id', (req, res) => {
         res.status(500).json({err: "Failed to find specific student"});
     })
 });
+
+
+
 
 //[PUT] /students/:id This route will update the student with the matching id using information sent in the body of the request.
 server.put('/students/:id', (req,res) => {
