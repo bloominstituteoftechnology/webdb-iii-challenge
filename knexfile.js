@@ -7,7 +7,10 @@ module.exports = {
     connection: {
       filename: './data/rdbms-api.sqlite3'
     },
-    useNullAsDefault: true
+    useNullAsDefault: true,
+    migrations: {
+      directory: './data/migrations'
+    }
   },
 
   staging: {
