@@ -8,7 +8,7 @@ const studentRouter = require('./data/helpers/students');
 
 server.use(express.json());
 server.use(helmet())
-server.use("/api/cohort", cohortRouter);
+server.use("/api/cohorts", cohortRouter);
 server.use("/api/students", studentRouter);
 
 
