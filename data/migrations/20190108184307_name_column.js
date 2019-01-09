@@ -1,7 +1,7 @@
 
 exports.up = function(knex, Promise) {
   return knex.schema.table('cohorts', table => {
-    table.string('name');
+    table.string('name').notNullable();
   });
 };
 
