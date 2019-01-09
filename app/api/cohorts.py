@@ -20,7 +20,6 @@ def get_all_cohorts():
 @bp.route('/cohorts', methods=['POST'])
 def create_cohort():
     cohort = cohort_schema.load(request.get_json()).data
-    print(cohort)
     cohort.save()
     cohort = cohort_schema.dump(cohort).data
     return jsonify({'cohort': cohort}), 201

@@ -1,7 +1,7 @@
 from app import db
 
 class Cohort(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(128), nullable=False)
     students = db.relationship('Student', backref='student', lazy='dynamic')
 

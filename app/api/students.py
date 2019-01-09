@@ -23,9 +23,10 @@ def get_all_students():
 
 @bp.route('/students', methods=['POST'])
 def create_student():
+    print('request:', request.get_json())
     student = student_schema.load(request.get_json()).data
-    print(student)
     student.save()
+    student = student_schema.dump(student).data
     return jsonify({'student': student}), 201
     
 
