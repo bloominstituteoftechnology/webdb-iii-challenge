@@ -8,6 +8,12 @@ module.exports = {
     }
     return query;
   },
+  getCohortStudents: function(cohort_id) {
+    return db("students as s")
+      .join("cohorts as c", "c.id", "s.cohort_id")
+      .select("s.name", "c.name as cohort")
+      .where("s.cohort_id", cohort_id);
+  },
   insert: function(cohort) {
     return db("cohorts")
       .insert(cohort)
