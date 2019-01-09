@@ -20,7 +20,7 @@ server.post("/api/cohorts", (req, res) => {
 
 //get all cohorts
 server.get("/api/cohorts", (req, res) => {
-   db.get("cohorts")
+   db("cohorts")
       .then(rows => {res.json(rows)})
       .catch(err => {res.status(500).json({error: "Error retreiving cohorts"})});
 });
@@ -28,7 +28,7 @@ server.get("/api/cohorts", (req, res) => {
 //get cohort by id
 server.get("/api/cohorts/:id", (req, res) => {
    id = req.params;
-   db.get("cohorts").where("id", id)
+   db("cohorts").where("id", id)
       .then(rows => {res.json(rows)})
       .catch(err => {res.status(500).json({error: `error retreving cohort ${id}`})})
 });
@@ -36,9 +36,9 @@ server.get("/api/cohorts/:id", (req, res) => {
 //get all students from certain cohort
 server.get("/api/cohorts/:id/students", (req, res) => {
    cohort_id = req.params;
-   db.get("students").where("cohort_id", cohort_id)
+   db("students").where("cohort_id", cohort_id)
       .then(rows => {res.json(rows)})
-      .catch(err => {res.status(500).json({error: `error retreving cohort ${id}`})})
+      .catch(err => {res.status(500).json({error: `error retreving cohort ${cohort_id}`})})
 });
 
 //update cohort info
@@ -59,5 +59,5 @@ server.delete("/api/cohorts/:id", (req, res) => {
 });
 
 server.listen(PORT, () => {
-   console.log(`server running on port ${PORT}`)
+   console.log(`server running on port ${PORT}`);
 });
