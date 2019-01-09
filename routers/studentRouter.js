@@ -18,7 +18,9 @@ router.post('/', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-    db('students')
+    db('students as s')
+        .join('cohorts as c', 'c.id', 's.cohort_id')
+        .select('s.id as id', 's.name as name', 'c.name as cohort')
     .then(rows => {
         res.json(rows);
     })
@@ -29,7 +31,10 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
     const id = req.params.id;
-    db('students').where('id', id)
+    db('students as s')
+        .join('cohorts as c', 'c.id', 's.cohort_id')
+        .select('s.id as id', 's.name as name', 'c.name as cohort')
+        .where('s.id', id)
     .then(rows => {
         res.json(rows);
     })

@@ -66,7 +66,7 @@ router.get('/:id/students', (req, res) => {
     const id = req.params.id;
     db('students as s')
         .join('cohorts as c', 'c.id', 's.cohort_id')
-        .select('s.id as ID', 's.name as Name', 'c.name as Cohort')
+        .select('s.id as id', 's.name as name', 'c.name as cohort')
         .where('c.id', id)
     .then(rowCount => {
         res.status(201).json(rowCount);
