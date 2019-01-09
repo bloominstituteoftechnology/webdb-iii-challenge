@@ -43,7 +43,7 @@ server.post('/api/cohorts', (req, res) => {
 
 server.put('/api/cohorts/:id', (req, res) => {
     const {id} = req.params;
-    const crayon = req.body;
+    const cohort = req.body;
     db('cohorts').where('id', id).update(cohort)
     .then((rowCount) => {
         res.status(200).json(rowCount);
@@ -53,7 +53,7 @@ server.put('/api/cohorts/:id', (req, res) => {
     })
 });
 
-server.delete('/crayons/:id', (req, res) => {
+server.delete('/api/cohorts/:id', (req, res) => {
     const {id} = req.params;
     db('cohorts').where('id', id).del()
     .then((rowCount) => {
