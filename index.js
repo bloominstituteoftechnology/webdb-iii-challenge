@@ -45,8 +45,19 @@ server.get('/api/cohorts/:id', (req, res) => {
 });
 // - `[GET] /api/cohorts/:id/students` returns all students for the cohort with the specified `id`.
 
-// - `[PUT] /api/cohorts/:id` This route will update the cohort with the matching `id` using information sent in the body of the request.
 
+// - `[PUT] /api/cohorts/:id` This route will update the cohort with the matching `id` using information sent in the body of the request.
+server.put('/api/cohorts/:id', (req, res) => {
+    const { id } = req.params;
+    const cohort = req.body;
+    db('cohorts').where('id', id).update(cohort)
+        .then(rowCount => {
+            res.json(rowCount);
+        })
+        .catch(err => {
+            res.status(500).json({ errorMessage: 'Failed to update cohort.' });
+        });
+});
 
 // - `[DELETE] /api/cohorts/:id` This route should delete the specified cohort.
 //end of endpoints
