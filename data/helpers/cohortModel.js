@@ -43,6 +43,6 @@ function remove(id) {
 
 function student(id) {
     return db('students')
-        .where({cohort_id: id})
-        .first()
+        .where('cohort_id', id)
+
 }
