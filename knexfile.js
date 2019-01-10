@@ -2,7 +2,7 @@
 
 module.exports = {
 
-  development: {
+  development:{
     client: 'sqlite3',
     connection: {
       filename: './data/lambda_sqlite3.db'
@@ -10,8 +10,10 @@ module.exports = {
     useNullAsDefault: true,
     migrations:{
       directory: './data/migrations'
+    },
+    seeds: {
+    directory: './data/seeds'
     }
   },
-
 
 };
