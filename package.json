@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node",
     "server": "nodemon"
   },
   "repository": "https://github.com/Jorlost19/RDBMS-API-Full.git",
