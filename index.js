@@ -1,9 +1,14 @@
 const   express = require('express'),
-        
+        Middleware = require('./MIddleware/Middleware'),
         port = 3333,
         server = express();
 
+     
 
+
+
+// import middleware  and call 
+Middleware(server);
 
 
 
