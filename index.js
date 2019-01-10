@@ -125,7 +125,7 @@ server.put('/api/cohorts/:id', (req, res) => {
     else {
         res
             .status(400)
-            .json({message: 'Please include the updated name.'})
+            .json({message: 'Please include the updated name of the cohort.'})
     }
 });
 
