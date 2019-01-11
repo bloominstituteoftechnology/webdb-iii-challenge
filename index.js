@@ -9,7 +9,20 @@ const PORT = 8050;
 server.use(express.json());
 
 // POST /api/cohorts
-
+server.post('/api/cohorts', (req, res) =>{
+    const cohort = req.body;
+    db('cohorts').insert(cohort)
+    .then( id =>{
+        res
+        .status(201)
+        .json({message: `Cohort ${id} created`})
+    })
+    .catch(err =>{
+        res
+        .status(500)
+        .json({error: "There was an error while saving your cohort to the database"})
+    })
+});
 
 
 //GET
