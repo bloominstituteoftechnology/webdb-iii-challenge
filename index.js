@@ -27,7 +27,7 @@ server.get("/api/cohorts", (req, res) => {
 
 //get cohort by id
 server.get("/api/cohorts/:id", (req, res) => {
-   id = req.params;
+   const {id} = req.params;
    db("cohorts").where("id", id)
       .then(rows => {res.json(rows)})
       .catch(err => {res.status(500).json({error: `error retreving cohort ${id}`})})
@@ -36,24 +36,25 @@ server.get("/api/cohorts/:id", (req, res) => {
 //get all students from certain cohort
 server.get("/api/cohorts/:id/students", (req, res) => {
    cohort_id = req.params;
-   db("students").where("cohort_id", cohort_id)
+   console.log(cohort_id)
+   db("students").where("cohort_id", cohort_id.id)
       .then(rows => {res.json(rows)})
       .catch(err => {res.status(500).json({error: `error retreving cohort ${cohort_id}`})})
 });
 
 //update cohort info
 server.put("/api/cohorts/:id", (req, res) => {
-   const id = req.params;
+   const {id} = req.params;
    const cohort = req.body;
-   db("cohorts").where("id", id)
+   db("cohorts").where("id", id).update(cohort)
       .then(rowCount => {res.json(rowCount);})
       .catch(err => {res.status(500).json({error: `error updating cohort ${id}`})})
 });
 
 //delete cohort
 server.delete("/api/cohorts/:id", (req, res) => {
-   const id = req.params;
-   db("cohorts").where("id", id)
+   const {id} = req.params;
+   db("cohorts").where("id", id).del()
       .then(rowCount => {res.json(rowCount)})
       .catch(err => {res.status(500).json({error: `error removing cohort ${id}`})})
 });
