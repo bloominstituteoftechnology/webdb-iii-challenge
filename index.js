@@ -5,7 +5,7 @@ const cors = require('cors');
 const server = express(); 
 const dbConfig = require('./knexfile')
 const db = knex(dbConfig.development); 
-const PORT = 7000;
+const PORT = 4000;
 
 server.use(express.json(), cors(), helmet());
 
