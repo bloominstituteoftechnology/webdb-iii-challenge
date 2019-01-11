@@ -10,6 +10,7 @@ const dbConfig = require('./knexfile');
 const db = knex(dbConfig.development);
 
 
+
 server.get('/api/cohorts', (req,res) => {
       db('cohorts')
       .then( cohortInfo => {
@@ -31,6 +32,21 @@ server.get('/api/cohorts/:id', (req,res)=> {
         res.status(500).json({err: `Failed to get cohort with ${id}`})
     });
 });
+
+server.get('/api/cohorts/:id/students', (req,res) => {
+      const id = req.params.id;
+      db('students').where('cohort_id', id )
+      .then( students => {
+          if(students.length > 0) {
+               res.status(200).json(students)
+          } else {
+               res.status(404).json({message: `The specified students with ID ${id} does not exists`})
+          }
+      }) .catch(err=> {
+        res.status(500).json({err: `Failed to get the students with the cohort ID ${id}`})
+    });
+
+})
 
 server.post('/api/cohorts/', (req,res) => {
       const cohort = req.body;
