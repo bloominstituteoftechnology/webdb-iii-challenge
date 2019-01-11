@@ -46,6 +46,21 @@ server.get('/api/cohorts/:id', (req,res) =>{
 });
 
 // /api/cohorts/:id/students
+server.get('/api/cohorts/:id/students', (req, res)=>{
+    const {id} = req.params;
+    db('students').where('cohort_id', id)
+    .then(students =>{
+        console.log(students);
+        res
+        .status(200)
+        .json(students)
+    })
+    .catch(err =>{
+        res
+        .status(500)
+        .json({error: "The students within the specified cohort could not be retrieved"})
+    })
+});
 
 //PUT /api/cohorts/:id
 
