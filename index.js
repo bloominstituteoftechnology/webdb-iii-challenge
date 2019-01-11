@@ -11,6 +11,7 @@ server.use(express.json());
 
 const port = 4545;
 
+//cohorts endpoints
 server.post('/api/cohorts', (req, res) => {
   const cohort = req.body;
   db('cohorts').insert(cohort)
@@ -58,7 +59,7 @@ server.put('/api/cohorts/:id', (req, res) => {
   const cohort = req.body;
   db('cohorts')
     .where('id', id)
-    .update(zoo)
+    .update(cohort)
     .then(rowCount => {
       res
         .json(rowCount);
@@ -84,7 +85,82 @@ server.delete('/api/cohorts/:id', (req, res) => {
     })
 })
 
+//students endpoints
 
+server.post('/api/students', (req, res) => {
+  const student = req.body;
+  db('students').insert(student)
+    .then(ids => {
+      res.status(201).json(ids);
+    })
+    .catch(err => {
+      res.status(500).json({ err: 'Failed to insert new student' })
+    })
+})
+
+server.get('/api/students', (req, res) => {
+  db('students')
+    .then(students => {
+      res
+        .json(students);
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ err: 'Failed to get students' });
+    })
+})
+
+server.get('/api/students/:id', (req, res) => {
+  const { id } = req.params;
+  db('students').where('id', id)
+    .then(student => {
+      if (student.length) {
+        res.json(student);
+      }
+      else {
+        res.status(404).json({ err: 'A student with that ID does not exist' })
+      }
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .json({ err: "Failed to get the student" })
+    })
+})
+
+server.put('/api/students/:id', (req, res) => {
+  const { id } = req.params;
+  const student = req.body;
+  db('students')
+    .where('id', id)
+    .update(student)
+    .then(rowCount => {
+      res
+        .json(rowCount);
+    })
+    .catch(err => {
+      res
+        .status(400)
+        .json({ err: 'Failed to update student' })
+    })
+})
+
+server.delete('/api/students/:id', (req, res) => {
+  const { id } = req.params;
+  db('students')
+    .where('id', id)
+    .del()
+    .then(count => {
+      res.json(count)
+    })
+    .catch(err => {
+      res
+        .json({ err: 'Failed to delete cohort' })
+    })
+})
+
+//listening
 server.listen(port, function () {
   console.log(`Listening on Local Host ${port}`);
 });
