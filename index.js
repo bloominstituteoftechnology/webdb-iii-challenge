@@ -1,13 +1,15 @@
 const express = require('express');
+
+const knex = require('knex');
+const dbConfig = require('./knexfile');
+
 const server = express();
 const db = knex(dbConfig.development);
-const dbConfig = reqiuire('./knexfile');
-
-
-const PORT = process.env.PORT || 3300;
+const PORT = process.env.PORT || 5500;
 
 server.use(express.json());
 
+//INSERT
 server.post('/api/cohorts', (req, res) => {
   const cohort = req.body;
   if (cohort.name) {
@@ -69,5 +71,5 @@ server.delete('/api/students/:id', (req, res) =>{
 });
 
 server.listen(PORT, () => {
-   console.log('it is aliiiiiive')
+   console.log('The answer is 42.  What is the question?')
 });
