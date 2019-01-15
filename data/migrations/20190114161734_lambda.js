@@ -2,10 +2,12 @@
 exports.up = function(knex, Promise) {
  return knex.schema,createTable('cohorts', table => {
    table.increments();
-
+   table.string("name").notNullable()
   })
 };
 
 exports.down = function(knex, Promise) {
- knex.schema.dropTable()
+return knex.schema.dropTable('cohorts', table => {
+ 
+})
 };
