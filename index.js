@@ -15,9 +15,13 @@ server.post('/api/cohorts', (req, res) => {
   db('cohorts')
     .insert(cohort)
     .then(id => res.status(201).json(id))
-    .catch((err) => {
-      res.status(500).json(err);
-    });
+    .catch(err => res.status(500).json(err));
+});
+
+server.get('/api/cohorts', (req, res) => {
+  db('cohorts')
+    .then(cohortInfo => res.json(cohortInfo))
+    .catch(err => res.status(500).json(err));
 });
 
 server.listen(port, () => {
