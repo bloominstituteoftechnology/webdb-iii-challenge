@@ -56,7 +56,9 @@ router.put('/:id', (req, res) => {
   nodeDB
    .alter(id, cohort)
    .then(() => {
-
+    res
+     .status(201)
+     .json({message: ""})
    })
    .catch(() => {
     res
