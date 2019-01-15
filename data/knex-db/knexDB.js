@@ -29,3 +29,11 @@ const clear = (id) => {
               .where({ id })
               .del()
 }
+
+module.exports = {
+ pull,
+ pullById,
+ place,
+ alter,
+ clear
+}

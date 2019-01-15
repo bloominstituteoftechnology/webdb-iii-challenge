@@ -12,8 +12,8 @@ server.use(
 )
 
 server.use('/api/cohorts', cohortRouter)
-server.use('/api/students', studentRouter)
+// server.use('/api/students', studentRouter)
 
-server.listen(port => {
+server.listen(port, () => {
  console.log(`Server is running live on ${port}`)
 })
