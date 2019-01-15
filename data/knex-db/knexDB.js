@@ -3,28 +3,28 @@ const config = require('../../knexfile')
 
 const knexDB = knex(config.development)
 
-const get = () => {
+const pull = () => {
  return knexDB('cohort')
 }
 
-const getById = (id) => {
+const pullById = (id) => {
  return knexDB('cohorts')
               .where({id: id})
 }
 
-const post = (post) => {
+const place = (post) => {
  return knexDB('cohorts')
              .insert(post)
              .then(ids => ({id: ids[0]}))
 }
 
-const edit = (id, post) => {
+const alter = (id, post) => {
  return knexDB('cohorts')
               .where({id: id})
               .update(post)
 }
 
-const remove = (id) => {
+const clear = (id) => {
  return knexDB('cohorts')
               .where({ id })
               .del()
