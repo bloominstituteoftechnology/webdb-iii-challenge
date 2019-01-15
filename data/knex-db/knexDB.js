@@ -12,16 +12,16 @@ const pullById = (id) => {
               .where({id: id})
 }
 
-const place = (post) => {
+const place = (cohort) => {
  return knexDB('cohorts')
-             .insert(post)
+             .insert(cohort)
              .then(ids => ({id: ids[0]}))
 }
 
-const alter = (id, post) => {
+const alter = (id, cohort) => {
  return knexDB('cohorts')
               .where({id: id})
-              .update(post)
+              .update(cohort)
 }
 
 const clear = (id) => {
