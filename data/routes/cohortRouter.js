@@ -18,37 +18,60 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
  const { id } = req.params
- nodeDB
- .pullById(id)
- .then((cohort) => {
-  res
-   .json(cohort)
- })
- .catch(() => {
-  res
-   .status(500)
-   .json({error: "There was an error pulling specific cohort from DB."})
- })
+ if (id) { 
+  nodeDB
+   .pullById(id)
+   .then((cohort) => {
+    res
+     .json(cohort)
+   })
+   .catch(() => {
+    res
+     .status(500)
+     .json({error: "There was an error pulling specific cohort from DB."})
+   })
+  }
 })
 
 router.post('/', (req, res) => {
  const cohort = req.body
  nodeDB
   .place(cohort)
-  .then()
-  .catch()
+  .then(() => {
+   res
+    .status(201)
+    .json(cohort)
+  })
+  .catch(() => {
+   res
+    .status(500)
+    .json({error: "There was an error adding cohort to DB."})
+  })
 })
 
-router.put('/', (req, res) => {
- nodeDB
-  .alter()
-  .then()
-  .catch()
+router.put('/:id', (req, res) => {
+ const { id } = req.params
+ const cohort = req.body
+ if (id && cohort.name && cohort.track) {
+  nodeDB
+   .alter(id, cohort)
+   .then(() => {
+
+   })
+   .catch(() => {
+    res
+     .status(500)
+     .json({error: "There was an error altering cohort in DB."})
+   })
+  }
 })
 
-router.delete('/', (req, res) => {
- nodeDB
-  .clear()
-  .then()
-  .catch()
+router.delete('/:id', (req, res) => {
+ const { id } = req.params
+ if (id) {
+  nodeDB
+   .clear(id)
+   .then()
+   .catch()
+ }
 })
