@@ -73,7 +73,14 @@ router.delete('/:id', (req, res) => {
  if (id) {
   nodeDB
    .clear(id)
-   .then()
-   .catch()
+   .then(() => {
+    res
+     .json({message: "Cohort was successfully cleared from DB."})
+   })
+   .catch(() => {
+    res
+     .status(500)
+     .json({error: "There was an error clearing cohort from DB."})
+   })
  }
 })

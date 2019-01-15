@@ -2,6 +2,9 @@
   "name": "rdmbs-api-full",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts": {
+   "start": "node-dev api.js"
+  },
   "repository": "https://github.com/LorenzoEvans/RDBMS-API-Full.git",
   "author": "Lorenzo Evans <lorenzo.evans94@gmail.com>",
   "license": "MIT",
