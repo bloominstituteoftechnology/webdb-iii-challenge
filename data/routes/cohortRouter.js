@@ -35,18 +35,20 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
  const cohort = req.body
- nodeDB
-  .place(cohort)
-  .then(() => {
-   res
-    .status(201)
-    .json(cohort)
-  })
-  .catch(() => {
-   res
-    .status(500)
-    .json({error: "There was an error adding cohort to DB."})
-  })
+  if (cohort.name && cohort.track) {
+  nodeDB
+   .place(cohort)
+   .then(() => {
+    res
+     .status(201)
+     .json(cohort)
+   })
+   .catch(() => {
+    res
+     .status(500)
+     .json({error: "There was an error adding cohort to DB."})
+   })
+  }
 })
 
 router.put('/:id', (req, res) => {
@@ -58,7 +60,7 @@ router.put('/:id', (req, res) => {
    .then(() => {
     res
      .status(201)
-     .json({message: ""})
+     .json({message: "Cohort was succesfully altered in DB."})
    })
    .catch(() => {
     res

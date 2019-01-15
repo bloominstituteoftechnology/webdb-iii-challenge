@@ -1,10 +1,10 @@
 const knex = require("knex")
-const config = require('../../knexfile')
+const config = require('../../knexfile.js')
 
 const knexDB = knex(config.development)
 
 const pull = () => {
- return knexDB('cohort')
+ return knexDB('cohorts')
 }
 
 const pullById = (id) => {

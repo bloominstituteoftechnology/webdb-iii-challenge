@@ -5,9 +5,9 @@ exports.seed = function(knex, Promise) {
     .then(function () {
       // Inserts seed entries
       return knex('cohorts').insert([
-        {name: 'FSW', track: ''},
-        {name: 'Data Science', track: ''},
-        {name: 'iOS Development', track: ''}
+        {name: 'FSW18', track: 'Full Stack Web Development.'},
+        {name: 'DS2', track: 'Data Science'},
+        {name: 'iOSD2', track: 'iOS Development'}
       ]);
     });
 };
