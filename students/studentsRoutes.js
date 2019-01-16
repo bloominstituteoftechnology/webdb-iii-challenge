@@ -16,9 +16,12 @@ route.get("/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
-    const student = await db("students")
-      .where({ id })
+    const student = await db("students") // db === knex
+      .join("cohorts", "cohorts.id", "=", "students.cohort_id")
+      .select("students.id", "students.name", { cohort: "cohorts.name" })
+      .where({ "students.id": id })
       .first();
+
     !student
       ? res
           .status(404)
