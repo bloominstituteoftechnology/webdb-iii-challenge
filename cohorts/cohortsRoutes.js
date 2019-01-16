@@ -12,6 +12,25 @@ route.get("/", async (req, res) => {
   }
 });
 
+route.get("/:id/students", async (req, res) => {
+  const { id } = req.params;
+  const students = await db("students").where({ cohort_id: id });
+
+  try {
+    const cohort = db("cohorts")
+      .where({ id })
+      .first();
+
+    !cohort
+      ? res
+          .status(404)
+          .json({ error: "The cohort with this id does not exist." })
+      : res.json(students);
+  } catch (err) {
+    res.json({ error: "Unable to fetch the students for that cohort." });
+  }
+});
+
 route.get("/:id", async (req, res) => {
   const { id } = req.params;
 
