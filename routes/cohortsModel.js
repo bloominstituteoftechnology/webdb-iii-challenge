@@ -37,3 +37,7 @@ function removeCohort(id) {
     .where({id})
     .del();
 }
+
+function findStudents(cohort_id){
+    return db('students').where({cohort_id});
+}

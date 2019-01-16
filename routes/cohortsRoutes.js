@@ -9,7 +9,7 @@ const cohorts = require('./cohortsModel.js');
 router.post('/', async (req, res) => {
     try {
       const cohort = req.body;
-      if(zoo.name.length > 0){
+      if(cohort.name.length > 0){
         const newCohort = await cohorts.addCohort(cohort);
         res.status(200).json(newCohort);
       } else {
@@ -50,7 +50,7 @@ router.post('/', async (req, res) => {
   });
   
   //DELETE /api/cohorts/:id
-  router.delete(':id', async (req, res) => {
+  router.delete('/:id', async (req, res) => {
     try {
       const {id} = req.params;
       const count = await cohorts.removeCohort(id);

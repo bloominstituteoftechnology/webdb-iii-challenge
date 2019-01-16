@@ -12,6 +12,6 @@ server.get('/', (req,res) => {
     res.send("It is working");
 });
 
-server.use('/api/courses', cohortsRoutes);
+server.use('/api/cohorts', cohortsRoutes);
 
 server.listen(9000, () => console.log('\n Api is running \n'));
