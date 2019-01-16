@@ -83,4 +83,20 @@ router.post('/', async (req, res) => {
     }
   });
 
+  router.get('/:cohortId/students', async(req, res) => {
+    try {
+        const { cohortId } = req.params;
+        const cohort = await cohorts.findCohortById(cohortId);
+        if(cohort) {
+            const students = await cohorts.findStudents(cohortId);
+            res.status(200).json(students);
+        } else {
+            res.status(404).json({message: "List of students could not be retrieved."})
+        }
+    }
+    catch (err) {
+
+    }
+  });
+
 module.exports = router;

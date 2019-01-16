@@ -9,7 +9,8 @@ module.exports = {
     findCohortById,
     addCohort,
     updateCohort,
-    removeCohort
+    removeCohort,
+    findStudents
 
 }
 
