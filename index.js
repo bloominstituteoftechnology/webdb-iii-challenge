@@ -10,7 +10,13 @@ const PORT = 8070;
 server.use(express.json());
 
 server.get('/api/cohorts', (req, res) => {
-    // I'm a get
+    // I'm a get for cohorts
+    db('cohorts').then(rows => {
+        res.json(rows);
+    })
+    .catch(err => {
+        res.status(500).json({err: 'Failed to find cohorts'})
+    })
 })
 
 server.get('/api/cohorts/:id', (req, res) => {
