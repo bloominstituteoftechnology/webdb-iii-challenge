@@ -59,6 +59,18 @@ server.put('/api/cohorts/:id', (req, res) => {
   }
 });
 
+server.delete('/api/cohorts/:id', (req, res) => {
+  const { id } = req.params;
+  db('cohorts')
+    .where('id', id)
+    .del()
+    .then((deletedRows) => {
+      if (deletedRows) res.status(201).json(deletedRows);
+      else res.status(404).json({ error: 'The cohort with the specified ID does not exist' });
+    })
+    .catch(err => res.status(500).json(err));
+});
+
 server.listen(port, () => {
   console.log(`\nWeb API running on http://localhost:${port}\n`);
 });
