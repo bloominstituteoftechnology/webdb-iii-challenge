@@ -19,7 +19,12 @@ function findStudents() {
 }
 
 function findStudentById(id) {
-    return db('students').where({id}).first();
+
+    return db('students')
+    .join('cohorts', 'cohorts.id', 'students.cohort_id')
+    .select('students.id', 'students.name', 'cohorts.name as cohort')
+    .where({"students.id": id})
+    .first();
 }
 
 function addStudent(student){

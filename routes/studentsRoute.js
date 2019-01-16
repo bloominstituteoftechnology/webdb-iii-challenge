@@ -66,7 +66,7 @@ router.post('/', async (req, res) => {
       }
   });
   
-  //PUT /api/cohorts/:id 
+  //PUT /api/students/:id 
   router.put('/:id', async(req, res) => {
     try {
       const { id } = req.params;
