@@ -24,6 +24,17 @@ server.get('/api/cohorts', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+server.get('/api/cohorts/:id', (req, res) => {
+  const { id } = req.params;
+  db('cohorts')
+    .where('id', id)
+    .then((cohortId) => {
+      if (cohortId.length > 0) res.json(cohortId);
+      else res.status(404).json({ error: 'The cohort with the specified ID does not exist' });
+    })
+    .catch(err => res.status(500).json(err));
+});
+
 server.listen(port, () => {
   console.log(`\nWeb API running on http://localhost:${port}\n`);
 });
