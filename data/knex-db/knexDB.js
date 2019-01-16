@@ -14,14 +14,9 @@ const pullById = (id) => {
 
 const pullByCohortId = (id) => {
  return knexDB('students')
-              .join('cohorts', {cohort_id: id })
-              .select('students.name')
-              // .join('students', 'cohort.id', '=', 'student.cohort_id')
-              // .select('students')
-              // .where('student.cohort_id', id)
-              // .innerJoin('students', 'students.cohort_id', 'cohorts.id')
-              // .select('students')
-              // .where('student.cohort_id', id)
+ .from('cohorts')
+ .innerJoin('students', 'students.cohort_id', 'cohorts.id')
+ // .where('students.cohort_id', 'cohorts.id')
 }
 
 const place = (cohort) => {

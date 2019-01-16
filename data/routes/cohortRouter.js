@@ -39,9 +39,13 @@ router.get('/:id/students', (req, res) => {
   nodeDB
    .pullByCohortId(id)
    .then((students) => {
-    console.log(students)
+    let newStudents = Object.assign([], students)
+     newStudents.filter((student) => {
+      return student.name === id
+     })
+    console.log(newStudents)
     res
-     .json(students)
+     .json(newStudents)
    })
    .catch(() => {
     res
