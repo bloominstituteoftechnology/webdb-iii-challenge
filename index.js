@@ -24,6 +24,25 @@ server.get('/api/cohorts/:id/students', (req, res) => {
 
 server.post('/api/cohorts', (req, res) => {
     // I'm a post request
+    const cohort = req.body;
+    db('cohorts').insert(cohort)
+    .then(ids => {
+        res.status(201).json(ids);
+    })
+    .catch(err => {
+        res.status(500).json({err: 'Failed to insert this cohort'})
+    })
+})
+
+server.post('/api/students', (req, res) => {
+    const student = req.body;
+    db('students').insert(student)
+    .then(id => {
+        res.status(201).json(ids)
+    })
+    .catch(err => {
+        res.status(500).json({err: 'Failed to insert this student'})
+    })
 })
 
 server.put('/api/cohorts/:id', (req, res) => {
