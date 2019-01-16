@@ -35,6 +35,14 @@ server.get('/api/cohorts/:id', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+server.get('/api/cohorts/:id/students', (req, res) => {
+  const { id } = req.params;
+  db('students')
+    .where('cohort_id', id)
+    .then(cohortStudents => res.json(cohortStudents))
+    .catch(err => res.status(500).json(err));
+});
+
 server.listen(port, () => {
   console.log(`\nWeb API running on http://localhost:${port}\n`);
 });
