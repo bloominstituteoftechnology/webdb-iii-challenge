@@ -43,6 +43,22 @@ server.get('/api/cohorts/:id/students', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+server.put('/api/cohorts/:id', (req, res) => {
+  const { id } = req.params;
+  const { name } = req.body;
+  if (!name) res.status(400).json({ error: 'A name is required for the cohort' });
+  else {
+    db('cohorts')
+      .where('id', id)
+      .update({ name })
+      .then((updatedRows) => {
+        if (updatedRows) res.json(updatedRows);
+        else res.status(404).json({ error: 'The cohort with the specified ID does not exist' });
+      })
+      .catch(err => res.status(500).json(err));
+  }
+});
+
 server.listen(port, () => {
   console.log(`\nWeb API running on http://localhost:${port}\n`);
 });
