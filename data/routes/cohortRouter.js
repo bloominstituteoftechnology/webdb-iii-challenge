@@ -33,6 +33,20 @@ router.get('/:id', (req, res) => {
   }
 })
 
+router.get('/:id/students', (req, res) => {
+ const { id } = req.params
+ if (id) {
+  nodeDB
+   .pullByCohortId()
+   .then()
+   .catch()
+ }
+})
+
+router.get('/:id/students', (req, res) => {
+
+})
+
 router.post('/', (req, res) => {
  const cohort = req.body
   if (cohort.name && cohort.track) {

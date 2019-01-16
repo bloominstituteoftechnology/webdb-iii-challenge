@@ -12,6 +12,11 @@ const pullById = (id) => {
               .where({id: id})
 }
 
+const pullByCohortId = () => {
+ return knexDB('students')
+              .innerJoin('cohorts', 'students.cohort_id', 'cohorts.id')
+}
+
 const place = (cohort) => {
  return knexDB('cohorts')
              .insert(cohort)
@@ -30,9 +35,12 @@ const clear = (id) => {
               .del()
 }
 
+
+
 module.exports = {
  pull,
  pullById,
+ pullByCohortId,
  place,
  alter,
  clear
