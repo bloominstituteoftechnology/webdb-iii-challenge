@@ -21,7 +21,7 @@ router.get('/:id', (req, res) => {
  const { id } = req.params
  if (id) {
   nodeDB
-   .pullById()
+   .pullById(id)
    .then((student) => {
     res
      .status(202)
@@ -83,3 +83,5 @@ router.delete('/:id', (req, res) => {
     .json({error: "There was an error clearing student from DB."})
   })
 })
+
+module.exports = router

@@ -12,9 +12,16 @@ const pullById = (id) => {
               .where({id: id})
 }
 
-const pullByCohortId = () => {
+const pullByCohortId = (id) => {
  return knexDB('students')
-              .innerJoin('cohorts', 'students.cohort_id', 'cohorts.id')
+              .join('cohorts', {cohort_id: id })
+              .select('students.name')
+              // .join('students', 'cohort.id', '=', 'student.cohort_id')
+              // .select('students')
+              // .where('student.cohort_id', id)
+              // .innerJoin('students', 'students.cohort_id', 'cohorts.id')
+              // .select('students')
+              // .where('student.cohort_id', id)
 }
 
 const place = (cohort) => {

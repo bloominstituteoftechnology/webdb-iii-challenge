@@ -7,7 +7,10 @@ const pull = () => {
 }
 
 const pullById = (id) => {
+ // check this to see if we need to alter
  return knexDB('students')
+              .from('students')
+              .select('name', 'id', 'track')
               .where({id: id})
 }
 

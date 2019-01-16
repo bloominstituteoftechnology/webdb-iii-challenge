@@ -37,14 +37,18 @@ router.get('/:id/students', (req, res) => {
  const { id } = req.params
  if (id) {
   nodeDB
-   .pullByCohortId()
-   .then()
-   .catch()
+   .pullByCohortId(id)
+   .then((students) => {
+    console.log(students)
+    res
+     .json(students)
+   })
+   .catch(() => {
+    res
+     .status(500)
+     .json({error: "There was error retrieving students in cohort."})
+   })
  }
-})
-
-router.get('/:id/students', (req, res) => {
-
 })
 
 router.post('/', (req, res) => {
