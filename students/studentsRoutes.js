@@ -1,9 +1,15 @@
 const express = require("express");
 const route = express.Router();
-const dbConfig = require("../data/dbConfig");
+const db = require("../data/dbConfig");
 
-route.get("/", (req, res) => {
-  res.send("Students route works");
+route.get("/", async (req, res) => {
+  const students = await db("students");
+
+  try {
+    res.json(students);
+  } catch (err) {
+    res.json({ error: "Could not retrieve students data." });
+  }
 });
 
 module.exports = route;
