@@ -21,5 +21,5 @@ exports.up = function(knex, Promise) {
 };
 
 exports.down = function(knex, Promise) {
-  return knex.schema.dropTableIfExists('bears');
+  return knex.schema.dropTableIfExists('students');
 };
