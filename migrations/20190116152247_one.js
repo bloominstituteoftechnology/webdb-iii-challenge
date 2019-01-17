@@ -4,14 +4,14 @@ exports.up = function(knex, Promise) {
   //creating table
   return knex.schema.createTable('cohorts', function(tbl){
       //primary key
-    tbl.increments()
+    tbl.increments('id');
 
       //other fields
-    tbl.string('name', 128)
-
+    tbl.string('name', 128);
+    
       //constraints
 
-    tbl.unique('name', 'uq_name')
+    tbl.unique('name', 'uq_cohorts_name');
 
       //timestamps
       tbl.timestamps(true, true);
@@ -19,5 +19,9 @@ exports.up = function(knex, Promise) {
 };
 
 exports.down = function(knex, Promise) {
+    //rollback/undo
+    return knex.schema.dropTableIfExists('cohorts')
   
 };
+
+tbl.integer('cohort_id').unsigned().references('cohorts.id');
