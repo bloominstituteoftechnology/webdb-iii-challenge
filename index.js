@@ -53,6 +53,10 @@ server.get('/api/cohorts/:id', (req, res) => {
         })
 })
 
+server.get('/api/cohorts/:id/students', (req, res) => {
+    
+})
+
 server.put('/api/cohorts/:id', (req, res) => {
     const { id } = req.params
     const cohort = req.body
@@ -71,7 +75,7 @@ server.put('/api/cohorts/:id', (req, res) => {
 
 server.delete('/api/cohorts/:id', (req, res) => {
     const { id } = req.params
-    db('cohorts').where('id', id).del()
+    db('cohorts').where({ id }).del()
     .then(count => {
         if (count) {
             res.json({ message: 'The cohort was successfully deleted from the database.'})
