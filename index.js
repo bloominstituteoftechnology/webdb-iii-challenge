@@ -39,6 +39,20 @@ server.get('/api/cohorts', (req, res) => {
     })
 })
 
+server.get('/api/cohorts/:id', (req, res) => {
+    const { id } = req.params
+    db('cohorts')
+        .where('id', id)
+        .then(rows => {
+            res.json(rows)
+        })
+        .catch(() => {
+            res
+                .status(500)
+                .json({ error: 'Failed to find a zohort with this id in the database.'})
+        })
+})
+
 server.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`)
 })
