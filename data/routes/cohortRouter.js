@@ -37,30 +37,17 @@ router.get('/:id', (req, res) => {
 router.get('/:id/students', (req, res) => {
  const { id } = req.params
  if (id) {
-  knex_studentDB.pullById(id)
-  .then((students) => {
-    nodeDB.pullById(id)
-    .then((cohorts) => {
-     res
-      .json({cohorts, students})
-    })
-  })
-  .catch(() => {
-   res
-    .status(500)
-    .json({error: "Error grabbing cohort students."})
-  })
-  // nodeDB
-  //  .pullByCohortId(id)
-  //  .then((students) => {
-  //   res
-  //    .json(students)
-  //  })
-  //  .catch(() => {
-  //   res
-  //    .status(500)
-  //    .json({error: "There was error retrieving students in cohort."})
-  //  })
+  nodeDB
+   .pullByCohortId(id)
+   .then((students) => {
+    res
+     .json(students)
+   })
+   .catch(() => {
+    res
+     .status(500)
+     .json({error: "There was error retrieving students in cohort."})
+   })
  }
 })
 
