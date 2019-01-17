@@ -69,6 +69,21 @@ server.put('/api/cohorts/:id', (req, res) => {
         })
 })
 
+server.delete('/api/cohorts/:id', (req, res) => {
+    const { id } = req.params
+    db('cohorts').where('id', id).del()
+    .then(count => {
+        if (count) {
+            res.json({ message: 'The cohort was successfully deleted from the database.'})
+        } else {
+            res.status(404).json({ error: 'The cohort with the specified id does not exist in the database.'})
+        }
+    })
+    .catch(err => {
+        res.status(500).json({ error: 'The cohort could not be removed from the database.'})
+    })
+})
+
 server.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`)
 })
