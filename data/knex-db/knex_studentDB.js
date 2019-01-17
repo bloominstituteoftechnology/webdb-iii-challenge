@@ -9,7 +9,7 @@ const knexDB = knex(config.development)
  const pullById = (id) => {
  return knexDB('students')
               .from('students')
-              .select('name', 'id', 'track')
+              .select('name', 'id')
               .where({id: id})
 }
 
