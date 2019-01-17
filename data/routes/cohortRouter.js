@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const nodeDB = require("../knex-db/knexDB")
+const knex_studentDB = require("../knex-db/knex_studentDB")
 
 router.get('/', (req, res) => {
  nodeDB
@@ -36,22 +37,30 @@ router.get('/:id', (req, res) => {
 router.get('/:id/students', (req, res) => {
  const { id } = req.params
  if (id) {
-  nodeDB
-   .pullByCohortId(id)
-   .then((students) => {
-    let newStudents = Object.assign([], students)
-     newStudents.filter((student) => {
-      return student.name === id
-     })
-    console.log(newStudents)
-    res
-     .json(newStudents)
-   })
-   .catch(() => {
-    res
-     .status(500)
-     .json({error: "There was error retrieving students in cohort."})
-   })
+  knex_studentDB.pullById(id)
+  .then((students) => {
+    nodeDB.pullById(id)
+    .then((cohorts) => {
+     res
+      .json({cohorts, students})
+    })
+  })
+  .catch(() => {
+   res
+    .status(500)
+    .json({error: "Error grabbing cohort students."})
+  })
+  // nodeDB
+  //  .pullByCohortId(id)
+  //  .then((students) => {
+  //   res
+  //    .json(students)
+  //  })
+  //  .catch(() => {
+  //   res
+  //    .status(500)
+  //    .json({error: "There was error retrieving students in cohort."})
+  //  })
  }
 })
 
