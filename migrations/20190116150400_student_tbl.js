@@ -7,7 +7,7 @@ exports.up = function(knex, Promise) {
     // other fields
     tbl.string('name', 128);
 
-    //foriegn key
+    //foreign key
     tbl
       .integer('cohort_id')
       .unsigned()
