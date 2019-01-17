@@ -53,6 +53,22 @@ server.get('/api/cohorts/:id', (req, res) => {
         })
 })
 
+server.put('/api/cohorts/:id', (req, res) => {
+    const { id } = req.params
+    const cohort = req.body
+    db('cohorts')
+        .where('id', id)
+        .update(cohort)
+        .then(rowCount => {
+            res.status(200).json(rowCount)
+        })
+        .catch(() => {
+            res
+                .status(500)
+                .json({ error: 'Failed to update this cohort.'})
+        })
+})
+
 server.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`)
 })
