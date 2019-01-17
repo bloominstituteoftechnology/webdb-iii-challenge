@@ -11,10 +11,10 @@ const db = knex(knexConfig.development);
 // add students
 router.post('/', (req, res) => {
 
-  const {name} = req.body;
+  const {name, cohort_id} = req.body;
 
   db('students')
-    .insert({name})
+    .insert({name, cohort_id})
     .then(ids => {
       db('students')
         .where({ id: ids[0] })
@@ -69,11 +69,11 @@ router.delete('/:id', (req, res) => {
 // update students
 router.put('/:id', (req, res) => {
   const {id} = req.params;
-  const {name} = req.body;
+  const {name, cohort_id} = req.body;
 
   db('students')
     .where({id})
-    .update({name})
+    .update({name, cohort_id})
     .then(count => {
       if (count) {
         res.status(200).json(count);
@@ -84,4 +84,4 @@ router.put('/:id', (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
-exports.module = router;
+module.exports = router;
