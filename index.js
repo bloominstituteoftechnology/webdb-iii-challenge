@@ -21,10 +21,26 @@ server.get('/api/cohorts', (req, res) => {
 
 server.get('/api/cohorts/:id', (req, res) => {
     // I'm a get by id
+    const {id} = req.params;
+    db('cohorts').where('id', id)
+    .then(rows => {
+        res.json(rows);
+    })
+    .catch(err => {
+        res.status(500).json({err: 'Failed to find that cohort'})
+    })
 })
 
 server.get('/api/cohorts/:id/students', (req, res) => {
     // I'm a get-some-students-by-cohort-id
+    const {id} = req.params;
+    db('students').where('cohort_id', id)
+    .then(rows => {
+        res.json(rows);
+    })
+    .catch(err => {
+        res.status(500).json({err: 'Failed to find students in that cohort'})
+    })
 })
 
 
@@ -42,8 +58,9 @@ server.post('/api/cohorts', (req, res) => {
 
 server.post('/api/students', (req, res) => {
     const student = req.body;
+    console.log('yo')
     db('students').insert(student)
-    .then(id => {
+    .then(ids => {
         res.status(201).json(ids)
     })
     .catch(err => {
@@ -75,6 +92,16 @@ server.delete('/api/cohorts/:id', (req, res) => {
     .catch(err => {
         res.status(500).json({err: 'Failed to delete that cohort'})
     });
+})
+
+// student endpoints
+server.get('/api/students', (req, res) => {
+    db('students').then(rows => {
+        res.status(201).json(rows)
+    })
+    .catch(err => {
+        res.status(500).json({err: 'Could not find students'})
+    })
 })
 
 server.listen(PORT, () => {
