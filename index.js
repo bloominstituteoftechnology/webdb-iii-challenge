@@ -53,10 +53,28 @@ server.post('/api/students', (req, res) => {
 
 server.put('/api/cohorts/:id', (req, res) => {
     // I'm a put request
+    const {id} = req.params;
+    const cohort = req.body;
+
+    db('cohorts').where('id', id).update(cohort)
+    .then(rowCount => {
+        res.status(201).json(rowCount);
+    })
+    .catch(err => {
+        res.status(500).json({err: 'Failed to update that cohort'})
+    })
 })
 
 server.delete('/api/cohorts/:id', (req, res) => {
     // I'm a delete request
+    const {id} = req.params;
+    db('cohorts').where('id', id).del()
+    .then(rowCount => {
+        res.status(201).json(rowCount)
+    })
+    .catch(err => {
+        res.status(500).json({err: 'Failed to delete that cohort'})
+    });
 })
 
 server.listen(PORT, () => {
