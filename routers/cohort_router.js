@@ -48,4 +48,37 @@ router.get('/:id/students', (req, res)=>{
         res.json(joined)
     })
 })
+
+router.put('/:id', (req, res) =>{
+    const { id } = req.params;
+    const cohort = req.body;
+    db('cohorts').where('id', id).update(cohort)
+    .then(count =>{
+        if(count){
+            db('cohorts').where({ id })
+            .then(updated =>{
+                res.status(201).json(updated)
+            }).catch(err =>{
+                res.status(404).json({error:"Could not update the specified Cohort!"})
+            })
+        }
+    }).catch(err =>{
+        console.log(err)
+        res.status(500).json({error:"Could not update the Cohort"})
+    })
+})
+
+router.delete('/:id', (req , res)=>{
+    const { id } = req.params;
+    db('cohorts').where('id', id).del()
+    .then(deleted =>{
+        if(deleted){
+            res.status(201).json({message:"The cohort was deleted"})
+        }else{
+            res.status(404).json({error:"Unable to delete the Cohort!"})
+        }
+    }).catch(err =>{
+        res.status(500).json({error:"Sorry unable to delete something went wrong with the database!"})
+    })
+})
 module.exports= router;
