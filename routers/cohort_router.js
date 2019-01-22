@@ -24,4 +24,28 @@ router.get('/', (req, res)=>{
     })
 })
 
+router.get('/:id', (req,res)=>{
+    const { id } = req.params;
+    db('cohorts').get(id)
+    .then(cohort =>{
+        if(cohort){
+            res.json(cohort)
+        }else{
+            res.status(404).json({message:"The cohort with the specified id does not exist"})
+        }
+    }).catch(err =>{
+        res.status(500).json({message:"Trouble getting the cohort"})
+    })
+})
+
+router.get('/:id/students', (req, res)=>{
+    const { id } = req.params
+    db('cohorts').join('students', 'cohorts.id', 'students.cohort_id')
+    .select('cohorts.name as cohort', 'students.name')
+    .where('students.cohort_id', id)
+    .then(joined =>{
+        console.log(joined)
+        res.json(joined)
+    })
+})
 module.exports= router;
