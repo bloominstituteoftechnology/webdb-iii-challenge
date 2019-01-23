@@ -10,6 +10,7 @@ exports.up = function(knex, Promise) {
 
     //tbl.unique('name', 'uq_items_name');
   });
+
 };
 
 exports.down = function(knex, Promise) {};
