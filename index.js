@@ -47,7 +47,7 @@ server.get("/api/cohorts/:id", (req, res) => {
 
 server.put("/api/cohorts/:id", (req, res) => {
   const edit = req.body;
-  db('cohorts')
+  db("cohorts")
     .where({ id: req.params.id })
     .update(edit)
     .then(count => {
@@ -56,6 +56,16 @@ server.put("/api/cohorts/:id", (req, res) => {
       } else {
         res.status(404).json({ message: "Cohort not found" });
       }
+    })
+    .catch(err => res.status(500).json(err));
+});
+
+server.delete("/api/cohorts/:id", (req, res) => {
+  db("cohorts")
+    .where({ id: req.params.id })
+    .del()
+    .then(data => {
+      res.status(200).json(data);
     })
     .catch(err => res.status(500).json(err));
 });
