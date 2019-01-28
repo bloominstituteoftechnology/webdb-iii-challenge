@@ -1,10 +1,11 @@
 const express = require('express')
-const knex = require('knex')
-const knexConfig = require('../knexfile')
-const db = knex(knexConfig.development)
 const router = express.Router()
+const knex = require('knex')
+const knexConfig = require('../../knexfile')
+const db = knex(knexConfig.development)
 
-router.post('/api/students', (req, res) => {
+
+router.post('/', (req, res) => {
   const student = req.body
   if (student.name && student.cohort_id) {
     db('students')
@@ -24,7 +25,7 @@ router.post('/api/students', (req, res) => {
   }
 })
 
-router.get('/api/students', (req, res) => {
+router.get('/', (req, res) => {
   db('students')
     .then(students => {
       res.json(students)
@@ -37,7 +38,7 @@ router.get('/api/students', (req, res) => {
     })
 })
 
-router.get('/api/students/:id', (req, res) => {
+router.get('/:id', (req, res) => {
   const { id } = req.params
   db('students')
   .where({ id })
@@ -51,7 +52,7 @@ router.get('/api/students/:id', (req, res) => {
     })
 })
 
-router.put('/api/students/:id', (req, res) => {
+router.put('/:id', (req, res) => {
   const { id } = req.params
   const student = req.body
   db('students')
@@ -67,7 +68,7 @@ router.put('/api/students/:id', (req, res) => {
     })
 })
 
-router.delete('/api/students/:id', (req, res) => {
+router.delete('/:id', (req, res) => {
   const { id } = req.params
   db('students')
     .where({ id })

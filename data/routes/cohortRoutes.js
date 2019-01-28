@@ -1,6 +1,6 @@
 const express = require('express')
 const knex = require('knex')
-const knexConfig = require('../knexfile')
+const knexConfig = require('../../knexfile')
 const db = knex(knexConfig.development)
 const router = express.Router()
 
@@ -22,7 +22,7 @@ router.post('/api/cohorts', (req, res) => {
   }
 })
 
-router.get('/api/cohorts', (req, res) => {
+router.get('/', (req, res) => {
   db('cohorts')
     .then(cohorts => {
       res.json(cohorts)
@@ -35,7 +35,7 @@ router.get('/api/cohorts', (req, res) => {
     })
 })
 
-router.get('/api/cohorts/:id', (req, res) => {
+router.get('/:id', (req, res) => {
   const { id } = req.params
   db('cohorts')
     .where({ id })
@@ -49,7 +49,7 @@ router.get('/api/cohorts/:id', (req, res) => {
     })
 })
 
-router.get('/api/cohorts/:id/students', (req, res) => {
+router.get('/:id/students', (req, res) => {
   const { id } = req.params
   db('students')
     .where('cohort_id', id)
@@ -67,7 +67,7 @@ router.get('/api/cohorts/:id/students', (req, res) => {
     })
 })
 
-router.put('/api/cohorts/:id', (req, res) => {
+router.put('/:id', (req, res) => {
   const { id } = req.params
   const cohort = req.body
   db('cohorts')
@@ -81,7 +81,7 @@ router.put('/api/cohorts/:id', (req, res) => {
     })
 })
 
-router.delete('/api/cohorts/:id', (req, res) => {
+router.delete('/:id', (req, res) => {
   const { id } = req.params
   db('cohorts')
     .where({ id })
