@@ -1,0 +1,19 @@
+{
+	"name": "rdbms",
+	"version": "1",
+	"main": "index.js",
+	"scripts": {
+		"start": "nodemon index.js"
+	},
+	"repository": "https://github.com/jbierly1/RDBMS-API-Full.git",
+	"author": "jbierly1 <james.bierly@gmail.com>",
+	"license": "MIT",
+	"dependencies": {
+		"express": "^4.16.4",
+		"knex": "^0.16.3",
+		"sqlite3": "^4.0.6"
+	},
+	"devDependencies": {
+		"nodemon": "^1.18.9"
+	}
+}
