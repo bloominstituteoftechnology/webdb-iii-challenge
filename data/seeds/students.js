@@ -10,7 +10,8 @@ exports.seed = function(knex, Promise) {
         {name: 'Oliver', cohort_id: 3},
         {name: 'Marguel', cohort_id: 4},
         {name: 'Kelly', cohort_id: 5},
-        {name: 'Lorenzo', cohort_id: 6}
+        {name: 'Lorenzo', cohort_id: 6},
+        {name: 'Courtney', cohort_id: 7}
       ]);
     });
 };
