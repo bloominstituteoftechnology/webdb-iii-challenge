@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
       })
   })
 
-router.post('/api/cohorts', (req, res) => {
+router.post('/', (req, res) => {
     const cohort = req.body
     if (cohort.name) {
         db('cohorts')

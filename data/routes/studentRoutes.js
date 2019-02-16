@@ -5,7 +5,7 @@ const knexConfig = require('../../knexfile')
 const db = knex(knexConfig.development)
 
 
-router.post('/', (req, res) => {
+router.post('/aoi/students', (req, res) => {
   const student = req.body
   if (student.name && student.cohort_id) {
     db('students')
@@ -25,7 +25,7 @@ router.post('/', (req, res) => {
   }
 })
 
-router.get('/', (req, res) => {
+router.get('/api/students', (req, res) => {
   db('students')
     .then(students => {
       res.json(students)
