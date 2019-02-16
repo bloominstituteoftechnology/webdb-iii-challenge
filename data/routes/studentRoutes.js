@@ -53,4 +53,21 @@ router.get("/:id", (req, res) => {
     });
 });
 
+router.get("/:id/students", (req, res) => {
+    const { id } = req.params
+    db("students")
+    .where("cohort_id", id)
+    .then(students => {
+        if (students.length) {
+            res.json(students)
+        } else {
+            res.status(400).json({ error: 'There are no students in this cohort'})
+        }
+    })
+    .catch(() => {
+        res.status(500).json({ error: 'Failed to find the student by that ID in this cohort'})
+    })
+});
+
+
 module.exports = router;

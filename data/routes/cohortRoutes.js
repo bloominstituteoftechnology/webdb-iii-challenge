@@ -42,4 +42,23 @@ router.post("/", (req, res) => {
   }
 });
 
+router.put('/:id', (req,res) => {
+    const {id} = req.params;
+    const cohortData = req.body;
+  
+    if( cohortData.name ){
+      db('cohorts').where('id', id).update(cohortData)
+        .then( (rowCount) => {
+          res.json(rowCount);
+        })
+        .catch( (err) => {
+          res.status(500).json({ error: "Could not update cohort." });
+        });
+      // end-db
+    } else {
+      res.status(400).json({ error: "Please provide the name of the cohort."});
+    }
+  });
+  
+  
 module.exports = router;
