@@ -4,19 +4,18 @@ const knexConfig = require('../../knexfile')
 const db = knex(knexConfig.development)
 const router = express.Router()
 
-router.get('/api/cohorts', (req, res) => {
-    db
-     .pull()
-     .then((cohorts) => {
-      res
-      .json(cohorts)
-     })
-     .catch(() => {
-      res
-       .status(500)
-       .json({error: "There was an error pulling all cohorts from DB."})
-     })
-   })
+router.get('/', (req, res) => {
+    db('cohorts')
+      .then(cohorts => {
+        res.json(cohorts)
+      })
+      .catch(() => {
+        res.status(500).json({
+          error:
+            'Information for this table could not be retrieved from the database.'
+        })
+      })
+  })
 
 router.post('/api/cohorts', (req, res) => {
     const cohort = req.body
