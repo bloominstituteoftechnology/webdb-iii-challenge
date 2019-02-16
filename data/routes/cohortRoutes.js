@@ -1,37 +1,45 @@
-const express = require('express')
-const knex = require('knex')
-const knexConfig = require('../../knexfile')
-const db = knex(knexConfig.development)
-const router = express.Router()
+const express = require("express");
+const knex = require("knex");
+const knexConfig = require("../../knexfile");
+const db = knex(knexConfig.development);
+const router = express.Router();
 
-router.get('/', (req, res) => {
+router.get("/", (req, res) => {
+  db("cohorts")
+    .then(cohorts => {
+      res.json(cohorts);
+    })
+    .catch(() => {
+      res.status(500).json({ error: "The table could not be found in the DB." });
+    });
+});
+
+router.get('/:id', (req, res) => {
+    const { id } = req.params
     db('cohorts')
-      .then(cohorts => {
+    .where({ id })
+    .then(cohorts => {
         res.json(cohorts)
+    })
+    .catch(() => {
+        res.status(500).json({ error: 'The cohort with that ID does not exist in the DB.'})
+    })
+});
+
+router.post("/", (req, res) => {
+  const cohort = req.body;
+  if (cohort.name) {
+    db("cohorts")
+      .insert(cohort)
+      .then(ids => {
+        res.status(201).json(ids);
       })
       .catch(() => {
-        res.status(500).json({
-          error:
-            'Information for this table could not be retrieved from the database.'
-        })
-      })
-  })
-
-router.post('/', (req, res) => {
-    const cohort = req.body
-    if (cohort.name) {
-        db('cohorts')
-        .insert(cohort)
-        .then(ids => {
-            res.status(201).json(ids)
-        })
-        .catch(() => {
-            res.status.json({ error: 'Failed to insert the cohort into the DB.'})
-        })
-    } else {
-        res.status(400).json({ error: 'Please include a name for the cohort'})
-    }
-})
-
+        res.status.json({ error: "Failed to insert the cohort into the DB." });
+      });
+  } else {
+    res.status(400).json({ error: "Please include a name for the cohort" });
+  }
+});
 
 module.exports = router;
