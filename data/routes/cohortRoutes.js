@@ -1,9 +1,8 @@
-const express = require('express');
-const knex = require('knex');
-const knexConfig = require('../../knexfile');
-const db = knex(knexConfig.development);
-const router = express.Router();
-
+const express = require('express')
+const knex = require('knex')
+const knexConfig = require('../../knexfile')
+const db = knex(knexConfig.development)
+const router = express.Router()
 
 router.get('/api/cohorts', (req, res) => {
     db
@@ -34,3 +33,6 @@ router.post('/api/cohorts', (req, res) => {
         res.status(400).json({ error: 'Please include a name for the cohort'})
     }
 })
+
+
+module.exports = router;
