@@ -68,9 +68,48 @@ server.put("/:id", async (req, res) => {
     return errHelper(err, res);
   }
 });
+
 // - `[DELETE] /students/:id` This route should delete the specified student.
+server.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deleted = await db
+      .del()
+      .from("students")
+      .where({ id });
+
+    if (deleted) {
+      getAllStudents(req, res);
+    } else {
+      res.status(404).json({ message: "student with that id is not found" });
+    }
+  } catch (err) {
+    return errHelper(err, res);
+  }
+});
 // - `[GET] /students/:id` This route will return the student with the matching `id`.
 // Have the student returned by the `[GET] /students/:id` endpoint include the cohort name and remove the `cohort_id` fields. The returned object should look like this:
+server.get("/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const cohorts = await db
+      .select("c.id", "s.name", "c.name as cohort")
+      .from("cohorts as c")
+      .join("students as s", "c.id", "s.cohort_id")
+      .where("s.cohort_id", id)
+      .first();
+
+    if (cohorts) {
+      res.status(200).json(cohorts);
+    } else {
+      res.status(404).json({ message: "student not found" });
+    }
+  } catch (err) {
+    return errHelper(err, res);
+  }
+});
 // ```js
 // {
 //   id: 1,

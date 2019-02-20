@@ -67,23 +67,33 @@ server.get("/:id/students", async (req, res) => {
   const { id } = req.params;
 
   try {
-    const cohort = await db
-      .select("s.*")
-      .from("cohorts as c")
-      .join("students as s", "c.id", "s.cohort_id")
-      .where("s.cohort_id", id);
-    if (cohort) {
-      res.status(200).json(cohort);
+    let cohorts = await db
+      .select()
+      .from("cohorts")
+      .where({ id });
+
+    if (cohorts.length) {
+      const results = cohorts.map(async cohort => {
+        const student = await db
+          .select("s.*")
+          .from("cohorts as c")
+          .join("students as s", "c.id", "s.cohort_id")
+          .where("s.cohort_id", id);
+        cohort.student = student;
+        return cohort;
+      });
+
+      Promise.all(results).then(completed => {
+        cohorts = completed;
+        res.status(200).json(cohorts);
+      });
     } else {
-      res
-        .status(404)
-        .json({ message: "student with that cohort _ id is not found" });
+      res.status(404).json({ message: "cohort not found" });
     }
   } catch (err) {
     return errHelper(err, res);
   }
 });
-
 // `[PUT] /api/cohorts/:id`
 //This route will update the cohort with the matching `id` using information sent in the body of the request.
 server.put("/:id", async (req, res) => {
