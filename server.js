@@ -4,7 +4,7 @@ const logger = require("morgan");
 const helmet = require("helmet");
 
 // routes
-
+const cohortsRoute = require("./cohorts");
 //init
 const server = express();
 //middleware
@@ -14,6 +14,7 @@ server.use(cors());
 server.use(logger("dev"));
 
 //use routes
+server.use("/api/cohorts", cohortsRoute);
 
 port = 5000;
 server.use(port, () =>
