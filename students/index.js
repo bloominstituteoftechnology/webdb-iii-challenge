@@ -50,6 +50,22 @@ server.put("/:id", async (req, res) => {
   const { id } = req.params;
   const { name } = req.body;
   if (!name) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  try {
+    const updated = await db
+      .update({ name })
+      .from("students")
+      .where({ id });
+
+    if (updated) {
+      getAllStudents(req, res);
+    } else {
+      res.status(404).json({ message: "students not found" });
+    }
+  } catch (err) {
+    return errHelper(err, res);
   }
 });
 // - `[DELETE] /students/:id` This route should delete the specified student.
