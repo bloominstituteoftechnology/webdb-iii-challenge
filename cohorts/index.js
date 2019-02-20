@@ -21,7 +21,30 @@ server.get("/", (req, res) => {
   getAllCohorts(req, res);
 });
 // `[POST] /api/cohorts` This route should save a new cohort to the database.
+server.post("/", async (req, res) => {
+  const { name } = req.body;
+  if (!name) {
+    return res.status(400).json({ message: "all fields are required" });
+  }
 
+  try {
+    const [posted] = await db.insert({ name }).into("cohorts");
+    if (posted) {
+      getAllCohorts(req, res)
+    } else {
+      res.status(404).json({ message: "cohort not found" });
+    }
+
+
+  } catch (err) {
+    return errHelper(err, res)
+  }
+
+
+
+
+
+});
 // `[GET] /api/cohorts/:id` This route will return the cohort with the matching `id`.
 // `[GET] /api/cohorts/:id/students` returns all students for the cohort with the specified `id`.
 // `[PUT] /api/cohorts/:id` This route will update the cohort with the matching `id` using information sent in the body of the request.
