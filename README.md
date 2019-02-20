@@ -28,8 +28,8 @@ Use knex seeding feature to add test data to your tables.
 
 Implement the following endpoints:
 
-- `[POST] /api/cohorts` This route should save a new cohort to the database.
 - `[GET] /api/cohorts` This route will return an array of all cohorts.
+- `[POST] /api/cohorts` This route should save a new cohort to the database.
 - `[GET] /api/cohorts/:id` This route will return the cohort with the matching `id`.
 - `[GET] /api/cohorts/:id/students` returns all students for the cohort with the specified `id`.
 - `[PUT] /api/cohorts/:id` This route will update the cohort with the matching `id` using information sent in the body of the request.
