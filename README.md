@@ -2,10 +2,10 @@
 
 ## Topics
 
-- Databases
-- Relational Databases
-- Knex migrations.
-- Seeding data.
+x Databases
+x Relational Databases
+x Knex migrations.
+x Seeding data.
 
 ## Assignment
 
