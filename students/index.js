@@ -16,13 +16,42 @@ const getAllStudents = async (req, res) => {
     return errHelper(err, res);
   }
 };
-
 // - `[GET] /students` This route will return an array of all students.
 server.get("/", (req, res) => {
-  getAllStudents(req, res)
-})
+  getAllStudents(req, res);
+});
 // - `[POST] /students` This route should save a new student to the database.
+server.post("/:id", async (req, res) => {
+  const { id } = req.params;
+  const { name } = req.body;
+  if (!name) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  try {
+    const cohortId = await db
+      .select()
+      .from("cohorts")
+      .where({ id });
+
+    if (cohortId) {
+      await db.insert({ name, cohort_id: id }).into("students");
+      getAllStudents(req, res); //--> async as well
+    } else {
+      res.status(404).json({ message: "no cohort with that id exists" });
+    }
+  } catch (err) {
+    return errHelper(err, res);
+  }
+});
+
 // - `[PUT] /students/:id` This route will update the student with the matching `id` using information sent in the body of the request.
+server.put("/:id", async (req, res) => {
+  const { id } = req.params;
+  const { name } = req.body;
+  if (!name) {
+  }
+});
 // - `[DELETE] /students/:id` This route should delete the specified student.
 // - `[GET] /students/:id` This route will return the student with the matching `id`.
 // Have the student returned by the `[GET] /students/:id` endpoint include the cohort name and remove the `cohort_id` fields. The returned object should look like this:
