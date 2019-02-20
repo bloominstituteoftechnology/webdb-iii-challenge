@@ -21,7 +21,7 @@ server.post("/api/cohorts", (req, res) => {
 });
 
 server.get("/api/cohorts", (req, res) => {
-  db("cohorts")
+  db("students")
     .then(results => {
       res.status(200).json(results);
     })
@@ -29,6 +29,17 @@ server.get("/api/cohorts", (req, res) => {
       res.status(500).json(err);
     });
 });
+server.get("/api/students", (req, res) => {
+  db("students")
+    .then(results => {
+      res.status(200).json(results);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
+});
+
+
 
 server.get("/api/cohorts/:id", (req, res) => {
   db("cohorts")
