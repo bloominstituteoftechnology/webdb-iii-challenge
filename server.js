@@ -5,6 +5,7 @@ const helmet = require("helmet");
 
 // routes
 const cohortsRoute = require("./cohorts");
+const studentsRoute = require("./students")
 //init
 const server = express();
 //middleware
@@ -15,6 +16,7 @@ server.use(logger("dev"));
 
 //use routes
 server.use("/api/cohorts", cohortsRoute);
+server.use("/api/students", studentsRoute);
 
 port = 5000;
 server.listen(port, () =>
