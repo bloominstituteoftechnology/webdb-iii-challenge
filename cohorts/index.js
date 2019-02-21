@@ -8,6 +8,7 @@ const server = express.Router();
 const errHelper = (err, res) => {
   res.status(500).json({ message: ` internal err server ${err} ` });
 };
+
 const getAllCohorts = async (req, res) => {
   try {
     const cohorts = await db.select().from("cohorts");
@@ -80,6 +81,7 @@ server.get("/:id/students", async (req, res) => {
           .join("students as s", "c.id", "s.cohort_id")
           .where("s.cohort_id", id);
         cohort.student = student;
+
         return cohort;
       });
 
