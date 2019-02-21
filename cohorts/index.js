@@ -10,13 +10,32 @@ const errHelper = (err, res) => {
 };
 
 const getAllCohorts = async (req, res) => {
+  const { limit = 5, page = 1, name } = req.query;
   try {
-    const cohorts = await db.select().from("cohorts");
+    let cohorts;
+    if (!name) {
+      cohorts = await db
+        .select()
+        .from("cohorts")
+        .orderBy("id", "desc")
+        .paginate(limit, page, true);
+    } else {
+      cohorts = await db
+        .select()
+        .from("cohorts")
+        .orderBy("id", "desc")
+        .where("name", "like", `%${name}%`)
+        .paginate(limit, page, true);
+    }
+
     res.status(200).json(cohorts);
   } catch (err) {
     return errHelper(err, res);
   }
 };
+
+//[PAGINATION] /api/cohorts
+///api/cohorts?limit=3&page=2&name="etc"
 // `[GET] /api/cohorts`
 // This route will return an array of all cohorts.
 server.get("/", (req, res) => {

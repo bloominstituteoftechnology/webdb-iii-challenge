@@ -10,7 +10,10 @@ const errHelper = (err, res) => {
 };
 const getAllStudents = async (req, res) => {
   try {
-    const cohorts = await db.select().from("students");
+    const cohorts = await db
+      .select()
+      .from("students")
+      .orderBy("id", "desc");
     res.status(200).json(cohorts);
   } catch (err) {
     return errHelper(err, res);
