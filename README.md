@@ -54,3 +54,4 @@ Have the student returned by the `[GET] /students/:id` endpoint include the coho
   cohort: 'Full Stack Web Infinity'
 }
 ```
+Author: Kseniya Platonava
