@@ -1,88 +1,103 @@
 const express = require('express');
 const knex = require('knex');
-const knexConfig = require('./knexfile');
 
-const db = knex(knexConfig.development);
+const dbConfig = require('./knexfile.js');
+
+const db = knex(dbConfig.development);
 
 const server = express();
 
 server.use(express.json());
 
 // //get test
-// server.get('/', (req, res) => {
-//     res.send('api is a go');
-// });
+server.get('/', (req, res) => {
+    res.send('api is a go');
+});
 
 //[POST] /api/cohorts This route should save a new cohort to the database.
-server.post('/api/cohorts' , (req, res) => {
-    db('cohorts')
-        .insert(req.body)
-        .then(ids => {
-            res.status(201).json(ids)
-        })
-        .catch(err => res.status(500).json(err))
-});
+server.post('/api/cohorts', async (req, res) => {
+    try {
+      const [id] = await db('cohort').insert(req.body);
+  
+      const cohort = await db('cohort')
+        .where({ id })
+        .first();
+  
+      res.status(201).json(cohort);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  });
 
 // //[GET] /api/cohorts This route will return an array of all cohorts.
-server.get('/api/cohorts', (req, res) => {
-    db('cohorts')
-        .then(cohorts => {
-            res.status(200).json(cohorts)
-        })
-        .catch(err => res.status(500).json(err))
-});
+server.get('/api/cohorts', async (req, res) => {
+    // get the cohorts from the database
+    try {
+      const cohorts = await db('cohort'); // all the records from the table
+      res.status(200).json(cohorts);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  });
 
 // //[GET] /api/cohorts/:id This route will return the cohort with the matching id.
-server.get('/api/cohorts/:id', (req, res) => {
-    db('cohorts')
+server.get('/api/cohorts/:id', async (req, res) => {
+    // get the roles from the database
+    try {
+      const cohort = await db('cohort')
         .where({ id: req.params.id })
-        .then(ids => {
-            res.status(200).json(ids)
-        })
-        .catch(err => {
-            message: "could not find the requested cohort"
-        })
-});
+        .first();
+      res.status(200).json(cohort);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  });
 
 // //[GET] /api/cohorts/:id/students returns all students for the cohort with the specified id
-server.get('/api/cohorts/:id/students', (req, res) => {
-    db('students')
+server.get('/api/cohorts/:id/students', async (req, res) => {
+    // get the roles from the database
+    try {
+      const students = await db('students')
         .where({ cohort_id: req.params.id })
-        .then(ids => {
-            res.status(200).json(ids)
-        })
-        .catch(err => {
-            message: "could not find the requested cohort"
-        })
-})
+      res.status(200).json(students);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  });
 
 // //[PUT] /api/cohorts/:id This route will update the cohort with the matching id using information sent in the body of the request.
-server.put('/api/cohorts/:id', (req, res) => {
-    const changes = req.body
-
-    db('cohorts')
+server.put('/api/cohorts/:id', async (req, res) => {
+    try {
+      const count = await db('cohort')
         .where({ id: req.params.id })
-        .update(changes)
-        .then(count => {
-            res.status(200).json(count)
-        })
-        .catch(err => {
-            message: "unable to update cohort"
-        })
-})
+        .update(req.body);
+  
+      if (count > 0) {
+        const cohort = await db('cohort')
+          .where({ id: req.params.id })
+          .first();
+  
+        res.status(200).json(cohort);
+      } else {
+        res.status(404).json({ message: 'Records not found' });
+      }
+    } catch (error) {}
+  });
 
 // //[DELETE] /api/cohorts/:id This route should delete the specified cohort.
-server.delete('/api/cohorts/:id', (req, res) => {
-    db('cohorts')
+server.delete('/api/cohorts/:id', async (req, res) => {
+    try {
+      const count = await db('cohort')
         .where({ id: req.params.id })
-        .del()
-        .then(count => {
-            res.status(200).json(count);
-        })
-        .catch(err => {
-            message: "could not delete cohort"
-        })
-});
+        .del();
+  
+      if (count > 0) {
+        res.status(204).json(count);
+      } else {
+        res.status(404).json({ message: 'Records not found' });
+      }
+    } catch (error) {}
+  });
 
 
 const port = 3300;
