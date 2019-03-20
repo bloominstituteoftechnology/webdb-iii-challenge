@@ -52,6 +52,19 @@ server.post('/api/cohorts', async (req, res) => {
 		};
 });
 
+// GET /api/cohorts/:id/students
+
+server.get('/api/cohorts/:id/students', (req, res) => {
+	const cohortForStudents = req.params.id;
+	db.from('students')
+		.where({ cohort_id: `${cohortForStudents} `})
+		.then(students => {
+			res.status(200).json(students);
+		})
+		.catch(err => {
+			res.status(500).json(err);
+		});
+});
 
 const port = process.env.PORT || 9090;
 server.listen(port, () => console.log(`\nrunning on ${port}\n`));
