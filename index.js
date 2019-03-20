@@ -66,5 +66,24 @@ server.get('/api/cohorts/:id/students', (req, res) => {
 		});
 });
 
+// update cohorts // PUT
+server.put('/api/cohorts/:id', async (req, res) => {
+  try {
+    const count = await db('cohorts')
+      .where({ id: req.params.id })
+      .update(req.body);
+
+    if (count > 0) {
+      const cohort = await db('cohorts')
+        .where({ id: req.params.id })
+        .first();
+
+      res.status(200).json(cohort);
+    } else {
+      res.status(404).json({ message: 'Records not found' });
+    }
+  } catch (error) {}
+});
+
 const port = process.env.PORT || 9090;
 server.listen(port, () => console.log(`\nrunning on ${port}\n`));
