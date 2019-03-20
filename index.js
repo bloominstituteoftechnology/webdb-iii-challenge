@@ -12,7 +12,7 @@ const server = express();
 server.use(helmet());
 server.use(express.json());
 
-// list all roles
+// list all roles /GET
 server.get('/api/cohorts', async (req, res) => {
   // get the roles from the database
   try {
@@ -22,6 +22,8 @@ server.get('/api/cohorts', async (req, res) => {
     res.status(500).json(error);
   }
 });
+
+//GET BY ID
 
 server.get('/api/cohorts/:id', async (req, res) => {
   // get the roles from the database
@@ -35,7 +37,20 @@ server.get('/api/cohorts/:id', async (req, res) => {
   }
 });
 
+//POST
+server.post('/api/cohorts', async (req, res) => {
+  try {
+    const [id] = await db('cohorts').insert(req.body);
 
+    const role = await db('cohorts')
+      .where({ id })
+      .first();
+
+    res.status(201).json(role);
+	}catch(err) {
+			res.status(500).json(err);
+		};
+});
 
 
 const port = process.env.PORT || 9090;
