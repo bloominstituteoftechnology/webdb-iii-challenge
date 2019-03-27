@@ -70,4 +70,19 @@ router.put('/:id', async (req, res) => {
 	}
 });
 
+router.delete('/:id', async (req, res) => {
+	try {
+		const count = await db('cohorts')
+			.where({ id: req.params.id })
+			.del();
+		if (count > 0) {
+			res.status(204).end();
+		} else {
+			res.status(404).json({ message: 'No record found with that ID' });
+		}
+	} catch (err) {
+		res.status(500).message({ message: 'Server error deleting the record' });
+	}
+});
+
 module.exports = router;
