@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "express": "^4.16.4",
+    "helmet": "^3.16.0",
+    "knex": "^0.16.3",
+    "sqlite3": "^4.0.6"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  },
+  "name": "webdb-iii-challenge",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/VictorGoic0/webdb-iii-challenge.git",
+  "author": "VictorGoic0 <vgoico000@citymail.cuny.edu>",
+  "license": "MIT"
+}
