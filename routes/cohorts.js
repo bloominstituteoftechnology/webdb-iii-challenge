@@ -90,19 +90,28 @@ router.get('/:id/students', async (req, res) => {
 		const cohort = await db('cohorts')
 			.where({ id: req.params.id })
 			.first();
-		const students = await db('cohorts').join('students', {
+		const students = await db('cohorts').leftOuterJoin('students', {
 			'cohorts.id': 'students.cohort_id',
 		});
-		const names = students.map(student => {
-			return { name: student.name };
-		});
+		const names = students.reduce((students, student) => {
+			if (student.cohort_id === cohort.id) {
+				const name = {
+					id: student.id,
+					name: student.name,
+				};
+				students.push(name);
+			}
+			return students;
+		}, []);
 		const join = {
 			id: cohort.id,
 			name: cohort.name,
 			students: names,
 		};
 		res.status(200).json(join);
-	} catch (err) {}
+	} catch (err) {
+		res.status(500).json({ message: 'Server error retrieving the record' });
+	}
 });
 
 module.exports = router;
