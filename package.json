@@ -9,6 +9,10 @@
     "nodemon": "^1.18.10"
   },
   "name": "webdb-iii-challenge",
+  "scripts": {
+    "start": "node index.js",
+    "server": "nodemon index.js"
+  },
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/VictorGoic0/webdb-iii-challenge.git",
