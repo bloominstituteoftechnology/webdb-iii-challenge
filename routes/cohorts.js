@@ -90,23 +90,21 @@ router.get('/:id/students', async (req, res) => {
 		const cohort = await db('cohorts')
 			.where({ id: req.params.id })
 			.first();
-		const students = await db('cohorts').join('students', {
-			'cohorts.id': 'students.cohort_id',
-		});
-		const names = students.reduce((students, student) => {
-			if (student.cohort_id === cohort.id) {
-				const name = {
+		const students = await db('cohorts')
+			.join('students', {
+				'cohorts.id': 'students.cohort_id',
+			})
+			.where({ cohort_id: cohort.id })
+			.map(student => {
+				return {
 					id: student.id,
 					name: student.name,
 				};
-				students.push(name);
-			}
-			return students;
-		}, []);
+			});
 		const join = {
 			id: cohort.id,
 			name: cohort.name,
-			students: names,
+			students: students,
 		};
 		res.status(200).json(join);
 	} catch (err) {
