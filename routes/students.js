@@ -40,22 +40,12 @@ router.post('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
 	try {
-		const student = await db('students')
-			.where({ id: req.params.id })
-			.first();
-		if (student) {
-			const cohortName = await db('cohorts')
-				.where({ id: student.cohort_id })
-				.first();
-			const format = {
-				id: student.id,
-				name: student.name,
-				cohort: cohortName.name,
-			};
-			res.status(200).json(format);
-		} else {
-			res.status(404).json({ message: 'No student found with that ID' });
-		}
+		const student = await db
+			.select('students.id', 'students.name', 'cohorts.name as cohort')
+			.from('students')
+			.join('cohorts', 'students.cohort_id', 'cohorts.id')
+			.where('students.id', req.params.id);
+		res.status(200).json(student);
 	} catch (err) {
 		res.status(500).json(err);
 	}
