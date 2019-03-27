@@ -40,12 +40,15 @@ router.get("/:id/students", async (req, res) => {
   const { id } = req.params;
   try {
     const students = await db("students").where({ cohort_id: id });
-    if (students) {
+    if (students.length >= 1) {
       res.status(200).json(students);
     } else {
       res
         .status(404)
-        .json({ message: "Cohort with specified ID does not exist." });
+        .json({
+          message:
+            "Cohort with specified ID either does not exist or has no students."
+        });
     }
   } catch (error) {
     res.status(500).json({ message: `Cohort request failed ${error}.` });
