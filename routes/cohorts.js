@@ -32,4 +32,19 @@ router.post('/', async (req, res) => {
 	}
 });
 
+router.get('/:id', async (req, res) => {
+	try {
+		const cohort = await db('cohorts')
+			.where({ id: req.params.id })
+			.first();
+		if (cohort) {
+			res.status(200).json(cohort);
+		} else {
+			res.status(404).json({ message: 'No cohort found with that ID' });
+		}
+	} catch (err) {
+		res.status(500).json(err);
+	}
+});
+
 module.exports = router;
