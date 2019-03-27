@@ -90,7 +90,7 @@ router.get('/:id/students', async (req, res) => {
 		const cohort = await db('cohorts')
 			.where({ id: req.params.id })
 			.first();
-		const students = await db('cohorts').leftOuterJoin('students', {
+		const students = await db('cohorts').join('students', {
 			'cohorts.id': 'students.cohort_id',
 		});
 		const names = students.reduce((students, student) => {

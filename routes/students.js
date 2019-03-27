@@ -44,7 +44,15 @@ router.get('/:id', async (req, res) => {
 			.where({ id: req.params.id })
 			.first();
 		if (student) {
-			res.status(200).json(student);
+			const cohortName = await db('cohorts')
+				.where({ id: student.cohort_id })
+				.first();
+			const format = {
+				id: student.id,
+				name: student.name,
+				cohort: cohortName.name,
+			};
+			res.status(200).json(format);
 		} else {
 			res.status(404).json({ message: 'No student found with that ID' });
 		}
