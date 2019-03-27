@@ -47,4 +47,27 @@ router.get('/:id', async (req, res) => {
 	}
 });
 
+router.put('/:id', async (req, res) => {
+	if (!req.body.name) {
+		res.status(406).json({ message: 'Please enter a name for the cohort' });
+		return;
+	}
+	try {
+		const count = await db('cohorts')
+			.where({ id: req.params.id })
+			.update(req.body);
+
+		if (count > 0) {
+			const cohort = await db('cohorts')
+				.where({ id: req.params.id })
+				.first();
+			res.status(200).json(cohort);
+		} else {
+			res.status(404).json({ message: 'No record found with that ID' });
+		}
+	} catch (err) {
+		res.status(500).message({ message: 'Server error updating the record' });
+	}
+});
+
 module.exports = router;
