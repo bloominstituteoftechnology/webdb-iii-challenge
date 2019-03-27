@@ -15,4 +15,21 @@ router.get('/', async (req, res) => {
 	}
 });
 
+router.post('/', async (req, res) => {
+	if (!req.body.name) {
+		res.status(406).json({ message: 'Please enter a name for the new cohort' });
+		return;
+	}
+	try {
+		const [id] = await db('cohorts').insert(req.body);
+		const cohort = await db('cohorts')
+			.where({ id })
+			.first();
+		res.status(201).json(cohort);
+	} catch (err) {
+		const message = errors[err.errno] || 'Error posting new cohort';
+		res.status(500).json({ message, err });
+	}
+});
+
 module.exports = router;
