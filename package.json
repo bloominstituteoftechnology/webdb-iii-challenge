@@ -1,0 +1,18 @@
+{
+  "name": "web-iii-challenge",
+  "version": "1.0.0",
+  "description": "Building an API using a relational database",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "helmet": "^3.16.0",
+    "knex": "^0.16.3",
+    "sqlite3": "^4.0.6"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  }
+}
