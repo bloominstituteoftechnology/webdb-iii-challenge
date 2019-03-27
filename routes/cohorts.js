@@ -85,4 +85,24 @@ router.delete('/:id', async (req, res) => {
 	}
 });
 
+router.get('/:id/students', async (req, res) => {
+	try {
+		const cohort = await db('cohorts')
+			.where({ id: req.params.id })
+			.first();
+		const students = await db('cohorts').join('students', {
+			'cohorts.id': 'students.cohort_id',
+		});
+		const names = students.map(student => {
+			return { name: student.name };
+		});
+		const join = {
+			id: cohort.id,
+			name: cohort.name,
+			students: names,
+		};
+		res.status(200).json(join);
+	} catch (err) {}
+});
+
 module.exports = router;
