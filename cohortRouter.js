@@ -29,10 +29,10 @@ router.get("/:id", async (req, res) => {
     } else {
       res
         .status(404)
-        .json({ message: "cohort with specified ID does not exist." });
+        .json({ message: "Cohort with specified ID does not exist." });
     }
   } catch (error) {
-    res.status(500).json({ message: `cohort request failed ${error}.` });
+    res.status(500).json({ message: `Cohort request failed ${error}.` });
   }
 });
 
