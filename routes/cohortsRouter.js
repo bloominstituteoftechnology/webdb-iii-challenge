@@ -25,4 +25,21 @@ route.post('/', (req, res) => {
       });
   });
 
+  route.get('/:id/students', (req, res) => {
+    const id = req.params.id;
+    db('cohorts')
+      .join('students', 'students.cohort_id', 'cohorts.id')
+      .select('students.id', 'students.name')
+      .where('cohorts.id', id)
+      .then(ids => {
+        if (ids) {
+          res.status(200).json(ids);
+        } else {
+          res.status(404).json({ message: 'no students available' });
+        }
+      })
+      .catch(err => {
+        res.status(500).json(err);
+      });
+  });
   
