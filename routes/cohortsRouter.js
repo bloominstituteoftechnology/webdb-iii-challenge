@@ -43,3 +43,22 @@ route.post('/', (req, res) => {
       });
   });
   
+  route.put('/:id', (req, res) => {
+    const id = req.params.id;
+    const { name } = req.body;
+    if (!name) {
+      res.status(400).json({ message: 'you need a name there bud' });
+    } else {
+      db('cohorts')
+        .where({ id })
+        .update({ name })
+        .then(post => {
+          res.status(200).json(post);
+        })
+        .catch(err => {
+          res.status(500).json(err);
+        });
+    }
+  });
+
+  
