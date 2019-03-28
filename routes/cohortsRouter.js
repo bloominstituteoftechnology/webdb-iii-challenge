@@ -61,4 +61,17 @@ route.post('/', (req, res) => {
     }
   });
 
+  route.delete('/:id', (req, res) => {
+    const id = req.params.id;
+    db('cohorts')
+      .where({ id })
+      .del()
+      .then(ids => {
+        res.status(200).json(ids);
+      })
+      .catch(err => {
+        res.status(500).json(err);
+      });
+  });
   
+  module.exports = route;
