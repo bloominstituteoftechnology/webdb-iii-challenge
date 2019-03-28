@@ -24,7 +24,7 @@ Use knex migrations to create a database called `lambda.sqlite3` and add the fol
 [x] `name`: text, required.
 [x] `cohort_id`: references the `id` in the cohorts table.
 
-Use knex seeding feature to add test data to your tables.
+[x] Use knex seeding feature to add test data to your tables.
 
 Implement the following endpoints:
 
