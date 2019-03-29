@@ -11,7 +11,7 @@ route.post('/', (req, res) => {
         res.status(201).json(post);
       })
       .catch(err => {
-        res.status(500).json({ message: 'you need a name', err });
+        res.status(500).json({ message: 'name', err });
       });
   });
 
@@ -35,7 +35,7 @@ route.post('/', (req, res) => {
         if (ids) {
           res.status(200).json(ids);
         } else {
-          res.status(404).json({ message: 'no students available' });
+          res.status(404).json({ message: 'no' });
         }
       })
       .catch(err => {
@@ -47,7 +47,7 @@ route.post('/', (req, res) => {
     const id = req.params.id;
     const { name } = req.body;
     if (!name) {
-      res.status(400).json({ message: 'you need a name there bud' });
+      res.status(400).json({ message: 'nope' });
     } else {
       db('cohorts')
         .where({ id })
