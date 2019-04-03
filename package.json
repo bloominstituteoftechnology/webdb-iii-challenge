@@ -1,0 +1,28 @@
+{
+  "name": "rolex",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon",
+    "initdb":"knex init",
+    "table1":"knex migrate:make createCohortsTable",
+    "table2":"knex migrate:make createStudentsTable",
+    "migrate":"knex migrate: latest",
+    "seed1": "knex seed:make 01-cohorts",
+    "seed2": "knex seed:make 02-students",
+    "rollback": "knex migrate:rollback"
+
+  },
+
+  "devDependencies": {
+    "knex-cleaner": "^1.1.4"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "helmet": "^3.16.0",
+    "knex": "^0.16.3",
+    "nodemon": "^1.18.10",
+    "sqlite3": "^4.0.6"
+  }
+}
