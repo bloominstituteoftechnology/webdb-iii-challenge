@@ -29,13 +29,13 @@ router.get('/', (req, res) => {
     })
 }); 
 
-//fail
+//check
 router.get('/:id', (req, res) => {
     db('students')
     .where({ id: req.params.id })
     .first()
     .then(student=> {
-        if(cohort) {
+        if(student) {
             res.status(200).json(student)
         } else {
             res.status(404).json({ message: 'Student was not found!' })

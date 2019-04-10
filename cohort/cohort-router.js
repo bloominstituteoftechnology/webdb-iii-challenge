@@ -46,9 +46,17 @@ router.get('/:id', (req, res) => {
     })
 });
 
-//incomplete
-router.get('/:id/students', (req, res) => {
-    db
+//check
+router.get('/:id/students', async (req, res) => {
+    try{
+        const students = await db('cohorts')
+        .where({ id:req.params.id })
+        .first()
+        res.status(200).json(students);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: 'There was an error retrieving student'})
+    }
 });
 
 //check
