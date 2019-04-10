@@ -15,30 +15,30 @@ const db = knex(knexConfig);
 
 //check
 // router.get('/', (req, res) => {
-//     res.send('Cohorts: Hello World!')
+//     res.send('Students: Hello World!')
 // });
 
 //check
 router.get('/', (req, res) => {
-    db('cohorts')
-    .then(cohorts => {
-        res.status(200).json(cohorts)
+    db('students')
+    .then(students => {
+        res.status(200).json(students)
     })
     .catch(error => {
         res.status(500).json(error)
     })
 }); 
 
-//check
+//fail
 router.get('/:id', (req, res) => {
-    db('cohorts')
+    db('students')
     .where({ id: req.params.id })
     .first()
-    .then(cohort => {
+    .then(student=> {
         if(cohort) {
-            res.status(200).json(cohort)
+            res.status(200).json(student)
         } else {
-            res.status(404).json({ message: 'Cohort was not found!' })
+            res.status(404).json({ message: 'Student was not found!' })
         }
     })
     .catch(error => {
@@ -46,19 +46,14 @@ router.get('/:id', (req, res) => {
     })
 });
 
-//incomplete
-router.get('/:id/students', (req, res) => {
-    db
-});
-
 //check
 router.post('/', async (req, res) => {
     try {
-        const [id] = await db('cohorts').insert(req.body);
-        const cohort = await db('cohorts')
+        const [id] = await db('students').insert(req.body);
+        const student = await db('students')
         .where({ id })
         .first()
-        res.status(201).json(cohort)
+        res.status(201).json(student)
     } catch (error) {
         res.status(500).json({ error: 'There was an error posting that!' })
     }
@@ -66,19 +61,19 @@ router.post('/', async (req, res) => {
 
 //check
 router.put('/:id', (req, res) => {
-    db('cohorts')
+    db('students')
     .where({ id: req.params.id })
     .update(req.body)
     .then(count => {
         if (count > 0) {
-        db('cohorts')
+        db('students')
         .where({ id: req.params.id })
         .first()
-        .then(cohort => {
-            res.status(200).json(cohort)
+        .then(student => {
+            res.status(200).json(student)
         })
     } else {
-        res.status(404).json({ message: 'Cohort information was not updated! '})
+        res.status(404).json({ message: 'Student information was not updated! '})
     }
     })
     .catch(error => {
@@ -88,19 +83,19 @@ router.put('/:id', (req, res) => {
 
 //check
 router.delete('/:id', (req, res) => {
-    db('cohorts')
+    db('students')
     .where({ id: req.params.id })
     .del(req.body)
     .then(count => {
         if (count > 0) {
-        db('cohorts')
+        db('students')
         .where({ id: req.params.id })
         .first()
-        .then(cohort => {
-            res.status(200).json(cohort)
+        .then(student => {
+            res.status(200).json(student)
         })
     } else {
-        res.status(404).json({ message: 'Cohort was not found! '})
+        res.status(404).json({ message: 'Student was not found! '})
     }
     })
     .catch(error => {
