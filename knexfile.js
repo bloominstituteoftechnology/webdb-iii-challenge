@@ -6,7 +6,7 @@ module.exports = {
     useNullAsDefault: true, // needed for sqlite
     // create the data folder manually
     connection: {
-      filename: './data/rolex.db3', // the name for the database file to use, adjust as needed
+      filename: './data/lambda.sqlite3', // the name for the database file to use, adjust as needed
     },
     migrations: {
       directory: './data/migrations', // the migrations folder is added to the root by default, this moves it to /data

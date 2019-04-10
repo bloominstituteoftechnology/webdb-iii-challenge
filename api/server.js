@@ -1,7 +1,7 @@
 const express = require('express');
 const helmet = require('helmet');
 
-const cohortRouter = require('../cohort/cohort-router.js')
+const cohortRouter = require('../cohort/cohort-router.js/index.js.js')
 
 const server = express();
 
