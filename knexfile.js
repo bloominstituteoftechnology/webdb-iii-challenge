@@ -1,44 +1,18 @@
 // Update with your config settings.
 
 module.exports = {
-
   development: {
     client: 'sqlite3',
+    useNullAsDefault: true, // needed for sqlite
+    // create the data folder manually
     connection: {
-      filename: './dev.sqlite3'
-    }
-  },
-
-  staging: {
-    client: 'postgresql',
-    connection: {
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
-    },
-    pool: {
-      min: 2,
-      max: 10
+      filename: './data/rolex.db3', // the name for the database file to use, adjust as needed
     },
     migrations: {
-      tableName: 'knex_migrations'
-    }
+      directory: './data/migrations', // the migrations folder is added to the root by default, this moves it to /data
+    },
+    seeds: {
+      directory: './data/seeds', // the seeds folder is added to the root by default, this moves it to /data
+    },
   },
-
-  production: {
-    client: 'postgresql',
-    connection: {
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
-    },
-    pool: {
-      min: 2,
-      max: 10
-    },
-    migrations: {
-      tableName: 'knex_migrations'
-    }
-  }
-
 };
