@@ -60,40 +60,39 @@ router.get('/:id', (req, res) => {
 //Both requests below make same function
 
 //check
-router.get('/:id/students', async (req, res) => {
-    
-    try {
-      const cohort = await db('cohorts')
-        .join("students", "cohorts.id", "students.cohort_id")
-        .select("students.id", "students.name")
-        .where({ cohort_id: req.params.id })
-        .first()
-      res.status(200).json(cohort);
-    } catch (err) {
-      res.status(500).json(err);
-    }
-  });
+// router.get('/:id/students', async (req, res) => {
+//     try {
+//       const cohort = await db('cohorts')
+//         .join("students", "cohorts.id", "students.cohort_id")
+//         .select("students.id", "students.name")
+//         .where({ cohort_id: req.params.id })
+//         .first()
+//       res.status(200).json(cohort);
+//     } catch (err) {
+//       res.status(500).json(err);
+//     }
+// });
 
 
 //check
-// router.get('/:id/students', (req, res) => {
-//     const id = req.params.id;
-//     db('cohorts')
-//       .join('students', 'students.cohort_id', 'cohorts.id')
-//       .select('students.id', 'students.name')
-//       .where('cohorts.id', id)
-//       .first()
-//       .then(stu => {
-//         if (stu) {
-//           res.status(200).json(stu);
-//         } else {
-//           res.status(404).json({ message: 'No students were found, please try again' });
-//         }
-//       })
-//       .catch(err => {
-//         res.status(500).json(err);
-//       });
-//   });
+router.get('/:id/students', (req, res) => {
+    const id = req.params.id;
+    db('cohorts')
+      .join('students', 'students.cohort_id', 'cohorts.id')
+      .select('students.id', 'students.name')
+      .where('cohorts.id', id)
+      .first()
+      .then(stu => {
+        if (stu) {
+          res.status(200).json(stu);
+        } else {
+          res.status(404).json({ message: 'No students were found, please try again' });
+        }
+      })
+      .catch(err => {
+        res.status(500).json(err);
+      });
+});
 
 
 /* 
