@@ -14,7 +14,7 @@ server.use('/api/student', studentRouter);
 
 
 //check
-// router.get('/', (req, res) => {
+// server.get('/', (req, res) => {
 //     res.send('Cohorts: Hello World!')
 // });
 
