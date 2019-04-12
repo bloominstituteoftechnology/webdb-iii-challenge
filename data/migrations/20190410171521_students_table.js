@@ -10,7 +10,7 @@ exports.up = function(knex, Promise) {
 
     tbl
       .integer('cohort_id')
-      .references('id')
+      .references('cohort_id')
   })
 };
 

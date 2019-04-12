@@ -12,4 +12,11 @@ server.use(helmet());
 server.use('/api/cohort', cohortRouter);
 server.use('/api/student', studentRouter);
 
+
+//check
+// router.get('/', (req, res) => {
+//     res.send('Cohorts: Hello World!')
+// });
+
+
 module.exports = server;

@@ -14,18 +14,13 @@ const db = knex(knexConfig);
 
 
 //check
-// router.get('/', (req, res) => {
-//     res.send('Cohorts: Hello World!')
-// });
-
-//check
 router.get('/', (req, res) => {
     db('cohorts')
     .then(cohorts => {
         res.status(200).json(cohorts)
     })
-    .catch(error => {
-        res.status(500).json(error)
+    .catch(err => {
+        res.status(500).json(err)
     })
 }); 
 
@@ -41,23 +36,86 @@ router.get('/:id', (req, res) => {
             res.status(404).json({ message: 'Cohort was not found!' })
         }
     })
-    .catch(error => {
-        res.status(500).json(error)
+    .catch(err => {
+        res.status(500).json(err)
     })
 });
 
+//same function as the above get request
+
+//check
+// router.get('/:id', async (req, res) => {
+//     try{
+//         const cohort = await db('cohorts')
+//         .where({ id:req.params.id })
+//         .first()
+//         res.status(200).json(cohort);
+//     } catch (err) {
+//         console.log(err);
+//         res.status(500).json({ error: 'There was an error retrieving cohort'})
+//     }
+// });
+
+
+//Both requests below make same function
+
 //check
 router.get('/:id/students', async (req, res) => {
-    try{
-        const students = await db('cohorts')
-        .where({ id:req.params.id })
+    
+    try {
+      const cohort = await db('cohorts')
+        .join("students", "cohorts.id", "students.cohort_id")
+        .select("students.id", "students.name")
+        .where({ cohort_id: req.params.id })
         .first()
-        res.status(200).json(students);
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ error: 'There was an error retrieving student'})
+      res.status(200).json(cohort);
+    } catch (err) {
+      res.status(500).json(err);
     }
-});
+  });
+
+
+//check
+// router.get('/:id/students', (req, res) => {
+//     const id = req.params.id;
+//     db('cohorts')
+//       .join('students', 'students.cohort_id', 'cohorts.id')
+//       .select('students.id', 'students.name')
+//       .where('cohorts.id', id)
+//       .first()
+//       .then(stu => {
+//         if (stu) {
+//           res.status(200).json(stu);
+//         } else {
+//           res.status(404).json({ message: 'No students were found, please try again' });
+//         }
+//       })
+//       .catch(err => {
+//         res.status(500).json(err);
+//       });
+//   });
+
+
+/* 
+//  students cohorts example
+router.get('/api/students/:id', (req, res) => {
+    const { id } = req.params;
+     db('projects')
+        .where({ id: id })
+        .then(project => {
+          db('cohorts).where({ studentId: id }).then(cohort=> {
+                return res.status(200).json({ ...project, cohort: cohort });
+          });
+        })
+        .catch(() => {
+            return res
+                .status(500)
+                .json({ Error: "Student Info Error" })
+        });
+  });
+*/
+
+
 
 //check
 router.post('/', async (req, res) => {
