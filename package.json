@@ -1,0 +1,17 @@
+{
+  "name": "webdb-iii-challenge",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/seanwu20/webdb-iii-challenge.git",
+  "author": "https://github.com/seanwu20/webdb-iii-challenge",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4",
+    "knex": "^0.16.5",
+    "nodemon": "^1.18.11",
+    "sqlite3": "^4.0.6"
+  },
+  "scripts": {
+    "server": "nodemon"
+  }
+}
