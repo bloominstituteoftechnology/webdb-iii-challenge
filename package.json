@@ -1,0 +1,12 @@
+{
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.16.4",
+    "helmet": "^3.16.0",
+    "knex": "^0.16.5",
+    "nodemon": "^1.19.0"
+  },
+  "scripts": {
+    "server": "nodemon index.js"
+  }
+}
