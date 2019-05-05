@@ -1,5 +1,5 @@
 # Building an API using a Relational Database
-
+.
 ## Topics
 
 - Databases
