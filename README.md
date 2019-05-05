@@ -1,4 +1,4 @@
-# Building an API using a Relational Database
+# Building an API using a Relational Database //jaklundun
 
 ## Topics
 
@@ -54,3 +54,15 @@ Have the student returned by the `[GET] /students/:id` endpoint include the coho
   cohort: 'Full Stack Web Infinity'
 }
 ```
+
+// `knex` in the CLI pulls up the available commands
+
+//yarn add express knex sqlite3  helmet
+// yarn add --dev nodemon
+// create knex file: knex init
+// node index.js
+// knex migrate:make cohorts_table
+// knex migrate:make students_table
+// knex migrate:latest // to spit out db.file
+// knex seed:make 01-cohorts
+// knex seed:make 01-students
