@@ -62,3 +62,6 @@ typings/
 
 # VSCode settings
 .vscode/
+
+#Node Modules
+node_modules
