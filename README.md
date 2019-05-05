@@ -5,7 +5,7 @@
 - Databases
 - Relational Databases
 - Knex migrations.
-- Seeding data.
+- Seeding data
 
 ## Assignment
 
