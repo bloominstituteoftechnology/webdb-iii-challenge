@@ -9,8 +9,6 @@ module.exports = {
   remove,
   update,
   findCohortStudent,
-  findMessageById,
-  addMessage,
 };
 
 function find(query) {
@@ -50,9 +48,9 @@ function update(id, changes) {
 }
 
 function findCohortStudent(cohortId) {
-  return db('students')
-    .join('cohorts', 'students.cohort_id', 'cohorts.id')
-    .select('students.Id', 'students.name', 'cohorts.id', "cohorts.name")
+  return db('students as s')
+    .join('cohorts', 's.cohort_id', 'cohorts.id')
+    .select('s.Id', 's.name', 'cohorts.id', "cohorts.name")
     .where({ "cohorts.id": cohortId });
 }
 
