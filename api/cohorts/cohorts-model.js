@@ -9,7 +9,7 @@ module.exports = {
   remove,
   update,
   findCohortStudent,
-};
+}; 
 
 function find(query) {
   const { page = 1, limit = 5, sortby = 'id', sortdir = 'asc' } = query;
