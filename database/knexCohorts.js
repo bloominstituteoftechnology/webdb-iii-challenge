@@ -10,9 +10,29 @@ const config = {
 const db = knex(config);
 
 function find() {
-  return db("students");
+  return db("cohorts");
+}
+function findById(id) {
+  return db("cohorts")
+    .first()
+    .where({ id });
 }
 
+function remove(id) {
+  return db("cohorts")
+    .where({ id })
+    .del();
+}
+
+function add(cohort) {
+  return db("cohorts").insert(cohort);
+}
+
+function update(id, changes) {
+  return db("cohorts")
+    .where({ id })
+    .update(changes);
+}
 async function execute() {
   try {
     const cohorts = await find();
@@ -23,6 +43,11 @@ async function execute() {
 }
 
 execute();
+
 module.exports = {
-  find
+  find,
+  findById,
+  remove,
+  add,
+  update
 };
