@@ -1,0 +1,28 @@
+{
+  "name": "webdb-iii-challenge",
+  "version": "1.0.0",
+  "description": "- Databases\r - Relational Databases\r - Knex migrations.\r - Seeding data.",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/exploratum/webdb-iii-challenge.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/exploratum/webdb-iii-challenge/issues"
+  },
+  "homepage": "https://github.com/exploratum/webdb-iii-challenge#readme",
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "knex": "^0.17.3",
+    "sqlite3": "^4.0.8"
+  }
+}
