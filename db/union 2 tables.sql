@@ -1,0 +1,1 @@
+select cohorts.name, students.name from  students, cohorts where students.cohort_id = cohorts.id
