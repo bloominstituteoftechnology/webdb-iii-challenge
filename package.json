@@ -1,0 +1,16 @@
+{
+  "name": "rdbms-api-full",
+  "version": "1.0.0",
+  "description": "RDBMS API FULL SPRINT",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "knex": "^0.14.2",
+    "mysql": "^2.15.0",
+    "sqlite3": "^3.1.13"
+  }
+}
