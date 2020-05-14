@@ -1,0 +1,30 @@
+{
+  "name": "rdbms-api-full",
+  "version": "1.0.0",
+  "description": "* Databases\r * Relational Databases\r * Query Builder - Knex",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/metten0/RDBMS-API-Full.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/metten0/RDBMS-API-Full/issues"
+  },
+  "homepage": "https://github.com/metten0/RDBMS-API-Full#readme",
+  "dependencies": {
+    "add": "^2.0.6",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "global": "^4.3.2",
+    "knex": "^0.14.2",
+    "migrate": "^1.1.1",
+    "mysql": "^2.15.0",
+    "nodemon": "^1.14.11",
+    "sqlite3": "^3.1.13"
+  }
+}
