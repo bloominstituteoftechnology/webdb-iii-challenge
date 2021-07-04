@@ -1,0 +1,17 @@
+{
+  "name": "relationdatabases",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "global": "^4.3.2",
+    "knex": "^0.14.4",
+    "mysql": "^2.15.0",
+    "nodemon": "^1.17.1",
+    "styled-components": "^3.2.1"
+  }
+}
