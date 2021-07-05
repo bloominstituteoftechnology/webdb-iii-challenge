@@ -1,0 +1,21 @@
+{
+  "name": "Ari",
+  "version": "idk",
+  "description": "project",
+  "main": "y",
+  "repository": "https://github.com/ari7946/RDBMS-API-Full",
+  "author": "Ari",
+  "license": "y",
+  "private": true,
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^4.16.3",
+    "knex": "^0.15.2",
+    "sqlite3": "^4.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.3"
+  }
+}
