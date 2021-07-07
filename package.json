@@ -1,0 +1,32 @@
+{
+  "name": "rdbms-api-full",
+  "version": "1.0.0",
+  "description": "practice using knex and sqllite3",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheDeterminator/RDBMS-API-Full.git"
+  },
+  "keywords": [
+    "sql",
+    "database",
+    "lambda"
+  ],
+  "author": "Alec Jordan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheDeterminator/RDBMS-API-Full/issues"
+  },
+  "homepage": "https://github.com/TheDeterminator/RDBMS-API-Full#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "knex": "^0.15.2",
+    "sqlite3": "^4.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.3"
+  }
+}
