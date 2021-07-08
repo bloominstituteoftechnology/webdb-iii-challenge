@@ -1,0 +1,21 @@
+{
+  "name": "rdbmsapifull",
+  "version": "1.0.0",
+  "description": "RDBMS API FULL",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "author": "Stefan Clem",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "global": "^4.3.2",
+    "helmet": "^3.15.0",
+    "knex": "^0.16.3",
+    "sqlite": "^3.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  }
+}
