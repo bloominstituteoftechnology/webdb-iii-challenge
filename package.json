@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "express": "^4.16.3",
+    "helmet": "^3.13.0",
+    "knex": "^0.15.2",
+    "morgan": "^1.9.0",
+    "nodemon": "^1.18.3",
+    "sqlite3": "^4.0.2"
+  },
+  "name": "RDBMS-API-Full",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/flintbean/RDBMS-API-Full.git",
+  "author": "<ajmerando1@yahoo.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon index.js"
+  }
+}
