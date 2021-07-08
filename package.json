@@ -1,0 +1,22 @@
+{
+  "name": "RDBMS-API-Full",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/theiseja/RDBMS-API-Full.git",
+  "author": "Jesse Theisen <theiseja@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4",
+    "helmet": "^3.15.0",
+    "knex": "^0.16.3",
+    "morgan": "^1.9.1",
+    "mw-config": "^1.0.0",
+    "sqlite3": "^4.0.6"
+  },
+  "scripts": {
+    "server": "nodemon"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  }
+}
